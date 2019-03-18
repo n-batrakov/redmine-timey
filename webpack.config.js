@@ -23,7 +23,6 @@ module.exports = {
     ],
     resolve: {
         extensions: ['.js', '.json', '.ts', '.tsx'],
-        
     },
     module: {
         rules: [
@@ -41,12 +40,6 @@ module.exports = {
         splitChunks: {
             chunks: 'all'
         },
-        minimizer: [
-            new UglifyJsPlugin({
-                parallel: true,
-                cache: true,
-                sourceMap: true
-            }),
-        ]
+        minimizer: []
     }
 };
