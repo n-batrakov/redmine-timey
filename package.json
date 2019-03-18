@@ -7,10 +7,11 @@
   "repository": {},
   "scripts": {
     "start": "webpack-dev-server --mode development",
+    "build": "webpack --mode production",
     "lint": "tslint --project .",
     "lint:fix": "tslint --fix --project .",
     "test": "jest",
-    "server": "tsc && node ./lib/src/server.js"
+    "server": "tsc -p server.tsconfig.json && node ./dist/server/index.js"
   },
   "dependencies": {
     "@types/node-fetch": "^2.1.6",
