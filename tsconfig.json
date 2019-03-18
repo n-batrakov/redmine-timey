@@ -1,0 +1,20 @@
+{
+    "compilerOptions": {
+        "outDir": "lib",
+        "rootDir": ".",
+
+        "module": "commonjs",
+        "esModuleInterop": true,
+        "target": "es6",
+        "moduleResolution": "node",
+
+        "noImplicitReturns": false,
+        "noImplicitThis": true,
+        "noImplicitAny": true,
+        "strictNullChecks": true,
+        "allowSyntheticDefaultImports": true,
+
+        "jsx": "react"
+    },
+    "include": [ "src" ]
+}

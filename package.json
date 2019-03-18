@@ -2,10 +2,41 @@
   "name": "timey",
   "version": "0.1.0",
   "description": "Timesheet helper",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "author": "n.batrakov",
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {},
+  "scripts": {
+    "start": "webpack-dev-server --mode development",
+    "lint": "tslint --project .",
+    "lint:fix": "tslint --fix --project .",
+    "test": "jest",
+    "server": "tsc && node ./lib/src/server.js"
+  },
+  "dependencies": {
+    "@types/node-fetch": "^2.1.6",
+    "fastify": "^2.1.0",
+    "node-fetch": "^2.3.0",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4",
+    "react-router-dom": "^4.4.0",
+    "typestyle": "^2.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^11.11.3",
+    "awesome-typescript-loader": "^5.2.1",
+    "jest": "^24.5.0",
+    "typescript": "^3.3.3333",
+    "webpack": "^4.29.6",
+    "@types/prop-types": "^15.7.0",
+    "@types/react": "^16.8.8",
+    "@types/react-dom": "^16.8.2",
+    "@types/react-router-dom": "^4.3.1",
+    "copy-webpack-plugin": "^5.0.1",
+    "html-webpack-plugin": "^3.2.0",
+    "tslint": "^5.14.0",
+    "tslint-config-airbnb": "^5.11.1",
+    "uglifyjs-webpack-plugin": "^2.1.2",
+    "webpack-cli": "^3.3.0",
+    "webpack-dev-server": "^3.2.1"
+  }
 }

@@ -1,0 +1,15 @@
+{
+    "defaultSeverity": "warning",
+    "extends": [
+        "tslint-config-airbnb"
+    ],
+    "rules": {
+        "ter-indent": false,
+        "import-name": false,
+        "eofline": false,
+        "prefer-array-literal": false,
+        "no-else-after-return": false,
+        "no-increment-decrement": false,
+        "max-line-length": false
+    }
+}
