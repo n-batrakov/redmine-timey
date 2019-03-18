@@ -1,0 +1,11 @@
+{
+  "name": "timey",
+  "version": "0.1.0",
+  "description": "Timesheet helper",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "n.batrakov",
+  "license": "MIT"
+}
