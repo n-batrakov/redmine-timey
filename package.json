@@ -7,15 +7,17 @@
   "repository": {},
   "scripts": {
     "start": "webpack-dev-server --mode development",
-    "build": "webpack --mode production",
-    "lint": "tslint --project .",
-    "lint:fix": "tslint --fix --project .",
+    "server": "tsc -p server.tsconfig.json && node ./dist/server/index.js",
+    "app": "webpack --mode development && tsc -p server.tsconfig.json && node ./dist/server/index.js",
     "test": "jest",
-    "server": "tsc -p server.tsconfig.json && node ./dist/server/index.js"
+    "build": "webpack --mode production && tsc -p server.tsconfig.json",
+    "lint": "tslint --project .",
+    "lint:fix": "tslint --fix --project ."
   },
   "dependencies": {
     "@types/node-fetch": "^2.1.6",
     "fastify": "^2.1.0",
+    "fastify-static": "^2.3.4",
     "node-fetch": "^2.3.0",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
