@@ -19,9 +19,9 @@ function shiftDate(date:Date, numDays:number) {
 
 
 const colorThresholds = [
-    [0, 3, '1'],
+    [0, 4, '1'],
     [4, 7, '2'],
-    [8, 10, '3'],
+    [7, 10, '3'],
     [10, 12, '4'],
 ];
 
@@ -44,7 +44,7 @@ class ActivityHeatmap extends React.Component<ActivityHeatmapProps> {
                         }
 
                         for (const [min, max, color] of colorThresholds) {
-                            if (value.count >= min && value.count <= max) {
+                            if (value.count >= min && value.count < max) {
                                 return `color-${color}`;
                             }
                         }
