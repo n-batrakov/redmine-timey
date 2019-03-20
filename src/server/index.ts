@@ -3,6 +3,7 @@ import fastify from 'fastify';
 import staticFiles from 'fastify-static';
 import api from './api';
 import path from 'path';
+import fs from 'fs';
 
 const server = fastify({ logger: true });
 
@@ -12,9 +13,10 @@ const container = {
 
 api.forEach(addRoute => addRoute(server, container));
 
-server.register(staticFiles, {
-    root: path.join(__dirname, '..', 'public'),
-});
+const staticPath = path.join(__dirname, '..', 'public');
+if (fs.existsSync(staticPath)) {
+    server.register(staticFiles, { root: staticPath });
+}
 
 (async function () {
     try {

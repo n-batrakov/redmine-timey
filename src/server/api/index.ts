@@ -1,5 +1,6 @@
 import { RegisterHandler } from './shared';
 import getDayTimingsHanlder from './getDayTimings';
+import getMonthDataHandler from './getMonthData';
 
 const signOutHandler: RegisterHandler = server => server.route({
     method: 'POST',
@@ -13,4 +14,5 @@ const signOutHandler: RegisterHandler = server => server.route({
 export default <RegisterHandler[]> [
     signOutHandler,
     getDayTimingsHanlder,
+    getMonthDataHandler,
 ];

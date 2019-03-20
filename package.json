@@ -15,16 +15,20 @@
     "lint:fix": "tslint --fix --project ."
   },
   "dependencies": {
-    "@types/node-fetch": "^2.1.6",
     "fastify": "^2.1.0",
     "fastify-static": "^2.3.4",
     "node-fetch": "^2.3.0",
     "react": "^16.8.4",
+    "react-calendar-heatmap": "^1.8.0",
     "react-dom": "^16.8.4",
     "react-router-dom": "^4.4.0",
+    "react-tooltip": "^3.10.0",
     "typestyle": "^2.0.1"
   },
   "devDependencies": {
+    "@types/node-fetch": "^2.1.6",
+    "@types/react-calendar-heatmap": "^1.6.2",
+    "@types/react-tooltip": "^3.9.2",
     "@types/node": "^11.11.3",
     "awesome-typescript-loader": "^5.2.1",
     "jest": "^24.5.0",

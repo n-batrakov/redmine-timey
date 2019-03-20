@@ -5,6 +5,53 @@
     <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="shortcut icon" type="image/png" href="/favicon.png"/>
+    <style>
+.react-calendar-heatmap {
+  max-height: 300px;
+}
+.react-calendar-heatmap text {
+  font-size: 10px;
+  fill: #aaa;
+}
+
+.react-calendar-heatmap .react-calendar-heatmap-small-text {
+  font-size: 5px;
+}
+
+.react-calendar-heatmap rect:hover {
+  stroke: #555;
+  stroke-width: 1px;
+}
+
+.react-calendar-heatmap .color-empty {
+  fill: #eeeeee;
+}
+
+.react-calendar-heatmap .color-filled {
+  fill: #7fa8d1;
+}
+
+.react-calendar-heatmap .color-0 {
+  fill: #ededed;
+}
+.react-calendar-heatmap .color-1 {
+  fill: #acd5f2;
+}
+.react-calendar-heatmap .color-2 {
+  fill: #7fa8d1;
+}
+.react-calendar-heatmap .color-3 {
+  fill: #49729b;
+}
+.react-calendar-heatmap .color-4 {
+  fill: #254e77;
+}
+.react-calendar-heatmap .color-warn {
+  fill: #193a5a;
+}
+
+
+    </style>
   </head>
   <body>    
       <div id="app" style="height: 100%">

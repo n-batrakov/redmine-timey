@@ -59,7 +59,7 @@ export class RedmineClient {
                 data: body[entity],
                 limit: body.limit,
                 offset: body.offset,
-                totalCount: body['total_count']
+                totalCount: body['total_count'],
             }
         } else {
             return {
