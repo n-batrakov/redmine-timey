@@ -1,14 +1,6 @@
 import * as React from 'react';
 import { render } from 'react-dom';
-import CalendarHeatmap from 'react-calendar-heatmap';
-import ReactTooltip from 'react-tooltip';
-
-type AppState = {
-    isLoaded: boolean,
-    isError: boolean,
-    data: any,
-    yearData?: ActivityHeatmapProps,
-};
+import { ActivityHeatmap, ActivityHeatmapProps } from './components/activityHeatmap';
 
 function shiftDate(date:Date, numDays:number) {
     const newDate = new Date(date);
@@ -16,56 +8,12 @@ function shiftDate(date:Date, numDays:number) {
     return newDate;
 }
 
-
-
-const colorThresholds = [
-    [0, 4, '1'],
-    [4, 7, '2'],
-    [7, 10, '3'],
-    [10, 12, '4'],
-];
-
-type ActivityHeatmapProps = {
-    startDate: Date,
-    endDate: Date,
-    data: Array<{ date: Date, count: number }>,
+type AppState = {
+    isLoaded: boolean,
+    isError: boolean,
+    data: any,
+    yearData?: ActivityHeatmapProps,
 };
-class ActivityHeatmap extends React.Component<ActivityHeatmapProps> {
-    public render() {
-        return (
-            <div>
-                <CalendarHeatmap
-                    startDate={this.props.startDate}
-                    endDate={this.props.endDate}
-                    values={this.props.data}
-                    classForValue={(value) => {
-                        if (!value) {
-                            return 'color-empty';
-                        }
-
-                        for (const [min, max, color] of colorThresholds) {
-                            if (value.count >= min && value.count < max) {
-                                return `color-${color}`;
-                            }
-                        }
-
-                        return 'color-warn';
-                    }}
-                    showWeekdayLabels={true}
-                    onClick={value => console.log(value)}
-                    tooltipDataAttrs={(value: any) => {
-                        return {
-                          'data-tip': value.count === null
-                            ? ''
-                            : `${value.date.toLocaleDateString()}<br/>${value.count} часов`,
-                        };
-                      }}
-                />
-                <ReactTooltip html />
-            </div>
-        );
-    }
-}
 
 class App extends React.Component<{}, AppState> {
     constructor(props: {}) {
@@ -75,7 +23,7 @@ class App extends React.Component<{}, AppState> {
         this.onBtnClick = this.onBtnClick.bind(this);
     }
 
-    componentDidMount() {
+    public componentDidMount() {
         fetch('/api/time').then(async (x) => {
             if (x.status !== 200) {
                 this.setState({ isError: true, isLoaded: true });

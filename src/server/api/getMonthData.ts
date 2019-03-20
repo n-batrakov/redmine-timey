@@ -1,12 +1,6 @@
 import { RegisterHandler, authenticate, getCredentials } from './shared';
 import { getTimesheetData, TimesheetEntry } from '../getTimesheetData';
 
-function shiftDate(date: Date, numDays: number) {
-    const newDate = new Date(date);
-    newDate.setDate(newDate.getDate() + numDays);
-    return newDate;
-}
-
 const handler: RegisterHandler = (server, { redmine }) => server.route({
     method: 'GET',
     url: '/api/time/month',
