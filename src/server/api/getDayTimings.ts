@@ -7,7 +7,11 @@ const handler: RegisterHandler = (server, { redmine }) => server.route({
     preHandler: authenticate,
     handler: async (req, resp) => {
         const auth = getCredentials(req.headers.authorization);
-        const data = await getTimesheetData(redmine, { auth });
+
+        const start = new Date(Date.parse(req.query.start));
+        const end = new Date(Date.parse(req.query.end));
+
+        const data = await getTimesheetData(redmine, { auth, from: start, to: end });
 
         switch (data.code) {
             case 'Success':

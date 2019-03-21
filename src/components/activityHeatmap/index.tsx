@@ -4,10 +4,10 @@ import ReactTooltip from 'react-tooltip';
 import { getRange, toISODate } from '../../date';
 
 const colorThresholds = [
-    [0, 4, '1'],
-    [4, 7, '2'],
-    [7, 10, '3'],
-    [10, 12, '4'],
+    [1, 4, '0'],
+    [4, 7, '1'],
+    [7, 10, '2'],
+    [10, 12, '3'],
 ];
 
 export type ActivityHeatmapProps = {
@@ -47,7 +47,7 @@ export class ActivityHeatmap extends React.Component<ActivityHeatmapProps> {
                     endDate={this.props.endDate}
                     values={values}
                     classForValue={(value) => {
-                        if (!value) {
+                        if (!value || value.count === 0) {
                             return 'color-empty';
                         }
 
@@ -60,7 +60,7 @@ export class ActivityHeatmap extends React.Component<ActivityHeatmapProps> {
                         return 'color-warn';
                     }}
                     showWeekdayLabels={true}
-                    onClick={value => console.log(value)}
+                    onClick={this.props.onClick}
                     tooltipDataAttrs={(value: any) => {
                         return {
                           'data-tip': value.count === null

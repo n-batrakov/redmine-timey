@@ -41,7 +41,28 @@ class App extends React.Component<{}, AppState> {
     }
 
     public componentDidMount() {
-        fetch('/api/time').then(async (x) => {
+        const listEnd = new Date();
+        const listStart = addDays(listEnd, -5);
+        this.setActivityListState(listStart, listEnd);
+
+        const heatmapEnd = new Date();
+        const heatmapStart = addDays(heatmapEnd, -365);
+        fetch(`/api/time/month?start=${heatmapStart.toISOString()}&end=${heatmapEnd.toISOString()}`).then(async (x) => {
+            if (x.status === 200) {
+                let data = await x.json();
+
+                data = data.map((x: any) => ({ date: new Date(Date.parse(x.date)), count: x.count }));
+
+                this.setState({
+                    yearData: { data, startDate: heatmapStart, endDate: heatmapEnd },
+                    isLoaded: true,
+                });
+            }
+        });
+    }
+
+    private setActivityListState(start: Date, end: Date) {
+        fetch(`/api/time?start=${start.toISOString()}&end=${end.toISOString()}`).then(async (x) => {
             if (x.status === 200) {
                 const data = await x.json();
 
@@ -53,23 +74,7 @@ class App extends React.Component<{}, AppState> {
                     };
                 });
 
-                console.log(items);
                 this.setState({ isLoaded: true, listData: { data: items } });
-            }
-        });
-
-        const endDate = new Date();
-        const startDate = addDays(endDate, -365);
-        fetch(`/api/time/month?start=${startDate.toISOString()}&end=${endDate.toISOString()}`).then(async (x) => {
-            if (x.status === 200) {
-                let data = await x.json();
-
-                data = data.map((x: any) => ({ date: new Date(Date.parse(x.date)), count: x.count }));
-
-                this.setState({
-                    yearData: { data, startDate, endDate },
-                    isLoaded: true,
-                });
             }
         });
     }
@@ -82,6 +87,10 @@ class App extends React.Component<{}, AppState> {
                 alert('Something went wrong');
             }
         });
+    }
+
+    private onDayClick(value: { date: Date, count: number}) {
+        this.setActivityListState(value.date, value.date);
     }
 
     public render() {
@@ -100,7 +109,7 @@ class App extends React.Component<{}, AppState> {
         return (
             <>
                 <button onClick={this.onBtnClick}>Logout</button>
-                <ActivityHeatmap { ...heatmapProps } />
+                <ActivityHeatmap onClick={this.onDayClick.bind(this)} { ...heatmapProps } />
                 <ActivityList { ...listProps }/>
             </>
         );
