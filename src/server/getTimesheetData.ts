@@ -1,4 +1,5 @@
 import { RedmineClient, RedmineErrorResponse } from './redmine';
+import { toISODate } from '../date';
 
 type NamedId = {id: string, name?: string};
 
@@ -13,18 +14,18 @@ export type TimesheetRequest = {
         login: string,
         password: string,
     },
-}
+};
 
 export type TimesheetEntry = {
     id: string,
     project: NamedId,
-    issue: NamedId,
+    issue?: NamedId,
     user: NamedId,
     activity: NamedId,
     hours: number,
     comments: string,
     spentOn: Date,
-}
+};
 
 export type TimesheetResponse = {
     code: 'Success',
@@ -34,26 +35,71 @@ export type TimesheetResponse = {
     limit: number,
 };
 
-function toISODate(date: Date): string {
-    return date.toISOString().split('T')[0];
+const defaultRequest: TimesheetRequest = {};
+const assertNever = (_: never) => {};
+
+function batch<T>(source: T[], batchSize: number): T[][] {
+    const batchesCount = Math.ceil(source.length / batchSize);
+
+    return new Array(batchesCount).fill(undefined).map((_, i) => {
+        const start = batchSize * i;
+        const end = start + batchSize - 1;
+        return source.slice(start, end);
+    });
 }
 
-function mapRedmineDataToTimesheetEntry(entry: any): TimesheetEntry {
+function mapRedmineDataToTimesheetEntry(entry: any, issues: {[key: string]: {subject: string}}): TimesheetEntry {
+    const getIssue = () => {
+        if (entry.issue === undefined) {
+            return undefined;
+        }
+
+        const id = entry.issue.id;
+        const { subject: name } = issues[id] || { subject: undefined };
+
+        return { id, name };
+    }
+
     return {
         id: entry['id'],
         project: <NamedId>entry['project'],
-        issue: <NamedId>entry['issue'],
         user: <NamedId>entry['user'],
+        issue: getIssue(),
         activity: <NamedId>entry['activity'],
         comments: entry['comments'],
         hours: entry['hours'],
         spentOn: new Date(entry['spent_on']),
-    }
+    };
 }
 
-const defaultRequest: TimesheetRequest = {};
+async function fetchIssues(redmine: RedmineClient, ids: string[], login?: string, password?: string) {
+    const limit = 100;
+    const batches = batch(ids, limit);
 
-const assertNever = (_: never) => {};
+    const promises = batches.map(async (idsBatch) => {
+        const response = await redmine.query('issues', {
+            login,
+            password,
+            limit,
+            issue_id: idsBatch.join(','),
+        });
+
+        if (response.code === 'Success') {
+            return response.data;
+        } else {
+            return [];
+        }
+    });
+
+    const issues = new Array<{id: string, subject: string}>().concat(...(await Promise.all(promises)));
+
+    return issues.reduce<any>(
+        (acc, x) => {
+            acc[x.id] = x;
+            return acc;
+        },
+        {});
+}
 
 export async function getTimesheetData(redmine: RedmineClient, request?: TimesheetRequest): Promise<TimesheetResponse | RedmineErrorResponse> {
     const { userId, projectId, from, to, limit, offset, auth } = request || defaultRequest;
@@ -71,11 +117,13 @@ export async function getTimesheetData(redmine: RedmineClient, request?: Timeshe
         to: to === undefined ? undefined : toISODate(to),
     });
 
-    switch(response.code) {
+    switch (response.code) {
         case 'Success':
+            const issuesIds = response.data.filter(x => x.issue !== undefined).map(x => x.issue.id);
+            const issues = await fetchIssues(redmine, issuesIds, login, password);
             return {
                 ...response,
-                data: response.data.map(x => mapRedmineDataToTimesheetEntry(x)),
+                data: response.data.map(x => mapRedmineDataToTimesheetEntry(x, issues)),
             };
         case 'Error':
         case 'NotAuthenticated':
