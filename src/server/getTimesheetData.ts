@@ -1,7 +1,7 @@
 import { RedmineClient, RedmineErrorResponse } from './redmine';
 import { toISODate } from '../date';
 
-type NamedId = {id: string, name?: string};
+type NamedId = {id: string, name?: string, href?: string};
 
 export type TimesheetRequest = {
     limit?: number,
@@ -48,7 +48,7 @@ function batch<T>(source: T[], batchSize: number): T[][] {
     });
 }
 
-function mapRedmineDataToTimesheetEntry(entry: any, issues: {[key: string]: {subject: string}}): TimesheetEntry {
+function mapRedmineDataToTimesheetEntry(entry: any, issues: {[key: string]: {subject: string}}, host: string): TimesheetEntry {
     const getIssue = () => {
         if (entry.issue === undefined) {
             return undefined;
@@ -57,12 +57,19 @@ function mapRedmineDataToTimesheetEntry(entry: any, issues: {[key: string]: {sub
         const id = entry.issue.id;
         const { subject: name } = issues[id] || { subject: undefined };
 
-        return { id, name };
-    }
+        const href = `${host}/issues/${id}`;
+
+        return { id, name, href };
+    };
+    const getProject = () => {
+        const { id, name } = <NamedId>entry.project;
+        const href = `${host}/projects/${id}`;
+        return { id, name, href };
+    };
 
     return {
         id: entry['id'],
-        project: <NamedId>entry['project'],
+        project: getProject(),
         user: <NamedId>entry['user'],
         issue: getIssue(),
         activity: <NamedId>entry['activity'],
@@ -124,7 +131,7 @@ export async function getTimesheetData(redmine: RedmineClient, request?: Timeshe
             const issues = await fetchIssues(redmine, issuesIds, login, password);
             return {
                 ...response,
-                data: response.data.map(x => mapRedmineDataToTimesheetEntry(x, issues)),
+                data: response.data.map(x => mapRedmineDataToTimesheetEntry(x, issues, redmine.host)),
             };
         case 'Error':
         case 'NotAuthenticated':

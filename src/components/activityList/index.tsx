@@ -4,8 +4,8 @@ import { getRange, toISODate } from '../../date';
 type ActivityListItem = {
     id: string,
     spentOn: Date,
-    project: { id: string, name: string },
-    issue?: { id: string, name: string },
+    project: { id: string, name: string, href?: string },
+    issue?: { id: string, name: string, href?: string },
     comments: string,
     hours: number,
 };
@@ -13,7 +13,6 @@ type ActivityListItem = {
 export type ActivityListProps = {
     start: Date,
     end: Date,
-    taskHref?: (id: string) => string,
     data: Array<ActivityListItem>,
 };
 
@@ -61,17 +60,25 @@ const ActivityTaskComment = (x: {id: string, comments: string, hours: number}) =
     </li>
 );
 
-const IssueHeader = (x: {project: {id: string, name: string}, issue?: {id: string, name: string}, taskHref?: (id: string) => string}) => {
+type IssueHeaderProps = {
+    project: { id: string, name: string, href?: string },
+    issue?: { id: string, name: string, href?: string },
+};
+const getLink = ({ name, href }: {name: string, href?: string}) => {
+    return href === undefined
+        ? name
+        : <a href={href}>{name}</a>;
+};
+const IssueHeader = (x: IssueHeaderProps) => {
+    const project = getLink(x.project);
+
     if (x.issue === undefined) {
-        return <h3>{x.project.name}</h3>;
+        return <h3>{project}</h3>;
     }
 
-    if (x.taskHref === undefined) {
-        return <h3>{`${x.project.name} / ${x.issue.name}`}</h3>;
-    }
+    const issue = getLink(x.issue);
 
-    const href = x.taskHref(x.issue.id);
-    return <h3>{x.project.name}<a href={href}>{x.issue.name}</a></h3>;
+    return <h3>{project} / {issue}</h3>;
 };
 
 const ActivityDay = ({date, hours, children}: {date: Date, hours: number, children?: React.ReactNode}) => (
@@ -83,6 +90,7 @@ const ActivityDay = ({date, hours, children}: {date: Date, hours: number, childr
 
 export class ActivityList extends React.Component<ActivityListProps> {
     public render() {
+        console.log(this.props);
         const data = mapData(this.props);
 
         return Array.from(getRange(this.props.end, this.props.start, -1)).map((date) => {
@@ -110,7 +118,7 @@ export class ActivityList extends React.Component<ActivityListProps> {
 
                 return (
                     <div key={task} className="list-task">
-                        <IssueHeader project={project} issue={issue} taskHref={this.props.taskHref}/>
+                        <IssueHeader project={project} issue={issue}/>
                         <ul>{comments}</ul>
                     </div>
                 );

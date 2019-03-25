@@ -26,7 +26,7 @@ export type RedmineErrorResponse = {
 const btoa = (str: string) => Buffer.from(str).toString('base64');
 
 export class RedmineClient {
-    private host: string;
+    public readonly host: string;
     private apiKey?: string;
 
     constructor(config : {host: string,  apiKey?: string}) {
