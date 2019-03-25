@@ -16,14 +16,10 @@ class App extends React.Component<{}, AppState> {
     constructor(props: {}) {
         super(props);
         this.state = { isLoaded: false, isError: false };
-
-        this.onBtnClick = this.onBtnClick.bind(this);
     }
 
     public componentDidMount() {
-        const listEnd = new Date();
-        const listStart = addDays(listEnd, -5);
-        this.setActivityListState(listStart, listEnd);
+        this.onOverview();
 
         const heatmapEnd = new Date();
         const heatmapStart = addDays(heatmapEnd, -365);
@@ -59,7 +55,7 @@ class App extends React.Component<{}, AppState> {
         });
     }
 
-    private onBtnClick() {
+    private onLogout() {
         fetch('/api/logout', { method: 'POST' }).then((x) => {
             if (x.status === 401) {
                 this.setState({ isLoaded: true, isError: false, listData: undefined, yearData: undefined });
@@ -71,6 +67,12 @@ class App extends React.Component<{}, AppState> {
 
     private onDayClick(value: { date: Date, count: number}) {
         this.setActivityListState(value.date, value.date);
+    }
+
+    private onOverview() {
+        const listEnd = new Date();
+        const listStart = addDays(listEnd, -5);
+        this.setActivityListState(listStart, listEnd);
     }
 
     public render() {
@@ -88,7 +90,8 @@ class App extends React.Component<{}, AppState> {
 
         return (
             <>
-                <button onClick={this.onBtnClick}>Logout</button>
+                <button onClick={this.onLogout.bind(this)}>Logout</button>
+                <button onClick={this.onOverview.bind(this)}>Overview</button>
                 <ActivityHeatmap onClick={this.onDayClick.bind(this)} { ...heatmapProps } />
 
                 <h1>Activity Overview</h1>
