@@ -2,9 +2,9 @@ import { addDays, getRange } from './date';
 
 describe('addDays', () => {
     const addDaysTestData: Array<[number, number, number]> = [
-        [+1, Date.UTC(2018, 11, 31), Date.UTC(2019, 0,  1 )],
-        [+2, Date.UTC(2019, 0,  1 ), Date.UTC(2019, 0 , 3 )],
-        [-1, Date.UTC(2019, 0,  1 ), Date.UTC(2018, 11, 31)],
+        [+1, Date.UTC(2018, 11, 31), Date.UTC(2019, 0,  1)],
+        [+2, Date.UTC(2019, 0, 1), Date.UTC(2019, 0, 3)],
+        [-1, Date.UTC(2019, 0, 1), Date.UTC(2018, 11, 31)],
         [+10, Date.UTC(2019, 0, 1), Date.UTC(2019, 0, 11)],
         [+10, Date.UTC(2019, 0, 22), Date.UTC(2019, 1, 1)],
         [+365, Date.UTC(2019, 0, 1), Date.UTC(2020, 0, 1)],
@@ -48,7 +48,7 @@ describe('getRange', () => {
         const actual = Array.from(getRange(start, end, 2));
 
         expect(actual).toEqual(expected);
-    })
+    });
 
     it('can generate reverse range', () => {
         const start = new Date(Date.UTC(2018, 11, 31));

@@ -25,7 +25,7 @@ const formatDate = (date: Date): string => {
     const monthName = monthNames[date.getMonth()];
 
     return `${monthName} ${dayNumber} (${dayName})`;
-}
+};
 
 function mapData({ data }: ActivityListProps) {
     return data.reduce(
@@ -81,7 +81,7 @@ const IssueHeader = (x: IssueHeaderProps) => {
     return <h3>{project} / {issue}</h3>;
 };
 
-const ActivityDay = ({date, hours, children}: {date: Date, hours: number, children?: React.ReactNode}) => (
+const ActivityDay = ({ date, hours, children }: {date: Date, hours: number, children?: React.ReactNode}) => (
     <div className="list-day">
         <h2><span>{formatDate(date)} - {hours} hours</span></h2>
         {children}
