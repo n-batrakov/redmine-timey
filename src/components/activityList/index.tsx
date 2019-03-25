@@ -13,13 +13,13 @@ export type ActivityListProps = {
     data: Array<ActivityListItem>,
 };
 
-const dayNames = [ 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat' ];
-const monthNames = [ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ];
+const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wedsday', 'Thursday', 'Friday', 'Saturday'];
+const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
 const formatDate = (date: Date): string => {
-    const dayNumber = date.getDay() + 1;
+    const dayNumber = date.getDate();
     const dayName = dayNames[date.getDay()];
-    const monthName = monthNames[date.getMonth() + 1];
+    const monthName = monthNames[date.getMonth()];
 
     return `${monthName} ${dayNumber} (${dayName})`;
 }
