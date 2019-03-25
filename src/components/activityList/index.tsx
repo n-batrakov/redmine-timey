@@ -31,20 +31,20 @@ function mapData({ data }: ActivityListProps) {
     return data.reduce(
         (acc, x) => {
             const key = toISODate(x.spentOn);
-            let tasksMap = acc.get(key);
+            let issuesMap = acc.get(key);
 
-            if (tasksMap === undefined) {
-                tasksMap = new Map();
-                acc.set(key, tasksMap);
+            if (issuesMap === undefined) {
+                issuesMap = new Map();
+                acc.set(key, issuesMap);
             }
 
-            const taskKey = `${x.project.name} / ${x.issue === undefined ? '' : x.issue.name}`;
-            const taskGroup = tasksMap.get(taskKey);
+            const issueKey = `${x.project.name} / ${x.issue === undefined ? '' : x.issue.name}`;
+            const issueGroup = issuesMap.get(issueKey);
 
-            if (taskGroup === undefined) {
-                tasksMap.set(taskKey, [x]);
+            if (issueGroup === undefined) {
+                issuesMap.set(issueKey, [x]);
             } else {
-                taskGroup.push(x);
+                issueGroup.push(x);
             }
 
             return acc;
@@ -53,7 +53,7 @@ function mapData({ data }: ActivityListProps) {
     );
 }
 
-const ActivityTaskComment = (x: {id: string, comments: string, hours: number}) => (
+const ActivityTiming = (x: {id: string, comments: string, hours: number}) => (
     <li className="list-comment">
         {x.comments}
         <span>{x.hours} h.</span>
@@ -90,43 +90,42 @@ const ActivityDay = ({date, hours, children}: {date: Date, hours: number, childr
 
 export class ActivityList extends React.Component<ActivityListProps> {
     public render() {
-        console.log(this.props);
         const data = mapData(this.props);
 
         return Array.from(getRange(this.props.end, this.props.start, -1)).map((date) => {
             let dayTotal = 0;
-            const dateStr = toISODate(date);
-            const tasksGroups = data.get(dateStr);
+            const isodate = toISODate(date);
+            const issuesGroups = data.get(isodate);
 
-            if (tasksGroups === undefined) {
+            if (issuesGroups === undefined) {
                 return (
-                    <ActivityDay key={dateStr} date={date} hours={dayTotal}>
-                        <div className="list-task">
+                    <ActivityDay key={isodate} date={date} hours={dayTotal}>
+                        <div className="list-issue">
                             <h3>No activity</h3>
                         </div>
                     </ActivityDay>
                 );
             }
 
-            const tasks = Array.from(tasksGroups.entries()).map(([task, items]) => {
-                const taskTotal = items.reduce((acc, x) => acc + x.hours, 0);
-                dayTotal += taskTotal;
-
+            const issues = Array.from(issuesGroups.entries()).map(([issueId, items]) => {
                 const project = items[0].project;
                 const issue = items[0].issue;
-                const comments = items.map(x => <ActivityTaskComment key={x.id} {...x}/>);
+                const timings = items.map((x) => {
+                    dayTotal += x.hours;
+                    return <ActivityTiming key={x.id} {...x}/>;
+                });
 
                 return (
-                    <div key={task} className="list-task">
+                    <div key={issueId} className="list-issue">
                         <IssueHeader project={project} issue={issue}/>
-                        <ul>{comments}</ul>
+                        <ul>{timings}</ul>
                     </div>
                 );
             });
 
             return (
-                <ActivityDay key={dateStr} date={new Date(Date.parse(dateStr))} hours={dayTotal}>
-                    {tasks}
+                <ActivityDay key={isodate} date={new Date(Date.parse(isodate))} hours={dayTotal}>
+                    {issues}
                 </ActivityDay>
             );
         });
