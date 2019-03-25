@@ -4,20 +4,24 @@ export function addDays(date:Date, numDays:number) {
     return newDate;
 }
 
-export function* getRange(start: Date, end?: Date) {
-    yield start;
+export function* getRange(start: Date, end?: Date, step?: number) {
+    let current = start;
+    const daysToAdd = step || 1;
+    const compare: ((a: Date, b: Date) => boolean) =
+        step === undefined || step > 0
+            ? (a, b) => a >= b
+            : (a, b) => a <= b;
 
-    let current = addDays(start, 1);
     while (true) {
 
-        if (end !== undefined && current >= end) {
+        if (end !== undefined && compare(current, end)) {
             yield end;
             return;
         }
 
         yield current;
 
-        current = addDays(current, 1);
+        current = addDays(current, daysToAdd);
     }
 }
 
