@@ -63,7 +63,7 @@ const ActivityTaskComment = (x: {id: string, comments: string, hours: number}) =
 
 const IssueHeader = (x: {project: {id: string, name: string}, issue?: {id: string, name: string}, taskHref?: (id: string) => string}) => {
     if (x.issue === undefined) {
-        return <h3>c</h3>;
+        return <h3>{x.project.name}</h3>;
     }
 
     if (x.taskHref === undefined) {
