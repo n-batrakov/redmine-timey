@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { render } from 'react-dom';
 
 type ActivityListItem = {
     id: string,
@@ -29,7 +30,7 @@ function mapData({ data }: ActivityListProps) {
         (acc, x) => {
             const key = x.spentOn.toISOString();
             let tasksMap = acc.get(key);
-            console.log(key, tasksMap);
+
             if (tasksMap === undefined) {
                 tasksMap = new Map();
                 acc.set(key, tasksMap);
@@ -51,20 +52,25 @@ function mapData({ data }: ActivityListProps) {
 }
 
 
+const ActivityTaskComment = (x: {id: string, comments: string, hours: number}) => (
+    <li className="list-comment">
+        {x.comments}
+        <span>{x.hours} h.</span>
+    </li>
+);
+
 export class ActivityList extends React.Component<ActivityListProps> {
     public render() {
         const data = mapData(this.props);
 
         return Array.from(data.entries()).map(([date, tasksGroups]) => {
-            const tasks = Array.from(tasksGroups.entries()).map(([task, items]) => {
-                const sum = items.reduce((acc, x) => acc + x.hours, 0);
+            let dayTotal = 0;
 
-                const comments = items.map(x => (
-                    <li key={x.id} className="list-comment">
-                        {x.comments}
-                        <span>{x.hours} ч.</span>
-                    </li>
-                ));
+            const tasks = Array.from(tasksGroups.entries()).map(([task, items]) => {
+                const taskTotal = items.reduce((acc, x) => acc + x.hours, 0);
+                dayTotal += taskTotal;
+
+                const comments = items.map(x => <ActivityTaskComment key={x.id} {...x}/>);
 
                 return (
                     <div key={task} className="list-task">
@@ -76,18 +82,10 @@ export class ActivityList extends React.Component<ActivityListProps> {
 
             return (
                 <div key={date} className="list-day">
-                    <h2><span>{formatDate(new Date(Date.parse(date)))}</span></h2>
+                    <h2><span>{formatDate(new Date(Date.parse(date)))} - {dayTotal} hours</span></h2>
                     {tasks}
                 </div>
             );
         });
-
-        // const elements = this.props.data.map(x => (
-        //     <div key={x.id}>
-        //         {`${x.spentOn.toLocaleDateString()} : ${x.hours} | ${x.issue === undefined ? '-' : x.issue.name} | ${x.comments}`}
-        //     </div>
-        // ));
-
-        // return <div>{elements}</div>;
     }
 }
