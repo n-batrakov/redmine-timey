@@ -82,6 +82,7 @@ async function fetchIssues(redmine: RedmineClient, ids: string[], login?: string
             password,
             limit,
             issue_id: idsBatch.join(','),
+            status_id: '*',
         });
 
         if (response.code === 'Success') {
