@@ -121,32 +121,6 @@ export class ActivityList extends React.Component<ActivityListProps> {
                     {tasks}
                 </ActivityDay>
             );
-        })
-
-        // return Array.from(data.entries()).map(([dateStr, tasksGroups]) => {
-        //     let dayTotal = 0;
-
-        //     const tasks = Array.from(tasksGroups.entries()).map(([task, items]) => {
-        //         const taskTotal = items.reduce((acc, x) => acc + x.hours, 0);
-        //         dayTotal += taskTotal;
-
-        //         const project = items[0].project;
-        //         const issue = items[0].issue;
-        //         const comments = items.map(x => <ActivityTaskComment key={x.id} {...x}/>);
-
-        //         return (
-        //             <div key={task} className="list-task">
-        //                 <IssueHeader project={project} issue={issue} taskHref={this.props.taskHref}/>
-        //                 <ul>{comments}</ul>
-        //             </div>
-        //         );
-        //     });
-
-        //     return (
-        //         <ActivityDay key={dateStr} date={new Date(Date.parse(dateStr))} hours={dayTotal}>
-        //             {tasks}
-        //         </ActivityDay>
-        //     );
-        // });
+        });
     }
 }
