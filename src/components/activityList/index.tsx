@@ -13,9 +13,15 @@ export type ActivityListProps = {
     data: Array<ActivityListItem>,
 };
 
-function distinct<T>(source: Array<T>): Array<T> {
-    const set = new Set(source);
-    return Array.from(set);
+const dayNames = [ 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat' ];
+const monthNames = [ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ];
+
+const formatDate = (date: Date): string => {
+    const dayNumber = date.getDay() + 1;
+    const dayName = dayNames[date.getDay()];
+    const monthName = monthNames[date.getMonth() + 1];
+
+    return `${monthName} ${dayNumber} (${dayName})`;
 }
 
 function mapData({ data }: ActivityListProps) {
@@ -70,7 +76,7 @@ export class ActivityList extends React.Component<ActivityListProps> {
 
             return (
                 <div key={date} className="list-day">
-                    <h2><span>{new Date(Date.parse(date)).toLocaleDateString()}</span></h2>
+                    <h2><span>{formatDate(new Date(Date.parse(date)))}</span></h2>
                     {tasks}
                 </div>
             );
