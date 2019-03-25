@@ -91,7 +91,7 @@ class App extends React.Component<{}, AppState> {
                 <button onClick={this.onBtnClick}>Logout</button>
                 <ActivityHeatmap onClick={this.onDayClick.bind(this)} { ...heatmapProps } />
 
-                <h1>Activity Overwiew</h1>
+                <h1>Activity Overview</h1>
                 <ActivityList { ...listProps } />
             </>
         );
