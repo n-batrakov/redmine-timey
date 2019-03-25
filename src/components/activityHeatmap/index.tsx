@@ -5,9 +5,9 @@ import { getRange, toISODate } from '../../date';
 
 const colorThresholds = [
     [1, 4, '0'],
-    [4, 7, '1'],
-    [7, 10, '2'],
-    [10, 12, '3'],
+    [4, 8, '1'],
+    [8, 9, '2'],
+    [9, 12, '3'],
 ];
 
 export type ActivityHeatmapProps = {
@@ -41,7 +41,7 @@ export class ActivityHeatmap extends React.Component<ActivityHeatmapProps> {
     public render() {
         const values = mapData(this.props.startDate, this.props.endDate, this.props.data);
         return (
-            <div>
+            <div className="activity-heatmap-container">
                 <CalendarHeatmap
                     startDate={this.props.startDate}
                     endDate={this.props.endDate}

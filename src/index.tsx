@@ -1,29 +1,9 @@
 import * as React from 'react';
 import { render } from 'react-dom';
 import { ActivityHeatmap, ActivityHeatmapProps } from './components/activityHeatmap';
+import { ActivityList, ActivityListProps } from './components/activityList';
 import { addDays } from './date';
-
-export type ActivityListProps = {
-    data: Array<{
-        id: string,
-        spentOn: Date,
-        project: { id: string, name: string },
-        issue?: { id: string, name: string },
-        comments: string,
-        hours: number,
-    }>,
-};
-export class ActivityList extends React.Component<ActivityListProps> {
-    public render() {
-        const elements = this.props.data.map(x => (
-            <div key={x.id}>
-                {`${x.spentOn.toLocaleDateString()} : ${x.hours} | ${x.issue === undefined ? '-' : x.issue.name} | ${x.comments}`}
-            </div>
-        ));
-
-        return <div>{elements}</div>;
-    }
-}
+import './index.css';
 
 type AppState = {
     isLoaded: boolean,
@@ -110,6 +90,8 @@ class App extends React.Component<{}, AppState> {
             <>
                 <button onClick={this.onBtnClick}>Logout</button>
                 <ActivityHeatmap onClick={this.onDayClick.bind(this)} { ...heatmapProps } />
+
+                <h1>Activity Overwiew</h1>
                 <ActivityList { ...listProps }/>
             </>
         );
