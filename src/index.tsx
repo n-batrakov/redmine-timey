@@ -40,9 +40,9 @@ class App extends React.Component<{}, AppState> {
     private setActivityListState(start: Date, end: Date) {
         fetch(`/api/time?start=${start.toISOString()}&end=${end.toISOString()}`).then(async (x) => {
             if (x.status === 200) {
-                const data = await x.json();
+                const response = await x.json();
 
-                const items = data.data.map((item: any) => {
+                const data = response.data.map((item: any) => {
                     const { spentOn, ...rest } = item;
                     return {
                         ...rest,
@@ -50,7 +50,7 @@ class App extends React.Component<{}, AppState> {
                     };
                 });
 
-                this.setState({ isLoaded: true, listData: { data: items } });
+                this.setState({ isLoaded: true, listData: { start, end, data } });
             }
         });
     }
@@ -76,26 +76,26 @@ class App extends React.Component<{}, AppState> {
     }
 
     public render() {
-        if (!this.state.isLoaded) {
-            return <p>Stand by...</p>;
-        }
-
         if (this.state.isError) {
             return <p>Something went wrong</p>;
         }
 
+        if (!this.state.isLoaded) {
+            return <p>Stand by...</p>;
+        }
+
         const today = new Date();
         const heatmapProps = this.state.yearData || { data: [], startDate: addDays(today, -365), endDate: today };
-        const listProps = this.state.listData || { data: [] };
+        const list = this.state.listData !== undefined
+            ? <><h1>Activity Overview</h1><ActivityList { ...this.state.listData }/></>
+            : undefined;
 
         return (
             <>
                 <button onClick={this.onLogout.bind(this)}>Logout</button>
                 <button onClick={this.onOverview.bind(this)}>Overview</button>
                 <ActivityHeatmap onClick={this.onDayClick.bind(this)} { ...heatmapProps } />
-
-                <h1>Activity Overview</h1>
-                <ActivityList { ...listProps } />
+                {list}
             </>
         );
     }
