@@ -11,6 +11,7 @@ type ActivityListItem = {
 };
 
 export type ActivityListProps = {
+    taskHref?: (id: string) => string,
     data: Array<ActivityListItem>,
 };
 
@@ -36,6 +37,7 @@ function mapData({ data }: ActivityListProps) {
                 acc.set(key, tasksMap);
             }
 
+            console.log(x.issue);
             const taskKey = `${x.project.name} / ${x.issue === undefined ? '' : x.issue.name}`;
             const taskGroup = tasksMap.get(taskKey);
 
@@ -59,6 +61,19 @@ const ActivityTaskComment = (x: {id: string, comments: string, hours: number}) =
     </li>
 );
 
+const IssueHeader = (x: {project: {id: string, name: string}, issue?: {id: string, name: string}, taskHref?: (id: string) => string}) => {
+    if (x.issue === undefined) {
+        return <h3>c</h3>;
+    }
+
+    if (x.taskHref === undefined) {
+        return <h3>{`${x.project.name} / ${x.issue.name}`}</h3>;
+    }
+
+    const href = x.taskHref(x.issue.id);
+    return <h3>{x.project.name}<a href={href}>{x.issue.name}</a></h3>;
+}
+
 export class ActivityList extends React.Component<ActivityListProps> {
     public render() {
         const data = mapData(this.props);
@@ -70,11 +85,13 @@ export class ActivityList extends React.Component<ActivityListProps> {
                 const taskTotal = items.reduce((acc, x) => acc + x.hours, 0);
                 dayTotal += taskTotal;
 
+                const project = items[0].project;
+                const issue = items[0].issue;
                 const comments = items.map(x => <ActivityTaskComment key={x.id} {...x}/>);
 
                 return (
                     <div key={task} className="list-task">
-                        <h3>{task}</h3>
+                        <IssueHeader project={project} issue={issue} taskHref={this.props.taskHref}/>
                         <ul>{comments}</ul>
                     </div>
                 );

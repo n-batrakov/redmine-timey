@@ -61,6 +61,14 @@ body {
     font-weight: normal;
     padding-left: 20px;
   }
+  .list-task a {
+    color: black;
+    text-decoration: none;
+  }
+  .list-task a:hover {
+    color: #49729b;
+    text-decoration: underline;
+  }
   .list-task ul {
     list-style-type: none;
     padding-left: 8px;

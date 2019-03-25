@@ -92,7 +92,7 @@ class App extends React.Component<{}, AppState> {
                 <ActivityHeatmap onClick={this.onDayClick.bind(this)} { ...heatmapProps } />
 
                 <h1>Activity Overwiew</h1>
-                <ActivityList { ...listProps }/>
+                <ActivityList { ...listProps } />
             </>
         );
     }
