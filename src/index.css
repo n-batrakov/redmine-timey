@@ -69,12 +69,13 @@ body {
     display: flex;
     margin: 8px;
     padding: 10px;
-    background: #eee;
+    background: aliceblue;
     border-radius: 4px;
   }
   .list-comment span {
     margin-left: auto;
     margin-right: 8px;
+    font-weight: bold;
   }
   .list-day h2 {
      width: 100%; 
