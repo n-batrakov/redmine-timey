@@ -2,10 +2,10 @@ import * as React from 'react';
 import { render } from 'react-dom';
 import { ActivityHeatmap, ActivityHeatmapProps } from './components/activityHeatmap';
 import { ActivityList, ActivityListProps } from './components/activityList';
-import { HoursGauge } from './components/hoursGauge';
+import { HoursGauge, HoursGaugeProps } from './components/hoursGauge';
 import { Logo } from './components/logo';
 import { Navbar } from './components/navbar';
-import { addDays } from './date';
+import { addDays, getMonthBoundaries } from './date';
 import './index.css';
 
 type AppState = {
@@ -13,6 +13,7 @@ type AppState = {
     isError: boolean,
     yearData?: ActivityHeatmapProps,
     listData?: ActivityListProps,
+    gaugeData?: HoursGaugeProps,
 };
 
 class App extends React.Component<{}, AppState> {
@@ -26,14 +27,27 @@ class App extends React.Component<{}, AppState> {
 
         const heatmapEnd = new Date();
         const heatmapStart = addDays(heatmapEnd, -365);
-        fetch(`/api/time/month?start=${heatmapStart.toISOString()}&end=${heatmapEnd.toISOString()}`).then(async (x) => {
+        const [thisMonthStart, nextMonthStart] = getMonthBoundaries(heatmapEnd);
+
+        fetch(`/api/time/hours?start=${heatmapStart.toISOString()}&end=${heatmapEnd.toISOString()}`).then(async (x) => {
             if (x.status === 200) {
                 let data = await x.json();
 
-                data = data.map((x: any) => ({ date: new Date(Date.parse(x.date)), count: x.count }));
+                let actualValue = 0;
+                data = data.map((x: any) => {
+                    const date = new Date(Date.parse(x.date));
+                    const count = x.count;
+
+                    if (date >= thisMonthStart && date < nextMonthStart) {
+                        actualValue += count;
+                    }
+
+                    return { date, count };
+                });
 
                 this.setState({
                     yearData: { data, startDate: heatmapStart, endDate: heatmapEnd },
+                    gaugeData: { actualValue, expectedValue: 160 },
                     isLoaded: true,
                 });
             }
@@ -89,6 +103,7 @@ class App extends React.Component<{}, AppState> {
 
         const today = new Date();
         const heatmapProps = this.state.yearData || { data: [], startDate: addDays(today, -365), endDate: today };
+        const gaugeProps = this.state.gaugeData || { actualValue: 0, expectedValue: 160 };
         const list = this.state.listData !== undefined
             ? <div className="activity-overview"><h1>Activity Overview</h1><ActivityList { ...this.state.listData }/></div>
             : undefined;
@@ -106,7 +121,7 @@ class App extends React.Component<{}, AppState> {
                 />
                 <div className="content">
                     <ActivityHeatmap onClick={this.onDayClick.bind(this)} { ...heatmapProps } />
-                    <HoursGauge actualValue={130} expectedValue={160}/>
+                    <HoursGauge {...gaugeProps}/>
                     {list}
                 </div>
             </>
