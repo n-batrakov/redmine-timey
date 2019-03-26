@@ -3,7 +3,7 @@ import { getTimesheetData, TimesheetEntry } from '../getTimesheetData';
 
 const handler: RegisterHandler = (server, { redmine }) => server.route({
     method: 'GET',
-    url: '/api/time/month',
+    url: '/api/time/hours',
     preHandler: authenticate,
     handler: async (req, resp) => {
         const auth = getCredentials(req.headers.authorization);
