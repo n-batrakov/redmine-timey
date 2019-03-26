@@ -2,6 +2,7 @@ import * as React from 'react';
 import CalendarHeatmap from 'react-calendar-heatmap';
 import ReactTooltip from 'react-tooltip';
 import { getRange, toISODate } from '../../date';
+import './activityHeatmap.css';
 
 const colorThresholds = [
     [1, 4, '0'],

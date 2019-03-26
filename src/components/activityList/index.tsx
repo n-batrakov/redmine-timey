@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { getRange, toISODate } from '../../date';
+import './activityList.css';
 
 type ActivityListItem = {
     id: string,
