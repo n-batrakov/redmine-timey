@@ -87,7 +87,7 @@ class App extends React.Component<{}, AppState> {
         const today = new Date();
         const heatmapProps = this.state.yearData || { data: [], startDate: addDays(today, -365), endDate: today };
         const list = this.state.listData !== undefined
-            ? <><h1>Activity Overview</h1><ActivityList { ...this.state.listData }/></>
+            ? <div className="activity-overview"><h1>Activity Overview</h1><ActivityList { ...this.state.listData }/></div>
             : undefined;
 
         return (

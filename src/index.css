@@ -53,6 +53,11 @@ body {
   
   /* ACTIVIY LIST */
 
+  .activity-overview {
+    max-width: 1040px;
+    margin: auto;
+  }
+
   .list-day {
     margin-bottom: 32px;
   }
