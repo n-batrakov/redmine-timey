@@ -2,6 +2,7 @@ import * as React from 'react';
 import { render } from 'react-dom';
 import { ActivityHeatmap, ActivityHeatmapProps } from './components/activityHeatmap';
 import { ActivityList, ActivityListProps } from './components/activityList';
+import { HoursGauge } from './components/hoursGauge';
 import { Logo } from './components/logo';
 import { Navbar } from './components/navbar';
 import { addDays } from './date';
@@ -105,6 +106,7 @@ class App extends React.Component<{}, AppState> {
                 />
                 <div className="content">
                     <ActivityHeatmap onClick={this.onDayClick.bind(this)} { ...heatmapProps } />
+                    <HoursGauge actualValue={130} expectedValue={160}/>
                     {list}
                 </div>
             </>
