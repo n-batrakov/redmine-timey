@@ -2,6 +2,8 @@ import * as React from 'react';
 import { render } from 'react-dom';
 import { ActivityHeatmap, ActivityHeatmapProps } from './components/activityHeatmap';
 import { ActivityList, ActivityListProps } from './components/activityList';
+import { Logo } from './components/logo';
+import { Navbar } from './components/navbar';
 import { addDays } from './date';
 import './index.css';
 
@@ -92,10 +94,19 @@ class App extends React.Component<{}, AppState> {
 
         return (
             <>
-                <button onClick={this.onLogout.bind(this)}>Logout</button>
-                <button onClick={this.onOverview.bind(this)}>Overview</button>
-                <ActivityHeatmap onClick={this.onDayClick.bind(this)} { ...heatmapProps } />
-                {list}
+                <Navbar
+                    logo={<Logo/>}
+                    items={[
+                        <button className="navbar-btn active" onClick={this.onOverview.bind(this)}>Overview</button>,
+                    ]}
+                    rightItems={[
+                        <button className="navbar-btn" onClick={this.onLogout.bind(this)}>Logout</button>,
+                    ]}
+                />
+                <div className="content">
+                    <ActivityHeatmap onClick={this.onDayClick.bind(this)} { ...heatmapProps } />
+                    {list}
+                </div>
             </>
         );
     }

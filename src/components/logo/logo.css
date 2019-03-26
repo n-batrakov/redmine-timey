@@ -1,0 +1,24 @@
+.logo {
+    display: flex;
+    text-decoration: none;
+}
+
+.logo span {
+color: #fff;
+font-size: 14pt;
+margin: auto 5px;
+text-transform: lowercase;
+}
+
+.logo-img {
+height: 32px;
+width: 32px;
+border-radius: 3px;
+padding: 3px;
+margin-left: 5px;
+background-color:  rgb(255, 255, 255, 0.6);
+background-image: url('../../static/logo.png');
+background-size: contain;
+background-position: center;
+background-repeat: no-repeat;
+}
