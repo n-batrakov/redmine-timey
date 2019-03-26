@@ -16,6 +16,15 @@ type AppState = {
     gaugeData?: HoursGaugeProps,
 };
 
+const getMonthNorm = async () => {
+    const response = await fetch('/api/time/norm');
+    if (response.status === 200) {
+        const data = await response.json();
+        return data.norm;
+    }
+    return 0;
+}
+
 class App extends React.Component<{}, AppState> {
     constructor(props: {}) {
         super(props);
@@ -45,9 +54,11 @@ class App extends React.Component<{}, AppState> {
                     return { date, count };
                 });
 
+                const expectedValue = await getMonthNorm();
+
                 this.setState({
                     yearData: { data, startDate: heatmapStart, endDate: heatmapEnd },
-                    gaugeData: { actualValue, expectedValue: 160 },
+                    gaugeData: { actualValue, expectedValue },
                     isLoaded: true,
                 });
             }
