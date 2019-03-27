@@ -2,6 +2,7 @@ import * as React from 'react';
 import Modal from 'react-modal';
 import { TimesheetEntry } from '../../shared/types';
 import './editTimingModal.css';
+import { toISODate } from '../../shared/date';
 
 export type EditTimingModalProps = {
     isOpened: boolean,
@@ -30,6 +31,9 @@ export class EditTimingModal extends React.Component<EditTimingModalProps> {
     }
 
     public render() {
+        const { spentOn, comments, hours, activity } = this.props.data;
+        const issue = this.props.data.issue || { id: 0, name: '---' };
+
         return (
             <Modal
                 isOpen={this.props.isOpened}
@@ -40,31 +44,57 @@ export class EditTimingModal extends React.Component<EditTimingModalProps> {
                 <h2>Edit timing</h2>
                 <form>
                     <div className="row">
-                        <div className="col-25"><label htmlFor="fname">First Name</label></div>
+                        <div className="col-25"><label htmlFor="date">Date</label></div>
                         <div className="col-75">
-                            <input type="text" id="fname" name="firstname" placeholder="Your name.." />
+                            <input
+                                disabled
+                                type="date"
+                                value={toISODate(spentOn)}
+                                id="date"
+                                name="date"
+                            />
                         </div>
                     </div>
                     <div className="row">
-                        <div className="col-25"><label htmlFor="lname">Last Name</label></div>
+                        <div className="col-25"><label htmlFor="issue">Issue</label></div>
                         <div className="col-75">
-                            <input type="text" id="lname" name="lastname" placeholder="Your last name.." />
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-25"><label htmlFor="country">Country</label></div>
-                        <div className="col-75">
-                            <select id="country" name="country">
-                                <option value="australia">Australia</option>
-                                <option value="canada">Canada</option>
-                                <option value="usa">USA</option>
+                            <select id="issue" name="issue" value={issue.id} disabled>
+                                <option value={issue.id}>{issue.name}</option>
                             </select>
                         </div>
                     </div>
                     <div className="row">
-                        <div className="col-25"><label htmlFor="subject">Subject</label></div>
+                        <div className="col-25"><label htmlFor="hours">Hours</label></div>
                         <div className="col-75">
-                            <textarea id="subject" name="subject" placeholder="Write something.." style={{ height: 200 }}></textarea>
+                            <input
+                                type="number"
+                                step="0.25"
+                                min="0"
+                                max="8"
+                                defaultValue={hours.toString()}
+                                id="hours"
+                                name="hours"
+                                placeholder="Hours"
+                            />
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-25"><label htmlFor="comments">Comments</label></div>
+                        <div className="col-75">
+                            <textarea
+                                id="comments"
+                                name="comments"
+                                placeholder="Describe what you did"
+                                style={{ height: 200 }}
+                                defaultValue={comments} />
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-25"><label htmlFor="activity">Activity</label></div>
+                        <div className="col-75">
+                            <select id="issue" name="issue" defaultValue={activity.id}>
+                                <option value={activity.id}>{activity.name}</option>
+                            </select>
                         </div>
                     </div>
                     <div className="row footer">
