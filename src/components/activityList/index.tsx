@@ -7,6 +7,7 @@ export type ActivityListProps = {
     start: Date,
     end: Date,
     data: Array<TimesheetEntry>,
+    onActivityClick?: (x: TimesheetEntry) => void,
 };
 
 const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wedsday', 'Thursday', 'Friday', 'Saturday'];
@@ -46,10 +47,10 @@ function mapData({ data }: ActivityListProps) {
     );
 }
 
-const ActivityTiming = (x: {id: string, comments: string, hours: number}) => (
-    <li className="list-comment">
-        {x.comments}
-        <span>{x.hours} h.</span>
+const ActivityTiming = (x: { entry: TimesheetEntry, onClick?: (x: TimesheetEntry) => void }) => (
+    <li className="list-comment" onClick={() => x.onClick === undefined ? undefined : x.onClick(x.entry)}>
+        {x.entry.comments}
+        <span>{x.entry.hours} h.</span>
     </li>
 );
 
@@ -105,7 +106,7 @@ export class ActivityList extends React.Component<ActivityListProps> {
                 const issue = items[0].issue;
                 const timings = items.map((x) => {
                     dayTotal += x.hours;
-                    return <ActivityTiming key={x.id} {...x}/>;
+                    return <ActivityTiming key={x.id} entry={x} onClick={this.props.onActivityClick}/>;
                 });
 
                 return (

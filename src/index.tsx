@@ -3,15 +3,19 @@ import { render } from 'react-dom';
 import { ActivityHeatmap, ActivityHeatmapProps } from './components/activityHeatmap';
 import { ActivityList, ActivityListProps } from './components/activityList';
 import { HoursGauge, HoursGaugeProps } from './components/hoursGauge';
+import { EditTimingModal, EditTimingModalProps} from './components/editTimingModal';
 import { Logo } from './components/logo';
 import { Navbar } from './components/navbar';
 import { addDays, getMonthBoundaries } from './shared/date';
 import ReactTooltip from 'react-tooltip';
 import './index.css';
+import { TimesheetEntry } from './shared/types';
+import Modal from 'react-modal';
 
 type AppState = {
     isLoaded: boolean,
     isError: boolean,
+    modalData?: EditTimingModalProps,
     yearData?: ActivityHeatmapProps,
     listData?: ActivityListProps,
     gaugeData?: HoursGaugeProps,
@@ -98,6 +102,24 @@ class App extends React.Component<{}, AppState> {
         this.setActivityListState(value.date, value.date);
     }
 
+    private onActivityClick(entry: TimesheetEntry) {
+        const modalData: EditTimingModalProps = {
+            isOpened: true,
+            data: entry,
+            onClose: () => this.setState({ modalData: undefined }),
+            onSubmit: (e) => {
+                console.log('UPDATE', e);
+                this.setState({ modalData: undefined });
+            },
+            onDelete: (e) => {
+                console.log('DELETE', e);
+                this.setState({ modalData: undefined });
+            },
+        };
+
+        this.setState({ modalData });
+    }
+
     private onOverview() {
         const listEnd = new Date();
         const listStart = addDays(listEnd, -5);
@@ -116,13 +138,12 @@ class App extends React.Component<{}, AppState> {
         const today = new Date();
         const heatmapProps = this.state.yearData || { data: [], startDate: addDays(today, -365), endDate: today };
         const gaugeProps = this.state.gaugeData || { actualValue: 0, expectedValue: 160 };
-        const list = this.state.listData !== undefined
-            ? <div className="activity-overview"><h1>Activity Overview</h1><ActivityList { ...this.state.listData }/></div>
-            : undefined;
+        const listProps = this.state.listData || { data: [], start: new Date(), end: new Date() };
 
         return (
             <>
                 <ReactTooltip html />
+                { this.state.modalData === undefined ? undefined : <EditTimingModal { ...this.state.modalData }/> }
                 <Navbar
                     logo={<Logo/>}
                     items={[
@@ -136,12 +157,18 @@ class App extends React.Component<{}, AppState> {
                     <ActivityHeatmap { ...heatmapProps }
                                      onClick={this.onDayClick.bind(this)}
                                      numDays={window.innerWidth < 800 ? 100 : 0}/>
+
                     <HoursGauge {...gaugeProps}/>
-                    {list}
+
+                    <div className="activity-overview">
+                        <h1>Activity Overview</h1>
+                        <ActivityList { ...listProps } onActivityClick={this.onActivityClick.bind(this)}/>
+                    </div>
                 </div>
             </>
         );
     }
 }
 
+Modal.setAppElement('#app');
 render(<App />, document.getElementById('app'));
