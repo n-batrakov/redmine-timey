@@ -131,7 +131,9 @@ class App extends React.Component<{}, AppState> {
                     ]}
                 />
                 <div className="content">
-                    <ActivityHeatmap onClick={this.onDayClick.bind(this)} { ...heatmapProps } />
+                    <ActivityHeatmap { ...heatmapProps }
+                                     onClick={this.onDayClick.bind(this)}
+                                     numDays={window.innerWidth < 800 ? 100 : 0}/>
                     <HoursGauge {...gaugeProps}/>
                     {list}
                 </div>

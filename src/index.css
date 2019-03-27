@@ -1,8 +1,22 @@
 body {
-  font-family: sans-serif;
-  margin: 0;
+    font-family: sans-serif;
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+h1 {
+    font-size: 18pt;
+}
+
+h3 {
+    font-size: 14pt;
 }
 
 .content {
-      margin-top: 80px;
+    margin-top: 80px;
+    padding: 0 24px;
+}
+
+.content > * {
+    padding-bottom: 30px;
 }

@@ -16,6 +16,7 @@ export type ActivityHeatmapProps = {
     endDate: Date,
     data: Array<{ date: Date, count: number }>,
     onClick?: (value: {date: Date, count: number}) => void,
+    numDays?: number,
 };
 
 const mapData = (start: Date, end: Date, data: Array<{ date: Date, count: number }>) => {
@@ -60,7 +61,10 @@ export class ActivityHeatmap extends React.Component<ActivityHeatmapProps> {
 
                         return 'color-warn';
                     }}
+                    numDays={this.props.numDays}
                     showWeekdayLabels={true}
+                    gutterSize={1.5}
+                    weekdayLabels={['Sun', 'M', 'Tue', 'W', 'Thu', 'F', 'Sat']}
                     onClick={this.props.onClick}
                     tooltipDataAttrs={(value: any) => {
                         return {

@@ -7,7 +7,7 @@
     margin-bottom: 32px;
   }
   .list-issue h3 {
-    font-size: 1.3em;
+    font-size: 1em;
     font-weight: normal;
     padding-left: 20px;
   }
@@ -26,8 +26,9 @@
     display: flex;
     margin: 8px;
     padding: 10px;
-    background: aliceblue;
+    background: #eeeeee;
     border-radius: 4px;
+    font-size: .85em;
   }
   .list-comment span {
     margin-left: auto;
@@ -41,7 +42,7 @@
      line-height: 0.1em;
      margin: 10px 0 20px;
      color: #aaa;
-     font-size: 14pt;
+     font-size: 10pt;
   } 
   .list-day h2 span { 
       background:#fff; 
