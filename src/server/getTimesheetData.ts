@@ -1,5 +1,5 @@
 import { RedmineClient, RedmineErrorResponse } from './redmine';
-import { toISODate } from '../date';
+import { toISODate } from '../shared/date';
 import { NamedId, TimesheetEntry } from '../shared/types';
 import { assertNever } from '../shared';
 

@@ -1,6 +1,6 @@
 import { RegisterHandler } from './shared';
 import { DayType } from '../workHoursNorm';
-import { addDays, getRange, getMonthBoundaries } from '../../date';
+import { addDays, getRange, getMonthBoundaries } from '../../shared/date';
 const assertNever = (_: never) => {};
 
 const handler: RegisterHandler = (server, { calendar }) => server.route({
