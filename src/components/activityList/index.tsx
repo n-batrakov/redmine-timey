@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { getRange, toISODate } from '../../date';
+import { getRange, toISODate } from '../../shared/date';
 import { TimesheetEntry, NamedId } from '../../shared/types';
 import './activityList.css';
 

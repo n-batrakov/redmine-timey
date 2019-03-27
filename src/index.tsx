@@ -5,7 +5,7 @@ import { ActivityList, ActivityListProps } from './components/activityList';
 import { HoursGauge, HoursGaugeProps } from './components/hoursGauge';
 import { Logo } from './components/logo';
 import { Navbar } from './components/navbar';
-import { addDays, getMonthBoundaries } from './date';
+import { addDays, getMonthBoundaries } from './shared/date';
 import ReactTooltip from 'react-tooltip';
 import './index.css';
 
