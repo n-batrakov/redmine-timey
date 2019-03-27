@@ -35,9 +35,9 @@ export class HoursGauge extends React.Component<HoursGaugeProps> {
             : <>{<b>{actualValue}</b>} hours out of {<b>{expectedValue}</b>} are done. {<b>{remaining}</b>} more to go</>;
 
         return (
-            <div style={{ maxWidth: 1024, margin: 'auto' }}>
-                <Line percent={percent} strokeColor={getColor(percent)} strokeWidth={1}/>
-                <span>{message}</span>
+            <div style={{ maxWidth: 1024, margin: 'auto', display: 'grid' }}>
+                <Line percent={percent} strokeColor={getColor(percent)} strokeWidth={1} style={{ width: 'auto' }}/>
+                <span style={{ margin: 'auto', fontSize: '10pt', marginTop: 5 }}>{message}</span>
             </div>
         );
     }
