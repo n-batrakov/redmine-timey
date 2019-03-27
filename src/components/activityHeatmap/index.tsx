@@ -1,6 +1,5 @@
 import * as React from 'react';
 import CalendarHeatmap from 'react-calendar-heatmap';
-import ReactTooltip from 'react-tooltip';
 import { getRange, toISODate } from '../../date';
 import './activityHeatmap.css';
 
@@ -74,7 +73,6 @@ export class ActivityHeatmap extends React.Component<ActivityHeatmapProps> {
                         };
                       }}
                 />
-                <ReactTooltip html />
             </div>
         );
     }

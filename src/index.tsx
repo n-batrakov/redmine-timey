@@ -6,6 +6,7 @@ import { HoursGauge, HoursGaugeProps } from './components/hoursGauge';
 import { Logo } from './components/logo';
 import { Navbar } from './components/navbar';
 import { addDays, getMonthBoundaries } from './date';
+import ReactTooltip from 'react-tooltip';
 import './index.css';
 
 type AppState = {
@@ -121,6 +122,7 @@ class App extends React.Component<{}, AppState> {
 
         return (
             <>
+                <ReactTooltip html />
                 <Navbar
                     logo={<Logo/>}
                     items={[
