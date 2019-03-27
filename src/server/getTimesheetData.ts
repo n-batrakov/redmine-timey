@@ -1,7 +1,7 @@
 import { RedmineClient, RedmineErrorResponse } from './redmine';
 import { toISODate } from '../date';
-
-type NamedId = {id: string, name?: string, href?: string};
+import { NamedId, TimesheetEntry } from '../shared/types';
+import { assertNever } from '../shared';
 
 export type TimesheetRequest = {
     limit?: number,
@@ -16,17 +16,6 @@ export type TimesheetRequest = {
     },
 };
 
-export type TimesheetEntry = {
-    id: string,
-    project: NamedId,
-    issue?: NamedId,
-    user: NamedId,
-    activity: NamedId,
-    hours: number,
-    comments: string,
-    spentOn: Date,
-};
-
 export type TimesheetResponse = {
     code: 'Success',
     data: TimesheetEntry[],
@@ -36,7 +25,6 @@ export type TimesheetResponse = {
 };
 
 const defaultRequest: TimesheetRequest = {};
-const assertNever = (_: never) => {};
 
 function batch<T>(source: T[], batchSize: number): T[][] {
     const batchesCount = Math.ceil(source.length / batchSize);

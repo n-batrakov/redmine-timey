@@ -1,20 +1,12 @@
 import * as React from 'react';
 import { getRange, toISODate } from '../../date';
+import { TimesheetEntry, NamedId } from '../../shared/types';
 import './activityList.css';
-
-type ActivityListItem = {
-    id: string,
-    spentOn: Date,
-    project: { id: string, name: string, href?: string },
-    issue?: { id: string, name: string, href?: string },
-    comments: string,
-    hours: number,
-};
 
 export type ActivityListProps = {
     start: Date,
     end: Date,
-    data: Array<ActivityListItem>,
+    data: Array<TimesheetEntry>,
 };
 
 const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wedsday', 'Thursday', 'Friday', 'Saturday'];
@@ -50,7 +42,7 @@ function mapData({ data }: ActivityListProps) {
 
             return acc;
         },
-        new Map<string, Map<string, ActivityListItem[]>>(),
+        new Map<string, Map<string, TimesheetEntry[]>>(),
     );
 }
 
@@ -62,10 +54,10 @@ const ActivityTiming = (x: {id: string, comments: string, hours: number}) => (
 );
 
 type IssueHeaderProps = {
-    project: { id: string, name: string, href?: string },
-    issue?: { id: string, name: string, href?: string },
+    project: NamedId,
+    issue?: NamedId,
 };
-const getLink = ({ name, href }: {name: string, href?: string}) => {
+const getLink = ({ name, href }: NamedId) => {
     return href === undefined
         ? name
         : <a href={href}>{name}</a>;
