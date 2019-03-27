@@ -25,7 +25,7 @@ const formatDate = (date: Date): string => {
     const dayName = dayNames[date.getDay()];
     const monthName = monthNames[date.getMonth()];
 
-    return `${monthName} ${dayNumber} (${dayName})`;
+    return `${dayName} (${dayNumber} ${monthName})`;
 };
 
 function mapData({ data }: ActivityListProps) {
