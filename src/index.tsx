@@ -15,6 +15,7 @@ import Modal from 'react-modal';
 type AppState = {
     isLoaded: boolean,
     isError: boolean,
+    isLoggedOut: boolean,
     modalData?: EditTimingModalProps,
     yearData?: ActivityHeatmapProps,
     listData?: ActivityListProps,
@@ -33,7 +34,7 @@ const getMonthNorm = async () => {
 class App extends React.Component<{}, AppState> {
     constructor(props: {}) {
         super(props);
-        this.state = { isLoaded: false, isError: false };
+        this.state = { isLoaded: false, isError: false, isLoggedOut: false };
     }
 
     public componentDidMount() {
@@ -65,6 +66,7 @@ class App extends React.Component<{}, AppState> {
                     yearData: { data, startDate: heatmapStart, endDate: heatmapEnd },
                     gaugeData: { actualValue, expectedValue },
                     isLoaded: true,
+                    isLoggedOut: false,
                 });
             }
         });
@@ -88,10 +90,20 @@ class App extends React.Component<{}, AppState> {
         });
     }
 
-    private onLogout() {
+    private onLoginToggle() {
+        if (this.state.isLoggedOut) {
+            this.componentDidMount();
+        }
+
         fetch('/api/logout', { method: 'POST' }).then((x) => {
             if (x.status === 401) {
-                this.setState({ isLoaded: true, isError: false, listData: undefined, yearData: undefined });
+                this.setState({
+                    isLoaded: true,
+                    isError: false,
+                    isLoggedOut: true,
+                    listData: undefined,
+                    yearData: undefined,
+                    gaugeData: undefined });
             } else {
                 alert('Something went wrong');
             }
@@ -150,7 +162,7 @@ class App extends React.Component<{}, AppState> {
                         <button className="navbar-btn active" onClick={this.onOverview.bind(this)}>Overview</button>,
                     ]}
                     rightItems={[
-                        <button className="navbar-btn" onClick={this.onLogout.bind(this)}>Logout</button>,
+                        <button className="navbar-btn" onClick={this.onLoginToggle.bind(this)}>{this.state.isLoggedOut ? 'Log In' : 'Log Out'}</button>,
                     ]}
                 />
                 <div className="content">
