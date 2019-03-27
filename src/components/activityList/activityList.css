@@ -6,6 +6,25 @@
 .list-day {
     margin-bottom: 32px;
 }
+.list-day h2 {
+    width: 100%; 
+    text-align: center; 
+    border-bottom: 1px solid #d1d1d1; 
+    line-height: 0.1em;
+    margin: 10px 0 20px;
+    color: #aaa;
+    font-size: 10pt;
+    text-transform: uppercase;
+    font-weight: 100;
+} 
+.list-day h2 span { 
+    background:#fff; 
+    padding:0 10px; 
+}
+
+.list-issue {
+    margin-bottom: 32px;
+}
 .list-issue h3 {
     font-size: 1em;
     font-weight: normal;
@@ -34,27 +53,12 @@
 }
 .list-issue ul li:hover {
     box-shadow: 3px 3px 10px rgb(150, 150, 150, .5);
-    transform: translate(5px, 1px);
     cursor: pointer;
 }
+
 
 .list-comment span {
     margin-left: auto;
     margin-right: 8px;
     font-weight: bold;
-}
-.list-day h2 {
-    width: 100%; 
-    text-align: center; 
-    border-bottom: 1px solid #d1d1d1; 
-    line-height: 0.1em;
-    margin: 10px 0 20px;
-    color: #aaa;
-    font-size: 10pt;
-    text-transform: uppercase;
-    font-weight: 100;
-} 
-.list-day h2 span { 
-    background:#fff; 
-    padding:0 10px; 
 }
