@@ -68,9 +68,9 @@ export class EditTimingModal extends React.Component<EditTimingModalProps> {
                         </div>
                     </div>
                     <div className="row footer">
-                        <button className="btn btn-danger" onClick={this.onDelete.bind(this)}>Delete</button>
                         <button className="btn btn-primary" onClick={this.onSubmit.bind(this)}>Save</button>
                         <button className="btn" onClick={this.props.onClose}>Cancel</button>
+                        <button className="btn btn-danger" style={{ float: 'left' }} onClick={this.onDelete.bind(this)}>Delete</button>
                     </div>
                 </form>
             </Modal>
