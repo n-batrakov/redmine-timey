@@ -1,9 +1,25 @@
 import * as React from 'react';
 import { toISODate } from '../../shared/date';
+import { assertNever } from '../../shared';
 import './form.css';
 
-const getBtnTypeClass = (type?: string) =>
-    type === undefined ? 'btn' : `btn btn-${type}`;
+const getBtnTypeClass = ({ type }: ButtonProps) => {
+    if (type === undefined) {
+        return 'btn';
+    }
+
+    switch (type) {
+        case 'default':
+            return 'btn';
+        case 'primary':
+        case 'submit':
+            return 'btn btn-primary';
+        case 'danger':
+            return 'btn btn-danger';
+        default:
+            assertNever(type);
+    }
+};
 
 type FormControlProps = {
     name: string,
@@ -15,27 +31,18 @@ type FormControlProps = {
 export type ButtonProps = {
     value: string,
     onClick?: () => void,
-    type?: 'primary' | 'danger',
+    type?: 'default' | 'primary' | 'danger' | 'submit',
     style?: React.CSSProperties,
 };
 export const Button = (x: ButtonProps) => (
     <button
-        className={getBtnTypeClass(x.type)}
+        className={getBtnTypeClass(x)}
+        type={x.type === 'submit' ? 'submit' : 'button'}
         onClick={x.onClick}
         style={x.style}
     >
         {x.value}
     </button>
-);
-
-export const Submit = (x: ButtonProps) => (
-    <input
-        className={getBtnTypeClass(x.type)}
-        onClick={x.onClick}
-        type="submit"
-        value={x.value}
-        style={x.style}
-    />
 );
 
 export type TextInputProps = FormControlProps & {
@@ -151,56 +158,39 @@ export const DateInput = (x: DateInputProps) => (
     </div>
 );
 
-export const FormHeader = (x: {children: React.ReactNode}) => (<h2>{x.children}</h2>);
-export const FormFooter = (x: {children: React.ReactNode}) => (<div className="row footer">{x.children}</div>);
+export const FormHeader = (x: {children: React.ReactNode}) => (
+    <h2>{x.children}</h2>
+);
+
+export const FormFooter = (x: {children: React.ReactNode}) => (
+    <div className="row footer">{x.children}</div>
+);
 
 export type FormProps = {
-    onSubmit: (x: FormState) => void,
-    children: React.ReactNode,
+    onSubmit: (x: any) => void,
 };
-type FormState = {
-    [input: string]: any,
-};
-export class Form extends React.Component<FormProps, FormState> {
+
+export class Form extends React.Component<FormProps> {
     constructor(props: FormProps) {
         super(props);
 
         this.onSubmit = this.onSubmit.bind(this);
-        this.onChange = this.onChange.bind(this);
-
-        const state: any = {};
-        React.Children.forEach(props.children, (x: any) => {
-            const name:string = x.props.name;
-            const value: any = x.props.value;
-
-            if (name && value) {
-                state[name] = value;
-            }
-        });
-
-        this.state = state;
     }
 
     private onSubmit(e: any) {
         e.preventDefault();
 
-        this.props.onSubmit(this.state);
-    }
+        const formData = new FormData(e.target);
+        const form: any = {};
+        formData.forEach((x, key) => form[key] = x);
 
-    private onChange(e: any) {
-        const name:string = e.target.name;
-        const value = e.target.value;
-
-        this.setState({ [name]: value });
+        this.props.onSubmit(form);
     }
 
     public render() {
-        const children = React.Children.map(this.props.children, (child: any) =>
-            React.cloneElement(child, { onChange: this.onChange }));
-
         return (
             <form onSubmit={this.onSubmit} className="timey-form">
-                {children}
+                {this.props.children}
             </form>
         );
     }
