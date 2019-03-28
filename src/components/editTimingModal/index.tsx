@@ -2,7 +2,18 @@ import * as React from 'react';
 import Modal from 'react-modal';
 import { TimesheetEntry } from '../../shared/types';
 import './editTimingModal.css';
-import { toISODate } from '../../shared/date';
+import {
+    Form,
+    FormHeader,
+    FormFooter,
+    TextArea,
+    Select,
+    Button,
+    Submit,
+    SelectOption,
+    DateInput,
+    NumberInput,
+} from '../form';
 
 export type EditTimingModalProps = {
     isOpened: boolean,
@@ -13,13 +24,15 @@ export type EditTimingModalProps = {
 };
 
 export class EditTimingModal extends React.Component<EditTimingModalProps> {
+    constructor(props: EditTimingModalProps) {
+        super(props);
 
-    private onSubmit() {
-        if (this.props.onSubmit === undefined) {
-            return;
-        }
+        this.onSubmit = this.onSubmit.bind(this);
+        this.onDelete = this.onDelete.bind(this);
+    }
 
-        this.props.onSubmit(this.props.data);
+    private onSubmit(e: any) {
+        console.log(e);
     }
 
     private onDelete() {
@@ -32,7 +45,7 @@ export class EditTimingModal extends React.Component<EditTimingModalProps> {
 
     public render() {
         const { spentOn, comments, hours, activity } = this.props.data;
-        const issue = this.props.data.issue || { id: 0, name: '---' };
+        const issue = this.props.data.issue || { id: '0', name: '---' };
 
         return (
             <Modal
@@ -41,68 +54,24 @@ export class EditTimingModal extends React.Component<EditTimingModalProps> {
                 contentLabel="Edit timing"
                 className="edit-timing-modal"
             >
-                <h2>Edit timing</h2>
-                <form>
-                    <div className="row">
-                        <div className="col-25"><label htmlFor="date">Date</label></div>
-                        <div className="col-75">
-                            <input
-                                disabled
-                                type="date"
-                                value={toISODate(spentOn)}
-                                id="date"
-                                name="date"
-                            />
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-25"><label htmlFor="issue">Issue</label></div>
-                        <div className="col-75">
-                            <select id="issue" name="issue" value={issue.id} disabled>
-                                <option value={issue.id}>{issue.name}</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-25"><label htmlFor="hours">Hours</label></div>
-                        <div className="col-75">
-                            <input
-                                type="number"
-                                step="0.25"
-                                min="0"
-                                max="8"
-                                defaultValue={hours.toString()}
-                                id="hours"
-                                name="hours"
-                                placeholder="Hours"
-                            />
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-25"><label htmlFor="comments">Comments</label></div>
-                        <div className="col-75">
-                            <textarea
-                                id="comments"
-                                name="comments"
-                                placeholder="Describe what you did"
-                                style={{ height: 200 }}
-                                defaultValue={comments} />
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-25"><label htmlFor="activity">Activity</label></div>
-                        <div className="col-75">
-                            <select id="issue" name="issue" defaultValue={activity.id}>
-                                <option value={activity.id}>{activity.name}</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div className="row footer">
-                        <button className="btn btn-primary" onClick={this.onSubmit.bind(this)}>Save</button>
-                        <button className="btn" onClick={this.props.onClose}>Cancel</button>
-                        <button className="btn btn-danger" style={{ float: 'left' }} onClick={this.onDelete.bind(this)}>Delete</button>
-                    </div>
-                </form>
+                <Form onSubmit={this.onSubmit}>
+                    <FormHeader>Edit Timing</FormHeader>
+
+                    <DateInput label="Date" name="spentOn" value={spentOn}  />
+                    <Select label="Issue" name="issue" value={issue.id} disabled>
+                        <SelectOption value={issue.id}>{issue.name}</SelectOption>
+                    </Select>
+                    <NumberInput label="Hours" name="hours" value={hours} step={0.25} min={0} max={24} />
+                    <TextArea label="Comments" name="comments" value={comments} placeholder="" style={{ height: 100 }}/>
+                    <Select label="Activity" name="activity" value={activity.id}>
+                        <SelectOption value={activity.id}>{activity.name}</SelectOption>
+                    </Select>
+                    <FormFooter>
+                        <Submit value="Save" type="primary"/>
+                        <Button value="Cancel" onClick={this.props.onClose}/>
+                        <Button value="Delete" type="danger" style={{ float: 'left' }} onClick={this.onDelete}/>
+                    </FormFooter>
+                </Form>
             </Modal>
         );
     }
