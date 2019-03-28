@@ -40,4 +40,4 @@ export function getMonthBoundaries(date: Date): [Date, Date] {
         new Date(Date.UTC(startYear, startMonth, 1)),
         new Date(Date.UTC(endYear, endMonth, 1)),
     ];
-};
+}
