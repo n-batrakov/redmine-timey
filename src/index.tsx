@@ -3,7 +3,7 @@ import { render } from 'react-dom';
 import { ActivityHeatmap, ActivityHeatmapProps } from './components/activityHeatmap';
 import { ActivityList, ActivityListProps } from './components/activityList';
 import { HoursGauge, HoursGaugeProps } from './components/hoursGauge';
-import { EditTimingModal, EditTimingModalProps} from './components/editTimingModal';
+import { EditTimingModal, EditTimingModalProps } from './components/editTimingModal';
 import { Logo } from './components/logo';
 import { Navbar } from './components/navbar';
 import { addDays, getMonthBoundaries } from './shared/date';
@@ -29,7 +29,7 @@ const getMonthNorm = async () => {
         return data.norm;
     }
     return 0;
-}
+};
 
 class App extends React.Component<{}, AppState> {
     constructor(props: {}) {

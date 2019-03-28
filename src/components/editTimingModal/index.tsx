@@ -9,7 +9,6 @@ import {
     TextArea,
     Select,
     Button,
-    Submit,
     SelectOption,
     DateInput,
     NumberInput,
@@ -19,7 +18,7 @@ export type EditTimingModalProps = {
     isOpened: boolean,
     onClose: () => void,
     onSubmit?: (form: TimesheetEntry) => void,
-    onDelete?: (form: TimesheetEntry) => void,
+    onDelete?: (id: string) => void,
     data: TimesheetEntry,
 };
 
@@ -31,8 +30,20 @@ export class EditTimingModal extends React.Component<EditTimingModalProps> {
         this.onDelete = this.onDelete.bind(this);
     }
 
-    private onSubmit(e: any) {
-        console.log(e);
+    private onSubmit(e: { spentOn: Date | string, issue: string, hours: string, comments: string, activity: string }) {
+        if (this.props.onSubmit === undefined) {
+            return;
+        }
+
+        const entry: TimesheetEntry = {
+            ...this.props.data,
+            spentOn: typeof e.spentOn === 'string' ? new Date(Date.parse(e.spentOn)) : e.spentOn,
+            hours: parseFloat(e.hours),
+            comments: e.comments,
+            activity: { id: e.activity },
+        };
+
+        this.props.onSubmit(entry);
     }
 
     private onDelete() {
@@ -40,7 +51,7 @@ export class EditTimingModal extends React.Component<EditTimingModalProps> {
             return;
         }
 
-        this.props.onDelete(this.props.data);
+        this.props.onDelete(this.props.data.id);
     }
 
     public render() {
@@ -67,7 +78,7 @@ export class EditTimingModal extends React.Component<EditTimingModalProps> {
                         <SelectOption value={activity.id}>{activity.name}</SelectOption>
                     </Select>
                     <FormFooter>
-                        <Submit value="Save" type="primary"/>
+                        <Button value="Save" type="submit"/>
                         <Button value="Cancel" onClick={this.props.onClose}/>
                         <Button value="Delete" type="danger" style={{ float: 'left' }} onClick={this.onDelete}/>
                     </FormFooter>
