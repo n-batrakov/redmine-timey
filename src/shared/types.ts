@@ -10,3 +10,30 @@ export type TimesheetEntry = {
     comments: string,
     spentOn: Date,
 };
+
+const stringSchema = { type: 'string' };
+const floatSchema = { type: 'number' };
+const dateTimeSchema = { type: 'string', format: 'date-time' };
+
+const nameIdSchema = {
+    type: 'object',
+    required: [ 'id' ],
+    properties: {
+        id: stringSchema,
+        name: stringSchema,
+    },
+};
+
+export const TimesheetEntrySchema = {
+    type: 'object',
+    properties: {
+        id: stringSchema,
+        project: nameIdSchema,
+        issue: nameIdSchema,
+        user: nameIdSchema,
+        activity: nameIdSchema,
+        hours: floatSchema,
+        comments: stringSchema,
+        spentOn: dateTimeSchema,
+    },
+};

@@ -2,6 +2,7 @@ import { RegisterHandler } from './shared';
 import getDayTimingsHanlder from './getDayTimings';
 import getHoursPerDayHandler from './getHoursPerDay';
 import getMonthNorm from './getMonthNorm';
+import { addHandler, deleteHandler, updateHandler } from './addTimings';
 
 const signOutHandler: RegisterHandler = server => server.route({
     method: 'POST',
@@ -17,4 +18,7 @@ export default <RegisterHandler[]> [
     getDayTimingsHanlder,
     getHoursPerDayHandler,
     getMonthNorm,
+    addHandler,
+    deleteHandler,
+    updateHandler,
 ];

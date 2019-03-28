@@ -1,17 +1,23 @@
 import fetch from 'node-fetch';
 import { URL, URLSearchParams } from 'url';
+const btoa = (str: string) => Buffer.from(str).toString('base64');
 
-export type RedminQueryParams = {
+export type RedmineRequestParams = {
+    login?: string,
+    password?: string,
+};
+
+export type RedminQueryParams = RedmineRequestParams & {
     limit?: number,
     offset?: number,
     [key: string]: string | number | boolean | undefined,
+};
 
-    login?: string,
-    password?: string,
-}
-
-export type RedminQueryResponse = {
+export type RedmineSuccessResponse = {
     code: 'Success',
+};
+
+export type RedminQueryResponse = RedmineSuccessResponse & {
     data: any[],
     limit: number,
     offset: number,
@@ -22,8 +28,6 @@ export type RedmineErrorResponse = {
     code: 'Error' | 'NotAuthenticated',
     status: number,
 };
-
-const btoa = (str: string) => Buffer.from(str).toString('base64');
 
 export class RedmineClient {
     public readonly host: string;
@@ -43,13 +47,7 @@ export class RedmineClient {
             uri.search = new URLSearchParams(this.getQueryParams(rest)).toString();
         }
 
-        const headers = login !== undefined && password !== undefined 
-            ? { 'Authorization': `Basic ${btoa(`${login}:${password}`)}` }
-            : { 'X-Redmine-API-Key': this.apiKey };
-
-        const response = await fetch(uri.toString(), {
-            headers: <any>headers,
-        });
+        const response = await fetch(uri.toString(), { headers: this.getHeaders(params) });
 
         if (response.status === 200) {
             const body = await response.json();
@@ -69,6 +67,58 @@ export class RedmineClient {
         }
     }
 
+    public async insert(entity: string, object: any, params?: RedmineRequestParams):
+        Promise<RedmineSuccessResponse & { data: any } | RedmineErrorResponse> {
+
+        const uri = new URL(`${entity}.json`, this.host);
+
+        const response = await fetch(uri.toString(), {
+            method: 'POST',
+            headers: {
+                ...this.getHeaders(params),
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(object),
+        });
+
+        switch (response.status) {
+            case 201:
+                const body = await response.json();
+                return { code: 'Success', data: body };
+            case 401:
+                return { code: 'NotAuthenticated', status: 401 };
+            default:
+                console.log(await response.json());
+                return { code: 'Error', status: response.status };
+        }
+    }
+
+    public async update(entity: string, id: string, object: any, params?: RedmineRequestParams): Promise<RedmineSuccessResponse | RedmineErrorResponse> {
+        const uri = new URL(`${entity}/${id}.json`, this.host);
+
+        const response = await fetch(uri.toString(), {
+            method: 'PUT',
+            headers: {
+                ...this.getHeaders(params),
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(object),
+        });
+
+        return this.getResponseCode(response);
+    }
+
+    public async delete(entity: string, id: string, params?: RedmineRequestParams): Promise<RedmineSuccessResponse | RedmineErrorResponse> {
+        const uri = new URL(`${entity}/${id}.json`, this.host);
+
+        const response = await fetch(uri.toString(), {
+            method: 'DELETE',
+            headers: this.getHeaders(params)
+        });
+
+        return this.getResponseCode(response);
+    }
+
     private getQueryParams(obj: any) {
         const pairs = Object
             .entries(obj)
@@ -76,5 +126,29 @@ export class RedmineClient {
             .map<[string, string]>(([a, b]) => [a, b.toString()]);
 
         return new URLSearchParams(pairs);
+    }
+
+    private getHeaders(params?: RedmineRequestParams) {
+        if (params === undefined) {
+            return { 'X-Redmine-API-Key': this.apiKey };
+        }
+
+        const { login, password } = params;
+        if (login === undefined || password === undefined) {
+            return { 'X-Redmine-API-Key': this.apiKey };
+        }
+
+        return { 'Authorization': `Basic ${btoa(`${login}:${password}`)}` }
+    }
+
+    private getResponseCode({ status } : {status: number}): RedmineSuccessResponse | RedmineErrorResponse {
+        if (status >= 200 && status < 300) {
+            return { code: 'Success' };
+        }
+        if (status === 401) {
+            return { status, code: 'NotAuthenticated' };
+        }
+
+        return { status, code: 'Error' };
     }
 }
