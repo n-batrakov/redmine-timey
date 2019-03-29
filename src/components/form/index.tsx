@@ -2,6 +2,7 @@ import * as React from 'react';
 import { toISODate } from '../../shared/date';
 import { assertNever } from '../../shared';
 import './form.css';
+import { Preloader } from '../preloader';
 
 const getBtnTypeClass = ({ type }: ButtonProps) => {
     if (type === undefined) {
@@ -167,6 +168,7 @@ export const FormFooter = (x: {children: React.ReactNode}) => (
 );
 
 export type FormProps = {
+    loading?: boolean,
     onSubmit: (x: any) => void,
 };
 
@@ -189,9 +191,14 @@ export class Form extends React.Component<FormProps> {
 
     public render() {
         return (
-            <form onSubmit={this.onSubmit} className="timey-form">
-                {this.props.children}
-            </form>
+            <>
+                <div className="timey-form-cover" style={{ display: this.props.loading ? 'block' : 'none' }}>
+                    <Preloader active={this.props.loading || false } styles={{ marginTop: 0, top: '40%' }}/>
+                </div>
+                <form onSubmit={this.onSubmit} className="timey-form">
+                    {this.props.children}
+                </form>
+             </>
         );
     }
 }

@@ -39,7 +39,12 @@ const App = () => {
         />
     );
 
-    return isLoggedOut ? navbar : <>{navbar}<TimingsPage /></>;
+    return isLoggedOut
+        ? navbar
+        : <>
+            {navbar}
+            <TimingsPage />
+        </>;
 }
 
 const appElement = document.getElementById('app') as HTMLElement;

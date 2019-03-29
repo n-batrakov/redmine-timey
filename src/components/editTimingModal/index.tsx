@@ -17,17 +17,25 @@ import {
 export type EditTimingModalProps = {
     isOpened: boolean,
     onClose: () => void,
-    onSubmit?: (form: TimesheetEntry) => void,
-    onDelete?: (id: string) => void,
+    onSubmit?: (form: TimesheetEntry, disableLoadingState: () => void) => void,
+    onDelete?: (id: string, disableLoadingState: () => void) => void,
     data: TimesheetEntry,
 };
 
-export class EditTimingModal extends React.Component<EditTimingModalProps> {
+export class EditTimingModal extends React.Component<EditTimingModalProps, { isLoading: boolean }> {
     constructor(props: EditTimingModalProps) {
         super(props);
 
         this.onSubmit = this.onSubmit.bind(this);
         this.onDelete = this.onDelete.bind(this);
+        this.onFinishLoading = this.onFinishLoading.bind(this);
+        this.onClose = this.onClose.bind(this);
+
+        this.state = { isLoading: false };
+    }
+
+    private onFinishLoading() {
+        this.setState({ isLoading: false });
     }
 
     private onSubmit(e: { spentOn: Date | string, issue: string, hours: string, comments: string, activity: string }) {
@@ -43,7 +51,9 @@ export class EditTimingModal extends React.Component<EditTimingModalProps> {
             activity: { id: e.activity },
         };
 
-        this.props.onSubmit(entry);
+        this.setState({ isLoading: true });
+
+        this.props.onSubmit(entry, this.onFinishLoading);
     }
 
     private onDelete() {
@@ -51,7 +61,17 @@ export class EditTimingModal extends React.Component<EditTimingModalProps> {
             return;
         }
 
-        this.props.onDelete(this.props.data.id);
+        this.setState({ isLoading: true });
+
+        this.props.onDelete(this.props.data.id, this.onFinishLoading);
+    }
+
+    private onClose() {
+        if (this.state.isLoading) {
+            return false;
+        }
+
+        this.props.onClose();
     }
 
     public render() {
@@ -61,11 +81,12 @@ export class EditTimingModal extends React.Component<EditTimingModalProps> {
         return (
             <Modal
                 isOpen={this.props.isOpened}
-                onRequestClose={this.props.onClose}
+                onRequestClose={this.onClose}
                 contentLabel="Edit timing"
                 className="edit-timing-modal"
+
             >
-                <Form onSubmit={this.onSubmit}>
+                <Form onSubmit={this.onSubmit} loading={this.state.isLoading}>
                     <FormHeader>Edit Timing</FormHeader>
 
                     <DateInput label="Date" name="spentOn" value={spentOn}  />

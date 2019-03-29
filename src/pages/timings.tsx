@@ -9,11 +9,11 @@ import { ActivityHeatmap, ActivityHeatmapProps } from '../components/activityHea
 import { ActivityList, ActivityListProps } from '../components/activityList';
 import { HoursGauge, HoursGaugeProps } from '../components/hoursGauge';
 import { EditTimingModal, EditTimingModalProps } from '../components/editTimingModal';
+import { Preloader } from '../components/preloader';
 
 const listPageSize = 5;
 
 type TimingsPageState = {
-    isLoaded: boolean,
     isError: boolean,
     modalData?: EditTimingModalProps,
     yearData?: ActivityHeatmapProps,
@@ -42,7 +42,6 @@ async function getPageState(): Promise<TimingsPageState> {
         .reduce((acc, x) => acc + x.count, 0);
 
     return {
-        isLoaded: true,
         isError: false,
         listData: {
             start: listStart,
@@ -64,7 +63,7 @@ async function getPageState(): Promise<TimingsPageState> {
 export class TimingsPage extends React.Component<{}, TimingsPageState> {
     constructor(props: {}) {
         super(props);
-        this.state = { isLoaded: false, isError: false };
+        this.state = { isError: false };
     }
 
     public componentDidMount() {
@@ -72,8 +71,9 @@ export class TimingsPage extends React.Component<{}, TimingsPageState> {
     }
 
     private onDayClick(value: { date: Date, count: number}) {
+        this.setState({ listData: undefined });
         API.queryTimeEntries(value.date, value.date).then((data) => {
-            this.setState({ isLoaded: true, listData: { data, start: value.date, end: value.date } });
+            this.setState({ listData: { data, start: value.date, end: value.date } });
         });
     }
 
@@ -82,19 +82,25 @@ export class TimingsPage extends React.Component<{}, TimingsPageState> {
             isOpened: true,
             data: entry,
             onClose: () => this.setState({ modalData: undefined }),
-            onSubmit: async (e) => {
+            onSubmit: async (e, finish) => {
                 await API.updateTimeEntry(e);
 
                 const state = await getPageState();
+
+                finish();
+
                 this.setState({
                     ...state,
                     modalData: undefined,
                 });
             },
-            onDelete: async (id) => {
+            onDelete: async (id, finish) => {
                 await API.deleteTimeEntry(id);
 
                 const state = await getPageState();
+
+                finish();
+
                 this.setState({
                     ...state,
                     modalData: undefined,
@@ -110,14 +116,9 @@ export class TimingsPage extends React.Component<{}, TimingsPageState> {
             return <p>Something went wrong</p>;
         }
 
-        if (!this.state.isLoaded) {
-            return <p>Stand by...</p>;
-        }
-
         const today = new Date();
         const heatmapProps = this.state.yearData || { data: [], startDate: addDays(today, -365), endDate: today };
         const gaugeProps = this.state.gaugeData || { actualValue: 0, expectedValue: 160 };
-        const listProps = this.state.listData || { data: [], start: new Date(), end: new Date() };
 
         return (
             <>
@@ -132,7 +133,11 @@ export class TimingsPage extends React.Component<{}, TimingsPageState> {
 
                     <div className="activity-overview">
                         <h1>Activity Overview</h1>
-                        <ActivityList { ...listProps } onActivityClick={this.onActivityClick.bind(this)}/>
+                        {
+                            this.state.listData === undefined
+                                ? <Preloader active />
+                                : <ActivityList { ...this.state.listData } onActivityClick={this.onActivityClick.bind(this)}/>
+                        }
                     </div>
                 </div>
             </>
