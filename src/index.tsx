@@ -119,13 +119,38 @@ class App extends React.Component<{}, AppState> {
             isOpened: true,
             data: entry,
             onClose: () => this.setState({ modalData: undefined }),
-            onSubmit: (e) => {
-                console.log('UPDATE', e);
+            onSubmit: async (e) => {
+                const response = await fetch('/api/time/', {
+                    method: 'PUT',
+                    body: JSON.stringify(e),
+                    headers: { 'Content-Type': 'application/json' },
+                });
+
+                if (response.status !== 204) {
+                    if (response.bodyUsed) {
+                        console.error(await response.json());
+                    } else {
+                        console.error('Unable to update time entry. Response status code does not indicate success.');
+                    }
+                }
+
                 this.setState({ modalData: undefined });
+                this.onOverview();
             },
-            onDelete: (e) => {
-                console.log('DELETE', e);
+            onDelete: async (id) => {
+
+                const response = await fetch(`/api/time/${id}`, { method: 'DELETE' });
+
+                if (response.status !== 204) {
+                    if (response.bodyUsed) {
+                        console.error(await response.json());
+                    } else {
+                        console.error('Unable to update time entry. Response status code does not indicate success.');
+                    }
+                }
+
                 this.setState({ modalData: undefined });
+                this.onOverview();
             },
         };
 
