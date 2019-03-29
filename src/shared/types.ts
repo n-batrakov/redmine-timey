@@ -37,3 +37,21 @@ export const TimesheetEntrySchema = {
         spentOn: dateTimeSchema,
     },
 };
+
+
+
+export type Issue = {
+    id: string,
+    subject: string,
+    description: string,
+    createdOn: Date,
+    updatedOn: Date,
+
+    project: NamedId,
+    status: NamedId,
+    priority: NamedId,
+    author: NamedId,
+    assignedTo?: NamedId,
+
+    parent?: NamedId,
+};
