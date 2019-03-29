@@ -11,6 +11,9 @@ import ReactTooltip from 'react-tooltip';
 import './index.css';
 import { TimesheetEntry } from './shared/types';
 import Modal from 'react-modal';
+import * as API from './client';
+
+const listPageSize = 5;
 
 type AppState = {
     isLoaded: boolean,
@@ -22,96 +25,85 @@ type AppState = {
     gaugeData?: HoursGaugeProps,
 };
 
-const getMonthNorm = async () => {
-    const response = await fetch('/api/time/norm');
-    if (response.status === 200) {
-        const data = await response.json();
-        return data.norm;
-    }
-    return 0;
-};
+async function getAppState() {
+    const now = new Date();
+
+    const heatmapEnd = now;
+    const heatmapStart = addDays(heatmapEnd, -365);
+    const calendar$ = API.fetchHours(heatmapStart, heatmapEnd);
+
+    const [thisMonthStart, nextMonthStart] = getMonthBoundaries(now);
+    const norm$ = API.getMonthNorm();
+
+    const listEnd = now;
+    const listStart = addDays(listEnd, -listPageSize);
+    const list$ = API.queryTimeEntries(listStart, listEnd);
+
+    const [calendar, norm, list] = await Promise.all([calendar$, norm$, list$]);
+
+    const actualNorm = calendar
+        .filter(({date}) => date >= thisMonthStart && date < nextMonthStart)
+        .reduce((acc, x) => acc + x.count, 0);
+
+    return {
+        isLoaded: true,
+        isError: false,
+        listData: {
+            start: listStart,
+            end: listEnd,
+            data: list,
+        },
+        yearData: {
+            startDate: heatmapStart,
+            endDate: heatmapEnd,
+            data: calendar,
+        },
+        gaugeData: {
+            actualValue: actualNorm,
+            expectedValue: norm,
+        },
+    };
+}
+
 
 class App extends React.Component<{}, AppState> {
+    private initState: AppState = {
+        isLoaded: false,
+        isError: false,
+        isLoggedOut: false,
+        listData: undefined,
+        yearData: undefined,
+        gaugeData: undefined,
+    }
+
     constructor(props: {}) {
         super(props);
         this.state = { isLoaded: false, isError: false, isLoggedOut: false };
     }
 
     public componentDidMount() {
-        this.onOverview();
-
-        const heatmapEnd = new Date();
-        const heatmapStart = addDays(heatmapEnd, -365);
-        const [thisMonthStart, nextMonthStart] = getMonthBoundaries(heatmapEnd);
-
-        fetch(`/api/time/hours?start=${heatmapStart.toISOString()}&end=${heatmapEnd.toISOString()}`).then(async (x) => {
-            if (x.status === 200) {
-                let data = await x.json();
-
-                let actualValue = 0;
-                data = data.map((x: any) => {
-                    const date = new Date(Date.parse(x.date));
-                    const count = x.count;
-
-                    if (date >= thisMonthStart && date < nextMonthStart) {
-                        actualValue += count;
-                    }
-
-                    return { date, count };
-                });
-
-                const expectedValue = await getMonthNorm();
-
-                this.setState({
-                    yearData: { data, startDate: heatmapStart, endDate: heatmapEnd },
-                    gaugeData: { actualValue, expectedValue },
-                    isLoaded: true,
-                    isLoggedOut: false,
-                });
-            }
-        });
-    }
-
-    private setActivityListState(start: Date, end: Date) {
-        fetch(`/api/time?start=${start.toISOString()}&end=${end.toISOString()}`).then(async (x) => {
-            if (x.status === 200) {
-                const response = await x.json();
-
-                const data = response.data.map((item: any) => {
-                    const { spentOn, ...rest } = item;
-                    return {
-                        ...rest,
-                        spentOn: new Date(Date.parse(spentOn)),
-                    };
-                });
-
-                this.setState({ isLoaded: true, listData: { start, end, data } });
-            }
-        });
+        getAppState().then(x => this.setState(x));
     }
 
     private onLoginToggle() {
         if (this.state.isLoggedOut) {
-            this.componentDidMount();
-        }
-
-        fetch('/api/logout', { method: 'POST' }).then((x) => {
-            if (x.status === 401) {
+            // login
+            getAppState().then(x => this.setState(x));
+        } else {
+            // logout
+            API.logout().then(() => {
                 this.setState({
-                    isLoaded: true,
-                    isError: false,
+                    ...this.initState,
                     isLoggedOut: true,
-                    listData: undefined,
-                    yearData: undefined,
-                    gaugeData: undefined });
-            } else {
-                alert('Something went wrong');
-            }
-        });
+                });
+            });
+        }
     }
 
     private onDayClick(value: { date: Date, count: number}) {
-        this.setActivityListState(value.date, value.date);
+        API.queryTimeEntries(value.date, value.date).then((data) => {
+            this.setState({ isLoaded: true, listData: { data, start: value.date, end: value.date } });
+        });
     }
 
     private onActivityClick(entry: TimesheetEntry) {
@@ -120,35 +112,12 @@ class App extends React.Component<{}, AppState> {
             data: entry,
             onClose: () => this.setState({ modalData: undefined }),
             onSubmit: async (e) => {
-                const response = await fetch('/api/time/', {
-                    method: 'PUT',
-                    body: JSON.stringify(e),
-                    headers: { 'Content-Type': 'application/json' },
-                });
-
-                if (response.status !== 204) {
-                    if (response.bodyUsed) {
-                        console.error(await response.json());
-                    } else {
-                        console.error('Unable to update time entry. Response status code does not indicate success.');
-                    }
-                }
-
+                await API.updateTimeEntry(e);
                 this.setState({ modalData: undefined });
                 this.onOverview();
             },
             onDelete: async (id) => {
-
-                const response = await fetch(`/api/time/${id}`, { method: 'DELETE' });
-
-                if (response.status !== 204) {
-                    if (response.bodyUsed) {
-                        console.error(await response.json());
-                    } else {
-                        console.error('Unable to update time entry. Response status code does not indicate success.');
-                    }
-                }
-
+                await API.deleteTimeEntry(id);
                 this.setState({ modalData: undefined });
                 this.onOverview();
             },
@@ -158,18 +127,22 @@ class App extends React.Component<{}, AppState> {
     }
 
     private onOverview() {
-        const listEnd = new Date();
-        const listStart = addDays(listEnd, -5);
-        this.setActivityListState(listStart, listEnd);
+        const end = new Date();
+        const start = addDays(end, -listPageSize);
+        API.queryTimeEntries(start, end).then((data) => {
+            this.setState({ isLoaded: true, listData: { data, start, end } });
+        });
     }
 
     public render() {
-        if (this.state.isError) {
-            return <p>Something went wrong</p>;
-        }
+        if (!this.state.isLoggedOut) {
+            if (this.state.isError) {
+                return <p>Something went wrong</p>;
+            }
 
-        if (!this.state.isLoaded) {
-            return <p>Stand by...</p>;
+            if (!this.state.isLoaded) {
+                return <p>Stand by...</p>;
+            }
         }
 
         const today = new Date();
