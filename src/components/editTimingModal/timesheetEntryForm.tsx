@@ -84,7 +84,7 @@ export class TimesheetEntryForm extends React.Component<TimesheetEntryFormProps,
                 <FormFooter>
                     <Button value="Save" type="submit"/>
                     <Button value="Cancel" onClick={this.props.onClose}/>
-                    <Button value="Delete" type="danger" style={{ float: 'left' }} onClick={this.onDelete}/>
+                    <Button value="Delete" type="danger" style={{ marginRight: 'auto' }} onClick={this.onDelete}/>
                 </FormFooter>
             </Form>
         );
