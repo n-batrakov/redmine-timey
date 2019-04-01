@@ -32,27 +32,8 @@
 .list-issue a:hover {
     text-decoration: underline;
 }
-.list-issue ul {
-    list-style-type: none;
-    padding-left: 8px;
-}
-.list-issue ul li {
-    display: flex;
-    margin: 8px;
-    padding: 10px;
-    border-radius: 4px;
-    font-size: .85em;
-    --background: #eeeeee;
-    box-shadow: 2px 2px 5px rgb(150, 150, 150, .3);
-    border: 1px solid #eee;
-}
-.list-issue ul li:hover {
-    box-shadow: 3px 3px 10px rgb(150, 150, 150, .5);
-    cursor: pointer;
-}
 
-
-.list-comment span {
+.list-issue-hours {
     margin-left: auto;
     margin-right: 8px;
     font-weight: bold;

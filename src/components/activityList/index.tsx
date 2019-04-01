@@ -3,7 +3,8 @@ import * as React from 'react';
 import { IssueHeader } from '../issueHeader';
 
 import { getRange, toISODate } from '../../shared/date';
-import { TimesheetEntry, NamedId } from '../../shared/types';
+import { TimesheetEntry } from '../../shared/types';
+import { List, ListItem } from '../list';
 import './activityList.css';
 
 export type ActivityListProps = {
@@ -51,10 +52,14 @@ function mapData({ data }: ActivityListProps) {
 }
 
 const ActivityTiming = (x: { entry: TimesheetEntry, onClick?: (x: TimesheetEntry) => void }) => (
-    <li className="list-comment" onClick={() => x.onClick === undefined ? undefined : x.onClick(x.entry)}>
+    <ListItem
+        style={{ display: 'flex' }}
+        onClick={() => x.onClick === undefined ? undefined : x.onClick(x.entry)}
+        clickable
+    >
         {x.entry.comments}
-        <span>{x.entry.hours} h.</span>
-    </li>
+        <span className="list-issue-hours">{x.entry.hours} h.</span>
+    </ListItem>
 );
 
 const ActivityDay = ({ date, hours, children }: {date: Date, hours: number, children?: React.ReactNode}) => (
@@ -94,7 +99,7 @@ export class ActivityList extends React.Component<ActivityListProps> {
                 return (
                     <div key={issueId} className="list-issue">
                         <IssueHeader project={project} issue={issue} style={{ paddingLeft: 20 }}/>
-                        <ul>{timings}</ul>
+                        <List>{timings}</List>
                     </div>
                 );
             });
