@@ -1,4 +1,7 @@
 import * as React from 'react';
+
+import { IssueHeader } from '../issueHeader';
+
 import { getRange, toISODate } from '../../shared/date';
 import { TimesheetEntry, NamedId } from '../../shared/types';
 import './activityList.css';
@@ -54,27 +57,6 @@ const ActivityTiming = (x: { entry: TimesheetEntry, onClick?: (x: TimesheetEntry
     </li>
 );
 
-type IssueHeaderProps = {
-    project: NamedId,
-    issue?: NamedId,
-};
-const getLink = ({ name, href }: NamedId) => {
-    return href === undefined
-        ? name
-        : <a href={href}>{name}</a>;
-};
-const IssueHeader = (x: IssueHeaderProps) => {
-    const project = getLink(x.project);
-
-    if (x.issue === undefined) {
-        return <h3>{project}</h3>;
-    }
-
-    const issue = getLink(x.issue);
-
-    return <h3>{project} / {issue}</h3>;
-};
-
 const ActivityDay = ({ date, hours, children }: {date: Date, hours: number, children?: React.ReactNode}) => (
     <div className="list-day">
         <h2><span>{formatDate(date)} - {hours} hours</span></h2>
@@ -111,7 +93,7 @@ export class ActivityList extends React.Component<ActivityListProps> {
 
                 return (
                     <div key={issueId} className="list-issue">
-                        <IssueHeader project={project} issue={issue}/>
+                        <IssueHeader project={project} issue={issue} style={{ paddingLeft: 20 }}/>
                         <ul>{timings}</ul>
                     </div>
                 );
