@@ -1,0 +1,45 @@
+.issue-list {
+
+}
+
+.issue-list > ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.issue-list-item {
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px rgb(150, 150, 150, .3);
+}
+.issue-list-item.clickable {
+    cursor: pointer;
+}
+.issue-list-item.clickable:hover {
+    box-shadow: 3px 3px 10px rgb(150, 150, 150, .5);
+}
+
+.issue-list-item-project {
+    font-size: 10pt;
+    font-weight: bold;
+    color: #888;
+}
+
+.issue-list-item-more-btn {
+    height: 0;
+    padding: 10px;
+    line-height: 1px;
+    background-color: #fff;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.issue-list-item-details {
+    margin-top: 12px;
+}
+.issue-list-item-details.hidden {
+    display: none;
+}

@@ -5,45 +5,92 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import './editTimingModal.css';
 
 import { TimesheetEntryForm, TimesheetEntryFormProps } from './timesheetEntryForm';
+import { IssueSelectionForm } from './issueSelectionForm';
+import { NamedId, TimesheetEntry, Issue } from '../../shared/types';
 
-export type EditTimingModalProps = TimesheetEntryFormProps & {
-    isOpened: boolean,
+const onModalClose = () => false;
+
+
+export type EditTimingModalProps = {
+    opened?: boolean,
+    data: TimesheetEntry,
+    onUpdate?: (entry: TimesheetEntry, finish: () => void) => void,
+    onDelete?: (entryId: string, finish: () => void) => void,
+    onClose?: () => void,
+};
+export const EditTimingModal = (props: EditTimingModalProps) => {
+    return (
+        <Modal
+            isOpen={props.opened || false}
+            onRequestClose={onModalClose}
+            className="edit-timing-modal"
+        >
+            <Tabs defaultIndex={1}>
+                <TabList>
+                    <Tab disabled>Issue</Tab>
+                    <Tab>Timing</Tab>
+                </TabList>
+                <TabPanel></TabPanel>
+                <TabPanel>
+                    <TimesheetEntryForm
+                        data={props.data}
+                        onClose={props.onClose}
+                        onSubmit={props.onUpdate}
+                        onDelete={props.onDelete}
+                        showDelete
+                    />
+                </TabPanel>
+            </Tabs>
+        </Modal>
+    );
 };
 
-export class EditTimingModal extends React.Component<EditTimingModalProps, { isLoading: boolean }> {
-    constructor(props: EditTimingModalProps) {
-        super(props);
+export type CreateTimingModalProps = {
+    opened?: boolean,
+    onCreate?: (entry: TimesheetEntry, finish: () => void) => void,
+    onClose?: () => void,
+};
+export const CreateTimingModal = (props: CreateTimingModalProps) => {
+    const [selectedIssue, setSelectedIssue] = React.useState((undefined as Issue | undefined));
 
-        this.onClose = this.onClose.bind(this);
+    const getEntry = (issue: Issue) => ({
+        id: '',
+        comments: '',
+        hours: 0,
+        spentOn: new Date(),
+        activity: { id: '' },
+        project: issue.project,
+        issue: { id: issue.id, name: issue.subject },
+        user: { id: '' },
+    }) as TimesheetEntry;
 
-        this.state = { isLoading: false };
-    }
+    const isIssueSelected = selectedIssue !== undefined;
 
-    private onClose() {
-        return false;
-    }
-
-    public render() {
-        return (
-            <Modal
-                isOpen={this.props.isOpened}
-                onRequestClose={this.onClose}
-                contentLabel="Edit timing"
-                className="edit-timing-modal"
-            >
-                <Tabs defaultIndex={1}>
-                    <TabList>
-                        <Tab>Issue</Tab>
-                        <Tab>Timing</Tab>
-                    </TabList>
-                    <TabPanel>
-                        <h2>Select an Issue</h2>
-                    </TabPanel>
-                    <TabPanel>
-                        <TimesheetEntryForm {...this.props} />
-                    </TabPanel>
-                </Tabs>
-            </Modal>
-        );
-    }
-}
+    return (
+        <Modal
+            isOpen={props.opened || false}
+            onRequestClose={onModalClose}
+            className="edit-timing-modal"
+        >
+            <Tabs defaultIndex={isIssueSelected ? 0 : 1}>
+                <TabList>
+                    <Tab>Issue</Tab>
+                    <Tab disabled={!isIssueSelected}>Timing</Tab>
+                </TabList>
+                <TabPanel>
+                    <IssueSelectionForm
+                        onClose={props.onClose}
+                        onIssueSelected={x => setSelectedIssue(x)}
+                    />
+                </TabPanel>
+                <TabPanel>
+                    <TimesheetEntryForm
+                        data={getEntry(selectedIssue as any)}
+                        onClose={props.onClose}
+                        onSubmit={props.onCreate}
+                    />
+                </TabPanel>
+            </Tabs>
+        </Modal>
+    );
+};

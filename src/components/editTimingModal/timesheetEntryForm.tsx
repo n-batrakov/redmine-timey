@@ -18,6 +18,7 @@ export type TimesheetEntryFormProps = {
     onClose?: () => void,
     onSubmit?: (form: TimesheetEntry, disableLoadingState: () => void) => void,
     onDelete?: (id: string, disableLoadingState: () => void) => void,
+    showDelete?: boolean,
     data: TimesheetEntry,
 };
 
@@ -84,7 +85,11 @@ export class TimesheetEntryForm extends React.Component<TimesheetEntryFormProps,
                 <FormFooter>
                     <Button value="Save" type="submit"/>
                     <Button value="Cancel" onClick={this.props.onClose}/>
-                    <Button value="Delete" type="danger" style={{ marginRight: 'auto' }} onClick={this.onDelete}/>
+                    {
+                        this.props.showDelete
+                            ? <Button value="Delete" type="danger" style={{ marginRight: 'auto' }} onClick={this.onDelete}/>
+                            : undefined
+                    }
                 </FormFooter>
             </Form>
         );

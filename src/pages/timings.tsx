@@ -79,10 +79,10 @@ export class TimingsPage extends React.Component<{}, TimingsPageState> {
 
     private onActivityClick(entry: TimesheetEntry) {
         const modalData: EditTimingModalProps = {
-            isOpened: true,
+            opened: true,
             data: entry,
             onClose: () => this.setState({ modalData: undefined }),
-            onSubmit: async (e, finish) => {
+            onUpdate: async (e, finish) => {
                 await API.updateTimeEntry(e);
 
                 const state = await getPageState();
