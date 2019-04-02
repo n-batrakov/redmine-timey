@@ -10,6 +10,12 @@ import { NamedId, TimesheetEntry, Issue } from '../../shared/types';
 
 const onModalClose = () => false;
 
+const ModalHeader = ({ title }: { title: string }) => (
+    <h2 style={{
+        margin: '15px 32px 0',
+    }}>{title}</h2>
+);
+
 
 export type EditTimingModalProps = {
     opened?: boolean,
@@ -25,6 +31,7 @@ export const EditTimingModal = (props: EditTimingModalProps) => {
             onRequestClose={onModalClose}
             className="edit-timing-modal"
         >
+            <ModalHeader title="Edit Timing" />
             <Tabs defaultIndex={1}>
                 <TabList>
                     <Tab disabled>Issue</Tab>
@@ -51,7 +58,17 @@ export type CreateTimingModalProps = {
     onClose?: () => void,
 };
 export const CreateTimingModal = (props: CreateTimingModalProps) => {
-    const [selectedIssue, setSelectedIssue] = React.useState((undefined as Issue | undefined));
+    const [{ tabIndex, selectedIssue }, setState] = React.useState({
+        tabIndex: 0,
+        selectedIssue: (undefined as Issue | undefined),
+    });
+
+    const onClose = () => {
+        setState({ tabIndex: 0, selectedIssue: undefined });
+        if (props.onClose !== undefined) {
+            props.onClose();
+        }
+    };
 
     const getEntry = (issue: Issue) => ({
         id: '',
@@ -64,29 +81,28 @@ export const CreateTimingModal = (props: CreateTimingModalProps) => {
         user: { id: '' },
     }) as TimesheetEntry;
 
-    const isIssueSelected = selectedIssue !== undefined;
-
     return (
         <Modal
             isOpen={props.opened || false}
             onRequestClose={onModalClose}
             className="edit-timing-modal"
         >
-            <Tabs defaultIndex={isIssueSelected ? 0 : 1}>
+            <ModalHeader title="Add Timing" />
+            <Tabs selectedIndex={tabIndex} onSelect={idx => setState({ selectedIssue, tabIndex: idx })}>
                 <TabList>
                     <Tab>Issue</Tab>
-                    <Tab disabled={!isIssueSelected}>Timing</Tab>
+                    <Tab disabled={selectedIssue === undefined}>Timing</Tab>
                 </TabList>
                 <TabPanel>
                     <IssueSelectionForm
-                        onClose={props.onClose}
-                        onIssueSelected={x => setSelectedIssue(x)}
+                        onClose={onClose}
+                        onIssueSelected={selectedIssue => setState({ selectedIssue, tabIndex: 1 })}
                     />
                 </TabPanel>
                 <TabPanel>
                     <TimesheetEntryForm
-                        data={getEntry(selectedIssue as any)}
-                        onClose={props.onClose}
+                        data={selectedIssue === undefined ? undefined : getEntry(selectedIssue)}
+                        onClose={onClose}
                         onSubmit={props.onCreate}
                     />
                 </TabPanel>

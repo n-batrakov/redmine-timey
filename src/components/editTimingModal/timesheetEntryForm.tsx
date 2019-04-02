@@ -19,8 +19,21 @@ export type TimesheetEntryFormProps = {
     onSubmit?: (form: TimesheetEntry, disableLoadingState: () => void) => void,
     onDelete?: (id: string, disableLoadingState: () => void) => void,
     showDelete?: boolean,
-    data: TimesheetEntry,
+    data?: TimesheetEntry,
+    title?: string,
 };
+
+const nullNamedId = { id: '0', name: '' };
+const defaultFormDate: TimesheetEntry = {
+    id: '0',
+    spentOn: new Date(),
+    comments: '',
+    hours: 0,
+    activity: nullNamedId,
+    issue: nullNamedId,
+    project: nullNamedId,
+    user: nullNamedId,
+}
 
 export class TimesheetEntryForm extends React.Component<TimesheetEntryFormProps, { isLoading: boolean }> {
     constructor(props: TimesheetEntryFormProps) {
@@ -42,6 +55,11 @@ export class TimesheetEntryForm extends React.Component<TimesheetEntryFormProps,
             return;
         }
 
+        if (this.props.data === undefined) {
+            alert('Unable to save data. Form is not valid.');
+            return;
+        }
+
         const entry: TimesheetEntry = {
             ...this.props.data,
             spentOn: typeof e.spentOn === 'string' ? new Date(Date.parse(e.spentOn)) : e.spentOn,
@@ -60,18 +78,23 @@ export class TimesheetEntryForm extends React.Component<TimesheetEntryFormProps,
             return;
         }
 
+        if (this.props.data === undefined) {
+            alert('Unable to delete data. Form is not valid.');
+            return;
+        }
+
         this.setState({ isLoading: true });
 
         this.props.onDelete(this.props.data.id, this.onFinishLoading);
     }
 
     public render() {
-        const { spentOn, comments, hours, activity } = this.props.data;
-        const issue = this.props.data.issue || { id: '0', name: '---' };
+        const { spentOn, comments, hours, activity, issue: originalIssue } = this.props.data || defaultFormDate;
+        const issue = originalIssue || nullNamedId;
 
         return (
             <Form onSubmit={this.onSubmit} loading={this.state.isLoading}>
-                <FormHeader>Edit Timing</FormHeader>
+                {this.props.title === undefined ? undefined : <FormHeader>{this.props.title}</FormHeader>}
 
                 <DateInput label="Date" name="spentOn" value={spentOn}  />
                 <Select label="Issue" name="issue" value={issue.id} disabled>
