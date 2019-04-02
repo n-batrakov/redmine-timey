@@ -12,7 +12,7 @@ export const IssueSelectionForm = (props: IssueSelectionFormProps) => (
         <IssueList
             data={new Array(50).fill(0).map<Issue>((_, i) => ({
                 id: i.toString(),
-                subject: 'Issue',
+                subject: `Issue #${i}`,
                 author: { id: '0', name: 'admin' },
                 assignedTo: { id: '1', name: 'n.batrakov' },
                 createdOn: new Date(Date.UTC(2019, 2, 1)),

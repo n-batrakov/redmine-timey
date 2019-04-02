@@ -8,17 +8,18 @@ import * as API from '../client';
 import { ActivityHeatmap, ActivityHeatmapProps } from '../components/activityHeatmap';
 import { ActivityList, ActivityListProps } from '../components/activityList';
 import { HoursGauge, HoursGaugeProps } from '../components/hoursGauge';
-import { EditTimingModal, EditTimingModalProps } from '../components/editTimingModal';
+import { EditTimingModal, EditTimingModalProps, CreateTimingModal, CreateTimingModalProps } from '../components/editTimingModal';
 import { Preloader } from '../components/preloader';
 
 const listPageSize = 5;
 
 type TimingsPageState = {
     isError: boolean,
-    modalData?: EditTimingModalProps,
-    yearData?: ActivityHeatmapProps,
-    listData?: ActivityListProps,
-    gaugeData?: HoursGaugeProps,
+    editModal?: EditTimingModalProps,
+    createModal?: CreateTimingModalProps,
+    heatmap?: ActivityHeatmapProps,
+    activityList?: ActivityListProps,
+    gauge?: HoursGaugeProps,
 };
 
 async function getPageState(): Promise<TimingsPageState> {
@@ -43,17 +44,17 @@ async function getPageState(): Promise<TimingsPageState> {
 
     return {
         isError: false,
-        listData: {
+        activityList: {
             start: listStart,
             end: listEnd,
             data: list,
         },
-        yearData: {
+        heatmap: {
             startDate: heatmapStart,
             endDate: heatmapEnd,
             data: calendar,
         },
-        gaugeData: {
+        gauge: {
             actualValue: actualNorm,
             expectedValue: norm,
         },
@@ -71,9 +72,9 @@ export class TimingsPage extends React.Component<{}, TimingsPageState> {
     }
 
     private onDayClick(value: { date: Date, count: number}) {
-        this.setState({ listData: undefined });
+        this.setState({ activityList: undefined });
         API.queryTimeEntries(value.date, value.date).then((data) => {
-            this.setState({ listData: { data, start: value.date, end: value.date } });
+            this.setState({ activityList: { data, start: value.date, end: value.date } });
         });
     }
 
@@ -81,7 +82,7 @@ export class TimingsPage extends React.Component<{}, TimingsPageState> {
         const modalData: EditTimingModalProps = {
             opened: true,
             data: entry,
-            onClose: () => this.setState({ modalData: undefined }),
+            onClose: () => this.setState({ editModal: undefined }),
             onUpdate: async (e, finish) => {
                 await API.updateTimeEntry(e);
 
@@ -91,7 +92,7 @@ export class TimingsPage extends React.Component<{}, TimingsPageState> {
 
                 this.setState({
                     ...state,
-                    modalData: undefined,
+                    editModal: undefined,
                 });
             },
             onDelete: async (id, finish) => {
@@ -103,12 +104,26 @@ export class TimingsPage extends React.Component<{}, TimingsPageState> {
 
                 this.setState({
                     ...state,
-                    modalData: undefined,
+                    editModal: undefined,
                 });
             },
         };
 
-        this.setState({ modalData });
+        this.setState({ editModal: modalData });
+    }
+
+    private onActivityAddClick(date: Date) {
+        this.setState({createModal: {
+            opened: true,
+            onCreate: async (entry: TimesheetEntry, finish: () => any) => {
+                setInterval(() => {}, 2e3);
+                console.log('CREATE', entry);
+                finish();
+            },
+            onClose: () => {
+                this.setState({ createModal: undefined });
+            },
+        }});
     }
 
     public render() {
@@ -117,13 +132,14 @@ export class TimingsPage extends React.Component<{}, TimingsPageState> {
         }
 
         const today = new Date();
-        const heatmapProps = this.state.yearData || { data: [], startDate: addDays(today, -365), endDate: today };
-        const gaugeProps = this.state.gaugeData || { actualValue: 0, expectedValue: 160 };
+        const heatmapProps = this.state.heatmap || { data: [], startDate: addDays(today, -365), endDate: today };
+        const gaugeProps = this.state.gauge || { actualValue: 0, expectedValue: 160 };
 
         return (
             <>
                 <ReactTooltip html />
-                { this.state.modalData === undefined ? undefined : <EditTimingModal { ...this.state.modalData }/> }
+                { this.state.editModal === undefined ? undefined : <EditTimingModal { ...this.state.editModal }/> }
+                { this.state.createModal === undefined ? undefined : <CreateTimingModal { ...this.state.createModal }/> }   
                 <div className="content">
                     <ActivityHeatmap { ...heatmapProps }
                                      onClick={this.onDayClick.bind(this)}
@@ -134,9 +150,13 @@ export class TimingsPage extends React.Component<{}, TimingsPageState> {
                     <div className="activity-overview">
                         <h1>Activity Overview</h1>
                         {
-                            this.state.listData === undefined
+                            this.state.activityList === undefined
                                 ? <Preloader active />
-                                : <ActivityList { ...this.state.listData } onActivityClick={this.onActivityClick.bind(this)}/>
+                                : <ActivityList
+                                    { ...this.state.activityList }
+                                    onActivityClick={this.onActivityClick.bind(this)}
+                                    onActivityAddClick={this.onActivityAddClick.bind(this)}
+                                />
                         }
                     </div>
                 </div>
