@@ -4,6 +4,7 @@ import getHoursPerDayHandler from './getHoursPerDay';
 import getMonthNorm from './getMonthNorm';
 import { addHandler, deleteHandler, updateHandler } from './addTimings';
 import getIssuesHandler from './getIssues';
+import enumerationsHandler from './enumeration';
 
 const signOutHandler: RegisterHandler = server => server.route({
     method: 'POST',
@@ -23,4 +24,5 @@ export default <RegisterHandler[]> [
     deleteHandler,
     updateHandler,
     getIssuesHandler,
+    enumerationsHandler,
 ];

@@ -24,6 +24,14 @@ export type RedminQueryResponse = RedmineSuccessResponse & {
     totalCount: number,
 };
 
+export type RedmineEnumerationResponse = RedmineSuccessResponse & {
+    data: Array<{
+        id: number,
+        name: string,
+        is_default?: boolean,
+    }>,
+};
+
 export type RedmineErrorResponse = {
     code: 'Error' | 'NotAuthenticated',
     status: number,
@@ -58,6 +66,26 @@ export class RedmineClient {
                 limit: body.limit,
                 offset: body.offset,
                 totalCount: body['total_count'],
+            }
+        } else {
+            return {
+                code: response.status === 401 ? 'NotAuthenticated' : 'Error',
+                status: response.status,
+            };
+        }
+    }
+
+    public async getEnumeration(enumeration: string, params?: RedmineRequestParams): Promise<RedmineEnumerationResponse | RedmineErrorResponse> {
+        const uri = new URL(`enumerations/${enumeration}.json`, this.host);
+
+        const response = await fetch(uri.toString(), { headers: this.getHeaders(params) });
+
+        if (response.status === 200) {
+            const body = await response.json();
+
+            return {
+                code: 'Success',
+                data: body[enumeration],
             }
         } else {
             return {
