@@ -55,3 +55,15 @@ export type Issue = {
 
     parent?: NamedId,
 };
+
+export type Enumeration = {
+    defaultValue: string,
+    values: {
+        [id: string]: string,
+    },
+};
+export type EnumerationsLookup = {
+    priority: Enumeration,
+    status: Enumeration,
+    activity: Enumeration,
+};

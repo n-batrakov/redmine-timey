@@ -4,9 +4,9 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 import './editTimingModal.css';
 
-import { TimesheetEntryForm, TimesheetEntryFormProps } from './timesheetEntryForm';
+import { TimesheetEntryForm } from './timesheetEntryForm';
 import { IssueSelectionForm } from './issueSelectionForm';
-import { NamedId, TimesheetEntry, Issue } from '../../shared/types';
+import { NamedId, TimesheetEntry, EnumerationsLookup } from '../../shared/types';
 
 const onModalClose = () => false;
 
@@ -20,6 +20,7 @@ const ModalHeader = ({ title }: { title: string }) => (
 export type EditTimingModalProps = {
     opened?: boolean,
     data: TimesheetEntry,
+    enumerations: EnumerationsLookup,
     onUpdate?: (entry: TimesheetEntry, finish: () => void) => void,
     onDelete?: (entryId: string, finish: () => void) => void,
     onClose?: () => void,
@@ -41,6 +42,7 @@ export const EditTimingModal = (props: EditTimingModalProps) => {
                 <TabPanel>
                     <TimesheetEntryForm
                         data={props.data}
+                        activities={props.enumerations.activity}
                         onClose={props.onClose}
                         onSubmit={props.onUpdate}
                         onDelete={props.onDelete}
@@ -54,6 +56,7 @@ export const EditTimingModal = (props: EditTimingModalProps) => {
 
 
 export type CreateTimingModalProps = {
+    enumerations: EnumerationsLookup,
     opened?: boolean,
     onCreate?: (entry: TimesheetEntry, finish: () => void) => void,
     onClose?: () => void,
@@ -124,6 +127,7 @@ export const CreateTimingModal = (props: CreateTimingModalProps) => {
                 <TabPanel>
                     <TimesheetEntryForm
                         data={!isIssueSelected ? undefined : getEntry(selectedIssue as SelectedIssue)}
+                        activities={props.enumerations.activity}
                         onClose={onClose}
                         onSubmit={props.onCreate}
                     />

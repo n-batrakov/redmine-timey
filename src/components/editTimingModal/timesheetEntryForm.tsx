@@ -1,6 +1,7 @@
 import * as React from 'react';
 
-import { TimesheetEntry } from '../../shared/types';
+import { TimesheetEntry, Enumeration} from '../../shared/types';
+import { toArray } from '../../shared';
 
 import {
     Form,
@@ -15,6 +16,7 @@ import {
 } from '../form';
 
 export type TimesheetEntryFormProps = {
+    activities: Enumeration,
     onClose?: () => void,
     onSubmit?: (form: TimesheetEntry, disableLoadingState: () => void) => void,
     onDelete?: (id: string, disableLoadingState: () => void) => void,
@@ -103,7 +105,7 @@ export class TimesheetEntryForm extends React.Component<TimesheetEntryFormProps,
                 <NumberInput label="Hours" name="hours" value={hours} step={0.25} min={0} max={24} />
                 <TextArea label="Comments" name="comments" value={comments} placeholder="" style={{ height: 100 }}/>
                 <Select label="Activity" name="activity" value={activity.id}>
-                    <SelectOption value={activity.id}>{activity.name}</SelectOption>
+                    {toArray(this.props.activities).map(x => (<SelectOption key={x.id} value={x.id}>{x.name}</SelectOption>))}
                 </Select>
                 <FormFooter>
                     <Button value="Save" type="submit"/>

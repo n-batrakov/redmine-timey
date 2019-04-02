@@ -78,11 +78,12 @@ export class TimingsPage extends React.Component<{}, TimingsPageState> {
         });
     }
 
-    private onActivityClick(entry: TimesheetEntry) {
+    private async onActivityClick(entry: TimesheetEntry) {
         const modalData: EditTimingModalProps = {
             opened: true,
             data: entry,
             onClose: () => this.setState({ editModal: undefined }),
+            enumerations: await API.getEnumerations(),
             onUpdate: async (e, finish) => {
                 await API.updateTimeEntry(e);
 
@@ -112,9 +113,10 @@ export class TimingsPage extends React.Component<{}, TimingsPageState> {
         this.setState({ editModal: modalData });
     }
 
-    private onActivityAddClick(date: Date) {
-        this.setState({createModal: {
+    private async onActivityAddClick(date: Date) {
+        const createModal: CreateTimingModalProps = {
             opened: true,
+            enumerations: await API.getEnumerations(),
             defaultValue: {
                 spentOn: date,
             },
@@ -126,7 +128,9 @@ export class TimingsPage extends React.Component<{}, TimingsPageState> {
             onClose: () => {
                 this.setState({ createModal: undefined });
             },
-        }});
+        };
+
+        this.setState({ createModal });
     }
 
     public render() {

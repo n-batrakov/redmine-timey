@@ -1,4 +1,4 @@
-import { TimesheetEntry } from './shared/types';
+import { TimesheetEntry, EnumerationsLookup } from './shared/types';
 
 const isSuccessStatusCode = (response: Response) => response.status >= 200 && response.status < 300;
 const ensureSuccessStatusCode = (response: Response, message?: string) => {
@@ -74,4 +74,16 @@ export async function getMonthNorm() {
 
     const data = await response.json();
     return <number>data.norm;
-};
+}
+
+let enumerationsCache: EnumerationsLookup | undefined = undefined;
+export async function getEnumerations(): Promise<EnumerationsLookup> {
+    if (enumerationsCache === undefined) {
+        const response = await fetch('/api/enumerations');
+        ensureSuccessStatusCode(response);
+
+        enumerationsCache = (await response.json()) as EnumerationsLookup;
+    }
+
+    return enumerationsCache;
+}

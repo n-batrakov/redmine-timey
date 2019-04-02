@@ -1,14 +1,10 @@
 import { RegisterHandler, getCredentials, authenticate } from './shared';
+import { Enumeration, EnumerationsLookup } from '../../shared/types';
 import { RedmineEnumerationResponse } from '../redmine';
 
-let enumerationsCache: any = undefined;
+let enumerationsCache: EnumerationsLookup = undefined;
 
-type Enumeration = {
-    defaultValue: string,
-    values: {
-        [id: string]: string,
-    },
-};
+
 const mapEnum = (data: Array<{id: number, name: string, is_default?: boolean}>): Enumeration => {
     let defaultValue: string = data[0].id.toString();
     const values = data.reduce<any>(
@@ -28,7 +24,7 @@ const mapEnum = (data: Array<{id: number, name: string, is_default?: boolean}>):
 
 const handler: RegisterHandler = (server, { redmine }) => server.route({
     method: 'GET',
-    url: '/api/enumerations/',
+    url: '/api/enumerations',
     preHandler: authenticate,
     handler: async (req, resp) => {
         const auth = getCredentials(req.headers.authorization);
