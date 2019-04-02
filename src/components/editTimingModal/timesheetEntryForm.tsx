@@ -33,7 +33,7 @@ const defaultFormDate: TimesheetEntry = {
     issue: nullNamedId,
     project: nullNamedId,
     user: nullNamedId,
-}
+};
 
 export class TimesheetEntryForm extends React.Component<TimesheetEntryFormProps, { isLoading: boolean }> {
     constructor(props: TimesheetEntryFormProps) {

@@ -39,7 +39,7 @@ async function getPageState(): Promise<TimingsPageState> {
     const [calendar, norm, list] = await Promise.all([calendar$, norm$, list$]);
 
     const actualNorm = calendar
-        .filter(({date}) => date >= thisMonthStart && date < nextMonthStart)
+        .filter(({ date }) => date >= thisMonthStart && date < nextMonthStart)
         .reduce((acc, x) => acc + x.count, 0);
 
     return {
@@ -139,7 +139,7 @@ export class TimingsPage extends React.Component<{}, TimingsPageState> {
             <>
                 <ReactTooltip html />
                 { this.state.editModal === undefined ? undefined : <EditTimingModal { ...this.state.editModal }/> }
-                { this.state.createModal === undefined ? undefined : <CreateTimingModal { ...this.state.createModal }/> }   
+                { this.state.createModal === undefined ? undefined : <CreateTimingModal { ...this.state.createModal }/> }
                 <div className="content">
                     <ActivityHeatmap { ...heatmapProps }
                                      onClick={this.onDayClick.bind(this)}

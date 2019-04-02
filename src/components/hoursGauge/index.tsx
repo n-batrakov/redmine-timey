@@ -22,7 +22,7 @@ const getColor = (percent: number) => {
         }
     }
     return defaultColor;
-}
+};
 
 export class HoursGauge extends React.Component<HoursGaugeProps> {
     public render() {
