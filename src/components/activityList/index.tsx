@@ -13,6 +13,7 @@ export type ActivityListProps = {
     end: Date,
     data: Array<TimesheetEntry>,
     onActivityClick?: (x: TimesheetEntry) => void,
+    onActivityAddClick?: (date: Date) => void,
 };
 
 const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wedsday', 'Thursday', 'Friday', 'Saturday'];
@@ -71,10 +72,8 @@ const ActivityDay = ({ date, hours, children, style }: ActivityDayProps) => (
     </div>
 );
 
-const AddAcivityButton = () => (
-    <div style={{ display: 'flex' }}>
-        <Button value="Add Activity" style={{ marginLeft: 'auto' }} />
-    </div>
+const AddAcivityButton = (props: { onClick?: () => void }) => (
+    <Button value="Add Activity" style={{ marginLeft: 'auto' }} onClick={props.onClick} />
 );
 
 export class ActivityList extends React.Component<ActivityListProps> {
@@ -85,13 +84,16 @@ export class ActivityList extends React.Component<ActivityListProps> {
             let dayTotal = 0;
             const isodate = toISODate(date);
             const issuesGroups = data.get(isodate);
+            const onActivityAdd = this.props.onActivityAddClick === undefined
+                ? undefined
+                : () => (this.props.onActivityAddClick as any)(date);
 
             if (issuesGroups === undefined) {
                 return (
                     <ActivityDay key={isodate} date={date} hours={dayTotal} style={{ margin: 0 }}>
-                        <div className="list-issue" style={{ display: 'flex' }}>
+                        <div style={{ display: 'flex' }}>
                             <h3 style={{ margin: 0, padding: '8px 0' }}>No activity</h3>
-                            <div style={{ marginLeft: 'auto' }}><Button value="Add Activity"/></div>
+                            <AddAcivityButton onClick={onActivityAdd} />
                         </div>
                     </ActivityDay>
                 );
@@ -115,7 +117,7 @@ export class ActivityList extends React.Component<ActivityListProps> {
 
             return (
                 <ActivityDay key={isodate} date={new Date(Date.parse(isodate))} hours={dayTotal}>
-                    <AddAcivityButton />
+                    <div style={{ display: 'flex' }}><AddAcivityButton onClick={onActivityAdd} /></div>
                     {issues}
                 </ActivityDay>
             );
