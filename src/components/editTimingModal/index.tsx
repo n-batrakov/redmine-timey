@@ -52,33 +52,50 @@ export const EditTimingModal = (props: EditTimingModalProps) => {
     );
 };
 
+
 export type CreateTimingModalProps = {
     opened?: boolean,
     onCreate?: (entry: TimesheetEntry, finish: () => void) => void,
     onClose?: () => void,
+    defaultValue?: {
+        hours?: number,
+        spentOn?: Date,
+        project?: NamedId,
+        issue?: NamedId,
+    },
+};
+type SelectedIssue = {
+    issue?: NamedId,
+    project: NamedId,
 };
 export const CreateTimingModal = (props: CreateTimingModalProps) => {
+    const defaultValue = props.defaultValue || {};
     const [{ tabIndex, selectedIssue }, setState] = React.useState({
         tabIndex: 0,
-        selectedIssue: (undefined as Issue | undefined),
+        selectedIssue: {
+            issue: defaultValue.issue,
+            project: defaultValue.project,
+        },
     });
 
+    const isIssueSelected = selectedIssue.issue !== undefined || selectedIssue.project !== undefined;
+
     const onClose = () => {
-        setState({ tabIndex: 0, selectedIssue: undefined });
+        setState({ tabIndex: 0, selectedIssue: { issue: undefined, project: undefined } });
         if (props.onClose !== undefined) {
             props.onClose();
         }
     };
 
-    const getEntry = (issue: Issue) => ({
+    const getEntry = (x: SelectedIssue) => ({
         id: '',
         comments: '',
-        hours: 0,
-        spentOn: new Date(),
-        activity: { id: '' },
-        project: issue.project,
-        issue: { id: issue.id, name: issue.subject },
+        hours: defaultValue.hours || 0,
+        spentOn: defaultValue.spentOn || new Date(),
+        project: x.project,
+        issue: x.issue,
         user: { id: '' },
+        activity: { id: '' },
     }) as TimesheetEntry;
 
     return (
@@ -91,17 +108,22 @@ export const CreateTimingModal = (props: CreateTimingModalProps) => {
             <Tabs selectedIndex={tabIndex} onSelect={idx => setState({ selectedIssue, tabIndex: idx })}>
                 <TabList>
                     <Tab>Issue</Tab>
-                    <Tab disabled={selectedIssue === undefined}>Timing</Tab>
+                    <Tab disabled={!isIssueSelected}>Timing</Tab>
                 </TabList>
                 <TabPanel>
                     <IssueSelectionForm
                         onClose={onClose}
-                        onIssueSelected={selectedIssue => setState({ selectedIssue, tabIndex: 1 })}
+                        onIssueSelected={x => setState({
+                            selectedIssue: {
+                                issue: { id: x.id, name: x.subject },
+                                project: x.project,
+                            },
+                            tabIndex: 1 })}
                     />
                 </TabPanel>
                 <TabPanel>
                     <TimesheetEntryForm
-                        data={selectedIssue === undefined ? undefined : getEntry(selectedIssue)}
+                        data={!isIssueSelected ? undefined : getEntry(selectedIssue as SelectedIssue)}
                         onClose={onClose}
                         onSubmit={props.onCreate}
                     />

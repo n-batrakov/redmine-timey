@@ -115,6 +115,9 @@ export class TimingsPage extends React.Component<{}, TimingsPageState> {
     private onActivityAddClick(date: Date) {
         this.setState({createModal: {
             opened: true,
+            defaultValue: {
+                spentOn: date,
+            },
             onCreate: async (entry: TimesheetEntry, finish: () => any) => {
                 setInterval(() => {}, 2e3);
                 console.log('CREATE', entry);
