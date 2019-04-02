@@ -5,6 +5,7 @@ import { IssueHeader } from '../issueHeader';
 import { getRange, toISODate } from '../../shared/date';
 import { TimesheetEntry } from '../../shared/types';
 import { List, ListItem } from '../list';
+import { Button } from '../form';
 import './activityList.css';
 
 export type ActivityListProps = {
@@ -69,6 +70,12 @@ const ActivityDay = ({ date, hours, children }: {date: Date, hours: number, chil
     </div>
 );
 
+const AddAcivityButton = () => (
+    <div style={{ display: 'flex' }}>
+        <Button value="Add Activity" style={{ marginLeft: 'auto' }} />
+    </div>
+);
+
 export class ActivityList extends React.Component<ActivityListProps> {
     public render() {
         const data = mapData(this.props);
@@ -81,8 +88,9 @@ export class ActivityList extends React.Component<ActivityListProps> {
             if (issuesGroups === undefined) {
                 return (
                     <ActivityDay key={isodate} date={date} hours={dayTotal}>
-                        <div className="list-issue">
+                        <div className="list-issue" style={{ display: 'flex' }}>
                             <h3>No activity</h3>
+                            <div style={{ marginLeft: 'auto' }}><Button value="Add Activity"/></div>
                         </div>
                     </ActivityDay>
                 );
@@ -106,6 +114,7 @@ export class ActivityList extends React.Component<ActivityListProps> {
 
             return (
                 <ActivityDay key={isodate} date={new Date(Date.parse(isodate))} hours={dayTotal}>
+                    <AddAcivityButton />
                     {issues}
                 </ActivityDay>
             );
