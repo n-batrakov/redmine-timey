@@ -92,7 +92,7 @@ export class ActivityList extends React.Component<ActivityListProps> {
                 return (
                     <ActivityDay key={isodate} date={date} hours={dayTotal} style={{ margin: 0 }}>
                         <div style={{ display: 'flex' }}>
-                            <h3 style={{ margin: 0, padding: '8px 0' }}>No activity</h3>
+                            <IssueHeader project={{ id: '', name: 'No Activity' }} style={{ margin: 0, padding: '8px 0' }}/>
                             <AddAcivityButton onClick={onActivityAdd} />
                         </div>
                     </ActivityDay>
@@ -109,7 +109,7 @@ export class ActivityList extends React.Component<ActivityListProps> {
 
                 return (
                     <div key={issueId} className="list-issue">
-                        <IssueHeader project={project} issue={issue} style={{ paddingLeft: 20 }}/>
+                        <IssueHeader project={project} issue={issue} />
                         <List>{timings}</List>
                     </div>
                 );
