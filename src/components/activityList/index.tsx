@@ -63,8 +63,9 @@ const ActivityTiming = (x: { entry: TimesheetEntry, onClick?: (x: TimesheetEntry
     </ListItem>
 );
 
-const ActivityDay = ({ date, hours, children }: {date: Date, hours: number, children?: React.ReactNode}) => (
-    <div className="list-day">
+type ActivityDayProps = {date: Date, hours: number, children?: React.ReactNode, style?: React.CSSProperties };
+const ActivityDay = ({ date, hours, children, style }: ActivityDayProps) => (
+    <div className="list-day" style={style}>
         <h2><span>{formatDate(date)} - {hours} hours</span></h2>
         {children}
     </div>
@@ -87,9 +88,9 @@ export class ActivityList extends React.Component<ActivityListProps> {
 
             if (issuesGroups === undefined) {
                 return (
-                    <ActivityDay key={isodate} date={date} hours={dayTotal}>
+                    <ActivityDay key={isodate} date={date} hours={dayTotal} style={{ margin: 0 }}>
                         <div className="list-issue" style={{ display: 'flex' }}>
-                            <h3>No activity</h3>
+                            <h3 style={{ margin: 0, padding: '8px 0' }}>No activity</h3>
                             <div style={{ marginLeft: 'auto' }}><Button value="Add Activity"/></div>
                         </div>
                     </ActivityDay>
