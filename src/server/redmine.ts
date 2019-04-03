@@ -35,6 +35,7 @@ export type RedmineEnumerationResponse = RedmineSuccessResponse & {
 export type RedmineErrorResponse = {
     code: 'Error' | 'NotAuthenticated',
     status: number,
+    errors: string[],
 };
 
 export class RedmineClient {
@@ -71,6 +72,7 @@ export class RedmineClient {
             return {
                 code: response.status === 401 ? 'NotAuthenticated' : 'Error',
                 status: response.status,
+                errors: [],
             };
         }
     }
@@ -91,6 +93,7 @@ export class RedmineClient {
             return {
                 code: response.status === 401 ? 'NotAuthenticated' : 'Error',
                 status: response.status,
+                errors: [],
             };
         }
     }
@@ -114,10 +117,12 @@ export class RedmineClient {
                 const body = await response.json();
                 return { code: 'Success', data: body };
             case 401:
-                return { code: 'NotAuthenticated', status: 401 };
+                return { code: 'NotAuthenticated', status: 401, errors: [] };
+            case 422:
+                const { errors } = await response.json();
+                return { errors, code: 'Error', status: response.status };
             default:
-                console.log(await response.json());
-                return { code: 'Error', status: response.status };
+                return { code: 'Error', status: response.status, errors: [] };
         }
     }
 

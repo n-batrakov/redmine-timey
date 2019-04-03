@@ -33,6 +33,7 @@ type AddResponse = Array<{
     code: 'Error',
     entry: TimesheetEntry,
     message: string,
+    errors: string[],
 }>;
 export const addHandler: RegisterHandler = (server, { redmine }) => server.route({
     method: 'POST',
@@ -68,11 +69,12 @@ export const addHandler: RegisterHandler = (server, { redmine }) => server.route
                     resp.code(401);
                     return '';
                 case 'Error':
-                    resp.code(500);
+                    resp.code(x.status);
                     result.push({
                         entry,
                         code: 'Error',
                         message: `Unable to create entry. Response status code (${x.status}) does not indicate success.`,
+                        errors: x.errors,
                     });
                     break;
             }
