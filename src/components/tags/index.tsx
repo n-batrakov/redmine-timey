@@ -15,6 +15,7 @@ export const TagList = (props: TagsProps) => (
     <ul style={{
         listStyleType: 'none',
         display: 'flex',
+        flexWrap: 'wrap',
         padding: 0,
         ...props.style,
     }}>
@@ -29,7 +30,7 @@ export const Tag = (props: Tag) => (
         padding: 3,
         border: '1px solid #aaa',
         borderRadius: 5,
-        marginRight: 5,
+        margin: '0 4px 4px 0',
         ...props.style,
     }}>
         {props.name}
