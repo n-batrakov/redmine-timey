@@ -36,7 +36,7 @@ type AddResponse = Array<{
 }>;
 export const addHandler: RegisterHandler = (server, { redmine }) => server.route({
     method: 'POST',
-    url: '/api/time/',
+    url: '/api/time',
     preHandler: authenticate,
     schema: {
         body: {
@@ -85,7 +85,7 @@ export const addHandler: RegisterHandler = (server, { redmine }) => server.route
 
 export const updateHandler: RegisterHandler = (server, { redmine }) => server.route({
     method: 'PUT',
-    url: '/api/time/',
+    url: '/api/time',
     preHandler: authenticate,
     schema: {
         body: {
