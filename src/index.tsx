@@ -48,7 +48,10 @@ const App = () => {
             {navbar}
             <div className="content">
                 <Switch>
-                    <Route path="/" exact component={TimingsPage} />
+                    <Route path="/" exact render={({ history }) => {
+                        history.push('/time');
+                        return undefined;
+                    }} />
                     <Route path="/time" component={TimingsPage} />
                     <Route path="/issue" component={IssuesPage} />
                 </Switch>
