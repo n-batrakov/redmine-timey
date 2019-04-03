@@ -1,0 +1,38 @@
+.timey-pagination {
+    margin-left: auto;
+}
+
+.timey-pagination ul {
+    display: inline-block;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.timey-pagination li {
+    cursor: pointer;
+    display: inline-block;
+    margin: 0 2px;
+    padding: 8px;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    outline: none;
+}
+.timey-pagination li:hover {
+    background-color: #eee;
+}
+.timey-pagination li.selected {
+    --border: 1px solid #2261a1;
+    background-color: #2261a1;
+    color: #fff;
+}
+
+.timey-pagination li > a {
+    padding: 8px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.timey-pagination li > a:focus {
+    outline: none;
+}
