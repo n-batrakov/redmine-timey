@@ -15,25 +15,33 @@ export type IssueHeaderProps = IssueHeaderData & {
     style?: React.CSSProperties,
     onClick?: () => void,
     showNumber?: boolean,
+    ignoreHref?: boolean,
 };
 
-const getProjectTitle = ({ name, href }: NamedId) => {
-    return href === undefined ? name : <a href={href}>{name}</a>;
+const linkStyles: React.CSSProperties = {
+    color: '#000',
+    textDecoration: 'none',
 };
 
-const getIssueTitle = ({ id, name, href }: NamedId, showId: boolean) => {
+const getProjectTitle = ({ name, href }: NamedId, ignoreHref: boolean) => {
+    return href === undefined || ignoreHref ? name : <a href={href} style={linkStyles}>{name}</a>;
+};
+
+const getIssueTitle = ({ id, name, href }: NamedId, showId: boolean, ignoreHref: boolean) => {
     const title = showId ? `#${id} ${name}` : name;
-    return href === undefined ? title : <a href={href}>{title}</a>;
+    return href === undefined || ignoreHref ? title : <a href={href} style={linkStyles}>{title}</a>;
 };
 
 const getHeaderContent = (x: IssueHeaderProps) => {
+    const ignoreHref = x.ignoreHref || false;
+
     const project = (x as any).project;
     const showProject = project !== undefined;
-    const projectElement = showProject ? getProjectTitle(project) : undefined;
+    const projectElement = showProject ? getProjectTitle(project, ignoreHref) : undefined;
 
     const issue = (x as any).issue;
     const hasIssue = issue !== undefined;
-    const issueElement = hasIssue ? getIssueTitle(issue, x.showNumber || false) : undefined;
+    const issueElement = hasIssue ? getIssueTitle(issue, x.showNumber || false, ignoreHref) : undefined;
 
     if (showProject && hasIssue) {
         return <>{projectElement} / {issueElement}</>;

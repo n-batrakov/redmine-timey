@@ -1,7 +1,11 @@
 import { RegisterHandler, authenticate, getCredentials } from './shared';
-import { Issue } from '../../shared/types';
+import { Issue, NamedId} from '../../shared/types';
 
-const mapIssue = (x: any): Issue => ({
+const getProject = ({ id, name }: NamedId, redmineHost: string) => {
+    return { id, name, href: `${redmineHost}/projects/${id}` };
+};
+
+const mapIssue = (x: any, redmineHost: string): Issue => ({
     id: x.id,
     subject: x.subject,
     description: x.description,
@@ -11,8 +15,9 @@ const mapIssue = (x: any): Issue => ({
     assignedTo: x.assignedTo,
     priority: x.priority,
     status: x.status,
-    project: x.project,
+    project: getProject(x.project as NamedId, redmineHost),
     parent: x.parent,
+    href: `${redmineHost}/issues/${x.id}`,
 });
 
 const handler: RegisterHandler = (server, { redmine }) => server.route({
@@ -37,7 +42,7 @@ const handler: RegisterHandler = (server, { redmine }) => server.route({
             case 'Success':
                 return {
                     ...response,
-                    data: response.data.map(x => mapIssue(x))};
+                    data: response.data.map(x => mapIssue(x, redmine.host))};
             case 'NotAuthenticated':
                 resp.code(401);
                 return '';

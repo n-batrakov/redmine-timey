@@ -13,7 +13,11 @@ type IssueListItemProps = {
 const IssueListItem = ({ issue }: IssueListItemProps) => {
     return (
         <>
-            <IssueHeader issue={{ id: issue.id, name: issue.subject }} project={issue.project} showNumber style={{ margin: 0 }}/>
+            <IssueHeader
+                issue={{ id: issue.id, name: issue.subject, href: issue.href }}
+                project={issue.project}
+                showNumber ignoreHref
+                style={{ margin: 0 }}/>
             <div style={{ display: 'flex', marginTop: 8 }}>
                 <TagList>
                     <Tag name={ issue.status.name || 'status?' }/>

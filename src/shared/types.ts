@@ -54,6 +54,8 @@ export type Issue = {
     assignedTo?: NamedId,
 
     parent?: NamedId,
+
+    href: string,
 };
 
 export type Enumeration = {
