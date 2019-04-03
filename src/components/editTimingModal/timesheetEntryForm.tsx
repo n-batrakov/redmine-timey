@@ -112,13 +112,13 @@ export class TimesheetEntryForm extends React.Component<TimesheetEntryFormProps,
             <Form onSubmit={this.onSubmit} loading={this.state.isLoading}>
                 {this.props.title === undefined ? undefined : <FormHeader>{this.props.title}</FormHeader>}
 
-                <DateInput label="Date" name="spentOn" value={spentOn}  />
+                <DateInput required label="Date" name="spentOn" value={spentOn}  />
                 <Select label="Issue" name="issue" value={issue.id} disabled>
                     <SelectOption value={issue.id}>{issue.name}</SelectOption>
                 </Select>
-                <NumberInput label="Hours" name="hours" value={hours} step={0.25} min={0} max={24} />
+                <NumberInput required label="Hours" name="hours" value={hours} step={0.25} min={0} max={24} />
                 <TextArea required label="Comments" name="comments" value={comments} placeholder="" style={{ height: 100 }}/>
-                <Select label="Activity" name="activity" value={activity.id}>
+                <Select required label="Activity" name="activity" value={activity.id}>
                     {toArray(this.props.activities).map(x => (<SelectOption key={x.id} value={x.id}>{x.name}</SelectOption>))}
                 </Select>
                 <FromErrors errors={this.state.errors}/>
