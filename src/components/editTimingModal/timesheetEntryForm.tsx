@@ -117,7 +117,7 @@ export class TimesheetEntryForm extends React.Component<TimesheetEntryFormProps,
                     <SelectOption value={issue.id}>{issue.name}</SelectOption>
                 </Select>
                 <NumberInput label="Hours" name="hours" value={hours} step={0.25} min={0} max={24} />
-                <TextArea  label="Comments" name="comments" value={comments} placeholder="" style={{ height: 100 }}/>
+                <TextArea required label="Comments" name="comments" value={comments} placeholder="" style={{ height: 100 }}/>
                 <Select label="Activity" name="activity" value={activity.id}>
                     {toArray(this.props.activities).map(x => (<SelectOption key={x.id} value={x.id}>{x.name}</SelectOption>))}
                 </Select>
