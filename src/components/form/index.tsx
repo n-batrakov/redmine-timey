@@ -25,6 +25,7 @@ const getBtnTypeClass = ({ type }: ButtonProps) => {
 type FormControlProps = {
     name: string,
     label: string,
+    required?: boolean,
     onChange?: (e: React.ChangeEvent) => void,
     style?: React.CSSProperties,
 };
@@ -65,6 +66,7 @@ export const TextInput = (x: TextInputProps) => (
                 disabled={x.disabled}
                 onChange={x.onChange}
                 style={x.style}
+                required={x.required}
             />
         </div>
     </div>
@@ -93,6 +95,7 @@ export const NumberInput = (x: NumberInputProps) => (
                 disabled={x.disabled}
                 onChange={x.onChange}
                 style={x.style}
+                required={x.required}
             />
         </div>
     </div>
@@ -109,6 +112,7 @@ export const TextArea = (x: TextInputProps) => (
                 disabled={x.disabled}
                 onChange={x.onChange}
                 style={x.style}
+                required={x.required}
             />
         </div>
     </div>
@@ -129,6 +133,7 @@ export const Select = (x: SelectProps) => (
                 onChange={x.onChange}
                 style={x.style}
                 disabled={x.disabled}
+                required={x.required}
             >
                 {x.children}
             </select>
@@ -154,6 +159,7 @@ export const DateInput = (x: DateInputProps) => (
                 name={x.name}
                 onChange={x.onChange}
                 style={x.style}
+                required={x.required}
             />
         </div>
     </div>
