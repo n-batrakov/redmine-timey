@@ -18,6 +18,7 @@ const IssueListItem = ({ issue }: IssueListItemProps) => {
                 <TagList>
                     <Tag name={ issue.status.name || 'status?' }/>
                     <Tag name={ issue.priority.name || 'priority?' }/>
+                    <Tag name={ issue.author.name || 'authon?' } />
                 </TagList>
             </div>
         </>
