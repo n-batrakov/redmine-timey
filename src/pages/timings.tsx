@@ -122,9 +122,16 @@ export class TimingsPage extends React.Component<{}, TimingsPageState> {
                 spentOn: date,
             },
             onCreate: async (entry: TimesheetEntry, finish: () => any) => {
-                setInterval(() => {}, 2e3);
-                console.log('CREATE', entry);
+                await API.addTimeEntries([entry]);
+
+                const state = await getPageState();
+
                 finish();
+
+                this.setState({
+                    ...state,
+                    createModal: undefined,
+                });
             },
             onClose: () => {
                 this.setState({ createModal: undefined });

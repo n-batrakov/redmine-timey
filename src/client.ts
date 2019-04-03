@@ -20,6 +20,18 @@ export async function logout() {
     throw new Error(`Unable to log out. Status code must be Not Authorized (401) but ${x.status} received.`);
 }
 
+
+export async function addTimeEntries(entries: TimesheetEntry[]): Promise<Array<TimesheetEntry>> {
+    const response = await fetch('/api/time', {
+        method: 'POST',
+        body: JSON.stringify(entries),
+        headers: { 'Content-Type': 'application/json' },
+    });
+    ensureSuccessStatusCode(response);
+
+    return await response.json();
+}
+
 export async function deleteTimeEntry(entryId: string) {
     const response = await fetch(`/api/time/${entryId}`, { method: 'DELETE' });
 
@@ -27,7 +39,7 @@ export async function deleteTimeEntry(entryId: string) {
 }
 
 export async function updateTimeEntry(entry: TimesheetEntry) {
-    const response = await fetch('/api/time/', {
+    const response = await fetch('/api/time', {
         method: 'PUT',
         body: JSON.stringify(entry),
         headers: { 'Content-Type': 'application/json' },
