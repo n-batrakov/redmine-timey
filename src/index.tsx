@@ -7,7 +7,7 @@ import * as API from './client';
 import { Logo } from './components/logo';
 import { Navbar } from './components/navbar';
 import { TimingsPage } from './pages/timings';
-import { TaskPage } from './pages/tasks';
+import { IssuesPage } from './pages/issues';
 
 import { BrowserRouter as Router, Route, Switch, NavLink } from 'react-router-dom';
 
@@ -26,7 +26,6 @@ const onLoginToggle = (state: boolean, setState: (state: boolean) => void) => {
 }
 
 const App = () => {
-    
     const [isLoggedOut, logOut] = React.useState(false);
 
     const navbar = (
@@ -34,7 +33,7 @@ const App = () => {
             logo={<Logo/>}
             items={[
                 <NavLink to="/time" className="navbar-btn" activeClassName="active">Time</NavLink>,
-                <NavLink to="/task" className="navbar-btn" activeClassName="active">Task</NavLink>,
+                <NavLink to="/issue" className="navbar-btn" activeClassName="active">Issues</NavLink>,
             ]}
             rightItems={[
                 <button className="navbar-btn" onClick={() => onLoginToggle(isLoggedOut, logOut)}>
@@ -51,7 +50,7 @@ const App = () => {
                 <Switch>
                     <Route path="/" exact component={TimingsPage} />
                     <Route path="/time" component={TimingsPage} />
-                    <Route path="/task" component={TaskPage} />
+                    <Route path="/issue" component={IssuesPage} />
                 </Switch>
             </div>
         </Router>

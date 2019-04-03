@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-export const TaskPage = () => {
+export const IssuesPage = () => {
     return (
         <h1>Tasks</h1>
     );
