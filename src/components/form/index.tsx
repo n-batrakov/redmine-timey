@@ -160,7 +160,7 @@ export const FormFooter = (x: {children: React.ReactNode}) => (
 );
 
 export const FromErrors = ({ errors }: {errors: string[]}) => (
-    <ul className="timey-form-errors">
+    <ul className="timey-form-errors" style={{ display: errors.length > 0 ? 'block' : 'none' }}>
         {errors.map((x, i) => <li key={i}>{x}</li>)}
     </ul>
 );

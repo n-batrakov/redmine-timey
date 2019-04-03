@@ -22,8 +22,16 @@ export type EditTimingModalProps = {
     opened?: boolean,
     data: TimesheetEntry,
     enumerations: EnumerationsLookup,
-    onUpdate?: (entry: TimesheetEntry, finish: () => void) => void,
-    onDelete?: (entryId: string, finish: () => void) => void,
+    onUpdate?: (
+        entry: TimesheetEntry,
+        finish: () => void,
+        onSubmit: (messages: string[]) => void,
+    ) => void,
+    onDelete?: (
+        entryId: string,
+        finish: () => void,
+        onSubmit: (messages: string[]) => void,
+    ) => void,
     onClose?: () => void,
 };
 export const EditTimingModal = (props: EditTimingModalProps) => {
@@ -60,7 +68,11 @@ export type CreateTimingModalProps = {
     enumerations: EnumerationsLookup,
     issueSource: DataSource<{}, Issue>,
     opened?: boolean,
-    onCreate?: (entry: TimesheetEntry, finish: () => void) => void,
+    onCreate?: (
+        entry: TimesheetEntry,
+        finish: () => void,
+        onSubmit: (messages: string[]) => void,
+    ) => void,
     onClose?: () => void,
     defaultValue?: {
         hours?: number,

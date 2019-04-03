@@ -13,13 +13,22 @@ import {
     SelectOption,
     DateInput,
     NumberInput,
+    FromErrors,
 } from '../form';
 
 export type TimesheetEntryFormProps = {
     activities: Enumeration,
     onClose?: () => void,
-    onSubmit?: (form: TimesheetEntry, disableLoadingState: () => void) => void,
-    onDelete?: (id: string, disableLoadingState: () => void) => void,
+    onSubmit?: (
+        form: TimesheetEntry,
+        disableLoadingState: () => void,
+        setErrors: (messsages: string[]) => void,
+    ) => void,
+    onDelete?: (
+        id: string,
+        disableLoadingState: () => void,
+        setErrors: (messsages: string[]) => void,
+    ) => void,
     showDelete?: boolean,
     data?: TimesheetEntry,
     title?: string,
@@ -37,19 +46,24 @@ const defaultFormDate: TimesheetEntry = {
     user: nullNamedId,
 };
 
-export class TimesheetEntryForm extends React.Component<TimesheetEntryFormProps, { isLoading: boolean }> {
+export class TimesheetEntryForm extends React.Component<TimesheetEntryFormProps, { isLoading: boolean, errors: string[] }> {
     constructor(props: TimesheetEntryFormProps) {
         super(props);
 
         this.onSubmit = this.onSubmit.bind(this);
         this.onDelete = this.onDelete.bind(this);
         this.onFinishLoading = this.onFinishLoading.bind(this);
+        this.setErrors = this.setErrors.bind(this);
 
-        this.state = { isLoading: false };
+        this.state = { isLoading: false, errors: [] };
     }
 
     private onFinishLoading() {
         this.setState({ isLoading: false });
+    }
+
+    private setErrors(errors: string[]) {
+        this.setState({ errors, isLoading: false });
     }
 
     private onSubmit(e: { spentOn: Date | string, issue: string, hours: string, comments: string, activity: string }) {
@@ -72,7 +86,7 @@ export class TimesheetEntryForm extends React.Component<TimesheetEntryFormProps,
 
         this.setState({ isLoading: true });
 
-        this.props.onSubmit(entry, this.onFinishLoading);
+        this.props.onSubmit(entry, this.onFinishLoading, this.setErrors);
     }
 
     private onDelete() {
@@ -87,7 +101,7 @@ export class TimesheetEntryForm extends React.Component<TimesheetEntryFormProps,
 
         this.setState({ isLoading: true });
 
-        this.props.onDelete(this.props.data.id, this.onFinishLoading);
+        this.props.onDelete(this.props.data.id, this.onFinishLoading, this.setErrors);
     }
 
     public render() {
@@ -103,10 +117,11 @@ export class TimesheetEntryForm extends React.Component<TimesheetEntryFormProps,
                     <SelectOption value={issue.id}>{issue.name}</SelectOption>
                 </Select>
                 <NumberInput label="Hours" name="hours" value={hours} step={0.25} min={0} max={24} />
-                <TextArea label="Comments" name="comments" value={comments} placeholder="" style={{ height: 100 }}/>
+                <TextArea  label="Comments" name="comments" value={comments} placeholder="" style={{ height: 100 }}/>
                 <Select label="Activity" name="activity" value={activity.id}>
                     {toArray(this.props.activities).map(x => (<SelectOption key={x.id} value={x.id}>{x.name}</SelectOption>))}
                 </Select>
+                <FromErrors errors={this.state.errors}/>
                 <FormFooter>
                     <Button value="Save" type="submit"/>
                     <Button value="Cancel" onClick={this.props.onClose}/>

@@ -21,13 +21,13 @@ export async function logout() {
 }
 
 
-export async function addTimeEntries(entries: TimesheetEntry[]): Promise<Array<TimesheetEntry>> {
+export async function addTimeEntries(entries: TimesheetEntry[]): Promise<any> {
     const response = await fetch('/api/time', {
         method: 'POST',
         body: JSON.stringify(entries),
         headers: { 'Content-Type': 'application/json' },
     });
-    ensureSuccessStatusCode(response);
+    //ensureSuccessStatusCode(response);
 
     return await response.json();
 }

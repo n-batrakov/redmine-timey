@@ -121,8 +121,12 @@ export class TimingsPage extends React.Component<{}, TimingsPageState> {
             defaultValue: {
                 spentOn: date,
             },
-            onCreate: async (entry: TimesheetEntry, finish: () => any) => {
-                await API.addTimeEntries([entry]);
+            onCreate: async (entry, finish, setErrors) => {
+                const [response] = await API.addTimeEntries([entry]);
+                if (response.code === 'Error') {
+                    setErrors(response.errors);
+                    return;
+                }
 
                 const state = await getPageState();
 
