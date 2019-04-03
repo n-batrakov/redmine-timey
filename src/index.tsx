@@ -7,6 +7,9 @@ import * as API from './client';
 import { Logo } from './components/logo';
 import { Navbar } from './components/navbar';
 import { TimingsPage } from './pages/timings';
+import { TaskPage } from './pages/tasks';
+
+import { BrowserRouter as Router, Route, Switch, NavLink } from 'react-router-dom';
 
 import './index.css';
 
@@ -23,13 +26,15 @@ const onLoginToggle = (state: boolean, setState: (state: boolean) => void) => {
 }
 
 const App = () => {
+    
     const [isLoggedOut, logOut] = React.useState(false);
 
     const navbar = (
         <Navbar
             logo={<Logo/>}
             items={[
-                <button className="navbar-btn active">Overview</button>,
+                <NavLink to="/time" className="navbar-btn" activeClassName="active">Time</NavLink>,
+                <NavLink to="/task" className="navbar-btn" activeClassName="active">Task</NavLink>,
             ]}
             rightItems={[
                 <button className="navbar-btn" onClick={() => onLoginToggle(isLoggedOut, logOut)}>
@@ -39,12 +44,18 @@ const App = () => {
         />
     );
 
-    return isLoggedOut
-        ? navbar
-        : <>
+    return (
+        <Router>
             {navbar}
-            <TimingsPage />
-        </>;
+            <div className="content">
+                <Switch>
+                    <Route path="/" exact component={TimingsPage} />
+                    <Route path="/time" component={TimingsPage} />
+                    <Route path="/task" component={TaskPage} />
+                </Switch>
+            </div>
+        </Router>
+    );
 }
 
 const appElement = document.getElementById('app') as HTMLElement;

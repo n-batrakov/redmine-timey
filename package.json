@@ -29,7 +29,7 @@
     "react-dom": "^16.8.4",
     "react-modal": "^3.8.1",
     "react-paginate": "^6.3.0",
-    "react-router-dom": "^4.4.0",
+    "react-router-dom": "^5.0.0",
     "react-tabs": "^3.0.0",
     "react-tooltip": "^3.10.0"
   },

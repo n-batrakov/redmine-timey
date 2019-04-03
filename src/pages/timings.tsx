@@ -159,25 +159,24 @@ export class TimingsPage extends React.Component<{}, TimingsPageState> {
                 <ReactTooltip html />
                 { this.state.editModal === undefined ? undefined : <EditTimingModal { ...this.state.editModal }/> }
                 { this.state.createModal === undefined ? undefined : <CreateTimingModal { ...this.state.createModal }/> }
-                <div className="content">
-                    <ActivityHeatmap { ...heatmapProps }
-                                     onClick={this.onDayClick.bind(this)}
-                                     numDays={window.innerWidth < 800 ? 100 : 0}/>
 
-                    <HoursGauge {...gaugeProps}/>
+                <ActivityHeatmap { ...heatmapProps }
+                                    onClick={this.onDayClick.bind(this)}
+                                    numDays={window.innerWidth < 800 ? 100 : 0}/>
 
-                    <div className="activity-overview">
-                        <h1>Activity Overview</h1>
-                        {
-                            this.state.activityList === undefined
-                                ? <Preloader active />
-                                : <ActivityList
-                                    { ...this.state.activityList }
-                                    onActivityClick={this.onActivityClick.bind(this)}
-                                    onActivityAddClick={this.onActivityAddClick.bind(this)}
-                                />
-                        }
-                    </div>
+                <HoursGauge {...gaugeProps}/>
+
+                <div className="activity-overview">
+                    <h1>Activity Overview</h1>
+                    {
+                        this.state.activityList === undefined
+                            ? <Preloader active />
+                            : <ActivityList
+                                { ...this.state.activityList }
+                                onActivityClick={this.onActivityClick.bind(this)}
+                                onActivityAddClick={this.onActivityAddClick.bind(this)}
+                            />
+                    }
                 </div>
             </>
         );
