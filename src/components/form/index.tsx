@@ -54,21 +54,17 @@ export type TextInputProps = FormControlProps & {
 };
 export const TextInput = (x: TextInputProps) => (
     <div className="row">
-        <div className="col-25">
-            <label htmlFor={x.name}>{x.label}</label>
-        </div>
-        <div className="col-75">
-            <input
-                type="text"
-                defaultValue={x.value}
-                name={x.name}
-                placeholder={x.placeholder}
-                disabled={x.disabled}
-                onChange={x.onChange}
-                style={x.style}
-                required={x.required}
-            />
-        </div>
+        <label htmlFor={x.name}>{x.label}</label>
+        <input
+            type="text"
+            defaultValue={x.value}
+            name={x.name}
+            placeholder={x.placeholder}
+            disabled={x.disabled}
+            onChange={x.onChange}
+            style={x.style}
+            required={x.required}
+        />
     </div>
 );
 
@@ -81,40 +77,34 @@ export type NumberInputProps = FormControlProps & {
 };
 export const NumberInput = (x: NumberInputProps) => (
     <div className="row">
-        <div className="col-25">
-            <label htmlFor={x.name}>{x.label}</label>
-        </div>
-        <div className="col-75">
-            <input
-                type="number"
-                step={x.step}
-                min={x.min}
-                max={x.max}
-                defaultValue={x.value === undefined ? undefined : x.value.toString()}
-                name={x.name}
-                disabled={x.disabled}
-                onChange={x.onChange}
-                style={x.style}
-                required={x.required}
-            />
-        </div>
+        <label htmlFor={x.name}>{x.label}</label>
+        <input
+            type="number"
+            step={x.step}
+            min={x.min}
+            max={x.max}
+            defaultValue={x.value === undefined ? undefined : x.value.toString()}
+            name={x.name}
+            disabled={x.disabled}
+            onChange={x.onChange}
+            style={x.style}
+            required={x.required}
+        />
     </div>
 );
 
 export const TextArea = (x: TextInputProps) => (
     <div className="row">
-        <div className="col-25"><label htmlFor={x.name}>{x.label}</label></div>
-        <div className="col-75">
-            <textarea
-                defaultValue={x.value}
-                name={x.name}
-                placeholder={x.placeholder}
-                disabled={x.disabled}
-                onChange={x.onChange}
-                style={x.style}
-                required={x.required}
-            />
-        </div>
+        <label htmlFor={x.name}>{x.label}</label>
+        <textarea
+            defaultValue={x.value}
+            name={x.name}
+            placeholder={x.placeholder}
+            disabled={x.disabled}
+            onChange={x.onChange}
+            style={x.style}
+            required={x.required}
+        />
     </div>
 );
 
@@ -125,19 +115,17 @@ export type SelectProps = FormControlProps & {
 };
 export const Select = (x: SelectProps) => (
     <div className="row">
-        <div className="col-25"><label htmlFor={x.name}>{x.label}</label></div>
-        <div className="col-75">
-            <select
-                name={x.name}
-                defaultValue={x.value}
-                onChange={x.onChange}
-                style={x.style}
-                disabled={x.disabled}
-                required={x.required}
-            >
-                {x.children}
-            </select>
-        </div>
+        <label htmlFor={x.name}>{x.label}</label>
+        <select
+            name={x.name}
+            defaultValue={x.value}
+            onChange={x.onChange}
+            style={x.style}
+            disabled={x.disabled}
+            required={x.required}
+        >
+            {x.children}
+        </select>
     </div>
 );
 export const SelectOption = (x: { value: any, children: React.ReactNode }) => (
@@ -150,18 +138,16 @@ export type DateInputProps = FormControlProps & {
 };
 export const DateInput = (x: DateInputProps) => (
     <div className="row">
-        <div className="col-25"><label htmlFor={x.name}>{x.label}</label></div>
-        <div className="col-75">
-            <input
-                type="date"
-                disabled={x.disabled}
-                defaultValue={x.value === undefined ? undefined : toISODate(x.value)}
-                name={x.name}
-                onChange={x.onChange}
-                style={x.style}
-                required={x.required}
-            />
-        </div>
+        <label htmlFor={x.name}>{x.label}</label>
+        <input
+            type="date"
+            disabled={x.disabled}
+            defaultValue={x.value === undefined ? undefined : toISODate(x.value)}
+            name={x.name}
+            onChange={x.onChange}
+            style={x.style}
+            required={x.required}
+        />
     </div>
 );
 

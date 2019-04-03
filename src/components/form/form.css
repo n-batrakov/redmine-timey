@@ -2,6 +2,15 @@
     box-sizing: border-box;
 }
 
+.timey-form .row {
+    margin: 12px 0;
+}
+
+.timey-form label {
+    padding-bottom: 8px;
+    display: inline-block;
+}
+
 .timey-form input[type=text], input[type=number], input[type=date], select, textarea {
     width: 100%;
     padding: 12px;
@@ -10,52 +19,19 @@
     resize: none;
 }
   
-.timey-form label {
-    padding: 12px 12px 12px 0;
-    display: inline-block;
-}
-  
 .timey-form .container {
     border-radius: 5px;
     background-color: #f2f2f2;
     padding: 20px;
 }
   
-.timey-form .col-25 {
-    float: left;
-    width: 100%;
-    margin-top: 0;
-}
-  
-.timey-form .col-75 {
-    float: left;
-    width: 100%;
-    margin-top: 0;
-}
-  
-  /* Clear floats after the columns */
-.timey-form .row:after {
-    content: "";
-    display: table;
-    clear: both;
-}
-
 .timey-form .footer {
-    padding-top: 32px;
     display: flex;
     flex-direction: row-reverse;
 }
 
 .timey-form .footer * {
-    margin: 0 5px;
-}
-  
-@media screen and (max-width: 600px) {
-    .edit-timing-modal {
-        width: 90%;
-        height: 90%;
-        overflow: auto;
-    }
+    margin: 0;
 }
 
 
@@ -84,3 +60,4 @@
     height: 100%;
     background-color: rgba(255, 255, 255, .7);
 }
+
