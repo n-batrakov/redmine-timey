@@ -61,3 +61,15 @@
     background-color: rgba(255, 255, 255, .7);
 }
 
+.timey-form-errors {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    border: 1px solid #f5c6cb;
+    border-radius: 3px;
+    background-color: #f8d7da;
+    color: #721c24;
+}
+.timey-form-errors > li {
+    margin: 12px;
+}

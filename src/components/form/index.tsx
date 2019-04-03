@@ -159,6 +159,12 @@ export const FormFooter = (x: {children: React.ReactNode}) => (
     <div className="row footer">{x.children}</div>
 );
 
+export const FromErrors = ({ errors }: {errors: string[]}) => (
+    <ul className="timey-form-errors">
+        {errors.map((x, i) => <li key={i}>{x}</li>)}
+    </ul>
+);
+
 export type FormProps = {
     loading?: boolean,
     onSubmit: (x: any) => void,
