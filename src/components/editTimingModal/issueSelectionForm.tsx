@@ -1,34 +1,86 @@
 import * as React from 'react';
 
-import { IssueList, IssueListProps } from '../issueList';
+import { IssueList } from '../issueList';
 import { Issue } from '../../shared/types';
+import { DataSource, Paginable } from '../../shared/dataSource';
+import { Pagination } from '../pagination';
+import { Preloader } from '../preloader';
+import { number } from 'prop-types';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const getLimitOffset = (page: number, pageSize: number): Paginable => {
+    return {
+        limit: pageSize,
+        offset: page * pageSize,
+    };
+}
 
 export type IssueSelectionFormProps = {
+    dataSource: DataSource<{}, Issue>,
     onIssueSelected?: (issue: Issue) => void,
     onClose?: () => void,
 };
-export const IssueSelectionForm = (props: IssueSelectionFormProps) => (
-    <>
-        <IssueList
-            data={new Array(50).fill(0).map<Issue>((_, i) => ({
-                id: i.toString(),
-                subject: `Issue #${i}`,
-                author: { id: '0', name: 'admin' },
-                assignedTo: { id: '1', name: 'n.batrakov' },
-                createdOn: new Date(Date.UTC(2019, 2, 1)),
-                updatedOn: new Date(Date.UTC(2019, 3, 1)),
-                description: 'Lorem Ipsum',
-                priority: { id: '0', name: 'Normal' },
-                project: { id: '0', name: 'Long Long Long Long Long Long Long Long Long Long Long Project Name' },
-                status: { id: '0', name: 'New' },
-            }))}
-            onSelect={props.onIssueSelected}
-            style={{ maxHeight: 560, overflow: 'auto' }}
-        />
-        <div style={{ display: 'flex', flexDirection: 'row-reverse', paddingTop: 32 }}>
-            <button
-                className="btn"
-                onClick={props.onClose}>Cancel</button>
-        </div>
-    </>
-);
+export const IssueSelectionForm = (props: IssueSelectionFormProps) => {
+    const [state, setState] = React.useState({
+        pageSize: 10,
+        page: 0,
+        data: [] as Issue[],
+        isLoading: true,
+        totalCount: 0,
+    });
+
+    React.useEffect(
+        () => {
+            const paginable = getLimitOffset(state.page, state.pageSize);
+            props.dataSource(paginable).then((response) => {
+                setState({
+                    ...state,
+                    totalCount: response.totalCount,
+                    data: response.data,
+                    isLoading: false,
+                });
+            });
+        },
+        [state.page]);
+    const onNextPage = (page: number) => {
+        setState({
+            ...state,
+            page,
+            data: [],
+            isLoading: true,
+        });
+    };
+
+    return (
+        <>
+            <Preloader active={state.isLoading}/>
+            <IssueList
+                data={state.data}
+                onSelect={props.onIssueSelected}
+                style={{ maxHeight: 560, overflow: 'auto' }}
+            />
+            <Pagination count={state.totalCount} currentPage={state.page} pageSize={state.pageSize} onSelect={onNextPage} />
+
+            <div style={{ display: 'flex', flexDirection: 'row-reverse', paddingTop: 32 }}>
+                <button
+                    className="btn"
+                    onClick={props.onClose}>Cancel</button>
+            </div>
+        </>
+    );
+}

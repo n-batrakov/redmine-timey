@@ -1,4 +1,5 @@
-import { TimesheetEntry, EnumerationsLookup } from './shared/types';
+import { TimesheetEntry, EnumerationsLookup, Issue } from './shared/types';
+import { EntityList } from './shared/dataSource';
 
 const isSuccessStatusCode = (response: Response) => response.status >= 200 && response.status < 300;
 const ensureSuccessStatusCode = (response: Response, message?: string) => {
@@ -86,4 +87,12 @@ export async function getEnumerations(): Promise<EnumerationsLookup> {
     }
 
     return enumerationsCache;
+}
+
+
+export async function getIssues(params: { limit: number, offset: number }): Promise<EntityList<Issue>> {
+    const response = await fetch(`/api/issue?limit=${params.limit}&offset=${params.offset}`);
+    ensureSuccessStatusCode(response);
+
+    return await response.json();
 }

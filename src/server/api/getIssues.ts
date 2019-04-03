@@ -17,14 +17,17 @@ const mapIssue = (x: any): Issue => ({
 
 const handler: RegisterHandler = (server, { redmine }) => server.route({
     method: 'GET',
-    url: '/api/issue/',
+    url: '/api/issue',
     preHandler: authenticate,
     handler: async (req, resp) => {
         const auth = getCredentials(req.headers.authorization);
 
+        const limit = req.query.limit === undefined ? 10 : parseInt(req.query.limit, 10);
+        const offset = req.query.offset === undefined ? 0 : parseInt(req.query.offset, 10);
+
         const response = await redmine.query('issues', {
-            limit: 100,
-            offset: 0,
+            limit,
+            offset,
             ...auth,
             status_id: '*',
             assigned_to_id: 'me',
@@ -32,7 +35,9 @@ const handler: RegisterHandler = (server, { redmine }) => server.route({
 
         switch (response.code) {
             case 'Success':
-                return response.data.map(x => mapIssue(x));
+                return {
+                    ...response,
+                    data: response.data.map(x => mapIssue(x))};
             case 'NotAuthenticated':
                 resp.code(401);
                 return '';

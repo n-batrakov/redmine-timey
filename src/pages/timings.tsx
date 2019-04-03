@@ -117,6 +117,7 @@ export class TimingsPage extends React.Component<{}, TimingsPageState> {
         const createModal: CreateTimingModalProps = {
             opened: true,
             enumerations: await API.getEnumerations(),
+            issueSource: API.getIssues,
             defaultValue: {
                 spentOn: date,
             },

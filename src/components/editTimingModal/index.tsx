@@ -6,7 +6,8 @@ import './editTimingModal.css';
 
 import { TimesheetEntryForm } from './timesheetEntryForm';
 import { IssueSelectionForm } from './issueSelectionForm';
-import { NamedId, TimesheetEntry, EnumerationsLookup } from '../../shared/types';
+import { NamedId, TimesheetEntry, EnumerationsLookup, Issue } from '../../shared/types';
+import { DataSource } from '../../shared/dataSource';
 
 const onModalClose = () => false;
 
@@ -57,6 +58,7 @@ export const EditTimingModal = (props: EditTimingModalProps) => {
 
 export type CreateTimingModalProps = {
     enumerations: EnumerationsLookup,
+    issueSource: DataSource<{}, Issue>,
     opened?: boolean,
     onCreate?: (entry: TimesheetEntry, finish: () => void) => void,
     onClose?: () => void,
@@ -115,6 +117,7 @@ export const CreateTimingModal = (props: CreateTimingModalProps) => {
                 </TabList>
                 <TabPanel>
                     <IssueSelectionForm
+                        dataSource={props.issueSource}
                         onClose={onClose}
                         onIssueSelected={x => setState({
                             selectedIssue: {
