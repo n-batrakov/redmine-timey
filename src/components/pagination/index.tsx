@@ -7,20 +7,55 @@ export type PaginationProps = {
     pageSize: number,
     currentPage?: number,
     onSelect?: (page: number) => void,
+    style?: React.CSSProperties,
 };
-export const Pagination = (props: PaginationProps) => (
-    <div style={{display: 'flex'}}>
-    <ReactPaginate
-        containerClassName="timey-pagination"
-        pageCount={Math.ceil(props.count / props.pageSize)}
-        pageRangeDisplayed={3}
-        marginPagesDisplayed={3}
-        initialPage={props.currentPage}
-        onPageChange={
-            props.onSelect === undefined
-                ? undefined
-                : ({ selected }) => (props.onSelect as any)(selected)
-        }
-    />
-    </div>
-)
+
+function getScreenSize(width: number): 'xs' | 's' | 'm' | 'l' | 'xl' {
+    if (width < 540) {
+        return 'xs';
+    } else if (width < 720) {
+        return 's';
+    } else if (width < 960) {
+        return 'm';
+    } else if (width < 1140) {
+        return 'l';
+    } else {
+        return 'xl';
+    }
+}
+
+const getPaginationRange = () => {
+    const size = getScreenSize(document.body.clientWidth);
+
+    switch (size) {
+        case 'xs':
+            return { range: 0, margin: 0 };
+        case 's':
+            return { range: 1, margin: 0 };
+        default:
+            return { range: 3, margin: 3 };
+    }
+};
+
+export const Pagination = (props: PaginationProps) => {
+    const { range, margin } = getPaginationRange();
+
+    return (
+        <div style={{ display: 'flex', ...props.style }}>
+            <ReactPaginate
+                containerClassName="timey-pagination"
+                pageCount={Math.ceil(props.count / props.pageSize)}
+                pageRangeDisplayed={range}
+                marginPagesDisplayed={margin}
+                previousLabel="<"
+                nextLabel=">"
+                initialPage={props.currentPage}
+                onPageChange={
+                    props.onSelect === undefined
+                        ? undefined
+                        : ({ selected }) => (props.onSelect as any)(selected)
+                }
+            />
+        </div>
+    );
+}

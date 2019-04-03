@@ -27,7 +27,7 @@ export const Tag = (props: Tag) => (
         backgroundColor: props.color,
         fontSize: '10pt',
         padding: 3,
-        border: '1px solid #eee',
+        border: '1px solid #aaa',
         borderRadius: 5,
         marginRight: 5,
         ...props.style,

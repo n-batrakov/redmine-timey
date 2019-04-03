@@ -1,5 +1,6 @@
 .timey-pagination {
-    margin-left: auto;
+    margin: 0 0 0 auto;
+    padding: 0;
 }
 
 .timey-pagination ul {
@@ -11,7 +12,7 @@
 .timey-pagination li {
     cursor: pointer;
     display: inline-block;
-    margin: 0 2px;
+    margin: 2px;
     padding: 8px;
     border: 1px solid #aaa;
     border-radius: 5px;

@@ -5,22 +5,6 @@ import { Issue } from '../../shared/types';
 import { DataSource, Paginable } from '../../shared/dataSource';
 import { Pagination } from '../pagination';
 import { Preloader } from '../preloader';
-import { number } from 'prop-types';
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 const getLimitOffset = (page: number, pageSize: number): Paginable => {
@@ -72,9 +56,13 @@ export const IssueSelectionForm = (props: IssueSelectionFormProps) => {
             <IssueList
                 data={state.data}
                 onSelect={props.onIssueSelected}
-                style={{ maxHeight: 560, overflow: 'auto' }}
             />
-            <Pagination count={state.totalCount} currentPage={state.page} pageSize={state.pageSize} onSelect={onNextPage} />
+            <Pagination
+                count={state.totalCount}
+                currentPage={state.page}
+                pageSize={state.pageSize}
+                onSelect={onNextPage}
+            />
 
             <div style={{ display: 'flex', flexDirection: 'row-reverse', paddingTop: 32 }}>
                 <button

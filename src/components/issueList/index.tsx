@@ -13,10 +13,9 @@ type IssueListItemProps = {
 const IssueListItem = ({ issue }: IssueListItemProps) => {
     return (
         <>
-            <span className="issue-list-item-project">{issue.project.name}</span>
-            <IssueHeader issue={{ id: issue.id, name: issue.subject }} showNumber />
-            <div style={{ display: 'flex', marginTop: 32 }}>
-                <TagList style={{ zIndex: 1 }}>
+            <IssueHeader issue={{ id: issue.id, name: issue.subject }} project={issue.project} showNumber style={{ margin: 0 }}/>
+            <div style={{ display: 'flex', marginTop: 8 }}>
+                <TagList>
                     <Tag name={ issue.status.name || 'status?' }/>
                     <Tag name={ issue.priority.name || 'priority?' }/>
                 </TagList>

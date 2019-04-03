@@ -3,7 +3,7 @@
     padding: 0;
 }
 .timey-list > li {
-    margin: 8px;
+    margin: 8px 0;
     padding: 10px;
     border-radius: 4px;
     font-size: .85em;
