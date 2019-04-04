@@ -2,7 +2,7 @@ import { RegisterHandler, getCredentials, authenticate } from './shared';
 import { Enumeration, EnumerationsLookup } from '../../shared/types';
 import { RedmineEnumerationResponse } from '../redmine';
 
-let enumerationsCache: EnumerationsLookup = undefined;
+let enumerationsCache: EnumerationsLookup | undefined = undefined;
 
 
 const mapEnum = (data: Array<{id: number, name: string, is_default?: boolean}>): Enumeration => {

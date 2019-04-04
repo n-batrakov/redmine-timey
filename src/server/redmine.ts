@@ -161,14 +161,14 @@ export class RedmineClient {
         return new URLSearchParams(pairs);
     }
 
-    private getHeaders(params?: RedmineRequestParams) {
+    private getHeaders(params?: RedmineRequestParams): { [header: string]: string } {
         if (params === undefined) {
-            return { 'X-Redmine-API-Key': this.apiKey };
+            return { 'X-Redmine-API-Key': this.apiKey || '' };
         }
 
         const { login, password } = params;
         if (login === undefined || password === undefined) {
-            return { 'X-Redmine-API-Key': this.apiKey };
+            return { 'X-Redmine-API-Key': this.apiKey || '' };
         }
 
         return { 'Authorization': `Basic ${btoa(`${login}:${password}`)}` }
@@ -179,9 +179,9 @@ export class RedmineClient {
             return { code: 'Success' };
         }
         if (status === 401) {
-            return { status, code: 'NotAuthenticated' };
+            return { status, code: 'NotAuthenticated', errors: [] };
         }
 
-        return { status, code: 'Error' };
+        return { status, code: 'Error', errors: [] };
     }
 }
