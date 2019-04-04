@@ -1,25 +1,23 @@
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
-    entry: {
-        app: "./src/index.tsx"
-    },
+    target: 'web',
+    entry: './src/index.tsx',
     output: {
-        filename: "[name].bundle.js",
-        path: path.resolve(__dirname, 'dist/public'),
+        filename: "[name].js",
+        path: path.resolve(__dirname, 'dist'),
         publicPath: '/'
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: './src/index.html'
+            template: 'src/index.html'
         }),
         new CopyWebpackPlugin([{
             from: 'src/static',
             to: ''
-        }])
+        }]),
     ],
     resolve: {
         extensions: ['.js', '.json', '.ts', '.tsx'],
@@ -28,31 +26,25 @@ module.exports = {
         rules: [
             {
                 test: /\.(ts|tsx)$/,
-                loader: "awesome-typescript-loader"
+                use: 'awesome-typescript-loader'
             },{
                 test: /\.css$/,
                 use: [
-                  { loader: "style-loader" },
-                  { loader: "css-loader" }
+                    { loader: "style-loader" },
+                    { loader: "css-loader" }
                 ]
             },{
                 test: /\.(png|jpg|gif)$/,
                 use: [
-                  {
-                    loader: 'file-loader',
-                    options: {},
-                  },
+                    {
+                        loader: 'file-loader',
+                        options: {},
+                    },
                 ],
-              }
+            }
         ]
     },
     devtool: 'source-map',
-    devServer: {
-        historyApiFallback: true,
-        proxy: {
-            '/api': 'http://127.0.0.1:3000',
-          },
-    },
     optimization: {
         splitChunks: {
             chunks: 'all'

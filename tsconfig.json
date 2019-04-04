@@ -1,11 +1,11 @@
 {
     "compilerOptions": {
-        "outDir": "dist/public",
+        "outDir": "dist",
         "rootDir": "src",
 
+        "module": "commonjs",
         "esModuleInterop": true,
         "target": "es2015",
-        "module": "esnext",
         "moduleResolution": "node",
 
         "noImplicitReturns": false,
@@ -18,5 +18,8 @@
         "jsx": "react"
     },
     "include": ["src"],
-    "exclude": ["./src/server"]
+    "exclude": [
+        "node_modules",
+        "**/*.spec.ts"
+    ]
 }

@@ -6,11 +6,8 @@
   "license": "MIT",
   "repository": {},
   "scripts": {
-    "start": "webpack-dev-server --mode development",
-    "server": "ts-node-dev --project ./server.tsconfig.json --respawn --transpileOnly ./src/server/index.ts",
-    "app": "webpack --mode development && tsc -p server.tsconfig.json && node ./dist/server/index.js",
+    "start": "ts-node-dev --respawn --transpileOnly ./src/server/index.ts",
     "test": "jest",
-    "build": "webpack --mode production && tsc -p server.tsconfig.json",
     "lint": "tslint --project .",
     "lint:fix": "tslint --fix --project ."
   },

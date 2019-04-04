@@ -1,11 +1,16 @@
 import { RedmineClient } from './redmine';
 import fastify from 'fastify';
 import staticFiles from 'fastify-static';
-import api from './api';
 import path from 'path';
 import fs from 'fs';
+
+import api from './api';
 import { AppContainer } from './api/shared';
 import { getCalendar } from './workHoursNorm';
+
+import { devServer } from './middleware/devServer';
+
+const ENV = 'DEBUG';
 
 (async function () {
     const server = fastify({ logger: true });
@@ -17,15 +22,20 @@ import { getCalendar } from './workHoursNorm';
 
     api.forEach(addRoute => addRoute(server, container));
 
-    const staticPath = path.join(__dirname, '..', 'public');
-    if (fs.existsSync(staticPath)) {
-        server.register(staticFiles, { root: staticPath });
+    if (ENV === 'DEBUG') {
+        server.use(devServer());
+    } else {
+        const staticPath = path.join(__dirname, '..', 'public');
+        if (fs.existsSync(staticPath)) {
+            server.register(staticFiles, { root: staticPath });
+        }
     }
 
     try {
-        await server.listen(3000);
+        await server.listen(8080);
     } catch (err) {
         server.log.error(err);
         process.exit(1);
     }
 })();
+
