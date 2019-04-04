@@ -10,5 +10,5 @@ export const bind = (fn: ((...args: any[]) => any) | undefined, ...args: any[]) 
     if (fn === undefined) {
         return undefined;
     }
-    return fn.bind(undefined, args);
+    return fn.bind(undefined, ...args);
 };
