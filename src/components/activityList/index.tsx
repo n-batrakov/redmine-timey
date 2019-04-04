@@ -165,7 +165,7 @@ export const ActivityList = React.memo(
         if (prev.data === next.data) {
             return true;
         }
-        if (prev.data.length === 0 && prev.data.length === 0) {
+        if (prev.data.length === 0 && next.data.length === 0) {
             return true;
         }
         if (prev.data.length !== next.data.length) {
