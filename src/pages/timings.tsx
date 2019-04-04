@@ -50,7 +50,7 @@ const StatefulActivityList = (props: StatefulActivityListProps) => {
 
     React.useEffect(
         () => {
-            setState({ data: [], isLoading: true });
+            setState({ ...state, isLoading: true });
             API.queryTimeEntries(start, end).then((data) => {
                 setState({ data, isLoading: false });
             });

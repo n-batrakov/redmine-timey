@@ -7,14 +7,7 @@ import { TimesheetEntry } from '../../shared/types';
 import { List, ListItem } from '../list';
 import { Button } from '../form';
 import './activityList.css';
-
-export type ActivityListProps = {
-    start: Date,
-    end: Date,
-    data: Array<TimesheetEntry>,
-    onActivityClick?: (x: TimesheetEntry) => void,
-    onActivityAddClick?: (date: Date) => void,
-};
+import { bind } from '../../shared';
 
 const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wedsday', 'Thursday', 'Friday', 'Saturday'];
 const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -27,7 +20,13 @@ const formatDate = (date: Date): string => {
     return `${dayName} (${dayNumber} ${monthName})`;
 };
 
-function mapData({ data }: ActivityListProps) {
+const countTotalHours = (issues: Array<[string, TimesheetEntry[]]>) => {
+    const countIssueHours = (x: TimesheetEntry[]) => x.reduce((a, b) => a + b.hours, 0);
+
+    return issues.reduce((acc, [_, x]) => acc + countIssueHours(x), 0);
+};
+
+const mapData = (data: TimesheetEntry[]) => {
     return data.reduce(
         (acc, x) => {
             const key = toISODate(x.spentOn);
@@ -51,76 +50,128 @@ function mapData({ data }: ActivityListProps) {
         },
         new Map<string, Map<string, TimesheetEntry[]>>(),
     );
-}
+};
 
-const ActivityTiming = (x: { entry: TimesheetEntry, onClick?: (x: TimesheetEntry) => void }) => (
-    <ListItem
-        style={{ display: 'flex' }}
-        onClick={() => x.onClick === undefined ? undefined : x.onClick(x.entry)}
-        clickable
-    >
-        {x.entry.comments}
-        <span className="list-issue-hours">{x.entry.hours} h.</span>
-    </ListItem>
+
+
+const AddAcivityButton = (props: { onClick?: () => void }) => (
+    <Button value="Add Activity" style={{ marginLeft: 'auto' }} onClick={props.onClick} />
 );
 
-type ActivityDayProps = {date: Date, hours: number, children?: React.ReactNode, style?: React.CSSProperties };
-const ActivityDay = ({ date, hours, children, style }: ActivityDayProps) => (
+type ActivityListItemProps = {date: Date, hours: number, children?: React.ReactNode, style?: React.CSSProperties };
+const ActivityListItem = ({ date, hours, children, style }: ActivityListItemProps) => (
     <div className="list-day" style={style}>
         <h2><span>{formatDate(date)} - {hours} hours</span></h2>
         {children}
     </div>
 );
 
-const AddAcivityButton = (props: { onClick?: () => void }) => (
-    <Button value="Add Activity" style={{ marginLeft: 'auto' }} onClick={props.onClick} />
+const ActivityTiming = (x: { entry: TimesheetEntry, onClick?: (x: TimesheetEntry) => void }) => {
+    return (
+        <ListItem
+            style={{ display: 'flex' }}
+            onClick={() => x.onClick === undefined ? undefined : x.onClick(x.entry)}
+            clickable
+        >
+            {x.entry.comments}
+            <span className="list-issue-hours">{x.entry.hours} h.</span>
+        </ListItem>
+    );
+};
+
+const ActivityIssue = ({ items, onActivityClick } : {items: TimesheetEntry[], onActivityClick?: (x: TimesheetEntry) => void}) => {
+    const project = items[0].project;
+    const issue = items[0].issue;
+
+    return (
+        <div className="list-issue">
+            <IssueHeader project={project} issue={issue} />
+            <List>
+                {
+                    items.map(x => <ActivityTiming key={x.id} entry={x} onClick={onActivityClick}/>)
+                }
+            </List>
+        </div>
+    );
+};
+
+const EmptyActivityDay = ({ date, onActivityAdd } : {date: Date, onActivityAdd?: (date: Date) => void}) => (
+    <ActivityListItem date={date} hours={0} style={{ margin: 0 }}>
+        <div style={{ display: 'flex' }}>
+            <IssueHeader project={{ id: '', name: 'No Activity' }} style={{ margin: 0, padding: '8px 0' }}/>
+            <AddAcivityButton onClick={bind(onActivityAdd, date)} />
+        </div>
+    </ActivityListItem>
 );
 
-export class ActivityList extends React.Component<ActivityListProps> {
-    public render() {
-        const data = mapData(this.props);
+type ActivityDayProps = {
+    date: Date,
+    hours: number,
+    issues: Array<[string, TimesheetEntry[]]>,
+    onActivityAdd?: (date: Date) => void,
+    onActivityClick?: (x: TimesheetEntry) => void,
+};
+const ActivityDay = ({ date, hours, issues, onActivityAdd, onActivityClick } : ActivityDayProps) => {
+    return (
+        <ActivityListItem date={date} hours={hours}>
+            <div style={{ display: 'flex' }}>
+                <AddAcivityButton onClick={bind(onActivityAdd, date)} />
+            </div>
+            {
+                issues.map(([issueId, items]) =>
+                    <ActivityIssue key={issueId} items={items} onActivityClick={onActivityClick} />,
+                )
+            }
+        </ActivityListItem>
+    );
+};
 
-        return Array.from(getRange(this.props.end, this.props.start, -1)).map((date) => {
-            let dayTotal = 0;
-            const isodate = toISODate(date);
-            const issuesGroups = data.get(isodate);
-            const onActivityAdd = this.props.onActivityAddClick === undefined
-                ? undefined
-                : () => (this.props.onActivityAddClick as any)(date);
 
-            if (issuesGroups === undefined) {
-                return (
-                    <ActivityDay key={isodate} date={date} hours={dayTotal} style={{ margin: 0 }}>
-                        <div style={{ display: 'flex' }}>
-                            <IssueHeader project={{ id: '', name: 'No Activity' }} style={{ margin: 0, padding: '8px 0' }}/>
-                            <AddAcivityButton onClick={onActivityAdd} />
-                        </div>
-                    </ActivityDay>
-                );
+export type ActivityListProps = {
+    start: Date,
+    end: Date,
+    data: Array<TimesheetEntry>,
+    onActivityClick?: (x: TimesheetEntry) => void,
+    onActivityAddClick?: (date: Date) => void,
+};
+export const ActivityList = React.memo(
+    (props: ActivityListProps) => {
+        const data = mapData(props.data);
+
+        const items = Array.from(getRange(props.end, props.start, -1)).map((date) => {
+            const key = toISODate(date);
+
+            if (!data.has(key)) {
+                return <EmptyActivityDay key={key} date={date} onActivityAdd={props.onActivityAddClick} />;
             }
 
-            const issues = Array.from(issuesGroups.entries()).map(([issueId, items]) => {
-                const project = items[0].project;
-                const issue = items[0].issue;
-                const timings = items.map((x) => {
-                    dayTotal += x.hours;
-                    return <ActivityTiming key={x.id} entry={x} onClick={this.props.onActivityClick}/>;
-                });
+            const issuesMap = data.get(key) as Map<string, TimesheetEntry[]>;
+            const issues = Array.from(issuesMap.entries());
+            const dayTotal = countTotalHours(issues);
 
-                return (
-                    <div key={issueId} className="list-issue">
-                        <IssueHeader project={project} issue={issue} />
-                        <List>{timings}</List>
-                    </div>
-                );
-            });
-
-            return (
-                <ActivityDay key={isodate} date={new Date(Date.parse(isodate))} hours={dayTotal}>
-                    <div style={{ display: 'flex' }}><AddAcivityButton onClick={onActivityAdd} /></div>
-                    {issues}
-                </ActivityDay>
-            );
+            return <ActivityDay
+                key={key}
+                date={date}
+                hours={dayTotal}
+                issues={issues}
+                onActivityAdd={props.onActivityAddClick}
+                onActivityClick={props.onActivityClick}
+            />;
         });
-    }
-}
+
+        return <>{items}</>;
+    },
+    (prev, next) => {
+        if (prev.data === next.data) {
+            return true;
+        }
+        if (prev.data.length === 0 && prev.data.length === 0) {
+            return true;
+        }
+        if (prev.data.length !== next.data.length) {
+            return false;
+        }
+
+        return prev.data.reduce((acc, x, i) => acc && next.data[i].id === x.id, true);
+    },
+);
