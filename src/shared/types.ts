@@ -1,3 +1,5 @@
+import schema from '../schema';
+
 export type NamedId = {id: string, name?: string, href?: string};
 
 export type TimesheetEntry = {
@@ -11,32 +13,23 @@ export type TimesheetEntry = {
     spentOn: Date,
 };
 
-const stringSchema = { type: 'string' };
-const floatSchema = { type: 'number' };
-const dateTimeSchema = { type: 'string', format: 'date-time' };
 
-const nameIdSchema = {
-    type: 'object',
-    required: [ 'id' ],
-    properties: {
-        id: stringSchema,
-        name: stringSchema,
-    },
-};
 
-export const TimesheetEntrySchema = {
-    type: 'object',
-    properties: {
-        id: stringSchema,
-        project: nameIdSchema,
-        issue: nameIdSchema,
-        user: nameIdSchema,
-        activity: nameIdSchema,
-        hours: floatSchema,
-        comments: stringSchema,
-        spentOn: dateTimeSchema,
-    },
-};
+const nameIdSchema = schema.object(
+    { id: schema.string(), name: schema.string() },
+    schema.required('id', 'name'),
+);
+
+export const TimesheetEntrySchema = schema.object({
+    id: schema.string(),
+    project: nameIdSchema,
+    issue: nameIdSchema,
+    user: nameIdSchema,
+    activity: nameIdSchema,
+    hours: schema.float(),
+    comments: schema.string(),
+    spentOn: schema.dateTime(),
+});
 
 
 

@@ -1,5 +1,6 @@
-import { RegisterHandler, authenticate, getCredentials } from './shared';
+import { RegisterHandler, authenticate, getCredentials } from '../../server/shared';
 import { Issue, NamedId} from '../../shared/types';
+import { metadata } from './contract';
 
 const getProject = ({ id, name }: NamedId, redmineHost: string) => {
     return { id, name, href: `${redmineHost}/projects/${id}` };
@@ -21,8 +22,7 @@ const mapIssue = (x: any, redmineHost: string): Issue => ({
 });
 
 const handler: RegisterHandler = (server, { redmine }) => server.route({
-    method: 'GET',
-    url: '/api/issue',
+    ...metadata,
     preHandler: authenticate,
     handler: async (req, resp) => {
         const auth = getCredentials(req.headers.authorization);

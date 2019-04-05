@@ -1,9 +1,9 @@
-import { RegisterHandler, authenticate, getCredentials } from './shared';
-import { getTimesheetData } from '../getTimesheetData';
+import { RegisterHandler, authenticate, getCredentials } from '../../server/shared';
+import { getTimesheetData } from '../../server/getTimesheetData';
+import { metadata } from './contract';
 
 const handler: RegisterHandler = (server, { redmine }) => server.route({
-    method: 'GET',
-    url: '/api/time',
+    ...metadata,
     preHandler: authenticate,
     handler: async (req, resp) => {
         const auth = getCredentials(req.headers.authorization);

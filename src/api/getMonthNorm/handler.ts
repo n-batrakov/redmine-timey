@@ -1,12 +1,12 @@
-import { RegisterHandler } from './shared';
-import { DayType } from '../workHoursNorm';
+import { metadata } from './contract';
+import { RegisterHandler } from '../../server/shared';
+import { DayType } from '../../server/workHoursNorm';
 import { addDays, getRange, getMonthBoundaries } from '../../shared/date';
-const assertNever = (_: never) => {};
+import { assertNever } from '../../shared';
 
 const handler: RegisterHandler = (server, { calendar }) => server.route({
-    method: 'GET',
-    url: '/api/time/norm',
-    handler: async (req, resp) => {
+    ...metadata,
+    handler: async (_, resp) => {
         const hoursPerDay = 8;
 
         const now = new Date();
@@ -15,8 +15,9 @@ const handler: RegisterHandler = (server, { calendar }) => server.route({
         if (yearData === undefined) {
             resp.status(500);
             return {
-                error: 'Work calendar for current year not found. Please provide new calendar and restart the server app.',
-            }
+                code: 'Error',
+                message: 'Work calendar for current year not found. Please provide new calendar and restart the server app.',
+            };
         }
 
         const [start, end] = getMonthBoundaries(now);

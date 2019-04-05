@@ -5,7 +5,7 @@ import path from 'path';
 import fs from 'fs';
 
 import api from './api';
-import { AppContainer } from './api/shared';
+import { AppContainer } from './shared';
 import { getCalendar } from './workHoursNorm';
 
 import { devServer } from './middleware/devServer';

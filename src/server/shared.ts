@@ -1,6 +1,6 @@
 import fastify from 'fastify';
-import { RedmineClient } from '../redmine';
-import { Calendar } from '../workHoursNorm';
+import { RedmineClient } from './redmine';
+import { Calendar } from './workHoursNorm';
 
 export type AppContainer = {
     redmine: RedmineClient,

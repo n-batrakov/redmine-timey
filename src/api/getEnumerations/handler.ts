@@ -1,6 +1,7 @@
-import { RegisterHandler, getCredentials, authenticate } from './shared';
+import { RegisterHandler, getCredentials, authenticate } from '../../server/shared';
 import { Enumeration, EnumerationsLookup } from '../../shared/types';
-import { RedmineEnumerationResponse } from '../redmine';
+import { RedmineEnumerationResponse } from '../../server/redmine';
+import { metadata } from './contract';
 
 let enumerationsCache: EnumerationsLookup | undefined = undefined;
 
@@ -23,15 +24,12 @@ const mapEnum = (data: Array<{id: number, name: string, is_default?: boolean}>):
 };
 
 const handler: RegisterHandler = (server, { redmine }) => server.route({
-    method: 'GET',
-    url: '/api/enumerations',
+    ...metadata,
     preHandler: authenticate,
     handler: async (req, resp) => {
         const auth = getCredentials(req.headers.authorization);
 
         if (enumerationsCache === undefined) {
-            console.log('LOAD ENUMS');
-
             const responses = await Promise.all([
                 redmine.getEnumeration('issue_priorities', auth),
                 redmine.query('issue_statuses', auth),

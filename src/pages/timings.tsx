@@ -3,15 +3,23 @@ import { Route, RouteComponentProps, Switch } from 'react-router';
 import ReactTooltip from 'react-tooltip';
 
 import { addDays, getMonthBoundaries, toISODate } from '../shared/date';
+
 import { TimesheetEntry } from '../shared/types';
-import * as API from '../client';
+import { addTimings } from '../api/addTimings';
+import { updateTiming } from '../api/updateTiming';
+import { deleteTiming } from '../api/deleteTiming';
+import { queryTimings } from '../api/queryTimings';
+import { getDailyHours } from '../api/getDailyHours';
+import { getMonthNorm } from '../api/getMonthNorm';
+import { getEnumerations } from '../api/getEnumerations';
+import { queryIssues } from '../api/queryIssues';
 
 import { ActivityHeatmap, ActivityHeatmapProps } from '../components/activityHeatmap';
 import { ActivityList } from '../components/activityList';
 import { HoursGauge, HoursGaugeProps } from '../components/hoursGauge';
 import { EditTimingModal, EditTimingModalProps, CreateTimingModal, CreateTimingModalProps } from '../components/editTimingModal';
 import { Preloader } from '../components/preloader';
-import { FromErrors, Form } from '../components/form';
+import { FromErrors } from '../components/form';
 
 const parseDate = (str?: string) => {
     if (str === undefined || str === null || str === '') {
@@ -51,7 +59,7 @@ const StatefulActivityList = (props: StatefulActivityListProps) => {
     React.useEffect(
         () => {
             setState({ ...state, isLoading: true });
-            API.queryTimeEntries(start, end).then((data) => {
+            queryTimings({ start, end }).then(({ data }) => {
                 setState({ data, isLoading: false });
             });
         },
@@ -141,12 +149,12 @@ export class TimingsPage extends React.Component<TimingsPageProps, TimingsPageSt
 
         const heatmapEnd = now;
         const heatmapStart = addDays(heatmapEnd, -365);
-        const calendar$ = API.fetchHours(heatmapStart, heatmapEnd);
+        const calendar$ = getDailyHours({ start: heatmapStart, end: heatmapEnd });
 
         const [thisMonthStart, nextMonthStart] = getMonthBoundaries(now);
-        const norm$ = API.getMonthNorm();
+        const norm$ = getMonthNorm();
 
-        const [calendar, norm] = await Promise.all([calendar$, norm$]);
+        const [calendar, { norm }] = await Promise.all([calendar$, norm$]);
 
         const actualNorm = calendar
             .filter(({ date }) => date >= thisMonthStart && date < nextMonthStart)
@@ -174,9 +182,9 @@ export class TimingsPage extends React.Component<TimingsPageProps, TimingsPageSt
             opened: true,
             data: entry,
             onClose: () => this.setState({ editModal: undefined }),
-            enumerations: await API.getEnumerations(),
+            enumerations: await getEnumerations(),
             onUpdate: async (e, finish) => {
-                await API.updateTimeEntry(e);
+                await updateTiming(e);
 
                 const state = await this.getPageState();
 
@@ -188,7 +196,7 @@ export class TimingsPage extends React.Component<TimingsPageProps, TimingsPageSt
                 });
             },
             onDelete: async (id, finish) => {
-                await API.deleteTimeEntry(id);
+                await deleteTiming(id);
 
                 const state = await this.getPageState();
 
@@ -207,13 +215,13 @@ export class TimingsPage extends React.Component<TimingsPageProps, TimingsPageSt
     private async onActivityAddClick(date: Date) {
         const createModal: CreateTimingModalProps = {
             opened: true,
-            enumerations: await API.getEnumerations(),
-            issueSource: API.getIssues,
+            enumerations: await getEnumerations(),
+            issueSource: queryIssues,
             defaultValue: {
                 spentOn: date,
             },
             onCreate: async (entry, finish, setErrors) => {
-                const [response] = await API.addTimeEntries([entry]);
+                const [response] = await addTimings([entry]);
                 if (response.code === 'Error') {
                     setErrors(response.errors);
                     return;

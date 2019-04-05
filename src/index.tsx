@@ -2,7 +2,7 @@ import * as React from 'react';
 import { render } from 'react-dom';
 import Modal from 'react-modal';
 
-import * as API from './client';
+import { logout } from './api/logout';
 
 import { Logo } from './components/logo';
 import { Navbar } from './components/navbar';
@@ -19,7 +19,7 @@ const onLoginToggle = (state: boolean, setState: (state: boolean) => void) => {
         setState(false);
     } else {
         // logout
-        API.logout().then(() => {
+        logout().then(() => {
             setState(true);
         });
     }
