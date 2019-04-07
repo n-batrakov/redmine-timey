@@ -1,5 +1,5 @@
-import { TimesheetEntry, NamedId } from '../../shared/types';
-import { toISODate } from '../../shared/date';
+import { TimesheetEntry, NamedId } from '../shared/types';
+import { toISODate } from '../shared/date';
 
 export const timeEntryEntity = 'time_entries';
 

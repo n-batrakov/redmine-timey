@@ -1,5 +1,5 @@
 import { TimesheetEntry } from '../../shared/types';
-import * as http from '../shared/http';
+import * as http from '../../shared/http';
 import { metadata, AddTimingsResponse } from './contract';
 
 export const addTimings = async (entries: TimesheetEntry[]): Promise<AddTimingsResponse> => {

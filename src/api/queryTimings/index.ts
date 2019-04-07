@@ -1,5 +1,5 @@
 import { metadata, QueryTimingsRequest, QueryTimingResponse } from './contract';
-import { ensureSuccessStatusCode, readJson, formatUrl } from '../shared/http';
+import { ensureSuccessStatusCode, readJson, formatUrl } from '../../shared/http';
 import { TimesheetEntry } from '../../shared/types';
 
 export const queryTimings = async (req: QueryTimingsRequest): Promise<QueryTimingResponse> => {

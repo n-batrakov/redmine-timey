@@ -1,5 +1,5 @@
 import { GetDailyHoursRequest, GetDailyHoursResponse, metadata } from './contract';
-import { formatUrl, ensureSuccessStatusCode, readJson } from '../shared/http';
+import { formatUrl, ensureSuccessStatusCode, readJson } from '../../shared/http';
 
 export const getDailyHours = async (req: GetDailyHoursRequest): Promise<GetDailyHoursResponse> => {
     const response = await fetch(formatUrl(metadata.url, req), { method: metadata.method });

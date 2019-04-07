@@ -1,3 +1,16 @@
+import { JsonSchema } from '../schema';
+
+export type RequestMetadata = {
+    url: string,
+    method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' | 'HEAD' | 'OPTIONS',
+    schema?: {
+        body?: JsonSchema,
+        querystring?: JsonSchema,
+        param?: JsonSchema,
+        headers?: JsonSchema,
+    },
+};
+
 export const isSuccessStatusCode = (response: Response) =>
     response.status >= 200 && response.status < 300;
 

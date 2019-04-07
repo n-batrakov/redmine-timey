@@ -1,4 +1,4 @@
-import { RequestMetadata } from '../shared';
+import { RequestMetadata } from '../../shared/http';
 
 export const metadata: RequestMetadata = {
     url: '/api/time/norm',

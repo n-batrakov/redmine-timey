@@ -1,6 +1,6 @@
 import { metadata } from './contract';
 import { RegisterHandler, authenticate, getCredentials } from '../../server/shared';
-import { timeEntryEntity, mapIncoming } from '../shared/timeEntries';
+import { timeEntryEntity, mapIncoming } from '../../server/redmineMappings';
 
 const updateHandler: RegisterHandler = (server, { redmine }) => server.route({
     ...metadata,

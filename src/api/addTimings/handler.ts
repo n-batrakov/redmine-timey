@@ -1,7 +1,7 @@
 import { metadata, AddTimingsResponse } from './contract';
 import { RegisterHandler, authenticate, getCredentials } from '../../server/shared';
 import { TimesheetEntry } from '../../shared/types';
-import { timeEntryEntity, mapIncoming, mapOutgoing } from '../shared/timeEntries';
+import { timeEntryEntity, mapIncoming, mapOutgoing } from '../../server/redmineMappings';
 import { FastifyRequest } from 'fastify';
 import { IncomingMessage } from 'http';
 

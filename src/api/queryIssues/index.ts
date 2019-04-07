@@ -1,5 +1,5 @@
 import { metadata, QueryIssuesResponse, QueryIssueRequest } from './contract';
-import { ensureSuccessStatusCode, readJson, formatUrl } from '../shared/http';
+import { ensureSuccessStatusCode, readJson, formatUrl } from '../../shared/http';
 
 export const queryIssues = async (req?: QueryIssueRequest): Promise<QueryIssuesResponse> => {
     const response = await fetch(formatUrl(metadata.url, req), { method: metadata.method });

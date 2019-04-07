@@ -1,6 +1,6 @@
 import { TimesheetEntry } from '../../shared/types';
 import { metadata } from '../addTimings/contract';
-import { jsonContentType, ensureSuccessStatusCode } from '../shared/http';
+import { jsonContentType, ensureSuccessStatusCode } from '../../shared/http';
 
 export const updateTiming = async (entry: TimesheetEntry): Promise<void> => {
     const response = await fetch(metadata.url, {

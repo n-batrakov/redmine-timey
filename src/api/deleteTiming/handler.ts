@@ -1,4 +1,4 @@
-import { timeEntryEntity } from '../shared/timeEntries';
+import { timeEntryEntity } from '../../server/redmineMappings';
 import { RegisterHandler, authenticate, getCredentials } from '../../server/shared';
 import { metadata } from './contract';
 

@@ -1,5 +1,5 @@
 import { metadata, GetEnumerationsResponse } from './contract';
-import { ensureSuccessStatusCode, readJson } from '../shared/http';
+import { ensureSuccessStatusCode, readJson } from '../../shared/http';
 
 let enumerationsCache: GetEnumerationsResponse | undefined = undefined;
 

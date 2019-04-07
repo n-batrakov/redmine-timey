@@ -1,4 +1,4 @@
-import { RequestMetadata } from '../shared';
+import { RequestMetadata } from '../../shared/http';
 import { EntityList } from '../../shared/dataSource';
 import { Issue } from '../../shared/types';
 

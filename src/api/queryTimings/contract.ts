@@ -1,4 +1,4 @@
-import { RequestMetadata } from '../shared';
+import { RequestMetadata } from '../../shared/http';
 import { TimesheetEntry } from '../../shared/types';
 import schema from '../../schema';
 import { EntityList } from '../../shared/dataSource';
