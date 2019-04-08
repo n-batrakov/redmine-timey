@@ -2,15 +2,15 @@ import * as React from 'react';
 import { Route, RouteComponentProps, Switch } from 'react-router';
 import ReactTooltip from 'react-tooltip';
 
-import { addDays, getMonthBoundaries, toISODate } from '../shared/date';
+import { addDays, getMonthBoundaries, toISODate } from '../../shared/date';
 
-import { getDailyHours } from '../api/getDailyHours';
-import { getMonthNorm } from '../api/getMonthNorm';
+import { getDailyHours } from '../../api/getDailyHours';
+import { getMonthNorm } from '../../api/getMonthNorm';
 
-import { ActivityHeatmap, ActivityHeatmapProps } from '../components/activityHeatmap';
-import { HoursGauge, HoursGaugeProps } from '../components/hoursGauge';
-import { FromErrors } from '../components/form';
-import { StatefulActivityList } from './timings/activityList';
+import { ActivityHeatmap, ActivityHeatmapProps } from '../../components/activityHeatmap';
+import { HoursGauge, HoursGaugeProps } from '../../components/hoursGauge';
+import { FromErrors } from '../../components/form';
+import { StatefulActivityList } from './activityList';
 
 
 type TimingsPageProps = RouteComponentProps<{
