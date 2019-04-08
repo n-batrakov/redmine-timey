@@ -17,7 +17,7 @@ export type TimesheetEntry = {
 
 const nameIdSchema = schema.object(
     { id: schema.string(), name: schema.string() },
-    schema.required('id', 'name'),
+    schema.required('id'),
 );
 
 export const TimesheetEntrySchema = schema.object({

@@ -3,7 +3,11 @@ import { ensureSuccessStatusCode, readJson, formatUrl } from '../../shared/http'
 import { TimesheetEntry } from '../../shared/types';
 
 export const queryTimings = async (req: QueryTimingsRequest): Promise<QueryTimingResponse> => {
-    const response = await fetch(formatUrl(metadata.url, req), { method: metadata.method });
+    const query = {
+        start: req.start.toISOString(),
+        end: req.end.toISOString(),
+    };
+    const response = await fetch(formatUrl(metadata.url, query), { method: metadata.method });
 
     ensureSuccessStatusCode(response);
 

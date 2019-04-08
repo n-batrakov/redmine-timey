@@ -1,5 +1,5 @@
 import { TimesheetEntry } from '../../shared/types';
-import { metadata } from '../addTimings/contract';
+import { metadata } from './contract';
 import { jsonContentType, ensureSuccessStatusCode } from '../../shared/http';
 
 export const updateTiming = async (entry: TimesheetEntry): Promise<void> => {

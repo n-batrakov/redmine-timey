@@ -2,7 +2,11 @@ import { GetDailyHoursRequest, GetDailyHoursResponse, metadata } from './contrac
 import { formatUrl, ensureSuccessStatusCode, readJson } from '../../shared/http';
 
 export const getDailyHours = async (req: GetDailyHoursRequest): Promise<GetDailyHoursResponse> => {
-    const response = await fetch(formatUrl(metadata.url, req), { method: metadata.method });
+    const query = {
+        start: req.start.toISOString(),
+        end: req.end.toISOString(),
+    };
+    const response = await fetch(formatUrl(metadata.url, query), { method: metadata.method });
 
     ensureSuccessStatusCode(response);
 

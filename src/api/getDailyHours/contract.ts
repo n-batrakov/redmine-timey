@@ -7,8 +7,8 @@ export const metadata: RequestMetadata = {
     schema: {
         querystring: schema.object(
             {
-                start: schema.date(),
-                end: schema.date(),
+                start: schema.dateTime(),
+                end: schema.dateTime(),
             },
             schema.required('start', 'end')),
     }
