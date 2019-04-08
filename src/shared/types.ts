@@ -1,4 +1,5 @@
 import schema from '../schema';
+import { toISODate } from './date';
 
 export type NamedId = {id: string, name?: string, href?: string};
 
@@ -12,6 +13,41 @@ export type TimesheetEntry = {
     comments: string,
     spentOn: Date,
 };
+
+export const isNamedIdEqual = (a?: NamedId, b?: NamedId) => {
+    if (a === b) {
+        return true;
+    }
+    if (a === undefined) {
+        return b === undefined;
+    }
+    if (b === undefined) {
+        return a === undefined;
+    }
+    return a.id === b.id && a.name === b.name;
+};
+
+export const isTimesheetEntryEqual = (a?: TimesheetEntry, b?: TimesheetEntry) => {
+    if (a === b) {
+        return true;
+    }
+    if (a === undefined) {
+        return b === undefined;
+    }
+    if (b === undefined) {
+        return a === undefined;
+    }
+
+    return b.id === a.id &&
+        b.hours === a.hours &&
+        b.comments === a.comments &&
+        toISODate(b.spentOn) === toISODate(a.spentOn) &&
+        isNamedIdEqual(b.project, a.project) &&
+        isNamedIdEqual(b.issue, a.issue) &&
+        isNamedIdEqual(b.activity, a.activity) &&
+        isNamedIdEqual(b.user, a.user);
+};
+
 
 
 

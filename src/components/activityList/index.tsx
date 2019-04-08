@@ -3,7 +3,7 @@ import * as React from 'react';
 import { IssueHeader } from '../issueHeader';
 
 import { getRange, toISODate } from '../../shared/date';
-import { TimesheetEntry } from '../../shared/types';
+import { TimesheetEntry, NamedId, isTimesheetEntryEqual } from '../../shared/types';
 import { List, ListItem } from '../list';
 import { Button } from '../form';
 import './activityList.css';
@@ -172,6 +172,9 @@ export const ActivityList = React.memo(
             return false;
         }
 
-        return prev.data.reduce((acc, x, i) => acc && next.data[i].id === x.id, true);
+        return prev.data.reduce(
+            (acc, currentItem, i) => acc && isTimesheetEntryEqual(currentItem, next.data[i]),
+            true,
+        );
     },
 );
