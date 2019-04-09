@@ -10,7 +10,10 @@ import { getMonthNorm } from '../../api/getMonthNorm';
 import { ActivityHeatmap, ActivityHeatmapProps } from '../../components/activityHeatmap';
 import { HoursGauge, HoursGaugeProps } from '../../components/hoursGauge';
 import { FromErrors } from '../../components/form';
-import { StatefulActivityList } from './activityList';
+import { ActivityListContainer } from './activityList';
+
+import { Provider } from 'react-redux';
+import { store } from './store/createStore';
 
 
 type TimingsPageProps = RouteComponentProps<{
@@ -39,7 +42,7 @@ export class TimingsPage extends React.Component<TimingsPageProps, TimingsPageSt
         const gaugeProps = this.state.gauge || { actualValue: 0, expectedValue: 160 };
 
         return (
-            <>
+            <Provider store={store}>
                 <ReactTooltip html />
                 <ActivityHeatmap { ...heatmapProps }
                                     onClick={this.onDayClick.bind(this)}
@@ -52,17 +55,14 @@ export class TimingsPage extends React.Component<TimingsPageProps, TimingsPageSt
                         exact
                         path={`${this.props.match.path}/:date(\\d{4}-\\d{2}-\\d{2})?`}
                         render={({ match }) => (
-                            <StatefulActivityList
-                                {...this.props}
-                                date={match.params.date }
-                            />
+                            <ActivityListContainer />
                         )}
                     />
                     <Route render={() => (
                         <FromErrors errors={['Sorry, your URL is invalid. Please select a day on a calendar or choose a different page.']} />
                     )}/>
                 </Switch>
-            </>
+            </Provider>
         );
     }
 

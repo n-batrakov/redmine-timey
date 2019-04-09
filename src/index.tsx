@@ -61,6 +61,11 @@ const App = () => {
     );
 }
 
+
+
 const appElement = document.getElementById('app') as HTMLElement;
 Modal.setAppElement(appElement);
-render(<App />, appElement);
+render(
+    <App/>,
+    appElement,
+);

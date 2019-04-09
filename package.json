@@ -16,6 +16,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.8.1",
     "@fortawesome/react-fontawesome": "^0.1.4",
     "@types/react-modal": "^3.8.1",
+    "@types/react-redux": "^7.0.6",
     "csv-parser": "^2.2.0",
     "fastify": "^2.1.0",
     "fastify-static": "^2.3.4",
@@ -26,9 +27,12 @@
     "react-dom": "^16.8.4",
     "react-modal": "^3.8.1",
     "react-paginate": "^6.3.0",
+    "react-redux": "^6.0.1",
     "react-router-dom": "^5.0.0",
     "react-tabs": "^3.0.0",
-    "react-tooltip": "^3.10.0"
+    "react-tooltip": "^3.10.0",
+    "redux": "^4.0.1",
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "@types/jest": "^24.0.11",
