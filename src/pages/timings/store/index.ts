@@ -4,11 +4,10 @@ import { queryTimings } from '../../../api/queryTimings';
 import { addTimings } from '../../../api/addTimings';
 import { ThunkAction } from 'redux-thunk';
 import { Dispatch } from 'react';
-import { TimingsPageState } from '../types';
-import { getEnumerations } from '../../../api/getEnumerations';
 import { queryIssues } from '../../../api/queryIssues';
 import { updateTiming } from '../../../api/updateTiming';
 import { deleteTiming } from '../../../api/deleteTiming';
+import { AppState } from '../../../state';
 
 export type ActivityListAction = {
     type: 'activityList_openEditModal',
@@ -26,7 +25,7 @@ export type ActivityListAction = {
     data: TimesheetEntry[],
 };
 
-export type ActivityListThunk = ThunkAction<any, TimingsPageState, {}, ActivityListAction>;
+export type ActivityListThunk = ThunkAction<any, AppState, {}, ActivityListAction>;
 
 export type ActivityListDispatch = Dispatch<ActivityListAction | ActivityListThunk>;
 
@@ -65,7 +64,7 @@ export const openAddModal = (date: Date): ActivityListThunk =>
         const state = getState();
         const modal: CreateTimingModalProps = {
             opened: true,
-            enumerations: await getEnumerations(),
+            enumerations: state.enumerations,
             issueSource: queryIssues,
             defaultValue: {
                 spentOn: date,
@@ -95,7 +94,7 @@ export const openEditModal = (entry: TimesheetEntry): ActivityListThunk =>
         const modal: EditTimingModalProps = {
             opened: true,
             data: entry,
-            enumerations: await getEnumerations(),
+            enumerations: state.enumerations,
             onClose: () => dispatch(closeModal()),
             onUpdate: async (entry, finish) => {
                 await updateTiming(entry);
