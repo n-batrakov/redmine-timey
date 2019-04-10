@@ -6,7 +6,7 @@ import { logout } from './api/logout';
 
 import { Logo } from './components/logo';
 import { Navbar } from './components/navbar';
-import { TimingsPage } from './pages/timings';
+import { TimingsPageContainer } from './pages/timings';
 import { IssuesPage } from './pages/issues';
 
 import { BrowserRouter as Router, Route, Switch, NavLink } from 'react-router-dom';
@@ -55,7 +55,7 @@ const App = () => {
                             history.push('/time');
                             return undefined;
                         }} />
-                        <Route path="/time" component={TimingsPage} />
+                        <Route path="/time" component={TimingsPageContainer} />
                         <Route path="/issue" component={IssuesPage} />
                         <Route render={() => (<h1>404: This is not the page you are looking for</h1>)} />
                     </Switch>

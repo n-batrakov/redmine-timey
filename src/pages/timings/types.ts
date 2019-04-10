@@ -1,20 +1,19 @@
 import { ActivityHeatmapProps } from '../../components/activityHeatmap';
 import { HoursGaugeProps } from '../../components/hoursGauge';
-import { TimesheetEntry } from '../../shared/types';
-import { EditTimingModalProps, CreateTimingModalProps } from '../../components/editTimingModal';
+import { Dispatch, Action } from 'redux';
+import { ThunkAction } from 'redux-thunk';
+import { AppState } from '../../state';
 
 export type TimingsPageState = {
-    activityList: ActivityListState,
-    heatmap: ActivityHeatmapProps,
-    gauge: HoursGaugeProps,
+    heatmap?: ActivityHeatmapProps,
+    gauge?: HoursGaugeProps,
 };
 
-export type ActivityListState = {
-    data: TimesheetEntry[],
-    isLoading: boolean,
-    title: string,
-    start: Date,
-    end: Date,
-    editModal?: EditTimingModalProps,
-    createModal?: CreateTimingModalProps,
+export type TimingsPageAction = {
+    type: 'timings_setData',
+    data: { heatmap: ActivityHeatmapProps, gauge: HoursGaugeProps },
 };
+
+export type TimingsPageThunk = ThunkAction<any, AppState, {}, TimingsPageAction>;
+
+export type TimingsPageDispath = Dispatch<Action<TimingsPageAction | TimingsPageThunk>>;

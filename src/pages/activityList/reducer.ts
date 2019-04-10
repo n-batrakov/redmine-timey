@@ -1,7 +1,6 @@
-import { ActivityListAction } from '.';
-import { addDays } from '../../../shared/date';
-import { ActivityListState } from '../types';
-import { assertNever } from '../../../shared';
+import { addDays } from '../../shared/date';
+import { assertNever } from '../../shared';
+import { ActivityListAction, ActivityListState } from './types';
 
 
 const initState: ActivityListState = {

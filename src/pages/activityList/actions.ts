@@ -1,34 +1,12 @@
-import { TimesheetEntry } from '../../../shared/types';
-import { EditTimingModalProps, CreateTimingModalProps } from '../../../components/editTimingModal';
-import { queryTimings } from '../../../api/queryTimings';
-import { addTimings } from '../../../api/addTimings';
-import { ThunkAction } from 'redux-thunk';
-import { Dispatch } from 'react';
-import { queryIssues } from '../../../api/queryIssues';
-import { updateTiming } from '../../../api/updateTiming';
-import { deleteTiming } from '../../../api/deleteTiming';
-import { AppState } from '../../../state';
+import { TimesheetEntry } from '../../shared/types';
+import { ActivityListAction, ActivityListThunk } from './types';
+import { EditTimingModalProps, CreateTimingModalProps } from '../../components/editTimingModal';
 
-export type ActivityListAction = {
-    type: 'activityList_openEditModal',
-    data: EditTimingModalProps,
-} | {
-    type: 'activityList_openCreateModal',
-    data: CreateTimingModalProps,
-} | {
-    type: 'activityList_closeModal',
-} | {
-    type: 'activityList_setPreloader',
-    isLoading: boolean,
-} | {
-    type: 'activityList_setReady',
-    data: TimesheetEntry[],
-};
-
-export type ActivityListThunk = ThunkAction<any, AppState, {}, ActivityListAction>;
-
-export type ActivityListDispatch = Dispatch<ActivityListAction | ActivityListThunk>;
-
+import { queryTimings } from '../../api/queryTimings';
+import { addTimings } from '../../api/addTimings';
+import { queryIssues } from '../../api/queryIssues';
+import { updateTiming } from '../../api/updateTiming';
+import { deleteTiming } from '../../api/deleteTiming';
 
 
 export const closeModal = (): ActivityListAction => ({

@@ -1,13 +1,18 @@
 import * as React from 'react';
-import * as Store from './store';
+import * as Store from './actions';
 import { connect } from 'react-redux';
 
-import { TimingsPageState } from './types';
 import { TimesheetEntry } from '../../shared/types';
+import { AppState } from '../../state';
 
 import { ActivityList } from '../../components/activityList';
 import { Preloader } from '../../components/preloader';
-import { EditTimingModalProps, CreateTimingModalProps, EditTimingModal, CreateTimingModal } from '../../components/editTimingModal';
+import {
+    EditTimingModalProps,
+    CreateTimingModalProps,
+    EditTimingModal,
+    CreateTimingModal,
+} from '../../components/editTimingModal';
 
 type ActivityListContainerProps = {
     title: string,
@@ -42,7 +47,7 @@ const List = (props: ActivityListContainerProps) => {
 };
 
 export const ActivityListContainer = connect(
-    (state: TimingsPageState): Partial<ActivityListContainerProps> => ({
+    (state: AppState): Partial<ActivityListContainerProps> => ({
         ...state.activityList,
     }),
     {
