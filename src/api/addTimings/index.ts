@@ -9,5 +9,19 @@ export const addTimings = async (entries: TimesheetEntry[]): Promise<AddTimingsR
         headers: http.jsonContentType,
     });
 
-    return await http.readJson(response);
+    const body: AddTimingsResponse = await http.readJson(response);
+
+    return body.map((result) => {
+        if (typeof result.entry.spentOn === 'string') {
+            return {
+                ...result,
+                entry: {
+                    ...result.entry,
+                    spentOn: new Date(Date.parse(result.entry.spentOn)),
+                },
+            };
+        } else {
+            return result;
+        }
+    });
 };
