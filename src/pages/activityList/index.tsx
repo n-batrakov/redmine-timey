@@ -15,6 +15,8 @@ import {
 } from '../../components/editTimingModal';
 import { RouteComponentProps } from 'react-router';
 import { tryParseDate, addDays, toISODate } from '../../shared/date';
+import { Breadcrumbs, Crumb } from '../../components/breadcrumbs';
+import { NavLink } from 'react-router-dom';
 
 type ActivityListContainerProps = {
     data: TimesheetEntry[],
@@ -43,6 +45,10 @@ const parseSelectedDate = (str: string) => {
     return { start: date, end: date };
 };
 
+
+const showIf = (condition: boolean): React.CSSProperties | undefined => condition ? undefined : { display: 'none' };
+const hideIf = (condition: boolean): React.CSSProperties | undefined => showIf(!condition);
+
 const List = (props: ActivityListContainerProps) => {
     const isDaySelected = props.match.params.date !== undefined;
     const timeframe = isDaySelected
@@ -56,9 +62,20 @@ const List = (props: ActivityListContainerProps) => {
             { props.editModal === undefined ? undefined : <EditTimingModal { ...props.editModal }/> }
             { props.createModal === undefined ? undefined : <CreateTimingModal { ...props.createModal }/> }
             <div className="activity-overview">
-                <h1>{isDaySelected ? timeframe.start.toLocaleDateString() : 'Activity Overview'}</h1>
+                <h1 style={{ display: 'flex' }}>
+                    <Breadcrumbs>
+                        <Crumb>
+                            <NavLink to="/time" style={{ cursor: 'pointer', color: '#2261a1', textDecoration: 'none', outline: 0 }}>Activity Overview</NavLink>
+                        </Crumb>
+                        <Crumb style={showIf(isDaySelected)}>
+                            {timeframe.start.toLocaleDateString()}
+                        </Crumb>
+                    </Breadcrumbs>
+                </h1>
+
                 <Preloader active={props.isLoading} />
-                <div style={{ display: props.isLoading ? 'none' : undefined }}>
+
+                <div style={hideIf(props.isLoading)}>
                     <ActivityList {...props} {...timeframe} />
                 </div>
             </div>
