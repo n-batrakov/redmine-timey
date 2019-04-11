@@ -57,7 +57,7 @@ const mapData = (data: TimesheetEntry[]) => {
 
 
 const AddAcivityButton = (props: { onClick?: () => void }) => (
-        <button style={{ marginLeft: 'auto' }} onClick={props.onClick} className="list-day-add-btn">
+        <button style={{ marginLeft: 'auto' }} onClick={props.onClick} className="list-day-add-btn"  title="Add timing">
             <FontAwesomeIcon icon={faPlus} />
         </button>
 );
