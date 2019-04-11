@@ -52,8 +52,8 @@
 }
   
   .react-tabs__tab--disabled {
-    color: GrayText;
-    cursor: default;
+    color: #888;
+    cursor: not-allowed;
 }
   
   .react-tabs__tab:focus {
