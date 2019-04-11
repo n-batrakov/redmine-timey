@@ -59,6 +59,7 @@ export const Button = (x: ButtonProps) => (
         type={x.type === 'submit' ? 'submit' : 'button'}
         onClick={x.onClick}
         style={x.style}
+        title={x.tooltip}
     >
         {x.value}
     </button>
