@@ -9,6 +9,7 @@ import { updateTiming } from '../../api/updateTiming';
 import { deleteTiming } from '../../api/deleteTiming';
 import { QueryTimingsRequest } from '../../api/queryTimings/contract';
 
+import { loadData as updateTimingsData } from '../timings/actions';
 
 export const closeModal = (): ActivityListAction => ({
     type: 'activityList_closeModal',
@@ -19,10 +20,11 @@ export const setPreloader = (isLoadging: boolean): ActivityListAction => ({
     isLoading: isLoadging,
 });
 
-export const setData = (data: TimesheetEntry[]): ActivityListAction => ({
-    data,
-    type: 'activityList_setReady',
-});
+export const setData = (data: TimesheetEntry[]): ActivityListThunk => (dispatch: any) => {
+    dispatch({ data, type: 'activityList_setReady' });
+
+    dispatch(updateTimingsData());
+};
 
 
 
@@ -56,7 +58,7 @@ export const openAddModal = (date: Date): ActivityListThunk =>
                     const newEntry = response.entry;
                     const data = [newEntry, ...state.activityList.data];
 
-                    dispatch({ data, type: 'activityList_setReady' });
+                    dispatch(setData(data));
                     dispatch(closeModal());
                 }
             },
