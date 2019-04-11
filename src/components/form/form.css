@@ -51,6 +51,10 @@
     background-color: #dc3545;
     color: #fff;
 }
+.btn.btn-small {
+    height: 32px;
+    padding: 0 8px;
+}
 
 .timey-form-cover {
     position: fixed;
