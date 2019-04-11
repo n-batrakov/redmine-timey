@@ -8,9 +8,6 @@ import { AppState } from '../../state';
 export type ActivityListState = {
     data: TimesheetEntry[],
     isLoading: boolean,
-    title: string,
-    start: Date,
-    end: Date,
     editModal?: EditTimingModalProps,
     createModal?: CreateTimingModalProps,
 };

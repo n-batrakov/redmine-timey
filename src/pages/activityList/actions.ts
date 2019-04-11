@@ -7,6 +7,7 @@ import { addTimings } from '../../api/addTimings';
 import { queryIssues } from '../../api/queryIssues';
 import { updateTiming } from '../../api/updateTiming';
 import { deleteTiming } from '../../api/deleteTiming';
+import { QueryTimingsRequest } from '../../api/queryTimings/contract';
 
 
 export const closeModal = (): ActivityListAction => ({
@@ -25,9 +26,7 @@ export const setData = (data: TimesheetEntry[]): ActivityListAction => ({
 
 
 
-export const loadData = (): ActivityListThunk => (dispatch, getState) => {
-    const { activityList: req } = getState();
-
+export const loadData = (req: QueryTimingsRequest): ActivityListThunk => (dispatch) => {
     queryTimings(req)
     .then(({ data }) => {
         dispatch({ data, type: 'activityList_setReady' });

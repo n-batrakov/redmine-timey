@@ -13,33 +13,53 @@ import {
     EditTimingModal,
     CreateTimingModal,
 } from '../../components/editTimingModal';
+import { RouteComponentProps } from 'react-router';
+import { tryParseDate, addDays, toISODate } from '../../shared/date';
 
 type ActivityListContainerProps = {
-    title: string,
-    start: Date,
-    end: Date,
     data: TimesheetEntry[],
     isLoading: boolean,
     editModal?: EditTimingModalProps,
     createModal?: CreateTimingModalProps,
 
-    loadData: () => void,
+    loadData: (req: {start: Date, end: Date}) => void,
     onActivityClick?: (entry: TimesheetEntry) => void,
     onActivityAddClick?: (date: Date) => void,
+} & RouteComponentProps<{date?: string}>;
+
+const getOverviewTimeframe = (end: Date) => {
+    const start = addDays(end, -7);
+    return { start, end };
+};
+
+const parseSelectedDate = (str: string) => {
+    const date = tryParseDate(str);
+
+    if (date === undefined) {
+        console.error(`Unable to parse '${str}'. Showing default list view.`);
+        return getOverviewTimeframe(new Date());
+    }
+
+    return { start: date, end: date };
 };
 
 const List = (props: ActivityListContainerProps) => {
-    React.useEffect(() => props.loadData(), []);
+    const isDaySelected = props.match.params.date !== undefined;
+    const timeframe = isDaySelected
+        ? parseSelectedDate(props.match.params.date as string)
+        : getOverviewTimeframe(new Date());
+
+    React.useEffect(() => props.loadData(timeframe), [toISODate(timeframe.start), toISODate(timeframe.end)]);
 
     return (
         <>
             { props.editModal === undefined ? undefined : <EditTimingModal { ...props.editModal }/> }
             { props.createModal === undefined ? undefined : <CreateTimingModal { ...props.createModal }/> }
             <div className="activity-overview">
-                <h1>{props.title}</h1>
+                <h1>{isDaySelected ? timeframe.start.toLocaleDateString() : 'Activity Overview'}</h1>
                 <Preloader active={props.isLoading} />
                 <div style={{ display: props.isLoading ? 'none' : undefined }}>
-                    <ActivityList {...props}/>
+                    <ActivityList {...props} {...timeframe} />
                 </div>
             </div>
         </>
@@ -47,7 +67,8 @@ const List = (props: ActivityListContainerProps) => {
 };
 
 export const ActivityListContainer = connect(
-    (state: AppState): Partial<ActivityListContainerProps> => ({
+    (state: AppState, props: Partial<ActivityListContainerProps>): Partial<ActivityListContainerProps> => ({
+        ...props,
         ...state.activityList,
     }),
     {

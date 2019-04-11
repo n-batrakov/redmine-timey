@@ -1,4 +1,3 @@
-import { addDays } from '../../shared/date';
 import { assertNever } from '../../shared';
 import { ActivityListAction, ActivityListState } from './types';
 
@@ -6,9 +5,6 @@ import { ActivityListAction, ActivityListState } from './types';
 const initState: ActivityListState = {
     isLoading: true,
     data: [],
-    title: 'Activity Overview',
-    start: addDays(new Date(), -7),
-    end: new Date(),
 };
 
 export const reducer = (state: ActivityListState, action: ActivityListAction): ActivityListState => {

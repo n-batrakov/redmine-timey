@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Route, Switch } from 'react-router';
+import { Route, Switch, RouteComponentProps } from 'react-router';
 import ReactTooltip from 'react-tooltip';
 
-import { addDays } from '../../shared/date';
+import { addDays, toISODate } from '../../shared/date';
 
 import { AppState } from '../../state';
 
@@ -23,7 +23,7 @@ export type TimingsPageContainerProps = {
     gauge?: HoursGaugeProps,
 
     loadData: () => void,
-};
+} & RouteComponentProps;
 const Page = (props: TimingsPageContainerProps) => {
     React.useEffect(() => props.loadData(), []);
 
@@ -36,7 +36,7 @@ const Page = (props: TimingsPageContainerProps) => {
             <ReactTooltip html />
             <ActivityHeatmap
                 { ...heatmapProps }
-                onClick={props.onDayChange}
+                onClick={({ date }) => props.history.push(`${props.match.path}/${toISODate(date)}`)}
                 numDays={window.innerWidth < 800 ? 100 : 0}
             />
 
@@ -45,11 +45,8 @@ const Page = (props: TimingsPageContainerProps) => {
             <Switch>
                 <Route
                     exact
-                    //path={`time/:date(\\d{4}-\\d{2}-\\d{2})?`}
-
-                    render={({ match }) => (
-                        <ActivityListContainer/>
-                    )}
+                    path={`${props.match.path}/:date(\\d{4}-\\d{2}-\\d{2})?`}
+                    render={route => <ActivityListContainer {...route}/>}
                 />
                 <Route render={() => (
                     <FromErrors errors={['Sorry, your URL is invalid. Please select a day on a calendar or choose a different page.']} />
@@ -60,7 +57,8 @@ const Page = (props: TimingsPageContainerProps) => {
 };
 
 export const TimingsPageContainer = connect(
-    (state: AppState): Partial<TimingsPageContainerProps> => ({
+    (state: AppState, props: Partial<TimingsPageContainerProps>): Partial<TimingsPageContainerProps> => ({
+        ...props,
         gauge: state.timingsPage.gauge,
         heatmap: state.timingsPage.heatmap,
     }),
