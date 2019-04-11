@@ -3,11 +3,13 @@ import * as React from 'react';
 import { IssueHeader } from '../issueHeader';
 
 import { getRange, toISODate } from '../../shared/date';
-import { TimesheetEntry, NamedId, isTimesheetEntryEqual } from '../../shared/types';
+import { TimesheetEntry, isTimesheetEntryEqual } from '../../shared/types';
 import { List, ListItem } from '../list';
-import { Button } from '../form';
 import './activityList.css';
 import { bind } from '../../shared';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wedsday', 'Thursday', 'Friday', 'Saturday'];
 const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -55,7 +57,9 @@ const mapData = (data: TimesheetEntry[]) => {
 
 
 const AddAcivityButton = (props: { onClick?: () => void }) => (
-    <Button value="Add Activity" style={{ marginLeft: 'auto' }} onClick={props.onClick} />
+        <button style={{ marginLeft: 'auto' }} onClick={props.onClick} className="list-day-add-btn">
+            <FontAwesomeIcon icon={faPlus} />
+        </button>
 );
 
 type ActivityListItemProps = {date: Date, hours: number, children?: React.ReactNode, style?: React.CSSProperties };

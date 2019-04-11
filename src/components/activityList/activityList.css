@@ -35,3 +35,14 @@
     margin-right: 8px;
     font-weight: bold;
 }
+
+.list-day-add-btn {
+    height: 32px;
+    background-color: #fff;
+    border: 1px solid #eee;
+    border-radius: 3px;
+    cursor: pointer;
+}
+.list-day-add-btn:hover {
+    background-color: #eee;
+}
