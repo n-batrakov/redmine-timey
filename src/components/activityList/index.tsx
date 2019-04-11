@@ -1,15 +1,15 @@
 import * as React from 'react';
+import './activityList.css';
 
 import { IssueHeader } from '../issueHeader';
 
 import { getRange, toISODate } from '../../shared/date';
 import { TimesheetEntry, isTimesheetEntryEqual } from '../../shared/types';
 import { List, ListItem } from '../list';
-import './activityList.css';
 import { bind } from '../../shared';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { IconAdd } from '../icon';
+import { Button } from '../form';
 
 const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wedsday', 'Thursday', 'Friday', 'Saturday'];
 const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -57,9 +57,13 @@ const mapData = (data: TimesheetEntry[]) => {
 
 
 const AddAcivityButton = (props: { onClick?: () => void }) => (
-        <button style={{ marginLeft: 'auto' }} onClick={props.onClick} className="list-day-add-btn"  title="Add timing">
-            <FontAwesomeIcon icon={faPlus} />
-        </button>
+        <Button
+            tooltip="Add timing"
+            size="small"
+            value={<IconAdd/>}
+            style={{ marginLeft: 'auto' }}
+            onClick={props.onClick}
+        />
 );
 
 type ActivityListItemProps = {date: Date, hours: number, children?: React.ReactNode, style?: React.CSSProperties };
