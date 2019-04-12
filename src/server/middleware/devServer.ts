@@ -24,5 +24,5 @@ const indexFallback = (req: any, res: any, next: any) => {
 export const devServer = () => {
     return (req: any, res: any, next: any) => {
         return middleware(req, res, () => indexFallback(req, res, next));
-    }
+    };
 };

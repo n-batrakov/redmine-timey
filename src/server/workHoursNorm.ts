@@ -16,7 +16,7 @@ type CalendarFileItem = {
 
 export type Calendar = {
     [year: number]: Array<Array<DayType>>,
-}
+};
 
 function getMonthTotalDays(date: Date) {
     const [_, nextMonthStartDate] = getMonthBoundaries(date);

@@ -55,4 +55,4 @@ export const IssueList = (props: IssueListProps) => {
             }</List>
         </div>
     );
-}
+};

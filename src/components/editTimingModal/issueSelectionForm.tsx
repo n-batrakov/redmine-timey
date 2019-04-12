@@ -12,7 +12,7 @@ const getLimitOffset = (page: number, pageSize: number): Paginable => {
         limit: pageSize,
         offset: page * pageSize,
     };
-}
+};
 
 export type IssueSelectionFormProps = {
     dataSource: DataSource<{}, Issue>,
@@ -71,4 +71,4 @@ export const IssueSelectionForm = (props: IssueSelectionFormProps) => {
             </div>
         </>
     );
-}
+};

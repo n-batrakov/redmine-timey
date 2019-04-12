@@ -14,7 +14,7 @@ export const metadata: RequestMetadata = {
             },
             schema.required('start', 'end'),
         ),
-    }
+    },
 };
 
 export type QueryTimingsRequest = {

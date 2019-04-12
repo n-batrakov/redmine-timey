@@ -27,5 +27,5 @@ export function getCredentials(authHeader: string) {
     const [_, credentials] = authHeader.split(' ');
     const [login, password] = atob(credentials).split(':');
 
-    return {login, password};
+    return { login, password };
 }

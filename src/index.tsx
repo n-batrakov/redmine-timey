@@ -26,7 +26,7 @@ const onLoginToggle = (state: boolean, setState: (state: boolean) => void) => {
             setState(true);
         });
     }
-}
+};
 
 const App = () => {
     const [isLoggedOut, logOut] = React.useState(false);
@@ -64,7 +64,7 @@ const App = () => {
             </Router>
         </Provider>
     );
-}
+};
 
 
 

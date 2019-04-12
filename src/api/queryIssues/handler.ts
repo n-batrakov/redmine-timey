@@ -1,5 +1,5 @@
 import { RegisterHandler, authenticate, getCredentials } from '../../server/shared';
-import { Issue, NamedId} from '../../shared/types';
+import { Issue, NamedId } from '../../shared/types';
 import { metadata } from './contract';
 
 const getProject = ({ id, name }: NamedId, redmineHost: string) => {

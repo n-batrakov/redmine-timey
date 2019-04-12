@@ -58,4 +58,4 @@ export const Pagination = (props: PaginationProps) => {
             />
         </div>
     );
-}
+};

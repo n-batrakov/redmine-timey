@@ -22,7 +22,7 @@ const getBtnClass = ({ type, size }: ButtonProps) => {
     };
 
     const getSizeClass = () => {
-        switch(size) {
+        switch (size) {
             case undefined:
             case 'default':
                 return '';

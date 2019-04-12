@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { TimesheetEntry, Enumeration} from '../../shared/types';
+import { TimesheetEntry, Enumeration } from '../../shared/types';
 import { toArray } from '../../shared';
 
 import {

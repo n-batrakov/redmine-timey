@@ -23,5 +23,5 @@ export const mapOutgoing = ({ time_entry: x }: any, issue?: NamedId) => {
         comments: x['comments'],
         hours: x['hours'],
         spentOn: new Date(x['spent_on']),
-    }
+    };
 };

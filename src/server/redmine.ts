@@ -67,7 +67,7 @@ export class RedmineClient {
                 limit: body.limit,
                 offset: body.offset,
                 totalCount: body['total_count'],
-            }
+            };
         } else {
             return {
                 code: response.status === 401 ? 'NotAuthenticated' : 'Error',
@@ -88,7 +88,7 @@ export class RedmineClient {
             return {
                 code: 'Success',
                 data: body[enumeration],
-            }
+            };
         } else {
             return {
                 code: response.status === 401 ? 'NotAuthenticated' : 'Error',
@@ -146,7 +146,7 @@ export class RedmineClient {
 
         const response = await fetch(uri.toString(), {
             method: 'DELETE',
-            headers: this.getHeaders(params)
+            headers: this.getHeaders(params),
         });
 
         return this.getResponseCode(response);
@@ -171,7 +171,7 @@ export class RedmineClient {
             return { 'X-Redmine-API-Key': this.apiKey || '' };
         }
 
-        return { 'Authorization': `Basic ${btoa(`${login}:${password}`)}` }
+        return { Authorization: `Basic ${btoa(`${login}:${password}`)}` };
     }
 
     private getResponseCode({ status } : {status: number}): RedmineSuccessResponse | RedmineErrorResponse {

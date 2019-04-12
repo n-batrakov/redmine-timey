@@ -14,4 +14,4 @@ export const getEnumerations = async (): Promise<GetEnumerationsResponse> => {
     }
 
     return enumerationsCache;
-}
+};

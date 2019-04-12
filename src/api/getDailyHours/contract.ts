@@ -11,7 +11,7 @@ export const metadata: RequestMetadata = {
                 end: schema.dateTime(),
             },
             schema.required('start', 'end')),
-    }
+    },
 };
 
 export type GetDailyHoursRequest = {
