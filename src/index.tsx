@@ -6,14 +6,15 @@ import { logout } from './api/logout';
 
 import { Logo } from './components/logo';
 import { Navbar } from './components/navbar';
-import { TimingsPageContainer } from './pages/timings';
-import { IssuesPage } from './pages/issues';
+
 
 import { BrowserRouter as Router, Route, Switch, NavLink } from 'react-router-dom';
 
 import './index.css';
 import { Provider } from 'react-redux';
 import { store } from './createStore';
+import { TimingsPageContainer } from './containers/timings';
+import { IssuesPage } from './containers/issues';
 
 const onLoginToggle = (state: boolean, setState: (state: boolean) => void) => {
     if (state) {

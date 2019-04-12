@@ -1,9 +1,9 @@
 import thunk from 'redux-thunk';
 import { createStore, applyMiddleware, combineReducers } from 'redux';
-import { reducer as activityListReducer } from './pages/activityList/reducer';
-import { reducer as timingsPageReducer }  from './pages/timings/reducer';
-import { isLoggedInReducer, enumerationsReducer } from './pages/shared/store/reducer';
-import { loadEnumerations } from './pages/shared/store';
+import { reducer as activityListReducer } from './containers/activityList/reducer';
+import { reducer as timingsPageReducer }  from './containers/timings/reducer';
+import { isLoggedInReducer, enumerationsReducer } from './containers/shared/store/reducer';
+import { loadEnumerations } from './containers/shared/store';
 
 
 export const store = createStore(

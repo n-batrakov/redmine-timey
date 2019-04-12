@@ -3,7 +3,7 @@ import './preloader.css';
 
 const getColor = (x: PreloaderProps) => {
     return x.color || 'rgba(0, 0, 0, 0.2)';
-}
+};
 
 export type PreloaderProps = {
     active: boolean,
