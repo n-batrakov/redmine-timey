@@ -1,13 +1,14 @@
+import './editTimingModal.css';
+
 import * as React from 'react';
 import Modal from 'react-modal';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
-import './editTimingModal.css';
-
 import { TimesheetEntryForm } from './timesheetEntryForm';
-import { IssueSelectionForm } from './issueSelectionForm';
 import { NamedId, TimesheetEntry, EnumerationsLookup, Issue } from '../../shared/types';
 import { DataSource } from '../../shared/dataSource';
+import { Issues } from '../../containers/issues';
+import { Button } from '../button';
 
 const onModalClose = () => false;
 
@@ -128,16 +129,17 @@ export const CreateTimingModal = (props: CreateTimingModalProps) => {
                     <Tab disabled={!isIssueSelected}>Timing</Tab>
                 </TabList>
                 <TabPanel>
-                    <IssueSelectionForm
-                        dataSource={props.issueSource}
-                        onClose={onClose}
-                        onIssueSelected={x => setState({
+                    <Issues
+                        onSelect={x => setState({
                             selectedIssue: {
                                 issue: { id: x.id, name: x.subject },
                                 project: x.project,
                             },
                             tabIndex: 1 })}
                     />
+                    <div style={{ display: 'flex', flexDirection: 'row-reverse', paddingTop: 32 }}>
+                        <Button value="Cancel" onClick={props.onClose} />
+                    </div>
                 </TabPanel>
                 <TabPanel>
                     <TimesheetEntryForm

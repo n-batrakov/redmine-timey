@@ -2,6 +2,7 @@ import thunk from 'redux-thunk';
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { reducer as activityListReducer } from './containers/activityList/reducer';
 import { reducer as timingsPageReducer }  from './containers/timings/reducer';
+import { reducer as issuesReducer } from './containers/issues/reducer';
 import { isLoggedInReducer, enumerationsReducer } from './containers/shared/store/reducer';
 import { loadEnumerations } from './containers/shared/store';
 
@@ -12,6 +13,7 @@ export const store = createStore(
         activityList: activityListReducer,
         isLoggedIn: isLoggedInReducer,
         enumerations: enumerationsReducer,
+        issues: issuesReducer,
     }),
     applyMiddleware(thunk),
 );

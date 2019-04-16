@@ -14,7 +14,7 @@ import './index.css';
 import { Provider } from 'react-redux';
 import { store } from './createStore';
 import { TimingsPageContainer } from './containers/timings';
-import { IssuesPage } from './containers/issues';
+import { Issues } from './containers/issues';
 
 const onLoginToggle = (state: boolean, setState: (state: boolean) => void) => {
     if (state) {
@@ -57,7 +57,7 @@ const App = () => {
                             return undefined;
                         }} />
                         <Route path="/time" component={TimingsPageContainer} />
-                        <Route path="/issue" component={IssuesPage} />
+                        <Route path="/issue" component={Issues}/>
                         <Route render={() => (<h1>404: This is not the page you are looking for</h1>)} />
                     </Switch>
                 </div>
