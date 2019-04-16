@@ -15,7 +15,7 @@ export const isSuccessStatusCode = (response: Response) =>
     response.status >= 200 && response.status < 300;
 
 export const ensureSuccessStatusCode = (response: Response, message?: string) => {
-    if (isSuccessStatusCode) {
+    if (isSuccessStatusCode(response)) {
         return;
     } else {
         throw new Error(`Response status code ${response.status} does not indicate success. ${message || ''}`);
