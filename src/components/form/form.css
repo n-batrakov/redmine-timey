@@ -2,58 +2,13 @@
     box-sizing: border-box;
 }
 
-.timey-form .row {
-    margin: 12px 0;
-}
-
-.timey-form label {
-    padding-bottom: 8px;
-    display: inline-block;
-}
-
-.timey-form input[type=text], input[type=number], input[type=date], select, textarea {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    resize: none;
-}
-  
-.timey-form .container {
-    border-radius: 5px;
-    background-color: #f2f2f2;
-    padding: 20px;
-}
-  
-.timey-form .footer {
+.timey-form-footer {
     display: flex;
     flex-direction: row-reverse;
 }
 
-.timey-form .footer * {
+.timey-form-footer * {
     margin: 0 2px;
-}
-
-
-.btn {
-    background-color: #fff;
-    color: #000;
-    padding: 12px 20px;
-    border: 1px solid #aaa;
-    border-radius: 4px;
-    cursor: pointer;
-}
-.btn.btn-primary {
-    background-color: #28a745;
-    color: #fff;
-}
-.btn.btn-danger {
-    background-color: #dc3545;
-    color: #fff;
-}
-.btn.btn-small {
-    height: 32px;
-    padding: 0 8px;
 }
 
 .timey-form-cover {

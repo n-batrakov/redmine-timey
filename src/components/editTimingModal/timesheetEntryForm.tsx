@@ -3,18 +3,10 @@ import * as React from 'react';
 import { TimesheetEntry, Enumeration } from '../../shared/types';
 import { toArray } from '../../shared';
 
-import {
-    Form,
-    FormHeader,
-    FormFooter,
-    TextArea,
-    Select,
-    Button,
-    SelectOption,
-    DateInput,
-    NumberInput,
-    FromErrors,
-} from '../form';
+import { Button } from '../button';
+import { Form, FormHeader, FormFooter, FromErrors } from '../form';
+import { Label, TextArea, Select, DateInput, SelectOption, NumberInput } from '../input';
+import { VerticalLayout, Row } from '../form/layout';
 
 export type TimesheetEntryFormProps = {
     activities: Enumeration,
@@ -110,27 +102,58 @@ export class TimesheetEntryForm extends React.Component<TimesheetEntryFormProps,
 
         return (
             <Form onSubmit={this.onSubmit} loading={this.state.isLoading}>
-                {this.props.title === undefined ? undefined : <FormHeader>{this.props.title}</FormHeader>}
+                <VerticalLayout>
+                    {this.props.title === undefined ? undefined : <FormHeader>{this.props.title}</FormHeader>}
 
-                <DateInput required label="Date" name="spentOn" value={spentOn}  />
-                <Select label="Issue" name="issue" value={issue.id} disabled>
-                    <SelectOption value={issue.id}>{issue.name}</SelectOption>
-                </Select>
-                <NumberInput required label="Hours" name="hours" value={hours} step={0.25} min={0} max={24} />
-                <TextArea required label="Comments" name="comments" value={comments} placeholder="" style={{ height: 100 }}/>
-                <Select required label="Activity" name="activity" value={activity.id}>
-                    {toArray(this.props.activities).map(x => (<SelectOption key={x.id} value={x.id}>{x.name}</SelectOption>))}
-                </Select>
-                <FromErrors errors={this.state.errors}/>
-                <FormFooter>
-                    <Button value="Save" type="submit"/>
-                    <Button value="Cancel" onClick={this.props.onClose}/>
-                    {
-                        this.props.showDelete
-                            ? <Button value="Delete" type="danger" style={{ marginRight: 'auto' }} onClick={this.onDelete}/>
-                            : undefined
-                    }
-                </FormFooter>
+                    <Row>
+                        <Label label="Date">
+                            <DateInput required name="spentOn" value={spentOn}  />
+                        </Label>
+                    </Row>
+                    <Row>
+                        <Label label="Issue">
+                            <Select name="issue" value={issue.id}>
+                                <SelectOption value={issue.id}>{issue.name}</SelectOption>
+                            </Select>
+                        </Label>
+                    </Row>
+                    <Row>
+                        <Label label="Hours">
+                            <NumberInput required name="hours" value={hours} step={0.25} min={0} max={24} />
+                        </Label>
+                    </Row>
+                    <Row>
+                        <Label label="Comments">
+                            <TextArea required name="comments" value={comments} placeholder="" style={{ height: 100 }}/>
+                        </Label>
+                    </Row>
+                    <Row>
+                        <Label label="Activity">
+                            <Select required name="activity" value={activity.id}>
+                                {toArray(this.props.activities).map(x => (<SelectOption key={x.id} value={x.id}>{x.name}</SelectOption>))}
+                            </Select>
+                        </Label>
+                    </Row>
+
+                    <Row>
+                        <FromErrors errors={this.state.errors}/>
+                    </Row>
+                    <Row>
+                        <FormFooter>
+                            <Button value="Save" type="submit"/>
+                            <Button value="Cancel" onClick={this.props.onClose}/>
+                            {
+                                this.props.showDelete
+                                    ? <Button
+                                        value="Delete"
+                                        type="danger"
+                                        style={{ marginRight: 'auto' }}
+                                        onClick={this.onDelete} />
+                                    : undefined
+                            }
+                        </FormFooter>
+                    </Row>
+                </VerticalLayout>
             </Form>
         );
     }
