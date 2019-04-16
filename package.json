@@ -25,6 +25,7 @@
     "react": "^16.8.4",
     "react-calendar-heatmap": "^1.8.0",
     "react-dom": "^16.8.4",
+    "react-flexbox-grid": "^2.1.2",
     "react-modal": "^3.8.1",
     "react-paginate": "^6.3.0",
     "react-redux": "^6.0.1",

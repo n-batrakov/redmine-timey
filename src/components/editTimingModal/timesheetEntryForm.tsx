@@ -6,7 +6,18 @@ import { toArray } from '../../shared';
 import { Button } from '../button';
 import { Form, FormHeader, FormFooter, FromErrors } from '../form';
 import { Label, TextArea, Select, DateInput, SelectOption, NumberInput } from '../input';
-import { VerticalLayout, Row } from '../form/layout';
+import { Grid, Row, Col } from '../layout';
+
+
+const FormRow = (props: { children: React.ReactNode }) => (
+    <Row style={{
+        margin: '8px 0',
+    }}>
+        <Col xs={12}>
+            {props.children}
+        </Col>
+    </Row>
+);
 
 export type TimesheetEntryFormProps = {
     activities: Enumeration,
@@ -102,43 +113,43 @@ export class TimesheetEntryForm extends React.Component<TimesheetEntryFormProps,
 
         return (
             <Form onSubmit={this.onSubmit} loading={this.state.isLoading}>
-                <VerticalLayout>
+                <Grid fluid>
                     {this.props.title === undefined ? undefined : <FormHeader>{this.props.title}</FormHeader>}
 
-                    <Row>
+                    <FormRow>
                         <Label label="Date">
                             <DateInput required name="spentOn" value={spentOn}  />
                         </Label>
-                    </Row>
-                    <Row>
+                    </FormRow>
+                    <FormRow>
                         <Label label="Issue">
                             <Select name="issue" value={issue.id}>
                                 <SelectOption value={issue.id}>{issue.name}</SelectOption>
                             </Select>
                         </Label>
-                    </Row>
-                    <Row>
+                    </FormRow>
+                    <FormRow>
                         <Label label="Hours">
                             <NumberInput required name="hours" value={hours} step={0.25} min={0} max={24} />
                         </Label>
-                    </Row>
-                    <Row>
+                    </FormRow>
+                    <FormRow>
                         <Label label="Comments">
                             <TextArea required name="comments" value={comments} placeholder="" style={{ height: 100 }}/>
                         </Label>
-                    </Row>
-                    <Row>
+                    </FormRow>
+                    <FormRow>
                         <Label label="Activity">
                             <Select required name="activity" value={activity.id}>
                                 {toArray(this.props.activities).map(x => (<SelectOption key={x.id} value={x.id}>{x.name}</SelectOption>))}
                             </Select>
                         </Label>
-                    </Row>
+                    </FormRow>
 
-                    <Row>
+                    <FormRow>
                         <FromErrors errors={this.state.errors}/>
-                    </Row>
-                    <Row>
+                    </FormRow>
+                    <FormRow>
                         <FormFooter>
                             <Button value="Save" type="submit"/>
                             <Button value="Cancel" onClick={this.props.onClose}/>
@@ -152,8 +163,8 @@ export class TimesheetEntryForm extends React.Component<TimesheetEntryFormProps,
                                     : undefined
                             }
                         </FormFooter>
-                    </Row>
-                </VerticalLayout>
+                    </FormRow>
+                </Grid>
             </Form>
         );
     }
