@@ -9,7 +9,6 @@ const getBtnClass = ({ type, size }: ButtonProps) => {
             case 'default':
                 return '';
             case 'primary':
-            case 'submit':
                 return 'btn-primary';
             case 'danger':
                 return 'btn-danger';
@@ -38,7 +37,8 @@ const getBtnClass = ({ type, size }: ButtonProps) => {
 export type ButtonProps = {
     value: React.ReactNode,
     onClick?: () => void,
-    type?: 'default' | 'primary' | 'danger' | 'submit',
+    submit?: boolean,
+    type?: 'default' | 'primary' | 'danger',
     size?: 'small' | 'default',
     style?: React.CSSProperties,
     tooltip?: string,
@@ -46,7 +46,7 @@ export type ButtonProps = {
 export const Button = (x: ButtonProps) => (
     <button
         className={getBtnClass(x)}
-        type={x.type === 'submit' ? 'submit' : 'button'}
+        type={x.submit === true ? 'submit' : 'button'}
         onClick={x.onClick}
         style={x.style}
         title={x.tooltip}
