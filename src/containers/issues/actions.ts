@@ -20,7 +20,6 @@ export const loadData = (page: number): IssuesThunk => (dispatch, getState) => {
 
     queryIssues({ limit, offset })
     .then(({ data, totalCount }) => {
-        console.log(data);
         dispatch(setData(data, totalCount));
     })
     .catch((e) => {
