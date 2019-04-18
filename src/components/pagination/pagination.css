@@ -12,11 +12,17 @@
 .timey-pagination li {
     cursor: pointer;
     display: inline-block;
-    margin: 2px;
     padding: 8px;
     border: 1px solid #aaa;
-    border-radius: 5px;
+    border-right: none;
     outline: none;
+}
+.timey-pagination li:first-child {
+    border-radius: 3px 0 0 3px;
+}
+.timey-pagination li:last-child {
+    border-right: 1px solid #aaa;
+    border-radius: 0 3px 3px 0;
 }
 .timey-pagination li:hover {
     background-color: #eee;
