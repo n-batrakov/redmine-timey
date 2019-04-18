@@ -20,6 +20,7 @@ export const FromErrors = ({ errors }: {errors: string[]}) => (
 export type FormProps = {
     loading?: boolean,
     onSubmit: (x: any) => void,
+    style?: React.CSSProperties,
 };
 
 export class Form extends React.Component<FormProps> {
@@ -34,7 +35,16 @@ export class Form extends React.Component<FormProps> {
 
         const formData = new FormData(e.target);
         const form: any = {};
-        formData.forEach((x, key) => form[key] = x);
+        formData.forEach((x, key) => {
+            const value = form[key];
+            if (value === undefined) {
+                form[key] = x;
+            } else if (Array.isArray(value)) {
+                form[key] = [...value, x];
+            } else {
+                form[key] = [value, x];
+            }
+        });
 
         this.props.onSubmit(form);
     }
@@ -45,7 +55,7 @@ export class Form extends React.Component<FormProps> {
                 <div className="timey-form-cover" style={{ display: this.props.loading ? 'block' : 'none' }}>
                     <Preloader active={this.props.loading || false } styles={{ marginTop: 0, top: '40%' }}/>
                 </div>
-                <form onSubmit={this.onSubmit} className="timey-form">
+                <form onSubmit={this.onSubmit} className="timey-form" style={this.props.style}>
                     {this.props.children}
                 </form>
              </>
