@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { IssueList } from '../../components/issueList';
-import { Preloader } from '../../components/preloader';
+import { CoverLoader } from '../../components/preloader';
 import { Pagination } from '../../components/pagination';
 import { Issue } from '../../shared/types';
 import { connect } from 'react-redux';
@@ -37,7 +37,7 @@ const Component = (props: IssuesProps) => {
 
     return (
         <div>
-            <Preloader active={props.isLoading}/>
+            <CoverLoader active={props.isLoading}/>
             <IssueControlPanel
                 {...controlPanelProps}
                 onApplyFilters={(data) => {

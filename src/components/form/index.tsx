@@ -1,6 +1,6 @@
 import './form.css';
 import * as React from 'react';
-import { Preloader } from '../preloader';
+import { CoverLoader } from '../preloader';
 
 
 export const FormHeader = (x: {children: React.ReactNode}) => (
@@ -52,9 +52,7 @@ export class Form extends React.Component<FormProps> {
     public render() {
         return (
             <>
-                <div className="timey-form-cover" style={{ display: this.props.loading ? 'block' : 'none' }}>
-                    <Preloader active={this.props.loading || false } styles={{ marginTop: 0, top: '40%' }}/>
-                </div>
+                <CoverLoader active={this.props.loading || false } style={{ marginTop: 0, top: '40%' }}/>
                 <form onSubmit={this.onSubmit} className="timey-form" style={this.props.style}>
                     {this.props.children}
                 </form>

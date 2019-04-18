@@ -6,7 +6,7 @@ import { TimesheetEntry } from '../../shared/types';
 import { AppState } from '../../state';
 
 import { ActivityList } from '../../components/activityList';
-import { Preloader } from '../../components/preloader';
+import { Loader } from '../../components/preloader';
 import {
     EditTimingModalProps,
     CreateTimingModalProps,
@@ -73,7 +73,7 @@ const List = (props: ActivityListContainerProps) => {
                     </Breadcrumbs>
                 </h1>
 
-                <Preloader active={props.isLoading} />
+                <Loader active={props.isLoading} />
 
                 <div style={hideIf(props.isLoading)}>
                     <ActivityList {...props} {...timeframe} />
