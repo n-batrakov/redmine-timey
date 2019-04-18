@@ -14,7 +14,7 @@ export type LoaderProps = {
 };
 export const Loader = (x: LoaderProps) => (
     <div
-        className={`loader ${x.active ? '' : 'disabled'}`}
+        className={`timey-loader ${x.active ? '' : 'disabled'}`}
         style={{
             fontSize: x.size,
             borderTop: `3px solid ${getColor(x)}`,
@@ -28,7 +28,7 @@ export const Loader = (x: LoaderProps) => (
 
 
 export const LoaderBackground = (props: { style?: React.CSSProperties, children?: React.ReactNode}) => (
-    <div className="loader-cover" style={props.style}>{props.children}</div>
+    <div className="timey-loader-cover" style={props.style}>{props.children}</div>
 );
 
 export const CoverLoader = (props: LoaderProps) => (
