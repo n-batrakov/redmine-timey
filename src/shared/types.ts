@@ -97,4 +97,7 @@ export type EnumerationsLookup = {
     priority: Enumeration,
     status: Enumeration,
     activity: Enumeration,
+    projects: Enumeration,
+    queries: Enumeration,
+    users: Enumeration,
 };
