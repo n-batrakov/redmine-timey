@@ -2,7 +2,9 @@ import { metadata, QueryIssuesResponse, QueryIssueRequest } from './contract';
 import { ensureSuccessStatusCode, readJson, formatUrl } from '../../shared/http';
 
 export const queryIssues = async (req?: QueryIssueRequest): Promise<QueryIssuesResponse> => {
-    const response = await fetch(formatUrl(metadata.url, req), { method: metadata.method });
+    const url = formatUrl(metadata.url, req);
+
+    const response = await fetch(url, { method: metadata.method });
 
     ensureSuccessStatusCode(response);
 

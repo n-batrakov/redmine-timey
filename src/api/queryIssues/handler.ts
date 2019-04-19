@@ -1,6 +1,6 @@
 import { RegisterHandler, authenticate, getCredentials } from '../../server/shared';
 import { Issue, NamedId } from '../../shared/types';
-import { metadata } from './contract';
+import { metadata, QueryIssueRequest } from './contract';
 
 const getProject = ({ id, name }: NamedId, redmineHost: string) => {
     return { id, name, href: `${redmineHost}/projects/${id}` };
@@ -29,13 +29,17 @@ const handler: RegisterHandler = (server, { redmine }) => server.route({
 
         const limit = req.query.limit === undefined ? 10 : parseInt(req.query.limit, 10);
         const offset = req.query.offset === undefined ? 0 : parseInt(req.query.offset, 10);
+        const { project, author, assigned, status, query } = req.query as QueryIssueRequest;
 
         const response = await redmine.query('issues', {
             limit,
             offset,
             ...auth,
-            status_id: '*',
-            assigned_to_id: 'me',
+            status_id: status || '*',
+            assigned_to_id: assigned || 'me',
+            author_id: author,
+            project_id: project,
+            query_id: query,
         });
 
         switch (response.code) {

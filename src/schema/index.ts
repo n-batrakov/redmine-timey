@@ -1,5 +1,5 @@
 export type JsonSchema = {
-    type: 'string' | 'number' | 'boolean' | 'object' | 'array',
+    type: 'string' | 'number' | 'integer' | 'boolean' | 'object' | 'array',
     properties?: { [name: string]: JsonSchema },
     items?: JsonSchema,
     format?: string,
@@ -8,6 +8,7 @@ export type JsonSchema = {
 
 export default {
     string: () => ({ type: 'string' }) as JsonSchema,
+    int: () => ({ type: 'integer' }) as JsonSchema,
     float: () => ({ type: 'number' }) as JsonSchema,
     date: () => ({ type: 'string', format: 'date' }) as JsonSchema,
     dateTime: () => ({ type: 'string', format: 'date-time' }) as JsonSchema,
