@@ -1,6 +1,7 @@
 import { RegisterHandler, authenticate, getCredentials } from '../../server/shared';
 import { Issue, NamedId } from '../../shared/types';
 import { metadata, QueryIssueRequest } from './contract';
+import { isUndefined } from 'util';
 
 const getProject = ({ id, name }: NamedId, redmineHost: string) => {
     return { id, name, href: `${redmineHost}/projects/${id}` };
@@ -21,6 +22,12 @@ const mapIssue = (x: any, redmineHost: string): Issue => ({
     href: `${redmineHost}/issues/${x.id}`,
 });
 
+function choose<T>(fn: (x: T) => boolean, a: T, b: T): T {
+    return fn(a) ? a : b;
+}
+const notUndefinedOrEmpty = (str?: string): boolean => !isUndefined(str) && str !== '';
+const undefinedIfEmpty = (val: string | undefined) => choose(notUndefinedOrEmpty, val, undefined);
+
 const handler: RegisterHandler = (server, { redmine }) => server.route({
     ...metadata,
     preHandler: authenticate,
@@ -35,11 +42,11 @@ const handler: RegisterHandler = (server, { redmine }) => server.route({
             limit,
             offset,
             ...auth,
-            status_id: status || '*',
-            assigned_to_id: assigned || 'me',
-            author_id: author,
-            project_id: project,
-            query_id: query,
+            status_id: choose(notUndefinedOrEmpty, status, '*'),
+            assigned_to_id: undefinedIfEmpty(assigned),
+            author_id: undefinedIfEmpty(author),
+            project_id: undefinedIfEmpty(project),
+            query_id: undefinedIfEmpty(query),
         });
 
         switch (response.code) {
@@ -51,6 +58,14 @@ const handler: RegisterHandler = (server, { redmine }) => server.route({
                 resp.code(401);
                 return '';
             case 'Error':
+                if (response.status === 404) {
+                    return {
+                        code: 'Success',
+                        limit, offset,
+                        totalCount: 0,
+                        data: []
+                    }
+                }
                 resp.code(response.status);
                 return '';
         }
