@@ -6,7 +6,10 @@ const initState: IssuesState = {
     page: 0,
     pageSize: 10,
     totalCount: 0,
-}
+    filter: {
+        assigned: { label: 'Me', value: 'me' },
+    },
+};
 
 export const reducer = (state: IssuesState, action: IssuesAction): IssuesState => {
     if (state === undefined) {
@@ -30,6 +33,11 @@ export const reducer = (state: IssuesState, action: IssuesAction): IssuesState =
             return {
                 ...state,
                 isLoading: true,
+            };
+        case 'issues_setFilter':
+            return {
+                ...state,
+                filter: action.filter,
             };
         default:
             return state;

@@ -25,9 +25,7 @@ const selectStyles: Partial<Styles> = ({
     clearIndicator: styles => ({ ...styles, padding: '0 8px' }),
     valueContainer: styles => ({ ...styles, padding: '0 8px' }),
 });
-const statusSelectStyles: Partial<Styles> = ({
-    option: styles => ({ ...styles, textAlign: 'left' }),
-});
+
 const btnStyle: React.CSSProperties = {
     height: 27,
     lineHeight: 0,
@@ -37,68 +35,126 @@ const btnStyle: React.CSSProperties = {
 type FilterFormProps = IssueControlPanelProps & {
     hideCancelButton: boolean,
     onCancelClick?: () => void,
+    onDropClick?: () => void,
     style?: React.CSSProperties,
 };
-const FilterForm = (props: FilterFormProps) => (
-    <Form onSubmit={props.onApplyFilters as any} style={props.style}>
-        <Grid style={{ maxWidth: 1480, padding: 0 }}>
-            <PanelRow>
-                <PanelCol>
-                    <Select name="query" options={props.queries} placeholder="Query" styles={selectStyles} />
-                </PanelCol>
-                <PanelCol>
-                    <Select name="project" options={props.projects} placeholder="Project" styles={selectStyles} />
-                </PanelCol>
-                <PanelCol>
-                    <Select name="author" options={props.users} placeholder="Author" styles={selectStyles} />
-                </PanelCol>
-                <PanelCol>
-                    <Select name="assigned" options={props.users} placeholder="Assigned"  styles={selectStyles} />
-                </PanelCol>
-            </PanelRow>
-            <PanelRow end="xs">
-                <PanelCol md={8} lg={6} >
-                    <Select
-                        isMulti
-                        name="statuses"
-                        options={props.statuses}
-                        placeholder="Status"
-                        closeMenuOnSelect={false}
-                        styles={{ ...selectStyles, ...statusSelectStyles }}
-                    />
-                </PanelCol>
-                <PanelCol>
-                    <MobileScreen>
-                        <Button
-                            value="Cancel"
-                            style={{ ...btnStyle, display: props.hideCancelButton ? 'none' : undefined }}
-                            onClick={props.onCancelClick}
-                        />
-                    </MobileScreen>
-                    <Button submit value="Apply" style={btnStyle} />
-                </PanelCol>
-            </PanelRow>
-        </Grid>
-    </Form>
-);
 
-type FilterFormData = {
-    author: string,
-    assigned: string,
-    project: string,
-    query: string,
-    statuses: Array<string>,
+const defaultFormValue: IncomingFilterFormData = {
+    author: undefined,
+    assigned: undefined,
+    project: undefined,
+    query: undefined,
+    status: undefined,
 };
-type SelectOptionValue = { value: string, label: string };
+
+const FilterForm = (props: FilterFormProps) => {
+    const value = props.formValue || defaultFormValue;
+    return (
+        <Form onSubmit={props.onApplyFilters as any} style={props.style}>
+            <Grid style={{ maxWidth: 1480, padding: 0 }}>
+                <PanelRow>
+                    <PanelCol>
+                        <Select
+                            name="query"
+                            placeholder="Query"
+                            options={props.queries}
+                            styles={selectStyles}
+                            isClearable
+                            defaultValue={value.query}
+                        />
+                    </PanelCol>
+                    <PanelCol>
+                        <Select
+                            name="project"
+                            placeholder="Project"
+                            options={props.projects}
+                            styles={selectStyles}
+                            isClearable
+                            defaultValue={value.project}
+                        />
+                    </PanelCol>
+                    <PanelCol>
+                        <Select
+                            name="author"
+                            placeholder="Author"
+                            options={props.users}
+                            styles={selectStyles}
+                            isClearable
+                            defaultValue={value.author}
+                        />
+                    </PanelCol>
+                    <PanelCol>
+                        <Select
+                            name="assigned"
+                            placeholder="Assigned"
+                            options={props.users}
+                            styles={selectStyles}
+                            isClearable
+                            defaultValue={value.assigned}
+                        />
+                    </PanelCol>
+                    <PanelCol>
+                        <Select
+                            name="status"
+                            placeholder="Status"
+                            options={props.statuses}
+                            styles={selectStyles}
+                            isClearable
+                            defaultValue={value.status}
+                        />
+                    </PanelCol>
+                </PanelRow>
+                <PanelRow end="xs">
+                    <PanelCol>
+                        <MobileScreen>
+                            <Button
+                                value="Cancel"
+                                style={{ ...btnStyle, display: props.hideCancelButton ? 'none' : undefined }}
+                                onClick={props.onCancelClick}
+                            />
+                        </MobileScreen>
+                        {/* <Button value="Drop" style={btnStyle} onClick={props.onDropClick}/> */}
+                        <Button submit value="Apply" style={btnStyle} />
+                    </PanelCol>
+                </PanelRow>
+            </Grid>
+        </Form>
+    );
+}
+
+
+export type SelectOptionValue = { value: string, label: string };
+
+export type IncomingFilterFormData = {
+    author?: SelectOptionValue,
+    assigned?: SelectOptionValue,
+    project?: SelectOptionValue,
+    query?: SelectOptionValue,
+    status?: SelectOptionValue,
+};
+
+export type OutgoingFilterFormData = {
+    author?: string,
+    assigned?: string,
+    project?: string,
+    query?: string,
+    status?: string,
+};
+
 export type IssueControlPanelProps = {
     users: Array<SelectOptionValue>,
     projects: Array<SelectOptionValue>,
     queries: Array<SelectOptionValue>,
     statuses: Array<SelectOptionValue>,
-    onApplyFilters?: (data: FilterFormData) => void,
+    formValue?: IncomingFilterFormData,
+    onApplyFilters?: (data: OutgoingFilterFormData) => void,
+    onDropFilters?: () => void,
 };
+
 export const IssueControlPanel = (props: IssueControlPanelProps) => {
     const [hidden, toggleHidden] = React.useState(true);
+
+    console.log(props.formValue);
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -112,11 +168,16 @@ export const IssueControlPanel = (props: IssueControlPanelProps) => {
                     {...props}
                     hideCancelButton={hidden}
                     onCancelClick={() => toggleHidden(true)}
+                    onDropClick={props.onDropFilters}
                     style={{ display: hidden ? 'none' : undefined }}
                 />
             </MobileScreen>
             <MobileScreenHidden>
-                <FilterForm {...props} hideCancelButton={true}/>
+                <FilterForm
+                    {...props}
+                    hideCancelButton={true}
+                    onDropClick={props.onDropFilters}
+                />
             </MobileScreenHidden>
         </div>
     );
