@@ -11,15 +11,6 @@ import { RouteComponentProps } from 'react-router';
 import { IssueFilterValue, IssuesFilter, IssueFilterField } from './types';
 
 
-/*
-## TODO
-
-* Modal styling
-* Reset filters [?]
-* Set filter via querystring  [?]
-
-*/
-
 const NoData = (props: { visible: boolean }) => (
     <div style={{ display: props.visible ? undefined : 'none' }}>
         <h2>No data</h2>
@@ -64,6 +55,8 @@ const Component = (props: IssuesProps) => {
                 formValue={props.filter}
                 onApplyFilters={props.applyFilter}
                 onDropFilters={props.applyFilter}
+                style={{ maxWidth: 1480 }}
+                compact
             />
             <NoData visible={!props.isLoading && props.data.length === 0} />
             <IssueList

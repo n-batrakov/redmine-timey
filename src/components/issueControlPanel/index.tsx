@@ -5,7 +5,6 @@ import { Grid, Row, Col, ColProps, RowProps } from '../layout';
 import Select from 'react-select';
 import { Button } from '../button';
 import { Styles } from 'react-select/lib/styles';
-import { MobileScreen, MobileScreenHidden } from '../mediaQuery';
 
 
 const PanelRow = ({ children, ...props }: RowProps) => (
@@ -51,7 +50,7 @@ const FilterForm = (props: FilterFormProps) => {
     const value = props.formValue || defaultFormValue;
     return (
         <Form onSubmit={props.onApplyFilters as any} style={props.style}>
-            <Grid style={{ maxWidth: 1480, padding: 0 }}>
+            <Grid style={{ padding: 0 }}>
                 <PanelRow>
                     <PanelCol>
                         <Select
@@ -106,13 +105,11 @@ const FilterForm = (props: FilterFormProps) => {
                 </PanelRow>
                 <PanelRow end="xs">
                     <PanelCol>
-                        <MobileScreen>
-                            <Button
-                                value="Cancel"
-                                style={{ ...btnStyle, display: props.hideCancelButton ? 'none' : undefined }}
-                                onClick={props.onCancelClick}
-                            />
-                        </MobileScreen>
+                        <Button
+                            value="Cancel"
+                            style={{ ...btnStyle, display: props.hideCancelButton ? 'none' : undefined }}
+                            onClick={props.onCancelClick}
+                        />
                         {/* <Button value="Drop" style={btnStyle} onClick={props.onDropClick}/> */}
                         <Button submit value="Apply" style={btnStyle} />
                     </PanelCol>
@@ -147,38 +144,34 @@ export type IssueControlPanelProps = {
     queries: Array<SelectOptionValue>,
     statuses: Array<SelectOptionValue>,
     formValue?: IncomingFilterFormData,
+    compact?: boolean,
     onApplyFilters?: (data: OutgoingFilterFormData) => void,
     onDropFilters?: () => void,
+    style?: React.CSSProperties,
 };
 
 export const IssueControlPanel = (props: IssueControlPanelProps) => {
     const [hidden, toggleHidden] = React.useState(true);
-
-    console.log(props.formValue);
+    const isCompact = props.compact || false;
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <MobileScreen>
-                <Button
-                    value="Filters"
-                    onClick={() => toggleHidden(false)}
-                    style={{ ...btnStyle, margin: 0, display: hidden ? undefined : 'none' }}
-                />
-                <FilterForm
-                    {...props}
-                    hideCancelButton={hidden}
-                    onCancelClick={() => toggleHidden(true)}
-                    onDropClick={props.onDropFilters}
-                    style={{ display: hidden ? 'none' : undefined }}
-                />
-            </MobileScreen>
-            <MobileScreenHidden>
-                <FilterForm
-                    {...props}
-                    hideCancelButton={true}
-                    onDropClick={props.onDropFilters}
-                />
-            </MobileScreenHidden>
+        <div style={{ ...props.style, display: 'flex', flexDirection: 'column' }}>
+            <Button
+                value="Filters"
+                onClick={() => toggleHidden(false)}
+                style={{
+                    ...btnStyle,
+                    margin: 0,
+                    display: isCompact ? hidden ? undefined : 'none' : 'none',
+                }}
+            />
+            <FilterForm
+                {...props}
+                hideCancelButton={!isCompact}
+                onCancelClick={() => toggleHidden(true)}
+                onDropClick={props.onDropFilters}
+                style={{ display: !hidden || !isCompact ? undefined : 'none' }}
+            />
         </div>
     );
 }
