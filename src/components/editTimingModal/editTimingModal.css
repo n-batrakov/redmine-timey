@@ -74,6 +74,7 @@
   
   .react-tabs__tab-panel {
     display: none;
+    padding-top: 14px;
 }
   
   .react-tabs__tab-panel--selected {
