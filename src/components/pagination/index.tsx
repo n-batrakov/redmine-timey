@@ -39,12 +39,14 @@ const getPaginationRange = () => {
 
 export const Pagination = (props: PaginationProps) => {
     const { range, margin } = getPaginationRange();
+    const pageCount = Math.ceil(props.count / props.pageSize);
+
 
     return (
-        <div style={{ display: 'flex', ...props.style }}>
+        <div style={{ display: pageCount === 0 ? 'none' : 'flex', ...props.style }}>
             <ReactPaginate
                 containerClassName="timey-pagination"
-                pageCount={Math.ceil(props.count / props.pageSize)}
+                pageCount={pageCount}
                 pageRangeDisplayed={range}
                 marginPagesDisplayed={margin}
                 previousLabel="<"
