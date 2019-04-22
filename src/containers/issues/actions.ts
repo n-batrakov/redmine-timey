@@ -3,18 +3,28 @@ import { queryIssues } from '../../api/queryIssues';
 import { IssuesAction, IssuesThunk, IssuesFilter, IssueFilterValue } from './types';
 
 
-export const setPreloader = (): IssuesAction => ({
-    type: 'issues_setPreloader',
-});
+export const setPreloader = (): IssuesAction => {
+    return {
+        type: 'issues_setPreloader',
+    };
+};
 
-export const setData = (data: Issue[], totalCount: number): IssuesAction => ({
-    data,
-    totalCount,
-    type: 'issues_setData',
-});
+export const setData = (data: Issue[], totalCount: number): IssuesAction => {
+    return {
+        data,
+        totalCount,
+        type: 'issues_setData',
+    };
+}
 
 
-export const gotoPage = (page: number): IssuesThunk => (dispatch) => {
+export const gotoPage = (page: number): IssuesThunk => (dispatch, getState) => {
+    const { page: currentPage } = getState().issues;
+
+    if (page === currentPage) {
+        return;
+    }
+
     dispatch({ page, type: 'issues_setPage' });
     dispatch(loadData());
 };
@@ -58,9 +68,12 @@ const mapFilterToApi = (x: IssuesFilter) => {
         {});
 };
 export const loadData = (): IssuesThunk => (dispatch, getState) => {
-    dispatch(setPreloader());
-    
-    const { page, pageSize, filter } = getState().issues;
+    const { page, pageSize, filter, isLoading } = getState().issues;
+
+    if (!isLoading) {
+        dispatch(setPreloader());
+    }
+
     const limit = pageSize;
     const offset = page * pageSize;
 

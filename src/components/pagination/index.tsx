@@ -37,7 +37,7 @@ const getPaginationRange = () => {
     }
 };
 
-export const Pagination = (props: PaginationProps) => {
+export const Pagination = React.memo((props: PaginationProps) => {
     const { range, margin } = getPaginationRange();
     const pageCount = Math.ceil(props.count / props.pageSize);
 
@@ -60,4 +60,4 @@ export const Pagination = (props: PaginationProps) => {
             />
         </div>
     );
-};
+});

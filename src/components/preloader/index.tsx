@@ -12,7 +12,7 @@ export type LoaderProps = {
     spinnerColor?: string,
     style?: React.CSSProperties,
 };
-export const Loader = (x: LoaderProps) => (
+export const Loader = React.memo((x: LoaderProps) => (
     <div
         className={`timey-loader ${x.active ? '' : 'disabled'}`}
         style={{
@@ -24,15 +24,15 @@ export const Loader = (x: LoaderProps) => (
             ...x.style,
         }}
     />
-);
+));
 
 
 export const LoaderBackground = (props: { style?: React.CSSProperties, children?: React.ReactNode}) => (
     <div className="timey-loader-cover" style={props.style}>{props.children}</div>
 );
 
-export const CoverLoader = (props: LoaderProps) => (
+export const CoverLoader = React.memo((props: LoaderProps) => (
     <LoaderBackground style={{ display: props.active ? undefined : 'none' }}>
         <Loader {...props} active style={{ margin: 'auto', ...props.style }}/>
     </LoaderBackground>
-);
+));

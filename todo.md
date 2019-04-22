@@ -6,10 +6,8 @@
     * Cookie auth
     * Issue total time spent
 * UI
-    * Change native selects to lib selects [?]
-    * Save and Continue Button
     * Remove Issue page
-    * Issue List Unneccesary re-renders
+    * Save and Continue Button
 * BUILD
     * Add web manifest
     * Production build

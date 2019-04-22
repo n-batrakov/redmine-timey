@@ -11,12 +11,14 @@ import { RouteComponentProps } from 'react-router';
 import { IssueFilterValue, IssuesFilter, IssueFilterField } from './types';
 
 
-const NoData = (props: { visible: boolean }) => (
-    <div style={{ display: props.visible ? undefined : 'none' }}>
-        <h2>No data</h2>
-        <p>Please, specify different search criteria.</p>
-    </div>
-);
+const NoData = React.memo((props: { visible: boolean }) => {
+    return (
+        <div style={{ display: props.visible ? undefined : 'none' }}>
+            <h2>No data</h2>
+            <p>Please, specify different search criteria.</p>
+        </div>
+    );
+});
 
 export type IssuesProps = {
     isLoading: boolean,
