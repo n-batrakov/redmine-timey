@@ -36,7 +36,6 @@ const App = () => {
             logo={<Logo/>}
             items={[
                 <NavLink to="/time" className="navbar-btn" activeClassName="active">Time</NavLink>,
-                <NavLink to="/issue" className="navbar-btn" activeClassName="active">Issues</NavLink>,
             ]}
             rightItems={[
                 <button className="navbar-btn" onClick={() => onLoginToggle(isLoggedOut, logOut)}>
@@ -57,7 +56,6 @@ const App = () => {
                             return undefined;
                         }} />
                         <Route path="/time" component={TimingsPageContainer} />
-                        <Route path="/issue" component={Issues}/>
                         <Route render={() => (<h1>404: This is not the page you are looking for</h1>)} />
                     </Switch>
                 </div>
