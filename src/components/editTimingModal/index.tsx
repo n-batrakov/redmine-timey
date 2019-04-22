@@ -12,13 +12,6 @@ import { Button } from '../button';
 
 const onModalClose = () => false;
 
-const ModalHeader = ({ title }: { title: string }) => (
-    <h2 style={{
-        margin: '15px 32px 0',
-    }}>{title}</h2>
-);
-
-
 export type EditTimingModalProps = {
     opened?: boolean,
     data: TimesheetEntry,
@@ -42,7 +35,6 @@ export const EditTimingModal = (props: EditTimingModalProps) => {
             onRequestClose={onModalClose}
             className="edit-timing-modal"
         >
-            <ModalHeader title="Edit Timing" />
             <Tabs defaultIndex={1}>
                 <TabList>
                     <Tab disabled>Issue</Tab>
@@ -122,7 +114,6 @@ export const CreateTimingModal = (props: CreateTimingModalProps) => {
             onRequestClose={onModalClose}
             className="edit-timing-modal"
         >
-            <ModalHeader title="Add Timing" />
             <Tabs selectedIndex={tabIndex} onSelect={idx => setState({ selectedIssue, tabIndex: idx })}>
                 <TabList>
                     <Tab>Issue</Tab>

@@ -6,8 +6,6 @@
     * Cookie auth
     * Issue total time spent
 * UI
-    * Larger heatmap squares
-    * Modal header margin
     * Remove Issue page
     * Issue List Unneccesary re-renders
     * Firefox button outline
