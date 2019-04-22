@@ -17,6 +17,7 @@ export type ActivityHeatmapProps = {
     data: Array<{ date: Date, count: number }>,
     onClick?: (value: {date: Date, count: number}) => void,
     numDays?: number,
+    loading?: boolean,
 };
 
 const mapData = (start: Date, end: Date, data: Array<{ date: Date, count: number }>) => {
@@ -49,6 +50,10 @@ export class ActivityHeatmap extends React.Component<ActivityHeatmapProps> {
                     endDate={this.props.endDate}
                     values={values}
                     classForValue={(value) => {
+                        if (this.props.loading) {
+                            return 'loading';
+                        }
+
                         if (!value || value.count === 0) {
                             return 'color-empty';
                         }

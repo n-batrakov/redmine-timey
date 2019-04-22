@@ -5,6 +5,7 @@ import { ThunkAction } from 'redux-thunk';
 import { AppState } from '../../state';
 
 export type TimingsPageState = {
+    isLoading: boolean,
     heatmap?: ActivityHeatmapProps,
     gauge?: HoursGaugeProps,
 };
@@ -12,6 +13,8 @@ export type TimingsPageState = {
 export type TimingsPageAction = {
     type: 'timings_setData',
     data: { heatmap: ActivityHeatmapProps, gauge: HoursGaugeProps },
+} | {
+    type: 'timings_setLoader',
 };
 
 export type TimingsPageThunk = ThunkAction<any, AppState, {}, TimingsPageAction>;

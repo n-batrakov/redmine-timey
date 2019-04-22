@@ -22,6 +22,7 @@ export type TimingsPageContainerProps = {
 
     gauge?: HoursGaugeProps,
 
+    isLoading: boolean,
     loadData: () => void,
 } & RouteComponentProps;
 const Page = (props: TimingsPageContainerProps) => {
@@ -35,6 +36,7 @@ const Page = (props: TimingsPageContainerProps) => {
         <>
             <ReactTooltip html />
             <ActivityHeatmap
+                loading={props.isLoading}
                 { ...heatmapProps }
                 onClick={({ date }) => props.history.push(`${props.match.path}/${toISODate(date)}`)}
                 numDays={window.innerWidth < 800 ? 100 : 0}
@@ -61,6 +63,7 @@ export const TimingsPageContainer = connect(
         ...props,
         gauge: state.timingsPage.gauge,
         heatmap: state.timingsPage.heatmap,
+        isLoading: state.timingsPage.isLoading,
     }),
     {
         loadData,

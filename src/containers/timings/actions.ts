@@ -8,6 +8,11 @@ import { getMonthNorm } from '../../api/getMonthNorm';
 import { ActivityHeatmapProps } from '../../components/activityHeatmap';
 import { HoursGaugeProps } from '../../components/hoursGauge';
 
+
+export const setLoader = (): TimingsPageAction => ({
+    type: 'timings_setLoader',
+});
+
 export const setData = (data: {heatmap: ActivityHeatmapProps, gauge: HoursGaugeProps}): TimingsPageAction => ({
     data,
     type: 'timings_setData',

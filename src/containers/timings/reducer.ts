@@ -3,6 +3,7 @@ import { TimingsPageState, TimingsPageAction } from './types';
 const initialState: TimingsPageState = {
     gauge: undefined,
     heatmap: undefined,
+    isLoading: true,
 };
 
 export const reducer = (state: TimingsPageState, action: TimingsPageAction): TimingsPageState => {
@@ -10,7 +11,9 @@ export const reducer = (state: TimingsPageState, action: TimingsPageAction): Tim
 
     switch (action.type) {
         case 'timings_setData':
-            return { ...state, ...action.data };
+            return { ...state, ...action.data, isLoading: false };
+        case 'timings_setLoader':
+            return { ...state, isLoading: true };
         default:
             return state;
     }

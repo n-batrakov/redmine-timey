@@ -8,6 +8,28 @@
     margin: auto;
 }
 
+.react-calendar-heatmap .loading {
+    fill: red;
+    -webkit-animation: 2s ease-in-out infinite;
+    -moz-animation: 2s ease-in-out infinite;
+    animation: load 2s ease-in-out infinite;
+}
+@-webkit-keyframes load {
+    0%{fill: #eeeeee}
+    50%{fill: #6191c2}
+    100%{fill: #eeeeee}
+}
+@-moz-keyframes load {
+    0%{fill: #eeeeee}
+    50%{fill: #6191c2}
+    100%{fill: #eeeeee}
+}
+@keyframes load {
+    0%{fill: #6191c2}
+    50%{fill: #9ac1ea}
+    100%{fill: #6191c2}
+}
+
 .react-calendar-heatmap {
     max-height: 300px;
 }
