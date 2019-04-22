@@ -6,7 +6,6 @@
     * Cookie auth
     * Issue total time spent
 * UI
-    * Heatmap color thresholds
     * Larger heatmap squares
     * Modal header margin
     * Remove Issue page

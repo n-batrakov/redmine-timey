@@ -4,10 +4,11 @@ import { getRange, toISODate } from '../../shared/date';
 import './activityHeatmap.css';
 
 const colorThresholds = [
-    [1, 4, '0'],
-    [4, 8, '1'],
-    [8, 9, '2'],
-    [9, 12, '3'],
+    [0, 1, '0'],
+    [1, 4, '1'],
+    [4, 8, '2'],
+    [8, 8.01, '3'],
+    [8.01, 12, '4'],
 ];
 
 export type ActivityHeatmapProps = {
