@@ -6,7 +6,6 @@
     * Cookie auth
     * Issue total time spent
 * UI
-    * Add Timing preloader bug
     * Change native selects to lib selects [?]
     * Save and Continue Button
     * Remove Issue page
