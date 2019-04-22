@@ -6,13 +6,11 @@
     * Cookie auth
     * Issue total time spent
 * UI
-    * Remove Issue page
-    * Issue List Unneccesary re-renders
-    * Firefox button outline
     * Add Timing preloader bug
     * Change native selects to lib selects [?]
     * Save and Continue Button
-    * Heatmap and gauge loading state
+    * Remove Issue page
+    * Issue List Unneccesary re-renders
 * BUILD
     * Add web manifest
     * Production build

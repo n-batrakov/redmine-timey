@@ -18,3 +18,14 @@
     height: 32px;
     padding: 0 8px;
 }
+
+.btn:focus {
+    margin-left: auto;
+    outline: 1px solid #2684ff;
+    outline-width: 1px;
+    outline-offset: -2px;
+}
+
+.btn::-moz-focus-inner {
+    border: 0;
+}
