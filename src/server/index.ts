@@ -9,7 +9,6 @@ import { AppContainer } from './shared';
 import { getCalendar } from './workHoursNorm';
 import { fallback } from './middleware/fallback';
 
-const ENV: string = 'PROD';
 
 (async function () {
     const server = fastify({ logger: true });
@@ -21,7 +20,7 @@ const ENV: string = 'PROD';
 
     api.forEach(addRoute => addRoute(server, container));
 
-    if (ENV === 'DEBUG') {
+    if (process.env.NODE_ENV !== 'production') {
         const { devServer } = require('./middleware/devServer');
         server.use(devServer());
     } else {
