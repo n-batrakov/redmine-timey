@@ -32,7 +32,7 @@ const ENV = 'DEBUG';
     }
 
     try {
-        await server.listen(8080);
+        await server.listen(8081, '0.0.0.0');
     } catch (err) {
         server.log.error(err);
         process.exit(1);

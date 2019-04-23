@@ -2,12 +2,6 @@
 
 ## Before release
 
-* API
-    * Cookie auth
-    * Issue total time spent
-* UI
-    * Remove Issue page
-    * Save and Continue Button
 * BUILD
     * Add web manifest
     * Production build
@@ -17,6 +11,8 @@
 
 ## Features
 
+* Issue total time spent badge
+* `Save and Continue` Button on Add \ Edit timing
 * Task Table view \ Tree view
 * Kanban
 * Add \ Update Issue
