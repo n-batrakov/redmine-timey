@@ -13,10 +13,10 @@
 .logo-img {
     height: 24px;
     width: 24px;    
-    border-radius: 3px;
+    border-radius: 50%;
     padding: 3px;
     margin-left: 5px;
-    background-color:  rgb(255, 255, 255, 0.9);
+    background-color:  #17a2b8;
     background-image: url('../../static/logo-64.png');
     background-size: contain;
     background-position: center;
