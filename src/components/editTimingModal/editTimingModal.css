@@ -85,7 +85,7 @@
     overflow: hidden;
 }
 
-@media (max-width: 320px) {
+@media (max-width: 720px) {
   .edit-timing-modal {
     width: 100%;
     height: 100%;
