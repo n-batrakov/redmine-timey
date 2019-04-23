@@ -3,8 +3,6 @@
 ## Before release
 
 * BUILD
-    * Add web manifest
-    * Production build
     * Set redmine address via env \ json config
     * Setup docker CI
 

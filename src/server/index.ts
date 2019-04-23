@@ -8,9 +8,7 @@ import api from './api';
 import { AppContainer } from './shared';
 import { getCalendar } from './workHoursNorm';
 
-import { devServer } from './middleware/devServer';
-
-const ENV = 'DEBUG';
+const ENV: string = 'PROD';
 
 (async function () {
     const server = fastify({ logger: true });
@@ -23,9 +21,11 @@ const ENV = 'DEBUG';
     api.forEach(addRoute => addRoute(server, container));
 
     if (ENV === 'DEBUG') {
+        const { devServer } = require('./middleware/devServer');
         server.use(devServer());
     } else {
-        const staticPath = path.join(__dirname, '..', 'public');
+        const staticPath = path.join(__dirname, 'public');
+        console.log('__dirname:', staticPath);
         if (fs.existsSync(staticPath)) {
             server.register(staticFiles, { root: staticPath });
         }

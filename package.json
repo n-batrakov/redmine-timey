@@ -7,6 +7,7 @@
   "repository": {},
   "scripts": {
     "start": "ts-node-dev --respawn --transpileOnly ./src/server/index.ts",
+    "build": "webpack --config ./webpack.prod.js",
     "test": "jest",
     "lint": "tslint --project .",
     "lint:fix": "tslint --fix --project ."

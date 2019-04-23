@@ -16,8 +16,6 @@
         "lib": ["es2017", "dom"],
         
         "jsx": "react",
-
-        "incremental": true
     },
     "include": ["src"],
     "exclude": [
