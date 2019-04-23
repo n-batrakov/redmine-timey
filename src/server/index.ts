@@ -7,6 +7,7 @@ import fs from 'fs';
 import api from './api';
 import { AppContainer } from './shared';
 import { getCalendar } from './workHoursNorm';
+import { fallback } from './middleware/fallback';
 
 const ENV: string = 'PROD';
 
@@ -25,8 +26,8 @@ const ENV: string = 'PROD';
         server.use(devServer());
     } else {
         const staticPath = path.join(__dirname, 'public');
-        console.log('__dirname:', staticPath);
         if (fs.existsSync(staticPath)) {
+            server.use(fallback(path.join(staticPath, 'index.html')));
             server.register(staticFiles, { root: staticPath });
         }
     }
