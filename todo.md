@@ -2,10 +2,10 @@
 
 ## Before release
 
-* BUILD
-    * Set redmine address via env \ json config
-    * Setup docker CI
-
+* Fix logout
+* Set redmine address via env \ json config
+* Setup docker CI
+* readme
 
 ## Features
 
@@ -19,6 +19,7 @@
 
 ## Maintanance
 
+* Analytics
 * Move calculation from components to containers
 * Unit Tests
 * Redmine Integration tests
