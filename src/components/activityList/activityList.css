@@ -32,8 +32,8 @@
 
 .list-issue-hours {
     margin-left: auto;
-    margin-right: 8px;
     font-weight: bold;
+    white-space: nowrap;
 }
 
 .list-day-add-btn {
