@@ -27,7 +27,12 @@ import { fallback } from './middleware/fallback';
         const staticPath = path.join(__dirname, 'public');
         if (fs.existsSync(staticPath)) {
             server.use(fallback(path.join(staticPath, 'index.html')));
-            server.register(staticFiles, { root: staticPath });
+            server.register(staticFiles, {
+                root: staticPath,
+                cacheControl: true,
+                maxAge: '30d',
+                immutable: true,
+            });
         }
     }
 

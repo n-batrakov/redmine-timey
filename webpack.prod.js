@@ -2,13 +2,15 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 const server = {
     mode: 'production',
     target: 'node',
     entry: './src/server/index.ts',
     output: {
-        filename: "[name].js",
+        filename: "index.js",
         path: path.resolve(__dirname, 'dist'),
     },
     node: {
@@ -38,7 +40,7 @@ const client = {
     target: 'web',
     entry: './src/index.tsx',
     output: {
-        filename: "[name].js",
+        filename: "[name].[hash].js",
         path: path.resolve(__dirname, 'dist', 'public'),
         publicPath: '/'
     },
@@ -52,10 +54,7 @@ const client = {
                 use: 'awesome-typescript-loader'
             },{
                 test: /\.css$/,
-                use: [
-                    { loader: "style-loader" },
-                    { loader: "css-loader" }
-                ]
+                use: [MiniCssExtractPlugin.loader, 'css-loader'],
             },{
                 test: /\.(png|jpg|gif)$/,
                 use: [
@@ -70,6 +69,7 @@ const client = {
     plugins: [
         new HtmlWebpackPlugin({ template: 'src/index.html' }),
         new CopyWebpackPlugin([{ from: 'src/static', to: '' }]),
+        new MiniCssExtractPlugin({ filename: '[name].[hash].css', chunkFilename: '[id].[hash].css' }),
     ],
     devtool: 'source-map',
     optimization: {
@@ -85,6 +85,7 @@ const client = {
                 // https://github.com/webpack-contrib/terser-webpack-plugin#terseroptions
               }
             }),
+            new OptimizeCSSAssetsPlugin({}),
         ],
     }
 };
