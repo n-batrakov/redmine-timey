@@ -1,20 +1,66 @@
 import { RedmineClient } from './redmine';
 import fastify from 'fastify';
 import staticFiles from 'fastify-static';
+import { fallback } from './middleware/fallback';
 import path from 'path';
 import fs from 'fs';
 
 import api from './api';
 import { AppContainer } from './shared';
 import { getCalendar } from './workHoursNorm';
-import { fallback } from './middleware/fallback';
+
+import app from 'commander';
 
 
-(async function () {
-    const server = fastify({ logger: true });
+const catchErrors = (callback: () => Promise<void>) => {
+    const onError = (e: Error) => {
+        console.log(e.stack, 'err');
+    };
+    try {
+        callback()
+        .catch((e) => {
+            onError(e);
+            process.exit(1);
+        });
+    } catch (e) {
+        onError(e);
+        process.exit(1);
+    }
+};
+
+
+const logger = process.env.NODE_ENV !== 'production'
+    ? {
+        base: null,
+        timestamp: false,
+        prettyPrint: process.env.NODE_ENV !== 'production',
+    }
+    : {
+        level: 'warn',
+    };
+
+app
+.name('timey')
+.version('0.1.0');
+
+app
+.command('start')
+.option('-r|--redmine <redmine>', 'Redmine host address.', process.env.REDMINE)
+.option('-h|--host [host]', 'Address to bind server to.', '0.0.0.0')
+.option('-p|--port [port]', 'Host address to bind server to.', 8080)
+.action(cmd => catchErrors(async () => {
+    const server = fastify({ logger });
+
+    const { redmine, address } = cmd;
+    if (redmine === undefined) {
+        throw new Error('Redmine host address is not defined. Unable to continue.');
+    }
+
+    const parsedPort = parseInt(cmd.port, 10);
+    const port = isNaN(parsedPort) ? 8080 : parsedPort;
 
     const container: AppContainer = {
-        redmine: new RedmineClient({ host: 'https://rm.itexpert.ru' }),
+        redmine: new RedmineClient({ host: redmine }),
         calendar: await getCalendar('calendar.csv'),
     };
 
@@ -36,11 +82,7 @@ import { fallback } from './middleware/fallback';
         }
     }
 
-    try {
-        await server.listen(8081, '0.0.0.0');
-    } catch (err) {
-        server.log.error(err);
-        process.exit(1);
-    }
-})();
+    await server.listen(port, address);
+}));
 
+app.parse(process.argv);
