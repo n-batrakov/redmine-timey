@@ -30,8 +30,8 @@ export const isLoggedInReducer = (state: boolean, action: SharedStateAction): bo
     if (state === undefined) return true;
 
     switch (action.type) {
-        case 'auth_toggle':
-            return !state;
+        case 'auth_loggedIn':
+            return action.isLoggedIn;
         default:
             return state;
     }
