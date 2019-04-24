@@ -1,5 +1,5 @@
-import { Enumeration, EnumerationsLookup } from '../../../shared/types';
-import { SharedStateAction } from '.';
+import { SharedStateAction } from './types';
+import { Enumeration, EnumerationsLookup } from '../../shared/types';
 
 const nullEnumeration: Enumeration = {
     values: {},
@@ -30,8 +30,8 @@ export const isLoggedInReducer = (state: boolean, action: SharedStateAction): bo
     if (state === undefined) return true;
 
     switch (action.type) {
-        case 'auth_logout':
-            return false;
+        case 'auth_toggle':
+            return !state;
         default:
             return state;
     }

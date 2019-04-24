@@ -3,9 +3,8 @@
 ## Before release
 
 * Fix logout
-* Set redmine address via env \ json config
-* Setup docker CI
 * readme
+* Setup docker CI
 
 ## Features
 

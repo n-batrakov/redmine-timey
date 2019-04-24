@@ -1,5 +1,5 @@
 import { TimingsPageState } from './containers/timings/types';
-import { SharedState } from './containers/shared/store';
+import { SharedState } from './containers/shared/types';
 import { ActivityListState } from './containers/activityList/types';
 import { IssuesState } from './containers/issues/types';
 
