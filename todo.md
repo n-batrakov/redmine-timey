@@ -2,7 +2,6 @@
 
 ## Before release
 
-* Fix logout
 * readme
 * Setup docker CI
 
