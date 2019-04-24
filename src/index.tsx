@@ -10,6 +10,8 @@ import { store } from './createStore';
 import { AppRouter } from './router';
 import { AppNavbar } from './containers/navbar';
 
+console.log('Do you have a problem, question or suggestion? Please, visit: https://github.com/n-batrakov/redmine-timey/issues/new');
+
 const App = () => {
     return (
         <Provider store={store}>
