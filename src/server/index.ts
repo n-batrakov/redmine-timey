@@ -36,7 +36,7 @@ const logger = process.env.NODE_ENV !== 'production'
         prettyPrint: process.env.NODE_ENV !== 'production',
     }
     : {
-        level: 'warn',
+        level: 'info',
     };
 
 app
@@ -88,6 +88,7 @@ app
     }
 
     await server.listen(port, address);
+    console.log('Server is up and running...');
 }));
 
 app.parse(process.argv);
