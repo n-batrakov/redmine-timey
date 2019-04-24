@@ -16,11 +16,6 @@ const Component = (props: AppNavbarProps) => (
         items={[
             <NavLink to="/time" className="navbar-btn" activeClassName="active">Time</NavLink>,
         ]}
-        rightItems={[
-            <button className="navbar-btn" onClick={props.onLoginToggle}>
-                {props.isLoggedIn ? 'Log Out' : 'Log In'}
-            </button>,
-        ]}
     />
 );
 
