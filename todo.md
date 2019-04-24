@@ -1,12 +1,10 @@
 # TODO
 
-## Before release
-
-* readme
-* Setup docker CI
+## Bugs
 
 ## Features
 
+* Authentication
 * Issue total time spent badge
 * `Save and Continue` Button on Add \ Edit timing
 * Task Table view \ Tree view
@@ -23,3 +21,4 @@
 * Redmine Integration tests
 * CSS-in-JS \ CSS preprocessors
 * Style linters
+* Setup docker CI
