@@ -1,6 +1,13 @@
 # Redmine Timey
 
-> TBD
+Web application over Redmine API to simplify work with time entries.
+
+Features:
+* Github-like Activity Heatmap based on your time entries
+* Monthly hours progress bar based on work calendar
+* View \ Add \ Update \ Remove time entries
+
+![Add user screenshot](docs/main.png)
 
 ## Usage
 
