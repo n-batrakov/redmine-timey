@@ -152,6 +152,16 @@ export class RedmineClient {
         return this.getResponseCode(response);
     }
 
+    public async checkStatus(): Promise<boolean> {
+        try {
+            const response = await fetch(this.host, { method: 'HEAD' });
+
+            return response.status === 200;
+        } catch {
+            return false;
+        }
+    }
+
     private getQueryParams(obj: any) {
         const pairs = Object
             .entries(obj)

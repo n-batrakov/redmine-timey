@@ -82,6 +82,11 @@ app
         }
     }
 
+    const redmineStatus = await container.redmine.checkStatus();
+    if (!redmineStatus) {
+        server.log.warn(`Specified Redmine host (${redmine}) may be invalid - server is unavalilable.`);
+    }
+
     await server.listen(port, address);
 }));
 
