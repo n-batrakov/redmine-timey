@@ -51,7 +51,7 @@ app
 .action(cmd => catchErrors(async () => {
     const server = fastify({ logger });
 
-    const { redmine, address } = cmd;
+    const { redmine, host } = cmd;
     if (redmine === undefined) {
         throw new Error('Redmine host address is not defined. Unable to continue.');
     }
@@ -87,7 +87,7 @@ app
         server.log.warn(`Specified Redmine host (${redmine}) may be invalid - server is unavalilable.`);
     }
 
-    await server.listen(port, address);
+    await server.listen(port, host);
     console.log('Server is up and running...');
 }));
 
