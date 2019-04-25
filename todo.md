@@ -15,6 +15,8 @@
 
 ## Maintanance
 
+* HTTP/2
+* Overall performance
 * Analytics
 * Move calculation from components to containers
 * Unit Tests
