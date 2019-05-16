@@ -7,6 +7,9 @@ let enumerationsCache: Partial<EnumerationsLookup> | undefined = undefined;
 
 
 const mapEnum = (data: Array<{id: number, name: string, is_default?: boolean}>): Enumeration => {
+    if (data.length === 0) {
+        return { defaultValue: '', values: {} };
+    }
     let defaultValue: string = data[0].id.toString();
     const values = data.reduce<any>(
         (acc, x) => {
@@ -44,6 +47,7 @@ const fetchCachedEnumerations = async (redmine: RedmineClient, auth: { login: st
     }
 
     const [priorities, statuses, activities] = responses as RedmineEnumerationResponse[];
+
     return {
         priority: mapEnum(priorities.data),
         status: mapEnum(statuses.data),
