@@ -42,7 +42,7 @@ const defaultFormDate: TimesheetEntry = {
     id: '0',
     spentOn: new Date(),
     comments: '',
-    hours: 0,
+    hours: -1,
     activity: nullNamedId,
     issue: nullNamedId,
     project: nullNamedId,
@@ -130,7 +130,7 @@ export class TimesheetEntryForm extends React.Component<TimesheetEntryFormProps,
                     </FormRow>
                     <FormRow>
                         <Label label="Hours">
-                            <NumberInput required name="hours" value={hours} step={0.25} min={0} max={24} />
+                            <NumberInput required name="hours" value={hours === -1 ? undefined : hours} step={0.25} min={0} max={24} />
                         </Label>
                     </FormRow>
                     <FormRow>

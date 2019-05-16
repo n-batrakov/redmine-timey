@@ -100,7 +100,7 @@ export const CreateTimingModal = (props: CreateTimingModalProps) => {
     const getEntry = (x: SelectedIssue) => ({
         id: '',
         comments: '',
-        hours: defaultValue.hours || 0,
+        hours: defaultValue.hours || -1,
         spentOn: defaultValue.spentOn || new Date(),
         project: x.project,
         issue: x.issue,
