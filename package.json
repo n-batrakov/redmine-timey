@@ -6,7 +6,7 @@
   "license": "MIT",
   "repository": {},
   "scripts": {
-    "start": "ts-node-dev --respawn --transpileOnly ./src/server/index.ts start",
+    "start": "ts-node-dev --respawn --transpileOnly ./src/server/index.ts start --https crt --http2",
     "build": "webpack --config ./webpack.prod.js",
     "test": "jest",
     "lint": "tslint --project .",

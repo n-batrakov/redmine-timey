@@ -1,0 +1,5 @@
+{
+    "terminal.integrated.env.linux": {
+			"REDMINE_HOST":"https://rm.itexpert.ru"
+	}
+}

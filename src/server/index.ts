@@ -10,6 +10,7 @@ import { AppContainer } from './shared';
 import { getCalendar } from './workHoursNorm';
 
 import app from 'commander';
+import { SecureServerOptions } from 'http2';
 
 
 const catchErrors = (callback: () => Promise<void>) => {
@@ -48,8 +49,21 @@ app
 .option('-r|--redmine <redmine>', 'Redmine host address.', process.env.REDMINE_HOST)
 .option('-h|--host [host]', 'Address to bind server to.', '0.0.0.0')
 .option('-p|--port [port]', 'Host address to bind server to.', 8080)
+.option('--https [certDir]', 'Enables HTTPS connection; `dir` should point to certificate directory with `pub.key` and `pub.cert` files reside.')
+.option('--http2', 'Enables HTTP/2 support. HTTPS must be enabled too.')
 .action(cmd => catchErrors(async () => {
-    const server = fastify({ logger });
+    const https: SecureServerOptions = cmd.https === undefined
+        ? {}
+        : {
+            allowHTTP1: true,
+            key: fs.readFileSync(path.join(cmd.https, 'pub.key')),
+            cert: fs.readFileSync(path.join(cmd.https, 'pub.cert')),
+        };
+    const http2: any = cmd.http2 === true;
+
+    console.log(https);
+
+    const server = fastify({ logger, https, http2 });
 
     const { redmine, host } = cmd;
     if (redmine === undefined) {

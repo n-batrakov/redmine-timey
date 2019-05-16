@@ -6,7 +6,6 @@
 
 * Authentication
 * Issue total time spent badge
-* `Save and Continue` Button on Add \ Edit timing
 * Task Table view \ Tree view
 * Kanban
 * Add \ Update Issue
@@ -15,7 +14,6 @@
 
 ## Maintanance
 
-* HTTP/2
 * Overall performance
 * Analytics
 * Move calculation from components to containers
