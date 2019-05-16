@@ -45,7 +45,7 @@ app
 
 app
 .command('start')
-.option('-r|--redmine <redmine>', 'Redmine host address.', process.env.REDMINE)
+.option('-r|--redmine <redmine>', 'Redmine host address.', process.env.REDMINE_HOST)
 .option('-h|--host [host]', 'Address to bind server to.', '0.0.0.0')
 .option('-p|--port [port]', 'Host address to bind server to.', 8080)
 .action(cmd => catchErrors(async () => {
