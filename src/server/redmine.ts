@@ -172,16 +172,21 @@ export class RedmineClient {
     }
 
     private getHeaders(params?: RedmineRequestParams): { [header: string]: string } {
-        if (params === undefined) {
-            return { 'X-Redmine-API-Key': this.apiKey || '' };
+        if (this.apiKey !== undefined) {
+            const switchUser = params === undefined || params.login === undefined
+                ? undefined
+                : { 'X-Redmine-Switch-User': params.login };
+            return {
+                'X-Redmine-API-Key': this.apiKey,
+                ...switchUser,
+            };
         }
 
-        const { login, password } = params;
-        if (login === undefined || password === undefined) {
-            return { 'X-Redmine-API-Key': this.apiKey || '' };
+        if (params === undefined || params.login === undefined || params.password === undefined) {
+            return {};
         }
 
-        return { Authorization: `Basic ${btoa(`${login}:${password}`)}` };
+        return { Authorization: `Basic ${btoa(`${params.login}:${params.password}`)}` };
     }
 
     private getResponseCode({ status } : {status: number}): RedmineSuccessResponse | RedmineErrorResponse {

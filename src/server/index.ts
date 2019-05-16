@@ -47,6 +47,7 @@ app
 app
 .command('start')
 .option('-r|--redmine <redmine>', 'Redmine host address.', process.env.REDMINE_HOST)
+.option('--apiKey [key]', 'Redmine admin API key', process.env.REDMINE_API_KEY)
 .option('-h|--host [host]', 'Address to bind server to.', '0.0.0.0')
 .option('-p|--port [port]', 'Host address to bind server to.', 8080)
 .option('--https [certDir]', 'Enables HTTPS connection; `dir` should point to certificate directory with `pub.key` and `pub.cert` files reside.')
@@ -61,8 +62,6 @@ app
         };
     const http2: any = cmd.http2 === true;
 
-    console.log(https);
-
     const server = fastify({ logger, https, http2 });
 
     const { redmine, host } = cmd;
@@ -74,7 +73,7 @@ app
     const port = isNaN(parsedPort) ? 8080 : parsedPort;
 
     const container: AppContainer = {
-        redmine: new RedmineClient({ host: redmine }),
+        redmine: new RedmineClient({ host: redmine, apiKey: cmd.apiKey }),
         calendar: await getCalendar('calendar.csv'),
     };
 
