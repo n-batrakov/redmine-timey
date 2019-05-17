@@ -1,4 +1,5 @@
-import { RegisterHandler, authenticate, getCredentials } from '../../server/shared';
+import { RegisterHandler } from '../../server/shared';
+import { authenticate, getCredentials } from '../../server/auth';
 import { Issue, NamedId } from '../../shared/types';
 import { metadata, QueryIssueRequest } from './contract';
 import { isUndefined } from 'util';
@@ -32,7 +33,7 @@ const handler: RegisterHandler = (server, { redmine }) => server.route({
     ...metadata,
     preHandler: authenticate,
     handler: async (req, resp) => {
-        const auth = getCredentials(req.headers.authorization);
+        const auth = getCredentials(req);
 
         const limit = req.query.limit === undefined ? 10 : parseInt(req.query.limit, 10);
         const offset = req.query.offset === undefined ? 0 : parseInt(req.query.offset, 10);

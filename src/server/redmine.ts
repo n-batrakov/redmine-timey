@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 import { URL, URLSearchParams } from 'url';
-const btoa = (str: string) => Buffer.from(str).toString('base64');
+import { encodeBasicCredentials } from './auth';
 
 export type RedmineRequestParams = {
     login?: string,
@@ -186,7 +186,7 @@ export class RedmineClient {
             return {};
         }
 
-        return { Authorization: `Basic ${btoa(`${params.login}:${params.password}`)}` };
+        return { Authorization: encodeBasicCredentials(params.login, params.password) };
     }
 
     private getResponseCode({ status } : {status: number}): RedmineSuccessResponse | RedmineErrorResponse {

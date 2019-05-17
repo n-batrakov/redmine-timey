@@ -1,4 +1,5 @@
-import { RegisterHandler, authenticate, getCredentials } from '../../server/shared';
+import { RegisterHandler } from '../../server/shared';
+import { authenticate, getCredentials } from '../../server/auth';
 import { getTimesheetData } from '../../server/getTimesheetData';
 import { metadata } from './contract';
 
@@ -6,7 +7,7 @@ const handler: RegisterHandler = (server, { redmine }) => server.route({
     ...metadata,
     preHandler: authenticate,
     handler: async (req, resp) => {
-        const auth = getCredentials(req.headers.authorization);
+        const auth = getCredentials(req);
 
         const start = new Date(Date.parse(req.query.start));
         const end = new Date(Date.parse(req.query.end));

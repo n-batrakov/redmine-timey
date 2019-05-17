@@ -1,6 +1,7 @@
-import { RegisterHandler, getCredentials, authenticate } from '../../server/shared';
+import { RegisterHandler } from '../../server/shared';
+import { authenticate, getCredentials } from '../../server/auth';
 import { Enumeration, EnumerationsLookup } from '../../shared/types';
-import { RedmineEnumerationResponse, RedmineClient, RedmineRequestParams, RedminQueryParams } from '../../server/redmine';
+import { RedmineEnumerationResponse, RedmineClient, RedminQueryParams } from '../../server/redmine';
 import { metadata } from './contract';
 
 let enumerationsCache: Partial<EnumerationsLookup> | undefined = undefined;
@@ -26,7 +27,7 @@ const mapEnum = (data: Array<{id: number, name: string, is_default?: boolean}>):
     return { defaultValue, values };
 };
 
-const fetchCachedEnumerations = async (redmine: RedmineClient, auth: { login: string, password: string }): Promise<Partial<EnumerationsLookup>> => {
+const fetchCachedEnumerations = async (redmine: RedmineClient, auth: { login: string, password?: string }): Promise<Partial<EnumerationsLookup>> => {
     const params = {
         ...auth,
         limit: 100,
@@ -72,7 +73,7 @@ const handler: RegisterHandler = (server, { redmine }) => server.route({
     ...metadata,
     preHandler: authenticate,
     handler: async (req, resp) => {
-        const auth = getCredentials(req.headers.authorization);
+        const auth = getCredentials(req);
 
         if (enumerationsCache === undefined) {
             enumerationsCache = await fetchCachedEnumerations(redmine, auth);

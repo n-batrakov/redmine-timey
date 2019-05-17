@@ -1,12 +1,13 @@
 import { metadata } from './contract';
-import { RegisterHandler, authenticate, getCredentials } from '../../server/shared';
+import { RegisterHandler } from '../../server/shared';
+import { authenticate, getCredentials } from '../../server/auth';
 import { timeEntryEntity, mapIncoming } from '../../server/redmineMappings';
 
 const updateHandler: RegisterHandler = (server, { redmine }) => server.route({
     ...metadata,
     preHandler: authenticate,
     handler: async (req, resp) => {
-        const auth = getCredentials(req.headers.authorization);
+        const auth = getCredentials(req);
 
         const entry = mapIncoming(req.body);
         const id = req.body.id;

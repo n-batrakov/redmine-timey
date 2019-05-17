@@ -12,7 +12,7 @@ export type TimesheetRequest = {
     to?: Date,
     auth?: {
         login: string,
-        password: string,
+        password?: string,
     },
 };
 

@@ -2,9 +2,13 @@
 
 ## Bugs
 
+* Handle 403 Update \ Delete errors
+* Handle Form errors
+
 ## Features
 
 * Authentication
+* Add Redmine Link to header
 * Issue total time spent badge
 * Task Table view \ Tree view
 * Kanban

@@ -1,5 +1,6 @@
 import { metadata, AddTimingsResponse } from './contract';
-import { RegisterHandler, authenticate, getCredentials } from '../../server/shared';
+import { RegisterHandler } from '../../server/shared';
+import { authenticate, getCredentials } from '../../server/auth';
 import { TimesheetEntry } from '../../shared/types';
 import { timeEntryEntity, mapIncoming, mapOutgoing } from '../../server/redmineMappings';
 import { FastifyRequest } from 'fastify';
@@ -12,7 +13,7 @@ const addHandler: RegisterHandler = (server, { redmine }) => server.route({
     ...metadata,
     preHandler: authenticate,
     handler: async (req: Request, resp) => {
-        const auth = getCredentials(req.headers.authorization);
+        const auth = getCredentials(req);
 
         const entries = req.body;
 

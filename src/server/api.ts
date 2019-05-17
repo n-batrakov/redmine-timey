@@ -8,6 +8,7 @@ import queryIssues from '../api/queryIssues/handler';
 import getDailyHours from '../api/getDailyHours/handler';
 import getEnumerations from '../api/getEnumerations/handler';
 import getMonthNorm from '../api/getMonthNorm/handler';
+import login from '../api/login/handler';
 import logout from '../api/logout/handler';
 
 export default <RegisterHandler[]> [
@@ -19,5 +20,6 @@ export default <RegisterHandler[]> [
     getDailyHours,
     getEnumerations,
     getMonthNorm,
+    login,
     logout,
 ];

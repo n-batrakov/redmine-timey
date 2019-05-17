@@ -1,6 +1,8 @@
 import { RedmineClient } from './redmine';
 import fastify from 'fastify';
 import staticFiles from 'fastify-static';
+import fastifyCookie from 'fastify-cookie';
+
 import { fallback } from './middleware/fallback';
 import path from 'path';
 import fs from 'fs';
@@ -11,7 +13,6 @@ import { getCalendar } from './workHoursNorm';
 
 import app from 'commander';
 import { SecureServerOptions } from 'http2';
-
 
 const catchErrors = (callback: () => Promise<void>) => {
     const onError = (e: Error) => {
@@ -63,6 +64,7 @@ app
     const http2: any = cmd.http2 === true;
 
     const server = fastify({ logger, https, http2 });
+    server.register(fastifyCookie);
 
     const { redmine, host } = cmd;
     if (redmine === undefined) {
