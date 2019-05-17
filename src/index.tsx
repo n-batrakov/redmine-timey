@@ -3,12 +3,13 @@ import './index.css';
 import * as React from 'react';
 import { render } from 'react-dom';
 import Modal from 'react-modal';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from './createStore';
 
 import { AppRouter } from './router';
 import { AppNavbar } from './containers/navbar';
+import { LoginPageContainer } from './containers/login';
 
 console.log('Do you have a problem, question or suggestion? Please, visit: https://github.com/n-batrakov/redmine-timey/issues/new');
 
@@ -16,10 +17,15 @@ const App = () => {
     return (
         <Provider store={store}>
             <Router>
-                {<AppNavbar />}
-                <div className="content">
-                    <AppRouter />
-                </div>
+                <Switch>
+                    <Route path="/login" component={LoginPageContainer} />
+                    <Route>
+                        {<AppNavbar />}
+                        <div className="content">
+                            <AppRouter />
+                        </div>
+                    </Route>
+                </Switch>
             </Router>
         </Provider>
     );

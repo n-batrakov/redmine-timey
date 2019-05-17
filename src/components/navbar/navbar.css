@@ -2,9 +2,7 @@
     width: 100%;
     background-color: #2261a1;
     display: flex;
-    padding: 4px;
-    position: fixed;
-    top: 0;
+    padding: 4px 0;
 }
 
 .navbar .navbar-items {

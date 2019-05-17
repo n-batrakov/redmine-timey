@@ -11,8 +11,8 @@ export const FormFooter = (x: {children: React.ReactNode}) => (
     <div className="timey-form-footer">{x.children}</div>
 );
 
-export const FromErrors = ({ errors }: {errors: string[]}) => (
-    <ul className="timey-form-errors" style={{ display: errors.length > 0 ? 'block' : 'none' }}>
+export const FromErrors = ({ errors, style }: {errors: string[], style?: React.CSSProperties }) => (
+    <ul className="timey-form-errors" style={{ display: errors.length > 0 ? 'block' : 'none', ...style }}>
         {errors.map((x, i) => <li key={i}>{x}</li>)}
     </ul>
 );
