@@ -24,15 +24,3 @@ export const enumerationsReducer = (state: EnumerationsLookup, action: SharedSta
             return state;
     }
 };
-
-
-export const isLoggedInReducer = (state: boolean, action: SharedStateAction): boolean => {
-    if (state === undefined) return true;
-
-    switch (action.type) {
-        case 'auth_loggedIn':
-            return action.isLoggedIn;
-        default:
-            return state;
-    }
-};

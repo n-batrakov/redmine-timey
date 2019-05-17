@@ -16,56 +16,59 @@ const FormRow = (props: { children: React.ReactNode }) => (
     </Row>
 );
 
-export const LoginForm = () => {
+type LoginFormProps = {
+    onSubmit?: (data: { login: string, password: string}) => void,
+    errors: string[],
+};
+const LoginForm = (props: LoginFormProps) => {
     return (
-            <Form onSubmit={console.log} style={{
-                margin: '22px auto',
-                width: 421,
-            }}>
-                <FormRow>
-                    <FormErrors
-                        errors={['Invalid login or password']}
+        <Form onSubmit={props.onSubmit as any} style={{
+            margin: '22px auto',
+            width: 421,
+        }}>
+            <FormRow>
+                <FormErrors
+                    errors={props.errors || []}
+                    style={{
+                        backgroundColor: '#f66',
+                        borderColor: '#f66',
+                        color: '#fff',
+                    }}/>
+            </FormRow>
+            <FormRow>
+                Please enter your Redmine credentials:
+            </FormRow>
+            <FormRow>
+                <TextInput
+                    name="login"
+                    placeholder="Login"
+                    required
+                />
+            </FormRow>
+            <FormRow>
+                <TextInput
+                    name="password"
+                    placeholder="Password"
+                    required
+                />
+            </FormRow>
+            <FormRow>
+                <FormFooter>
+                    <Button
+                        submit
+                        type="primary"
+                        value="Login"
                         style={{
-                            backgroundColor: '#f66',
-                            borderColor: '#f66',
-                            color: '#fff',
+                            backgroundColor: '#2261a1',
+                            borderColor: '#bbffe4',
                         }}/>
-                </FormRow>
-                <FormRow>
-                    Please enter your Redmine credentials:
-                </FormRow>
-                <FormRow>
-                    <TextInput
-                        name="login"
-                        placeholder="Login"
-                        required
-                    />
-                </FormRow>
-                <FormRow>
-                    <TextInput
-                        name="password"
-                        placeholder="Password"
-                        required
-                    />
-                </FormRow>
-                <FormRow>
-                    <FormFooter>
-                        <Button
-                            submit
-                            type="primary"
-                            value="Login"
-                            style={{
-                                backgroundColor: '#2261a1',
-                                borderColor: '#bbffe4',
-                            }}/>
-                    </FormFooter>
-                </FormRow>
-            </Form>
+                </FormFooter>
+            </FormRow>
+        </Form>
     );
 };
 
-
-export const LoginLogo = () => (
+const LoginLogo = () => (
     <div className="timey-login-page-logo">
         <AnimatedClock date={new Date()} style={{
             height: 128,
@@ -77,12 +80,13 @@ export const LoginLogo = () => (
     </div>
 );
 
-export const LoginPage = () => {
+export type LoginPageProps = LoginFormProps;
+export const LoginPage = (props: LoginPageProps) => {
     return (
         <div className="timey-login-page">
             <Grid fluid style={{ margin: 'auto' }}>
                 <LoginLogo />
-                <LoginForm />
+                <LoginForm {...props} />
             </Grid>
         </div>
     );

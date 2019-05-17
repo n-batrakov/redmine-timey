@@ -4,11 +4,8 @@ import { Logo } from '../../components/logo';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { AppState } from '../../state';
-import { toggleLogin } from '../shared/actions';
 
 export type AppNavbarProps = {
-    isLoggedIn: boolean,
-    onLoginToggle?: () => void,
 };
 const Component = (props: AppNavbarProps) => (
     <Navbar
@@ -21,9 +18,7 @@ const Component = (props: AppNavbarProps) => (
 
 export const AppNavbar = connect(
     (state: AppState): AppNavbarProps => ({
-        isLoggedIn: state.isLoggedIn,
     }),
     {
-        onLoginToggle: toggleLogin,
     },
 )(Component);

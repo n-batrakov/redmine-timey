@@ -8,7 +8,7 @@ export type IssueFilterValue = {
     author?: string,
     assigned?: string,
     query?: string,
-}
+};
 
 export type IssueFilterField = {
     label: string,

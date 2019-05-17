@@ -1,4 +1,5 @@
 import { metadata } from './contract';
+import { jsonContentType } from '../../shared/http';
 
 export type AuthenticationResponse = {
     status: 'success',
@@ -8,8 +9,12 @@ export type AuthenticationResponse = {
     status: 'error',
 };
 
-export async function login(): Promise<AuthenticationResponse> {
-    const response = await fetch(metadata.url, { method: metadata.method });
+export async function login(credentials: {login: string, password: string}): Promise<AuthenticationResponse> {
+    const response = await fetch(metadata.url, {
+        method: metadata.method,
+        headers: jsonContentType,
+        body: JSON.stringify(credentials),
+    });
 
     switch (response.status) {
         case 200:
