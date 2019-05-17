@@ -1,5 +1,6 @@
 {
     "terminal.integrated.env.linux": {
-			"REDMINE_HOST":"https://rm.itexpert.ru"
+		"REDMINE_HOST":"http://localhost:8081",
+		"REDMINE_API_KEY": "6ade1c9182357989b0e100506051f295883216aa"
 	}
 }
