@@ -38,7 +38,7 @@ export const AnimatedClock = (props: AnimatedClockProps) => {
             <line
                 id="timey-clock-hour-hand"
                 fill="none"
-                stroke="#76bffd"
+                stroke="#2261a1"
                 strokeWidth="20"
                 strokeMiterlimit="10"
                 transform={`rotate(${hoursAngle}, 192, 192)`}
@@ -46,7 +46,7 @@ export const AnimatedClock = (props: AnimatedClockProps) => {
             <line
                 id="timey-clock-minute-hand"
                 fill="none"
-                stroke="#76bffd"
+                stroke="#2261a1"
                 strokeWidth="20"
                 strokeMiterlimit="10"
                 transform={`rotate(${minutesAngle}, 192, 192)`}
@@ -60,7 +60,7 @@ export const AnimatedClock = (props: AnimatedClockProps) => {
                 transform={`rotate(${secondsAngle}, 192, 192)`}
                 x1="192" y1="192" x2="192" y2="28.5" />
 
-            <circle cx="192" cy="192" r="34" fill="#76bffd"/>
+            <circle cx="192" cy="192" r="34" fill="#2261a1"/>
             <circle cx="192" cy="192" r="14" fill="#fff"/>
 
             <defs>
