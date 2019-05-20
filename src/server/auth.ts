@@ -6,7 +6,6 @@ type AppTokenPayload = {
 };
 export function authenticate(req: any, resp: any, done: any) {
     const notAuthenticated = () => {
-        resp.header('WWW-Authenticate', 'Basic realm="Please enter your Redmine credentials", charset="UTF-8"');
         resp.code(401);
         done();
     };
@@ -24,7 +23,7 @@ export function authenticate(req: any, resp: any, done: any) {
     }
 
     jwt.verify(token, secret, (err: jwt.VerifyErrors, payload: AppTokenPayload) => {
-        if (err !== undefined) {
+        if (err !== undefined && err !== null) {
             notAuthenticated();
         } else {
             done();
