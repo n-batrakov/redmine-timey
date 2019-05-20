@@ -2,7 +2,7 @@ import './index.css';
 import * as React from 'react';
 import { assertNever } from '../../shared';
 
-const getBtnClass = ({ type, size }: ButtonProps) => {
+const getBtnClass = ({ type, size, className }: ButtonProps) => {
     const getTypeClass = () => {
         switch (type) {
             case undefined:
@@ -31,7 +31,7 @@ const getBtnClass = ({ type, size }: ButtonProps) => {
         }
     };
 
-    return `btn ${getTypeClass()} ${getSizeClass()}`;
+    return `btn ${getTypeClass()} ${getSizeClass()} ${className}`;
 };
 
 export type ButtonProps = {
@@ -42,6 +42,8 @@ export type ButtonProps = {
     size?: 'small' | 'default',
     style?: React.CSSProperties,
     tooltip?: string,
+    disabled?: boolean,
+    className?: string,
 };
 export const Button = (x: ButtonProps) => (
     <button
@@ -50,6 +52,7 @@ export const Button = (x: ButtonProps) => (
         onClick={x.onClick}
         style={x.style}
         title={x.tooltip}
+        disabled={x.disabled}
     >
         {x.value}
     </button>

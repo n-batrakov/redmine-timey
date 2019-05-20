@@ -6,15 +6,15 @@
     border-radius: 4px;
     cursor: pointer;
 }
-.btn.btn-primary {
+.btn-primary {
     background-color: #28a745;
     color: #fff;
 }
-.btn.btn-danger {
+.btn-danger {
     background-color: #dc3545;
     color: #fff;
 }
-.btn.btn-small {
+.btn-small {
     height: 32px;
     padding: 0 8px;
 }
@@ -27,4 +27,10 @@
 
 .btn::-moz-focus-inner {
     border: 0;
+}
+
+.btn:disabled {
+    background-color: #aaa;
+    color: #eee;
+    cursor: not-allowed;
 }
