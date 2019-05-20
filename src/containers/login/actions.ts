@@ -4,6 +4,8 @@ import { logout as logoutApi } from '../../api/logout';
 
 type Credentials = {login: string, password: string};
 export const login = (credentials: Credentials): AuthThunk => (dispatch) => {
+    dispatch({ type: 'auth_loading' });
+
     loginApi(credentials)
     .then((response) => {
         switch (response.status) {
@@ -33,6 +35,8 @@ export const login = (credentials: Credentials): AuthThunk => (dispatch) => {
 };
 
 export const logout = (): AuthThunk => (dispatch) => {
+    dispatch({ type: 'auth_loading' });
+
     logoutApi()
     .then(() => {
         dispatch({ type: 'auth_logout' });

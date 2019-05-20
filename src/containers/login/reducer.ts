@@ -5,6 +5,7 @@ const initState: AuthState = {
     loginErrors: [],
     isLoggedIn: false,
     username: '',
+    loading: false,
 };
 
 export const reducer = (state: AuthState, action: AuthAction): AuthState => {
@@ -18,17 +19,25 @@ export const reducer = (state: AuthState, action: AuthAction): AuthState => {
                 loginErrors: [],
                 isLoggedIn: true,
                 username: action.username,
+                loading: false,
             };
         case 'auth_logout':
             return {
                 ...state,
                 username: '',
                 isLoggedIn: false,
+                loading: false,
             };
         case 'auth_setErrors':
             return {
                 ...state,
                 loginErrors: action.errors,
+                loading: false,
+            };
+        case 'auth_loading':
+            return {
+                ...state,
+                loading: true,
             };
         default:
             assertNever(action);

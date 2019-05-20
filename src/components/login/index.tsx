@@ -19,6 +19,7 @@ const FormRow = (props: { children: React.ReactNode }) => (
 type LoginFormProps = {
     onSubmit?: (data: { login: string, password: string}) => void,
     errors: string[],
+    loading?: boolean,
 };
 const LoginForm = (props: LoginFormProps) => {
     return (
@@ -56,21 +57,22 @@ const LoginForm = (props: LoginFormProps) => {
                 <FormFooter>
                     <Button
                         submit
-                        type="primary"
                         value="Login"
-                        style={{
-                            backgroundColor: '#2261a1',
-                            borderColor: '#bbffe4',
-                        }}/>
+                        className="timey-login-page-btn"
+                        disabled={props.loading}
+                    />
                 </FormFooter>
             </FormRow>
         </Form>
     );
 };
 
-const LoginLogo = () => (
+type LoginLogoProps = {
+    loading?: boolean,
+};
+const LoginLogo = (props: LoginLogoProps) => (
     <div className="timey-login-page-logo">
-        <AnimatedClock date={new Date()} style={{
+        <AnimatedClock loading={props.loading} date={new Date()} style={{
             height: 128,
             width: 128,
             margin: 'auto',
@@ -85,7 +87,7 @@ export const LoginPage = (props: LoginPageProps) => {
     return (
         <div className="timey-login-page">
             <Grid fluid style={{ margin: 'auto' }}>
-                <LoginLogo />
+                <LoginLogo loading={props.loading} />
                 <LoginForm {...props} />
             </Grid>
         </div>

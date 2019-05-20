@@ -5,6 +5,7 @@ export type AuthState = {
     isLoggedIn: boolean,
     loginErrors: string[],
     username: string,
+    loading: boolean,
 };
 
 export type AuthAction = {
@@ -15,6 +16,8 @@ export type AuthAction = {
 } | {
     type: 'auth_setErrors',
     errors: string[],
+} | {
+    type: 'auth_loading',
 };
 
 export type AuthThunk = ThunkAction<void, AppState, {}, AuthAction>;

@@ -31,4 +31,14 @@
 .timey-login-page-logo > img {
     margin: auto;
     width: 128px;
-} 
+}
+
+.timey-login-page-btn {
+    color: #fff;
+    background-color: #2261a1;
+    border-color: #4d869b;
+}
+.timey-login-page-btn:disabled {
+    background-color: #507dab;
+    cursor: wait;
+}
