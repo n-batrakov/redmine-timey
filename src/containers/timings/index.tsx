@@ -13,7 +13,7 @@ import { HoursGauge, HoursGaugeProps } from '../../components/hoursGauge';
 import { FromErrors } from '../../components/form';
 
 import { loadData } from './actions';
-
+import { loadEnumerations } from '../enumerations/actions';
 
 
 export type TimingsPageContainerProps = {
@@ -24,9 +24,16 @@ export type TimingsPageContainerProps = {
 
     isLoading: boolean,
     loadData: () => void,
+    loadEnumerations: () => void,
 } & RouteComponentProps;
 const Page = (props: TimingsPageContainerProps) => {
-    React.useEffect(() => props.loadData(), []);
+    React.useEffect(
+        () => {
+            props.loadEnumerations();
+            props.loadData();
+        },
+        [],
+    );
 
     const today = new Date();
     const heatmapProps = props.heatmap || { data: [], startDate: addDays(today, -365), endDate: today };
@@ -67,5 +74,6 @@ export const TimingsPageContainer = connect(
     }),
     {
         loadData,
+        loadEnumerations,
     },
 )(Page);

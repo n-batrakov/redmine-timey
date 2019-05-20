@@ -1,11 +1,12 @@
 import { TimingsPageState } from './containers/timings/types';
-import { SharedState } from './containers/shared/types';
+import { EnumerationsState } from './containers/enumerations/types';
 import { ActivityListState } from './containers/activityList/types';
 import { IssuesState } from './containers/issues/types';
 import { AuthState } from './containers/login/types';
 
-export type AppState =
-    SharedState & {
+export type AppState = {
+        enumerations: EnumerationsState,
+    } & {
         timingsPage: TimingsPageState,
     } & {
         activityList: ActivityListState,
