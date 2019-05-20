@@ -12,3 +12,5 @@ export const bind = (fn: ((...args: any[]) => any) | undefined, ...args: any[]) 
     }
     return fn.bind(undefined, ...args);
 };
+
+export const wait = (milliseconds: number) => new Promise(resolve => setTimeout(resolve, milliseconds));
