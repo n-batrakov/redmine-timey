@@ -49,6 +49,7 @@ const LoginForm = (props: LoginFormProps) => {
             <FormRow>
                 <TextInput
                     name="password"
+                    type="password"
                     placeholder="Password"
                     required
                 />

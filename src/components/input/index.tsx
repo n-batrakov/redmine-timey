@@ -21,6 +21,7 @@ type FormControlProps = {
 };
 
 export type TextInputProps = FormControlProps & {
+    type?: 'text' | 'password',
     placeholder?: string,
     value?: string,
     disabled?: boolean,
@@ -30,7 +31,7 @@ export const TextInput = (x: TextInputProps) => (
     <div className="timey-input-container">
         <input
             className={`timey-input-text${x.icon === undefined ? '' : '-with-icon'}`}
-            type="text"
+            type={x.type || 'text'}
             defaultValue={x.value}
             name={x.name}
             placeholder={x.placeholder}
