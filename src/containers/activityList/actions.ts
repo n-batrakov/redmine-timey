@@ -10,6 +10,7 @@ import { deleteTiming } from '../../api/deleteTiming';
 import { QueryTimingsRequest } from '../../api/queryTimings/contract';
 
 import { loadData as updateTimingsData } from '../timings/actions';
+import { NotAuthorizedError, ForbiddenError } from '../../shared/errors';
 
 export const closeModal = (): ActivityListAction => ({
     type: 'activityList_closeModal',
@@ -63,6 +64,17 @@ export const openAddModal = (date: Date): ActivityListThunk =>
         dispatch({ type: 'activityList_openCreateModal', data: modal });
     };
 
+const handleError = (error: Error, setErrors: (messages: string[]) => void) => {
+    if (error.name === NotAuthorizedError.Name) {
+        setErrors(['Sorry, your session has expired. Please, login in another page and continue.']);
+    } else if (error.name === ForbiddenError.Name) {
+        setErrors(['Sorry, you do not have enough permissions. Please, contact your administrator.']);
+    } else {
+        setErrors(['Sorry, something went wrong :(']);
+        console.error(error);
+    }
+};
+
 export const openEditModal = (entry: TimesheetEntry): ActivityListThunk =>
     (dispatch, getState) => {
         const state = getState();
@@ -71,24 +83,34 @@ export const openEditModal = (entry: TimesheetEntry): ActivityListThunk =>
             data: entry,
             enumerations: state.enumerations,
             onClose: () => dispatch(closeModal()),
-            onUpdate: async (entry, finish) => {
-                await updateTiming(entry);
+            onUpdate: async (entry, finish, setErrors) => {
+                try {
+                    await updateTiming(entry);
 
-                const data = [
-                    entry,
-                    ...state.activityList.data.filter(x => x.id !== entry.id),
-                ];
+                    const data = [
+                        entry,
+                        ...state.activityList.data.filter(x => x.id !== entry.id),
+                    ];
 
-                dispatch(setData(data));
-                dispatch(closeModal());
+                    dispatch(setData(data));
+                    dispatch(closeModal());
+                } catch (e) {
+                    handleError(e, setErrors);
+                    finish();
+                }
             },
-            onDelete: async (id, finish) => {
-                await deleteTiming(id);
+            onDelete: async (id, finish, setErrors) => {
+                try {
+                    await deleteTiming(id);
 
-                const data = state.activityList.data.filter(x => x.id !== id);
+                    const data = state.activityList.data.filter(x => x.id !== id);
 
-                dispatch(setData(data));
-                dispatch(closeModal());
+                    dispatch(setData(data));
+                    dispatch(closeModal());
+                } catch (e) {
+                    handleError(e, setErrors);
+                    finish();
+                }
             },
         };
 

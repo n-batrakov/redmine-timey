@@ -1,5 +1,5 @@
 import { JsonSchema } from '../schema';
-import { NotAuthorizedError } from './errors';
+import { NotAuthorizedError, ForbiddenError, ServerError } from './errors';
 
 export type RequestMetadata = {
     url: string,
@@ -18,10 +18,15 @@ export const isSuccessStatusCode = (response: Response) =>
 export const ensureSuccessStatusCode = (response: Response, message?: string) => {
     if (isSuccessStatusCode(response)) {
         return;
-    } else if (response.status === 401) {
-        throw new NotAuthorizedError();
-    } else {
-        throw new Error(`Response status code ${response.status} does not indicate success. ${message || ''}`);
+    }
+
+    switch (response.status) {
+        case 401:
+            throw new NotAuthorizedError();
+        case 403:
+            throw new ForbiddenError();
+        default:
+            throw new ServerError(response.status);
     }
 };
 
