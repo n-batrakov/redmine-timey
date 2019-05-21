@@ -2,13 +2,19 @@
 
 ## Bugs
 
-* Handle 403 Update \ Delete errors
-* Handle Form errors
+## Sprint
 
-## Features
-
-* Authentication
+* Move navbar to componets
+* Move `server/api.ts` to `api/index.ts`
+* Move `schema` to `shared/schema`
+* Store refactoring
+* Clock preloader
 * Add Redmine Link to header
+
+## Backlog
+
+### Features
+
 * Issue total time spent badge
 * Task Table view \ Tree view
 * Kanban
@@ -16,7 +22,7 @@
 * Theming
 * Localization
 
-## Maintanance
+### Maintanance
 
 * Overall performance
 * Analytics
