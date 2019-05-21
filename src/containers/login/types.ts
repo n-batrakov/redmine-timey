@@ -2,7 +2,7 @@ import { AppState } from '../../store';
 import { ThunkAction } from '../../store/thunk';
 
 export type AuthState = {
-    isLoggedIn: boolean,
+    isLoggedIn?: boolean,
     loginErrors: string[],
     username: string,
     loading: boolean,

@@ -1,6 +1,7 @@
 import { AuthThunk } from './types';
 import { login as loginApi } from '../../api/login';
 import { logout as logoutApi } from '../../api/logout';
+import { getSession as getSessionApi } from '../../api/getSession';
 
 type Credentials = {login: string, password: string};
 export const login = (credentials: Credentials): AuthThunk => 
@@ -41,4 +42,9 @@ export const logout = (): AuthThunk => (dispatch) => {
     .catch((err) => {
         console.error(err);
     });
+};
+
+export const getSession = (): AuthThunk => async (dispatch, getState) => {
+    const { username } = await getSessionApi();
+    dispatch({ username, type: 'auth_login' });
 };

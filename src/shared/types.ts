@@ -101,3 +101,7 @@ export type EnumerationsLookup = {
     queries: Enumeration,
     users: Enumeration,
 };
+
+export type UserSession = {
+    username: string,
+};

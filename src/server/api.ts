@@ -10,6 +10,7 @@ import getEnumerations from '../api/getEnumerations/handler';
 import getMonthNorm from '../api/getMonthNorm/handler';
 import login from '../api/login/handler';
 import logout from '../api/logout/handler';
+import getSession from '../api/getSession/handler';
 
 export default <RegisterHandler[]> [
     addTimings,
@@ -22,4 +23,5 @@ export default <RegisterHandler[]> [
     getMonthNorm,
     login,
     logout,
+    getSession,
 ];

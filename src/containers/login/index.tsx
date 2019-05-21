@@ -32,13 +32,3 @@ export const LoginPageContainer = connect(
         login,
     },
 )(Component);
-
-/*
-# TODO
-
-* Handle form errors
-* Delete time entry 403
-* Set initial auth.isLoggedIn state
-* Logout button
-
-*/
