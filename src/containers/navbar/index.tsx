@@ -3,7 +3,7 @@ import { Navbar } from '../../components/navbar';
 import { Logo } from '../../components/logo';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { AppState } from '../../state';
+import { AppState } from '../../store';
 
 export type AppNavbarProps = {
 };

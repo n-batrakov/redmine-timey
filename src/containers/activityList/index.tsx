@@ -3,7 +3,7 @@ import * as Store from './actions';
 import { connect } from 'react-redux';
 
 import { TimesheetEntry } from '../../shared/types';
-import { AppState } from '../../state';
+import { AppState } from '../../store';
 
 import { ActivityList } from '../../components/activityList';
 import { Loader } from '../../components/preloader';
@@ -54,7 +54,7 @@ const List = (props: ActivityListContainerProps) => {
         ? parseSelectedDate(props.match.params.date as string)
         : getOverviewTimeframe(new Date());
 
-    React.useEffect(() => props.loadData(timeframe), [toISODate(timeframe.start), toISODate(timeframe.end)]);
+    React.useEffect(() => { props.loadData(timeframe); }, [toISODate(timeframe.start), toISODate(timeframe.end)]);
 
     return (
         <>

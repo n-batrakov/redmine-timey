@@ -19,7 +19,7 @@ export const setData = (data: {heatmap: ActivityHeatmapProps, gauge: HoursGaugeP
 });
 
 export const loadData = (): TimingsPageThunk =>
-    (dispatch, getState) => {
+    async (dispatch) => {
         const now = new Date();
 
         const heatmapEnd = now;
@@ -29,23 +29,23 @@ export const loadData = (): TimingsPageThunk =>
         const [thisMonthStart, nextMonthStart] = getMonthBoundaries(now);
         const norm$ = getMonthNorm();
 
-        Promise.all([calendar$, norm$]).then(([calendar, { norm }]) => {
-            const actualNorm = calendar
+        const [calendar, { norm }] = await Promise.all([calendar$, norm$]);
+
+        const actualNorm = calendar
             .filter(({ date }) => date >= thisMonthStart && date < nextMonthStart)
             .reduce((acc, x) => acc + x.count, 0);
 
-            const data = {
-                heatmap: {
-                    startDate: heatmapStart,
-                    endDate: heatmapEnd,
-                    data: calendar,
-                },
-                gauge: {
-                    actualValue: actualNorm,
-                    expectedValue: norm,
-                },
-            };
+        const data = {
+            heatmap: {
+                startDate: heatmapStart,
+                endDate: heatmapEnd,
+                data: calendar,
+            },
+            gauge: {
+                actualValue: actualNorm,
+                expectedValue: norm,
+            },
+        };
 
-            dispatch(setData(data));
-        });
+        dispatch(setData(data));
     };

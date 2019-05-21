@@ -5,7 +5,7 @@ import { render } from 'react-dom';
 import Modal from 'react-modal';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { store } from './createStore';
+import { store } from './store/createStore';
 
 import { AppRouter } from './router';
 import { AppNavbar } from './containers/navbar';

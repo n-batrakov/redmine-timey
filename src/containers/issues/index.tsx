@@ -4,11 +4,11 @@ import { CoverLoader } from '../../components/preloader';
 import { Pagination } from '../../components/pagination';
 import { Issue, Enumeration } from '../../shared/types';
 import { connect } from 'react-redux';
-import { AppState } from '../../state';
 import { loadData, gotoPage, applyFilter } from './actions';
 import { IssueControlPanel } from '../../components/issueControlPanel';
 import { RouteComponentProps } from 'react-router';
 import { IssueFilterValue, IssuesFilter, IssueFilterField } from './types';
+import { AppState } from '../../store';
 
 
 const NoData = React.memo((props: { visible: boolean }) => {
@@ -45,7 +45,7 @@ const mapEnumerationToSelect = (x: Enumeration): Array<{ value: string, label: s
 
 const Component = (props: IssuesProps) => {
     if (props.data === undefined || props.data.length === 0) {
-        React.useEffect(() => props.loadData(), []);
+        React.useEffect(() => { props.loadData(); }, []);
     }
 
     return (

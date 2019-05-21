@@ -1,19 +1,14 @@
 import { Dispatch } from 'redux';
 import { getEnumerations } from '../../api/getEnumerations';
 import { EnumerationsAction } from './types';
-import { AppState } from '../../state';
+import { AppState } from '../../store';
 
 export const loadEnumerations = () =>
-    (dispatch: Dispatch<EnumerationsAction>, getState: () => AppState) => {
+    async (dispatch: Dispatch<EnumerationsAction>, getState: () => AppState) => {
         if (getState().enumerations.isLoaded) {
             return;
         }
 
-        getEnumerations()
-        .then((data) => {
-            dispatch({ data, type: 'enumerations_setValue' });
-        })
-        .catch((err) => {
-            console.error(err);
-        });
+        const data = await getEnumerations();
+        dispatch({ data, type: 'enumerations_setValue' });
     };

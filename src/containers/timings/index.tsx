@@ -5,7 +5,7 @@ import ReactTooltip from 'react-tooltip';
 
 import { addDays, toISODate } from '../../shared/date';
 
-import { AppState } from '../../state';
+import { AppState } from '../../store';
 
 import { ActivityListContainer } from '../activityList';
 import { ActivityHeatmap, ActivityHeatmapProps } from '../../components/activityHeatmap';

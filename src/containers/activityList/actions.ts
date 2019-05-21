@@ -28,18 +28,14 @@ export const setData = (data: TimesheetEntry[]): ActivityListThunk => (dispatch:
 
 
 
-export const loadData = (req: QueryTimingsRequest): ActivityListThunk => (dispatch) => {
-    queryTimings(req)
-    .then(({ data }) => {
+export const loadData = (req: QueryTimingsRequest): ActivityListThunk =>
+    async (dispatch) => {
+        const { data } = await queryTimings(req);
         dispatch({ data, type: 'activityList_setReady' });
-    })
-    .catch((e) => {
-        console.error(e);
-    });
-};
+    };
 
 export const openAddModal = (date: Date): ActivityListThunk =>
-    async (dispatch, getState) => {
+    (dispatch, getState) => {
         const state = getState();
         const modal: CreateTimingModalProps = {
             opened: true,
@@ -68,7 +64,7 @@ export const openAddModal = (date: Date): ActivityListThunk =>
     };
 
 export const openEditModal = (entry: TimesheetEntry): ActivityListThunk =>
-    async (dispatch, getState) => {
+    (dispatch, getState) => {
         const state = getState();
         const modal: EditTimingModalProps = {
             opened: true,

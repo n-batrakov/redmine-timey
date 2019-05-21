@@ -1,24 +1,44 @@
 import * as React from 'react';
 import { LoginPage } from '../../components/login';
-import { AppState } from '../../state';
+import { AppState } from '../../store';
 import { login } from './actions';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router';
 
 export type LoginContainerProps = {
+    isLoggedIn: boolean,
+    loading?: boolean,
     login: (credentials: {login: string, password: string}) => void,
     errors: string[],
 };
 const Component = (props: LoginContainerProps) => {
+    if (props.isLoggedIn) {
+        return <Redirect to="/" />;
+    }
+
     return (
-        <LoginPage onSubmit={props.login} errors={props.errors} />
+        <LoginPage loading={props.loading} onSubmit={props.login} errors={props.errors} />
     );
 };
 
 export const LoginPageContainer = connect(
-    (state: AppState): Partial<LoginContainerProps> => ({
+    (state: AppState, props: LoginContainerProps): Partial<LoginContainerProps> => ({
+        ...props,
+        isLoggedIn: state.auth.isLoggedIn,
         errors: state.auth.loginErrors,
+        loading: state.auth.loading,
     }),
     {
         login,
     },
 )(Component);
+
+/*
+# TODO
+
+* Handle form errors
+* Delete time entry 403
+* Set initial auth.isLoggedIn state
+* Logout button
+
+*/

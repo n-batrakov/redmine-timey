@@ -67,23 +67,19 @@ const mapFilterToApi = (x: IssuesFilter) => {
         },
         {});
 };
-export const loadData = (): IssuesThunk => (dispatch, getState) => {
-    const { page, pageSize, filter, isLoading } = getState().issues;
+export const loadData = (): IssuesThunk =>
+    async (dispatch, getState) => {
+        const { page, pageSize, filter, isLoading } = getState().issues;
 
-    if (!isLoading) {
-        dispatch(setPreloader());
-    }
+        if (!isLoading) {
+            dispatch(setPreloader());
+        }
 
-    const limit = pageSize;
-    const offset = page * pageSize;
+        const limit = pageSize;
+        const offset = page * pageSize;
 
-    const queryFilter = filter === undefined ? undefined : mapFilterToApi(filter);
+        const queryFilter = filter === undefined ? undefined : mapFilterToApi(filter);
 
-    queryIssues({ limit, offset, ...queryFilter })
-    .then(({ data, totalCount }) => {
+        const { data, totalCount } = await queryIssues({ limit, offset, ...queryFilter });
         dispatch(setData(data, totalCount));
-    })
-    .catch((e) => {
-        console.error(e);
-    });
 };

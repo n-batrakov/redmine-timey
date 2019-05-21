@@ -1,6 +1,6 @@
 import { EnumerationsLookup } from '../../shared/types';
-import { ThunkAction } from 'redux-thunk';
-import { AppState } from '../../state';
+import { AppState } from '../../store';
+import { ThunkAction } from '../../store/thunk';
 
 export type EnumerationsState = EnumerationsLookup & {
     isLoaded: boolean,

@@ -3,11 +3,12 @@ import { login as loginApi } from '../../api/login';
 import { logout as logoutApi } from '../../api/logout';
 
 type Credentials = {login: string, password: string};
-export const login = (credentials: Credentials): AuthThunk => (dispatch) => {
-    dispatch({ type: 'auth_loading' });
+export const login = (credentials: Credentials): AuthThunk => 
+    async (dispatch) => {
+        dispatch({ type: 'auth_loading' });
 
-    loginApi(credentials)
-    .then((response) => {
+        const response = await loginApi(credentials);
+
         switch (response.status) {
             case 'success':
                 dispatch({
@@ -28,11 +29,7 @@ export const login = (credentials: Credentials): AuthThunk => (dispatch) => {
                 });
                 return;
         }
-    })
-    .catch((err) => {
-        console.error(err);
-    });
-};
+    };
 
 export const logout = (): AuthThunk => (dispatch) => {
     dispatch({ type: 'auth_loading' });
