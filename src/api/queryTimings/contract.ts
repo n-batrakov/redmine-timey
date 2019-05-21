@@ -1,6 +1,6 @@
 import { RequestMetadata } from '../../shared/http';
 import { TimesheetEntry } from '../../shared/types';
-import schema from '../../schema';
+import schema from '../../shared/schema';
 import { EntityList } from '../../shared/dataSource';
 
 export const metadata: RequestMetadata = {

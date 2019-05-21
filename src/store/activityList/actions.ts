@@ -9,7 +9,7 @@ import { updateTiming } from '../../api/updateTiming';
 import { deleteTiming } from '../../api/deleteTiming';
 import { QueryTimingsRequest } from '../../api/queryTimings/contract';
 
-import { loadData as updateTimingsData } from '../timings/actions';
+import { loadData as updateTimingsData } from '../timingsPage/actions';
 import { NotAuthorizedError, ForbiddenError } from '../../shared/errors';
 
 export const closeModal = (): ActivityListAction => ({

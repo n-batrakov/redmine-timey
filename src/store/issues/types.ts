@@ -1,6 +1,6 @@
 import { Issue } from '../../shared/types';
-import { AppState } from '../../store';
-import { ThunkAction } from '../../store/thunk';
+import { AppState } from '..';
+import { ThunkAction } from '../thunk';
 
 export type IssueFilterValue = {
     status?: string,

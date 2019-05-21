@@ -3,17 +3,17 @@ import { connect } from 'react-redux';
 import { Route, Switch, RouteComponentProps } from 'react-router';
 import ReactTooltip from 'react-tooltip';
 
-import { addDays, toISODate } from '../../shared/date';
+import { addDays, toISODate } from '../shared/date';
 
-import { AppState } from '../../store';
+import { AppState } from '../store';
 
-import { ActivityListContainer } from '../activityList';
-import { ActivityHeatmap, ActivityHeatmapProps } from '../../components/activityHeatmap';
-import { HoursGauge, HoursGaugeProps } from '../../components/hoursGauge';
-import { FromErrors } from '../../components/form';
+import { ActivityListContainer } from './activityList';
+import { ActivityHeatmap, ActivityHeatmapProps } from '../components/activityHeatmap';
+import { HoursGauge, HoursGaugeProps } from '../components/hoursGauge';
+import { FromErrors } from '../components/form';
 
-import { loadData } from './actions';
-import { loadEnumerations } from '../enumerations/actions';
+import { loadData } from '../store/timingsPage/actions';
+import { loadEnumerations } from '../store/enumerations/actions';
 
 
 export type TimingsPageContainerProps = {

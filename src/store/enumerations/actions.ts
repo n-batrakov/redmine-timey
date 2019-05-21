@@ -1,7 +1,7 @@
 import { Dispatch } from 'redux';
 import { getEnumerations } from '../../api/getEnumerations';
 import { EnumerationsAction } from './types';
-import { AppState } from '../../store';
+import { AppState } from '..';
 
 export const loadEnumerations = () =>
     async (dispatch: Dispatch<EnumerationsAction>, getState: () => AppState) => {

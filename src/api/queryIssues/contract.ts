@@ -1,7 +1,7 @@
 import { RequestMetadata } from '../../shared/http';
 import { EntityList } from '../../shared/dataSource';
 import { Issue } from '../../shared/types';
-import Schema from '../../schema';
+import Schema from '../../shared/schema';
 
 export const metadata: RequestMetadata = {
     url: '/api/issue',

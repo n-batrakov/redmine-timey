@@ -1,14 +1,14 @@
 import * as React from 'react';
-import { IssueList } from '../../components/issueList';
-import { CoverLoader } from '../../components/preloader';
-import { Pagination } from '../../components/pagination';
-import { Issue, Enumeration } from '../../shared/types';
+import { IssueList } from '../components/issueList';
+import { CoverLoader } from '../components/preloader';
+import { Pagination } from '../components/pagination';
+import { Issue, Enumeration } from '../shared/types';
 import { connect } from 'react-redux';
-import { loadData, gotoPage, applyFilter } from './actions';
-import { IssueControlPanel } from '../../components/issueControlPanel';
+import { loadData, gotoPage, applyFilter } from '../store/issues/actions';
+import { IssueControlPanel } from '../components/issueControlPanel';
 import { RouteComponentProps } from 'react-router';
-import { IssueFilterValue, IssuesFilter, IssueFilterField } from './types';
-import { AppState } from '../../store';
+import { IssueFilterValue, IssuesFilter, IssueFilterField } from '../store/issues/types';
+import { AppState } from '../store';
 
 
 const NoData = React.memo((props: { visible: boolean }) => {

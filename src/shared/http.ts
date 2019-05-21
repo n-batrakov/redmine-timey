@@ -1,4 +1,4 @@
-import { JsonSchema } from '../schema';
+import { JsonSchema } from './schema';
 import { NotAuthorizedError, ForbiddenError, ServerError } from './errors';
 
 export type RequestMetadata = {

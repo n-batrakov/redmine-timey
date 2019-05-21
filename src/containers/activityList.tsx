@@ -1,21 +1,21 @@
 import * as React from 'react';
-import * as Store from './actions';
+import * as Store from '../store/activityList/actions';
 import { connect } from 'react-redux';
 
-import { TimesheetEntry } from '../../shared/types';
-import { AppState } from '../../store';
+import { TimesheetEntry } from '../shared/types';
+import { AppState } from '../store';
 
-import { ActivityList } from '../../components/activityList';
-import { Loader } from '../../components/preloader';
+import { ActivityList } from '../components/activityList';
+import { Loader } from '../components/preloader';
 import {
     EditTimingModalProps,
     CreateTimingModalProps,
     EditTimingModal,
     CreateTimingModal,
-} from '../../components/editTimingModal';
+} from '../components/editTimingModal';
 import { RouteComponentProps } from 'react-router';
-import { tryParseDate, addDays, toISODate } from '../../shared/date';
-import { ActivityListHeader } from '../../components/activityList/header';
+import { tryParseDate, addDays, toISODate } from '../shared/date';
+import { ActivityListHeader } from '../components/activityList/header';
 
 type ActivityListContainerProps = {
     data: TimesheetEntry[],

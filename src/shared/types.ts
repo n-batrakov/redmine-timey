@@ -1,4 +1,4 @@
-import schema from '../schema';
+import schema from './schema';
 import { toISODate } from './date';
 
 export type NamedId = {id: string, name?: string, href?: string};

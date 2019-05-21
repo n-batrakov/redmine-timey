@@ -2,8 +2,8 @@ import { Dispatch, Action } from 'redux';
 
 import { TimesheetEntry } from '../../shared/types';
 import { EditTimingModalProps, CreateTimingModalProps } from '../../components/editTimingModal';
-import { AppState } from '../../store';
-import { ThunkAction } from '../../store/thunk';
+import { AppState } from '..';
+import { ThunkAction } from '../thunk';
 
 export type ActivityListState = {
     data: TimesheetEntry[],

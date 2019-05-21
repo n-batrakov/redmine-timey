@@ -1,9 +1,9 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux';
-import { reducer as activityListReducer } from '../containers/activityList/reducer';
-import { reducer as timingsPageReducer }  from '../containers/timings/reducer';
-import { reducer as issuesReducer } from '../containers/issues/reducer';
-import { reducer as enumerationsReducer } from '../containers/enumerations/reducer';
-import { reducer as authReducer } from '../containers/login/reducer';
+import { reducer as activityListReducer } from './activityList/reducer';
+import { reducer as timingsPageReducer }  from './timingsPage/reducer';
+import { reducer as issuesReducer } from './issues/reducer';
+import { reducer as enumerationsReducer } from './enumerations/reducer';
+import { reducer as authReducer } from './auth/reducer';
 import { AppState } from './';
 import { NotAuthorizedError } from '../shared/errors';
 import { ThunkErrorHandler, createThunkMiddleware } from './thunk';
