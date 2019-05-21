@@ -58,7 +58,7 @@ const LoginForm = (props: LoginFormProps) => {
                 <FormFooter>
                     <Button
                         submit
-                        value="Login"
+                        value="Log in"
                         className="timey-login-page-btn"
                         disabled={props.loading}
                     />
@@ -90,6 +90,26 @@ export const LoginPage = (props: LoginPageProps) => {
             <Grid fluid style={{ margin: 'auto' }}>
                 <LoginLogo loading={props.loading} />
                 <LoginForm {...props} />
+            </Grid>
+        </div>
+    );
+};
+
+export type LogoutPageProps = {
+    loading?: boolean,
+    onLoginRedirect?: () => void,
+};
+export const LogoutPage = (props: LogoutPageProps) => {
+    return (
+        <div className="timey-login-page">
+            <Grid fluid style={{ margin: 'auto' }}>
+                <LoginLogo loading={props.loading} />
+                <p>You're logged out. Hope to see you back soon!</p>
+                <Row>
+                    <Col xs={12} xsOffset={4} >
+                        <Button value="Log in" className="timey-login-page-btn" onClick={props.onLoginRedirect} />
+                    </Col>
+                </Row>
             </Grid>
         </div>
     );

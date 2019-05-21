@@ -33,8 +33,6 @@ export const login = (credentials: Credentials): AuthThunk =>
     };
 
 export const logout = (): AuthThunk => (dispatch) => {
-    dispatch({ type: 'auth_loading' });
-
     logoutApi()
     .then(() => {
         dispatch({ type: 'auth_logout' });

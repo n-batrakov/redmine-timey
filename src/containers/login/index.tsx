@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { LoginPage } from '../../components/login';
+import { LoginPage, LogoutPage } from '../../components/login';
 import { AppState } from '../../store';
-import { login } from './actions';
+import { login, logout } from './actions';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 
@@ -11,7 +11,7 @@ export type LoginContainerProps = {
     login: (credentials: {login: string, password: string}) => void,
     errors: string[],
 };
-const Component = (props: LoginContainerProps) => {
+const LoginPageComponent = (props: LoginContainerProps) => {
     if (props.isLoggedIn) {
         return <Redirect to="/" />;
     }
@@ -20,7 +20,6 @@ const Component = (props: LoginContainerProps) => {
         <LoginPage loading={props.loading} onSubmit={props.login} errors={props.errors} />
     );
 };
-
 export const LoginPageContainer = connect(
     (state: AppState, props: LoginContainerProps): Partial<LoginContainerProps> => ({
         ...props,
@@ -31,4 +30,28 @@ export const LoginPageContainer = connect(
     {
         login,
     },
-)(Component);
+)(LoginPageComponent);
+
+
+type LogoutPageProps = {
+    isLoggedIn: boolean,
+    logout: () => void,
+    history: { push: (path: string) => void },
+};
+const LogoutPageComponent = (props: LogoutPageProps) => {
+    if (props.isLoggedIn) {
+        props.logout();
+    }
+
+    const onRedirect = React.useCallback(() => props.history.push('/login'), []);
+    return <LogoutPage onLoginRedirect={onRedirect} />;
+};
+export const LogoutPageContainer = connect(
+    (state: AppState, props: LogoutPageProps): Partial<LogoutPageProps> => ({
+        isLoggedIn: state.auth.isLoggedIn,
+        ...props,
+    }),
+    {
+        logout,
+    },
+)(LogoutPageComponent);

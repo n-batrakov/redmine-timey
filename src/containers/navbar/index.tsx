@@ -13,6 +13,9 @@ const Component = (props: AppNavbarProps) => (
         items={[
             <NavLink to="/time" className="navbar-btn" activeClassName="active">Time</NavLink>,
         ]}
+        rightItems={[
+            <NavLink to="/logout" className="navbar-btn">Logout</NavLink>,
+        ]}
     />
 );
 

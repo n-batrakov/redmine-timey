@@ -9,7 +9,7 @@ import { store } from './store/createStore';
 
 import { AppRouter } from './router';
 import { AppNavbar } from './containers/navbar';
-import { LoginPageContainer } from './containers/login';
+import { LoginPageContainer, LogoutPageContainer } from './containers/login';
 
 console.log('Do you have a problem, question or suggestion? Please, visit: https://github.com/n-batrakov/redmine-timey/issues/new');
 
@@ -19,6 +19,7 @@ const App = () => {
             <Router>
                 <Switch>
                     <Route path="/login" component={LoginPageContainer} />
+                    <Route path="/logout" component={LogoutPageContainer} />
                     <Route>
                         {<AppNavbar />}
                         <div className="content">
