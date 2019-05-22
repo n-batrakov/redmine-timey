@@ -57,13 +57,14 @@ app
 .option('--https [certDir]', 'Enables HTTPS connection; `dir` should point to certificate directory with `pub.key` and `pub.cert` files reside.', process.env.TIMEY_CERT_DIR)
 .option('--http2', 'Enables HTTP/2 support. HTTPS must be enabled too.', process.env.TIMEY_HTTP2_ENABLED)
 .action(cmd => catchErrors(async () => {
-    const https: SecureServerOptions = cmd.https === undefined
-        ? {}
-        : {
+    const isHttps = cmd.https !== undefined;
+    const https: SecureServerOptions | undefined = isHttps
+        ? {
             allowHTTP1: true,
             key: fs.readFileSync(path.join(cmd.https, 'pub.key')),
             cert: fs.readFileSync(path.join(cmd.https, 'pub.cert')),
-        };
+        }
+        : undefined;
     const http2: any = cmd.http2 === true;
 
     const server = fastify({
@@ -72,7 +73,7 @@ app
         http2,
         ignoreTrailingSlash: true,
         disableRequestLogging: true,
-        serverFactory: http2https(),
+        serverFactory: isHttps ? http2https() : undefined,
     } as any);
     server.register(fastifyCookie);
 
