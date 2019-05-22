@@ -39,6 +39,8 @@ const logger = process.env.NODE_ENV !== 'production'
     }
     : {
         level: 'info',
+        disableRequestLogging: true,
+        file: './timey.log',
     };
 
 app
@@ -68,6 +70,7 @@ app
         https,
         http2,
         ignoreTrailingSlash: true,
+        disableRequestLogging: true,
     });
     server.register(fastifyCookie);
 

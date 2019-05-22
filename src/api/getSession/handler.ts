@@ -8,6 +8,8 @@ const handler: RegisterHandler = (server, { redmine }) => server.route({
     handler: async (req): Promise<GetSessionResponse> => {
         const { login } = getCredentials(req);
 
+        server.log.info({ login }, 'USER_SESSION');
+
         return {
             username: login,
             redmineHost: redmine.host,
