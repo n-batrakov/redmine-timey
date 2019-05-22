@@ -2,7 +2,6 @@ import { AppState, AppAction } from '..';
 import { initState as actitivityListInitState } from '../activityList/reducer';
 import { initialState as timingsPageInitState }  from '../timingsPage/reducer';
 import { initState as issuesInitState } from '../issues/reducer';
-import { initState as authInitState } from '../auth/reducer';
 
 export const reducer = (state: AppState, action: AppAction): AppState => {
     switch (action.type) {
@@ -11,7 +10,7 @@ export const reducer = (state: AppState, action: AppAction): AppState => {
                 timingsPage: timingsPageInitState,
                 activityList: actitivityListInitState,
                 issues: issuesInitState,
-                auth: authInitState,
+                auth: state.auth,
                 enumerations: state.enumerations,
             };
         default:
