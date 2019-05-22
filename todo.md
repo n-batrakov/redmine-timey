@@ -4,10 +4,6 @@
 
 ## Sprint
 
-* Move navbar to componets
-* Move `server/api.ts` to `api/index.ts`
-* Move `schema` to `shared/schema`
-* Store refactoring
 * Clock preloader
 * Add Redmine Link to header
 
@@ -15,6 +11,8 @@
 
 ### Features
 
+* Add time entry for project (project-issue toggle)
+* Refresh issues button (issues list)
 * Issue total time spent badge
 * Task Table view \ Tree view
 * Kanban
