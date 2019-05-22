@@ -6,7 +6,7 @@ const nullEnumeration: Enumeration = {
     defaultValue: '',
 };
 
-const initState: EnumerationsState = {
+export const initState: EnumerationsState = {
     isLoaded: false,
     activity: nullEnumeration,
     priority: nullEnumeration,

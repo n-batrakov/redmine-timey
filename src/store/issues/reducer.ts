@@ -1,6 +1,6 @@
 import { IssuesState, IssuesAction } from './types';
 
-const initState: IssuesState = {
+export const initState: IssuesState = {
     data: [],
     isLoading: true,
     page: 0,

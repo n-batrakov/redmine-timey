@@ -2,7 +2,7 @@ import { assertNever } from '../../shared';
 import { ActivityListAction, ActivityListState } from './types';
 
 
-const initState: ActivityListState = {
+export const initState: ActivityListState = {
     isLoading: true,
     data: [],
 };

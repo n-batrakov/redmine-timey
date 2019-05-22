@@ -1,6 +1,6 @@
 import { TimingsPageState, TimingsPageAction } from './types';
 
-const initialState: TimingsPageState = {
+export const initialState: TimingsPageState = {
     gauge: undefined,
     heatmap: undefined,
     isLoading: true,

@@ -1,7 +1,7 @@
 import { AuthState, AuthAction } from './types';
 import { assertNever } from '../../shared';
 
-const initState: AuthState = {
+export const initState: AuthState = {
     loginErrors: [],
     username: '',
     loading: false,
