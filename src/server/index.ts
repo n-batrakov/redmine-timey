@@ -2,6 +2,7 @@ import { RedmineClient } from './redmine';
 import fastify from 'fastify';
 import staticFiles from 'fastify-static';
 import fastifyCookie from 'fastify-cookie';
+import http2https from 'fastify-http2https';
 
 import { fallback } from './middleware/fallback';
 import path from 'path';
@@ -71,7 +72,8 @@ app
         http2,
         ignoreTrailingSlash: true,
         disableRequestLogging: true,
-    });
+        serverFactory: http2https(),
+    } as any);
     server.register(fastifyCookie);
 
     const { redmine, host } = cmd;
