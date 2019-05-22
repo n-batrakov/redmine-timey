@@ -63,7 +63,12 @@ app
         };
     const http2: any = cmd.http2 === true;
 
-    const server = fastify({ logger, https, http2 });
+    const server = fastify({
+        logger,
+        https,
+        http2,
+        ignoreTrailingSlash: true,
+    });
     server.register(fastifyCookie);
 
     const { redmine, host } = cmd;
