@@ -39,7 +39,7 @@ type LogoutPageProps = {
     history: { push: (path: string) => void },
 };
 const LogoutPageComponent = (props: LogoutPageProps) => {
-    if (props.isLoggedIn) {
+    if (props.isLoggedIn === undefined || props.isLoggedIn) {
         props.logout();
     }
 
