@@ -3,7 +3,7 @@ import { assertNever } from '../../shared';
 
 export const initState: AuthState = {
     isLoggedIn: undefined,
-    loading: true,
+    loading: false,
     loginErrors: [],
 };
 
