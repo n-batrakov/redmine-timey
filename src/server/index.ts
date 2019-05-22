@@ -51,8 +51,8 @@ app
 .option('--apiKey [key]', 'Redmine admin API key', process.env.REDMINE_API_KEY)
 .option('-h|--host [host]', 'Address to bind server to.', '0.0.0.0')
 .option('-p|--port [port]', 'Host address to bind server to.', 8080)
-.option('--https [certDir]', 'Enables HTTPS connection; `dir` should point to certificate directory with `pub.key` and `pub.cert` files reside.')
-.option('--http2', 'Enables HTTP/2 support. HTTPS must be enabled too.')
+.option('--https [certDir]', 'Enables HTTPS connection; `dir` should point to certificate directory with `pub.key` and `pub.cert` files reside.', process.env.TIMEY_CERT_DIR)
+.option('--http2', 'Enables HTTP/2 support. HTTPS must be enabled too.', process.env.TIMEY_HTTP2_ENABLED)
 .action(cmd => catchErrors(async () => {
     const https: SecureServerOptions = cmd.https === undefined
         ? {}

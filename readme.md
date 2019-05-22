@@ -26,6 +26,16 @@ Environment variables:
 $ docker run -p 8080:80 -e REDMINE_HOST=https://redmine.company.com nbatrakov/redmine-timey
 ```
 
+## Start Options
+
+> See `--help` for command line commands and options
+
+Environment variables:
+* `REDMINE_HOST` - Redmine host address
+* `REDMINE_API_KEY` - Redmine API key
+* `TIMEY_CERT_DIR` - Path to certificate directory with `pub.key` and `pub.cert` files. Enables HTTPS connection.
+* `TIMEY_HTTP2_ENABLED` - Enables HTTP/2 support. HTTPS must be enabled too.
+
 ## Development
 
 To run `npm start` you must set environment variable `REDMINE_HOST` to your redmine instance address.
