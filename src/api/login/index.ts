@@ -1,9 +1,11 @@
 import { metadata } from './contract';
 import { jsonContentType } from '../../shared/http';
 import { wait } from '../../shared';
+import { UserSession } from '../../shared/types';
 
 export type AuthenticationResponse = {
     status: 'success',
+    session: UserSession,
 } | {
     status: 'notAuthenticated',
 } | {
@@ -20,8 +22,9 @@ export async function login(credentials: {login: string, password: string}): Pro
     switch (response.status) {
         case 200:
             // Slow down sign-in a bit to avoid flickering.
-            await wait(1000);
-            return { status: 'success' };
+            const [session] = await Promise.all([response.json(), wait(1000)]);
+
+            return { session, status: 'success' };
         case 401:
             return { status: 'notAuthenticated' };
         default:

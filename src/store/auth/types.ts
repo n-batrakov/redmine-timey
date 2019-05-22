@@ -1,16 +1,17 @@
 import { AppState } from '..';
 import { ThunkAction } from '../thunk';
+import { UserSession } from '../../shared/types';
 
 export type AuthState = {
     isLoggedIn?: boolean,
-    loginErrors: string[],
-    username: string,
     loading: boolean,
+    loginErrors: string[],
+    session?: UserSession,
 };
 
 export type AuthAction = {
     type: 'auth_login',
-    username: string,
+    session: UserSession,
 } | {
     type: 'auth_logout',
 } | {

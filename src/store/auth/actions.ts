@@ -4,7 +4,7 @@ import { logout as logoutApi } from '../../api/logout';
 import { getSession as getSessionApi } from '../../api/getSession';
 
 type Credentials = {login: string, password: string};
-export const login = (credentials: Credentials): AuthThunk => 
+export const login = (credentials: Credentials): AuthThunk =>
     async (dispatch) => {
         dispatch({ type: 'auth_loading' });
 
@@ -14,7 +14,7 @@ export const login = (credentials: Credentials): AuthThunk =>
             case 'success':
                 dispatch({
                     type: 'auth_login',
-                    username: credentials.login,
+                    session: response.session,
                 });
                 return;
             case 'error':
@@ -43,6 +43,11 @@ export const logout = (): AuthThunk => (dispatch) => {
 };
 
 export const getSession = (): AuthThunk => async (dispatch, getState) => {
-    const { username } = await getSessionApi();
-    dispatch({ username, type: 'auth_login' });
+    const { auth } = getState();
+    if (auth.isLoggedIn) {
+        return;
+    }
+
+    const session = await getSessionApi();
+    dispatch({ session, type: 'auth_login' });
 };

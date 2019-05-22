@@ -1,4 +1,4 @@
-import { metadata, LoginRequest } from './contract';
+import { metadata, LoginRequest, LoginResponse } from './contract';
 import { RegisterHandler } from '../../server/shared';
 import jwt from 'jsonwebtoken';
 import { secret, tokenSignOptions, cookieName, cookieOptions } from '../../server/authSettings';
@@ -22,7 +22,7 @@ const verifyRedmineCredentials = async (redmineHost: string, login: string, pass
 
 const handler: RegisterHandler = (server, { redmine }) => server.route({
     ...metadata,
-    handler: async (req, resp) => {
+    handler: async (req, resp): Promise<LoginResponse> => {
         const { login, password } = await req.body as LoginRequest;
 
         const isCredentialsValid = await verifyRedmineCredentials(redmine.host, login, password);
@@ -34,7 +34,10 @@ const handler: RegisterHandler = (server, { redmine }) => server.route({
             resp.status(401);
         }
 
-        return '';
+        return {
+            username: login,
+            redmineHost: redmine.host,
+        };
     },
 });
 

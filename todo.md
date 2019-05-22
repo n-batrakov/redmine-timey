@@ -4,9 +4,6 @@
 
 ## Sprint
 
-* Clock preloader
-* Add Redmine Link to header
-
 ## Backlog
 
 ### Features

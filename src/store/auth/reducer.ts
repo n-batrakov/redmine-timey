@@ -2,9 +2,9 @@ import { AuthState, AuthAction } from './types';
 import { assertNever } from '../../shared';
 
 export const initState: AuthState = {
+    isLoggedIn: undefined,
+    loading: true,
     loginErrors: [],
-    username: '',
-    loading: false,
 };
 
 export const reducer = (state: AuthState, action: AuthAction): AuthState => {
@@ -15,21 +15,22 @@ export const reducer = (state: AuthState, action: AuthAction): AuthState => {
     switch (action.type) {
         case 'auth_login':
             return {
-                loginErrors: [],
                 isLoggedIn: true,
-                username: action.username,
+                session: action.session,
+                loginErrors: [],
                 loading: false,
             };
         case 'auth_logout':
             return {
-                ...state,
-                username: '',
                 isLoggedIn: false,
+                session: undefined,
+                loginErrors: [],
                 loading: false,
             };
         case 'auth_setErrors':
             return {
-                ...state,
+                isLoggedIn: false,
+                session: undefined,
                 loginErrors: action.errors,
                 loading: false,
             };

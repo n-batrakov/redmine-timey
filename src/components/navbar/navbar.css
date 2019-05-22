@@ -48,6 +48,7 @@
     margin: auto 0;
 }
 .navbar-items-right {
+    display: flex;
     list-style: none;
     margin-right: 12px;
     margin-left: auto;

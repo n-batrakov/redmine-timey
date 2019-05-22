@@ -9,6 +9,7 @@ import { assertNever } from '../shared';
 import { LoginPageContainer, LogoutPageContainer } from './auth';
 import { Navbar } from '../components/navbar';
 import { Logo } from '../components/logo';
+import { UserSession } from '../shared/types';
 
 type AuthRouterProps = {
     isLoggedIn?: boolean,
@@ -36,10 +37,13 @@ const AuthGuard = (props: AuthRouterProps) => {
 };
 
 type RootProps = {
+    session?: UserSession,
     isLoggedIn?: boolean,
     getSession: () => void,
 };
 const Root = (props: RootProps) => {
+    const redmineHref = props.session === undefined ? '#' : props.session.redmineHost;
+
     return (
         <Switch>
             <Route path="/login" component={LoginPageContainer} />
@@ -52,6 +56,7 @@ const Root = (props: RootProps) => {
                             <NavLink to="/time" className="navbar-btn" activeClassName="active">Time</NavLink>,
                         ]}
                         rightItems={[
+                            <a className="navbar-btn" href={redmineHref}>Redmine</a>,
                             <NavLink to="/logout" className="navbar-btn">Logout</NavLink>,
                         ]}
                     />
@@ -71,6 +76,7 @@ const Root = (props: RootProps) => {
 export const AppRoot = connect(
     (state: AppState): Partial<RootProps> => ({
         isLoggedIn: state.auth.isLoggedIn,
+        session: state.auth.session,
     }),
     {
         getSession,

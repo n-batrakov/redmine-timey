@@ -103,5 +103,6 @@ export type EnumerationsLookup = {
 };
 
 export type UserSession = {
+    redmineHost: string,
     username: string,
 };
