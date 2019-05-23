@@ -25,7 +25,6 @@ const LoginForm = (props: LoginFormProps) => {
     return (
         <Form onSubmit={props.onSubmit as any} style={{
             margin: '22px auto',
-            width: 421,
         }}>
             <FormRow>
                 <FormErrors
@@ -105,11 +104,7 @@ export const LogoutPage = (props: LogoutPageProps) => {
             <Grid fluid style={{ margin: 'auto' }}>
                 <LoginLogo loading={props.loading} />
                 <p>You're logged out. Hope to see you back soon!</p>
-                <Row>
-                    <Col xs={12} xsOffset={4} >
-                        <Button value="Log in" className="timey-login-page-btn" onClick={props.onLoginRedirect} />
-                    </Col>
-                </Row>
+                <Button value="Log in" className="timey-login-page-btn" onClick={props.onLoginRedirect} />
             </Grid>
         </div>
     );
