@@ -1,13 +1,14 @@
 # TODO
 
-## Bugs
-
 ## Sprint
 
 ## Backlog
 
+### Bugs
+
 ### Features
 
+* Change URL when edit modal opens
 * Add time entry for project (project-issue toggle)
 * Refresh issues button (issues list)
 * Issue total time spent badge
