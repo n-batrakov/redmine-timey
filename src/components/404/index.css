@@ -1,0 +1,24 @@
+.timey-not-found-page {
+    width: 100%;
+    height: calc(100% - 39px);
+    display: flex;
+    flex-direction: column;
+    background-image: linear-gradient(to top, #bbffe4, #78dad7, #37b3cc, #008bbc, #2261a1);
+    color: #fff;
+}
+
+.timey-not-found-page-content {
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.timey-not-found-page-content h1 {
+    margin: 0;
+    font-size: 36pt;
+}
+
+.timey-not-found-page-content p {
+    margin: 0;
+    text-align: center;
+}

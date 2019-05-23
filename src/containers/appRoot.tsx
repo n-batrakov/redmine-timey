@@ -10,6 +10,7 @@ import { LoginPageContainer, LogoutPageContainer } from './auth';
 import { Navbar } from '../components/navbar';
 import { Logo } from '../components/logo';
 import { UserSession } from '../shared/types';
+import { NotFoundPage } from '../components/404';
 
 type AuthRouterProps = {
     isLoggedIn?: boolean,
@@ -60,13 +61,11 @@ const Root = (props: RootProps) => {
                             <NavLink to="/logout" className="navbar-btn">Logout</NavLink>,
                         ]}
                     />
-                    <div className="content">
-                        <Switch>
-                            <Redirect exact from="/" to="/time" />
-                            <Route path="/time" component={TimingsPageContainer} />
-                            <Route render={() => (<h1>404: This is not the page you are looking for</h1>)} />
-                        </Switch>
-                    </div>
+                    <Switch>
+                        <Redirect exact from="/" to="/time" />
+                        <Route path="/time" component={TimingsPageContainer} />
+                        <Route component={NotFoundPage} />
+                    </Switch>
                 </AuthGuard>
             </Route>
         </Switch>

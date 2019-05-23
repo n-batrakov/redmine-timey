@@ -14,6 +14,7 @@ import { FromErrors } from '../components/form';
 
 import { loadData } from '../store/timingsPage/actions';
 import { loadEnumerations } from '../store/enumerations/actions';
+import { PageContent } from '../components/pageContent';
 
 
 export type TimingsPageContainerProps = {
@@ -40,7 +41,7 @@ const Page = (props: TimingsPageContainerProps) => {
     const gaugeProps = props.gauge || { actualValue: 0, expectedValue: 160 };
 
     return (
-        <>
+        <PageContent>
             <ReactTooltip html />
             <ActivityHeatmap
                 loading={props.isLoading}
@@ -61,7 +62,7 @@ const Page = (props: TimingsPageContainerProps) => {
                     <FromErrors errors={['Sorry, your URL is invalid. Please select a day on a calendar or choose a different page.']} />
                 )}/>
             </Switch>
-        </>
+        </PageContent>
     );
 };
 
