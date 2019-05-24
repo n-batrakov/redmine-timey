@@ -5,7 +5,7 @@ import fastifyCookie from 'fastify-cookie';
 import http2https from 'fastify-http2https';
 
 import { fallback } from './middleware/fallback';
-import path from 'path';
+import pathUtils from 'path';
 import fs from 'fs';
 
 import api from '../api';
@@ -15,6 +15,16 @@ import { getCalendar } from './workHoursNorm';
 import app from 'commander';
 import { SecureServerOptions } from 'http2';
 
+const logFile = (path: string): string => {
+    if (fs.existsSync(path)) {
+        return path;
+    }
+
+    const dir = pathUtils.dirname(path);
+    fs.mkdirSync(dir);
+
+    return path;
+};
 const catchErrors = (callback: () => Promise<void>) => {
     const onError = (e: Error) => {
         console.log(e.stack, 'err');
@@ -32,7 +42,7 @@ const catchErrors = (callback: () => Promise<void>) => {
 };
 
 
-const logger = process.env.NODE_ENV !== 'production'
+const logger = process.env.NODE_ENV === 'production'
     ? {
         base: null,
         timestamp: false,
@@ -41,7 +51,7 @@ const logger = process.env.NODE_ENV !== 'production'
     : {
         level: 'info',
         disableRequestLogging: true,
-        file: './timey.log',
+        file: logFile('./logs/timey.log'),
     };
 
 app
@@ -55,17 +65,19 @@ app
 .option('-h|--host [host]', 'Address to bind server to.', '0.0.0.0')
 .option('-p|--port [port]', 'Host address to bind server to.', 8080)
 .option('--https [certDir]', 'Enables HTTPS connection; `dir` should point to certificate directory with `pub.key` and `pub.cert` files reside.', process.env.TIMEY_CERT_DIR)
-.option('--http2', 'Enables HTTP/2 support. HTTPS must be enabled too.', process.env.TIMEY_HTTP2_ENABLED)
+.option('--http2 [value]', 'Enables HTTP/2 support. HTTPS must be enabled too.', process.env.TIMEY_HTTP2_ENABLED)
 .action(cmd => catchErrors(async () => {
     const isHttps = cmd.https !== undefined;
     const https: SecureServerOptions | undefined = isHttps
         ? {
             allowHTTP1: true,
-            key: fs.readFileSync(path.join(cmd.https, 'pub.key')),
-            cert: fs.readFileSync(path.join(cmd.https, 'pub.cert')),
+            key: fs.readFileSync(pathUtils.join(cmd.https, 'pub.key')),
+            cert: fs.readFileSync(pathUtils.join(cmd.https, 'pub.cert')),
         }
         : undefined;
-    const http2: any = cmd.http2 === true;
+
+    console.log('HTTP2', cmd.http2);
+    const http2 = cmd.http2 === true || (cmd.http2 !== undefined && (<string>cmd.http2).toLowerCase() === 'true');
 
     const server = fastify({
         logger,
@@ -96,9 +108,9 @@ app
         const { devServer } = require('./middleware/devServer');
         server.use(devServer());
     } else {
-        const staticPath = path.join(__dirname, 'public');
+        const staticPath = pathUtils.join(__dirname, 'public');
         if (fs.existsSync(staticPath)) {
-            server.use(fallback(path.join(staticPath, 'index.html')));
+            server.use(fallback(pathUtils.join(staticPath, 'index.html')));
             server.register(staticFiles, {
                 root: staticPath,
                 cacheControl: true,
