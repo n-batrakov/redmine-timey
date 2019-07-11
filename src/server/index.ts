@@ -126,7 +126,7 @@ app
     }
 
     await server.listen(port, host);
-    console.log('Server is up and running...');
+    console.log(`Server is up and running on http://${host}:${port}`);
 }));
 
 app.parse(process.argv);

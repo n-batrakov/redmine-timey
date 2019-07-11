@@ -1,6 +1,6 @@
 .timey-login-page {
     width: 100%;
-    height: 100%;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     background-image: linear-gradient(to left top, #bbffe4, #78dad7, #37b3cc, #008bbc, #2261a1);
