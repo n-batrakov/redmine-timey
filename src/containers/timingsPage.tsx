@@ -15,10 +15,11 @@ import { FromErrors } from '../components/form';
 import { loadData } from '../store/timingsPage/actions';
 import { loadEnumerations } from '../store/enumerations/actions';
 import { PageContent } from '../components/pageContent';
+import { MobileScreen, MobileScreenHidden } from '../components/mediaQuery';
 
 
 export type TimingsPageContainerProps = {
-    heatmap?: ActivityHeatmapProps,
+    heatmap?: { data: Array<{ date: Date, count: number }> },
     onDayChange?: (x: { date: Date, count: number }) => void,
 
     gauge?: HoursGaugeProps,
@@ -37,18 +38,24 @@ const Page = (props: TimingsPageContainerProps) => {
     );
 
     const today = new Date();
-    const heatmapProps = props.heatmap || { data: [], startDate: addDays(today, -365), endDate: today };
+    const heatmapProps = {
+        data: props.heatmap === undefined ? [] : props.heatmap.data,
+        loading: props.isLoading,
+        endDate: today,
+        onClick: (x: { date: Date}) => props.history.push(`${props.match.path}/${toISODate(x.date)}`),
+    };
     const gaugeProps = props.gauge || { actualValue: 0, expectedValue: 160 };
 
     return (
         <PageContent>
             <ReactTooltip html />
-            <ActivityHeatmap
-                loading={props.isLoading}
-                { ...heatmapProps }
-                onClick={({ date }) => props.history.push(`${props.match.path}/${toISODate(date)}`)}
-                numDays={window.innerWidth < 800 ? 100 : 0}
-            />
+
+            <MobileScreen>
+                <ActivityHeatmap {...heatmapProps} startDate={addDays(today, -120)} />
+            </MobileScreen>
+            <MobileScreenHidden>
+                <ActivityHeatmap {...heatmapProps} startDate={addDays(today, -365)} />
+            </MobileScreenHidden>
 
             <HoursGauge {...gaugeProps}/>
 

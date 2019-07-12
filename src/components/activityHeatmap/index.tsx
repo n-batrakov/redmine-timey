@@ -57,33 +57,29 @@ export type ActivityHeatmapProps = {
     endDate: Date,
     data: Array<{ date: Date, count: number }>,
     onClick?: (value: {date: Date, count: number}) => void,
-    numDays?: number,
     loading?: boolean,
 };
 export class ActivityHeatmap extends React.Component<ActivityHeatmapProps> {
     public render() {
         const values = mapData(this.props.startDate, this.props.endDate, this.props.data);
         return (
-            <div className="activity-heatmap-container">
-                <CalendarHeatmap
-                    startDate={this.props.startDate}
-                    endDate={this.props.endDate}
-                    values={values}
-                    classForValue={x => getHeatmapItemClass(x, this.props.loading)}
-                    numDays={this.props.numDays}
-                    showWeekdayLabels={true}
-                    gutterSize={1.5}
-                    weekdayLabels={['Sun', 'M', 'Tue', 'W', 'Thu', 'F', 'Sat']}
-                    onClick={this.props.onClick}
-                    tooltipDataAttrs={(value: any) => {
-                        return {
-                          'data-tip': value.count === null
-                            ? ''
-                            : `${value.date.toLocaleDateString()}<br/>${value.count} часов`,
-                        };
-                      }}
-                />
-            </div>
+            <CalendarHeatmap
+                startDate={this.props.startDate}
+                endDate={this.props.endDate}
+                values={values}
+                classForValue={x => getHeatmapItemClass(x, this.props.loading)}
+                showWeekdayLabels={true}
+                gutterSize={1.5}
+                weekdayLabels={['Sun', 'M', 'Tue', 'W', 'Thu', 'F', 'Sat']}
+                onClick={this.props.onClick}
+                tooltipDataAttrs={(value: any) => {
+                    return {
+                        'data-tip': value.count === null
+                        ? ''
+                        : `${value.date.toLocaleDateString()}<br/>${value.count} часов`,
+                    };
+                    }}
+            />
         );
     }
 }

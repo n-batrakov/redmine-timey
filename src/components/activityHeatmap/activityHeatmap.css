@@ -1,11 +1,6 @@
-.activity-heatmap-container {
-    display: flex;
-    
-}
-
 .react-calendar-heatmap {
-    height: 200px;
-    margin: auto;
+    width: 100%;
+    max-height: 200px;
 }
 
 .react-calendar-heatmap .loading {
@@ -30,9 +25,7 @@
     100%{fill: #6191c2}
 }
 
-.react-calendar-heatmap {
-    max-height: 300px;
-}
+
 .react-calendar-heatmap text {
     font-size: 10px;
     fill: #aaa;
