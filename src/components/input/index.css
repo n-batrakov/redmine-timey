@@ -9,6 +9,9 @@
     border: 1px solid #ccc;
     border-radius: 3px;
     resize: none;
+    background-color: #fff;
+    height: 42px;
+    -webkit-appearance:none;
 }
 
 .timey-input-container {
