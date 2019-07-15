@@ -16,6 +16,9 @@ type ActivityListContainerProps = {
     isLoading: boolean,
 
     loadData: (req: {start: Date, end: Date}) => void,
+
+    onActivityClick?: (x: TimesheetEntry) => void,
+    onActivityAddClick?: (date: Date) => void,
 };
 
 const getOverviewTimeframe = (end: Date) => {
@@ -54,7 +57,5 @@ export const ActivityListContainer = connect(
     }),
     {
         loadData: Store.loadData,
-        onActivityClick: Store.openEditModal,
-        onActivityAddClick: Store.openAddModal,
     },
 )(List);

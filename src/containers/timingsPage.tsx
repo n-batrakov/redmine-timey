@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Route, Switch, RouteComponentProps } from 'react-router';
+import { RouteComponentProps } from 'react-router';
 import ReactTooltip from 'react-tooltip';
 
 import { addDays, toISODate, tryParseDate } from '../shared/date';
@@ -8,14 +8,14 @@ import { addDays, toISODate, tryParseDate } from '../shared/date';
 import { AppState } from '../store';
 
 import { ActivityListContainer } from './activityList';
-import { ActivityHeatmap, ActivityHeatmapProps } from '../components/activityHeatmap';
+import { ActivityHeatmap } from '../components/activityHeatmap';
 import { HoursGauge, HoursGaugeProps } from '../components/hoursGauge';
-import { FromErrors } from '../components/form';
 
 import { loadData } from '../store/timingsPage/actions';
 import { loadEnumerations } from '../store/enumerations/actions';
 import { PageContent } from '../components/pageContent';
 import { MobileScreen, MobileScreenHidden } from '../components/mediaQuery';
+import { TimesheetEntry } from '../shared/types';
 
 
 const parseSelectedDate = (str: string): Date => {
@@ -28,6 +28,16 @@ const parseSelectedDate = (str: string): Date => {
 
     return date;
 };
+
+const gotoNewTimingPage = (props: RouteComponentProps) => React.useCallback(
+    (date: Date) => props.history.push(`/time/new?date=${toISODate(date)}`),
+    [],
+);
+
+const gotoEditTimingPage = (props: RouteComponentProps) => React.useCallback(
+    (entry: TimesheetEntry) => props.history.push(`/time/${entry.id}`),
+    [],
+);
 
 export type TimingsPageContainerProps = {
     heatmap?: { data: Array<{ date: Date, count: number }> },
@@ -61,6 +71,7 @@ const Page = (props: TimingsPageContainerProps) => {
     const dateParam = queryParams.get('date');
     const date = dateParam === null ? undefined : parseSelectedDate(dateParam);
 
+
     return (
         <PageContent>
             <ReactTooltip html />
@@ -74,7 +85,11 @@ const Page = (props: TimingsPageContainerProps) => {
 
             <HoursGauge {...gaugeProps}/>
 
-            <ActivityListContainer date={date} />
+            <ActivityListContainer
+                date={date}
+                onActivityAddClick={gotoNewTimingPage(props)}
+                onActivityClick={gotoEditTimingPage(props)}
+            />
         </PageContent>
     );
 };
