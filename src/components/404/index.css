@@ -1,6 +1,6 @@
 .timey-not-found-page {
     width: 100%;
-    height: calc(100% - 39px);
+    height: calc(100vh - 39px);
     display: flex;
     flex-direction: column;
     background-image: linear-gradient(to top, #bbffe4, #78dad7, #37b3cc, #008bbc, #2261a1);
