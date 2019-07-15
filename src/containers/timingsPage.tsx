@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Route, Switch, RouteComponentProps } from 'react-router';
 import ReactTooltip from 'react-tooltip';
 
-import { addDays, toISODate } from '../shared/date';
+import { addDays, toISODate, tryParseDate } from '../shared/date';
 
 import { AppState } from '../store';
 
@@ -17,6 +17,17 @@ import { loadEnumerations } from '../store/enumerations/actions';
 import { PageContent } from '../components/pageContent';
 import { MobileScreen, MobileScreenHidden } from '../components/mediaQuery';
 
+
+const parseSelectedDate = (str: string): Date => {
+    const date = tryParseDate(str);
+
+    if (date === undefined) {
+        console.error(`Unable to parse '${str}'. Showing default list view.`);
+        return new Date();
+    }
+
+    return date;
+};
 
 export type TimingsPageContainerProps = {
     heatmap?: { data: Array<{ date: Date, count: number }> },
@@ -42,9 +53,13 @@ const Page = (props: TimingsPageContainerProps) => {
         data: props.heatmap === undefined ? [] : props.heatmap.data,
         loading: props.isLoading,
         endDate: today,
-        onClick: (x: { date: Date}) => props.history.push(`${props.match.path}/${toISODate(x.date)}`),
+        onClick: (x: { date: Date}) => props.history.push(`${props.match.path}?date=${toISODate(x.date)}`),
     };
     const gaugeProps = props.gauge || { actualValue: 0, expectedValue: 160 };
+
+    const queryParams = new URLSearchParams(props.location.search);
+    const dateParam = queryParams.get('date');
+    const date = dateParam === null ? undefined : parseSelectedDate(dateParam);
 
     return (
         <PageContent>
@@ -59,16 +74,7 @@ const Page = (props: TimingsPageContainerProps) => {
 
             <HoursGauge {...gaugeProps}/>
 
-            <Switch>
-                <Route
-                    exact
-                    path={`${props.match.path}/:date(\\d{4}-\\d{2}-\\d{2})?`}
-                    render={route => <ActivityListContainer {...route}/>}
-                />
-                <Route render={() => (
-                    <FromErrors errors={['Sorry, your URL is invalid. Please select a day on a calendar or choose a different page.']} />
-                )}/>
-            </Switch>
+            <ActivityListContainer date={date} />
         </PageContent>
     );
 };

@@ -60,7 +60,7 @@ const AddAcivityButton = (props: { onClick?: () => void }) => (
         <Button
             tooltip="Add timing"
             size="small"
-            value={<IconAdd/>}
+            value={<IconAdd />}
             style={{ marginLeft: 'auto' }}
             onClick={props.onClick}
         />
@@ -87,7 +87,7 @@ const ActivityTiming = (x: { entry: TimesheetEntry, onClick?: (x: TimesheetEntry
     );
 };
 
-const ActivityIssue = ({ items, onActivityClick } : {items: TimesheetEntry[], onActivityClick?: (x: TimesheetEntry) => void}) => {
+const ActivityIssue = ({ items } : {items: TimesheetEntry[] }) => {
     const project = items[0].project;
     const issue = items[0].issue;
 
@@ -96,18 +96,18 @@ const ActivityIssue = ({ items, onActivityClick } : {items: TimesheetEntry[], on
             <IssueHeader project={project} issue={issue} />
             <List>
                 {
-                    items.map(x => <ActivityTiming key={x.id} entry={x} onClick={onActivityClick}/>)
+                    items.map(x => <ActivityTiming key={x.id} entry={x} />)
                 }
             </List>
         </div>
     );
 };
 
-const EmptyActivityDay = ({ date, onActivityAdd } : {date: Date, onActivityAdd?: (date: Date) => void}) => (
+const EmptyActivityDay = ({ date } : {date: Date }) => (
     <ActivityListItem date={date} hours={0} style={{ margin: 0 }}>
         <div style={{ display: 'flex' }}>
             <IssueHeader project={{ id: '', name: 'No Activity' }} style={{ margin: 0, padding: '8px 0' }}/>
-            <AddAcivityButton onClick={bind(onActivityAdd, date)} />
+            <AddAcivityButton />
         </div>
     </ActivityListItem>
 );
@@ -119,15 +119,15 @@ type ActivityDayProps = {
     onActivityAdd?: (date: Date) => void,
     onActivityClick?: (x: TimesheetEntry) => void,
 };
-const ActivityDay = ({ date, hours, issues, onActivityAdd, onActivityClick } : ActivityDayProps) => {
+const ActivityDay = ({ date, hours, issues } : ActivityDayProps) => {
     return (
         <ActivityListItem date={date} hours={hours}>
             <div style={{ display: 'flex' }}>
-                <AddAcivityButton onClick={bind(onActivityAdd, date)} />
+                <AddAcivityButton />
             </div>
             {
                 issues.map(([issueId, items]) =>
-                    <ActivityIssue key={issueId} items={items} onActivityClick={onActivityClick} />,
+                    <ActivityIssue key={issueId} items={items} />,
                 )
             }
         </ActivityListItem>
@@ -139,8 +139,6 @@ export type ActivityListProps = {
     start: Date,
     end: Date,
     data: Array<TimesheetEntry>,
-    onActivityClick?: (x: TimesheetEntry) => void,
-    onActivityAddClick?: (date: Date) => void,
 };
 export const ActivityList = React.memo(
     (props: ActivityListProps) => {
@@ -150,7 +148,7 @@ export const ActivityList = React.memo(
             const key = toISODate(date);
 
             if (!data.has(key)) {
-                return <EmptyActivityDay key={key} date={date} onActivityAdd={props.onActivityAddClick} />;
+                return <EmptyActivityDay key={key} date={date} />;
             }
 
             const issuesMap = data.get(key) as Map<string, TimesheetEntry[]>;
@@ -162,8 +160,6 @@ export const ActivityList = React.memo(
                 date={date}
                 hours={dayTotal}
                 issues={issues}
-                onActivityAdd={props.onActivityAddClick}
-                onActivityClick={props.onActivityClick}
             />;
         });
 

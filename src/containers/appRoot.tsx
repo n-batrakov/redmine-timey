@@ -11,6 +11,7 @@ import { Navbar } from '../components/navbar';
 import { Logo } from '../components/logo';
 import { UserSession } from '../shared/types';
 import { NotFoundPage } from '../components/404';
+import { EditTimingPage, CreateTimingPage } from './editTimingPage';
 
 type AuthRouterProps = {
     isLoggedIn?: boolean,
@@ -63,6 +64,8 @@ const Root = (props: RootProps) => {
                     />
                     <Switch>
                         <Redirect exact from="/" to="/time" />
+                        <Route path="/time/new" component={CreateTimingPage} />
+                        <Route path="/time/:id" component={EditTimingPage} />
                         <Route path="/time" component={TimingsPageContainer} />
                         <Route component={NotFoundPage} />
                     </Switch>
