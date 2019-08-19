@@ -12,6 +12,7 @@ import { Logo } from '../components/logo';
 import { UserSession } from '../shared/types';
 import { NotFoundPage } from '../components/404';
 import { EditTimingPage, CreateTimingPage } from './editTimingPage';
+import { loadEnumerations } from '../store/enumerations/actions';
 
 type AuthRouterProps = {
     isLoggedIn?: boolean,
@@ -42,8 +43,11 @@ type RootProps = {
     session?: UserSession,
     isLoggedIn?: boolean,
     getSession: () => void,
+    loadEnumerations: () => void,
 };
 const Root = (props: RootProps) => {
+    React.useEffect(() => { props.loadEnumerations(); }, []);
+
     const redmineHref = props.session === undefined ? '#' : props.session.redmineHost;
 
     return (
@@ -74,7 +78,6 @@ const Root = (props: RootProps) => {
         </Switch>
     );
 };
-
 export const AppRoot = connect(
     (state: AppState): Partial<RootProps> => ({
         isLoggedIn: state.auth.isLoggedIn,
@@ -82,5 +85,6 @@ export const AppRoot = connect(
     }),
     {
         getSession,
+        loadEnumerations,
     },
 )(Root);

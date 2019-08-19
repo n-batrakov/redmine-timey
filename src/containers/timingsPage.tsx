@@ -12,7 +12,6 @@ import { ActivityHeatmap } from '../components/activityHeatmap';
 import { HoursGauge, HoursGaugeProps } from '../components/hoursGauge';
 
 import { loadData } from '../store/timingsPage/actions';
-import { loadEnumerations } from '../store/enumerations/actions';
 import { PageContent } from '../components/pageContent';
 import { MobileScreen, MobileScreenHidden } from '../components/mediaQuery';
 import { TimesheetEntry } from '../shared/types';
@@ -47,16 +46,9 @@ export type TimingsPageContainerProps = {
 
     isLoading: boolean,
     loadData: () => void,
-    loadEnumerations: () => void,
 } & RouteComponentProps;
 const Page = (props: TimingsPageContainerProps) => {
-    React.useEffect(
-        () => {
-            props.loadEnumerations();
-            props.loadData();
-        },
-        [],
-    );
+    React.useEffect(() => { props.loadData(); }, []);
 
     const today = new Date();
     const heatmapProps = {
@@ -103,6 +95,5 @@ export const TimingsPageContainer = connect(
     }),
     {
         loadData,
-        loadEnumerations,
     },
 )(Page);
