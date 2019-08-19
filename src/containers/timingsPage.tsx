@@ -12,7 +12,7 @@ import { ActivityHeatmap } from '../components/activityHeatmap';
 import { HoursGauge, HoursGaugeProps } from '../components/hoursGauge';
 
 import { loadData } from '../store/timingsPage/actions';
-import { PageContent } from '../components/pageContent';
+import { Container } from '../components/container';
 import { MobileScreen, MobileScreenHidden } from '../components/mediaQuery';
 import { TimesheetEntry } from '../shared/types';
 
@@ -65,7 +65,7 @@ const Page = (props: TimingsPageContainerProps) => {
 
 
     return (
-        <PageContent>
+        <Container>
             <ReactTooltip html />
 
             <MobileScreen>
@@ -82,7 +82,7 @@ const Page = (props: TimingsPageContainerProps) => {
                 onActivityAddClick={gotoNewTimingPage(props)}
                 onActivityClick={gotoEditTimingPage(props)}
             />
-        </PageContent>
+        </Container>
     );
 };
 
