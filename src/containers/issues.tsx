@@ -5,7 +5,6 @@ import { Pagination } from '../components/pagination';
 import { Issue, Enumeration } from '../shared/types';
 import { connect } from 'react-redux';
 import { loadData, gotoPage, applyFilter } from '../store/issues/actions';
-import { IssueControlPanel } from '../components/issueControlPanel';
 import { RouteComponentProps } from 'react-router';
 import { IssueFilterValue, IssuesFilter, IssueFilterField } from '../store/issues/types';
 import { AppState } from '../store';
@@ -37,6 +36,7 @@ export type IssuesProps = {
     applyFilter: (filter?: IssueFilterValue) => void,
 
     onSelect?: (issue: Issue) => void,
+    style?: React.CSSProperties,
 } & RouteComponentProps;
 
 const mapEnumerationToSelect = (x: Enumeration): Array<{ value: string, label: string}> => {
@@ -49,29 +49,12 @@ const Component = (props: IssuesProps) => {
     }
 
     return (
-        <div>
+        <div style={props.style}>
             <CoverLoader active={props.isLoading}/>
-            <IssueControlPanel
-                projects={props.projects}
-                statuses={props.statuses}
-                queries={props.queries}
-                users={props.users}
-                formValue={props.filter}
-                onApplyFilters={props.applyFilter}
-                onDropFilters={props.applyFilter}
-                style={{ maxWidth: 1480 }}
-                compact
-            />
             <NoData visible={!props.isLoading && props.data.length === 0} />
             <IssueList
                 onSelect={props.onSelect}
                 data={props.data}
-            />
-            <Pagination
-                count={props.totalCount}
-                currentPage={props.page}
-                pageSize={props.pageSize}
-                onSelect={props.gotoPage}
             />
         </div>
     );

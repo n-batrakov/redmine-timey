@@ -1,0 +1,66 @@
+.filter-form {
+    display: none;
+    flex-direction: column;
+}
+
+.issue-filter-row > * {
+    margin: 5px 2px;
+}
+
+.issue-filter-row.right {
+    margin-left: auto;
+}
+
+.filter-toggle {
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+    margin: 5px 0;
+    user-select: none;
+}
+
+.filter-toggle-input {
+    display: none;
+}
+
+.filter-toggle-input:checked ~ .filter-toggle {
+    color: #2261a1;
+    border-color: #2261a1;
+}
+.filter-toggle-input:checked ~ .filter-form {
+    display: flex;
+}
+
+
+
+.issue-filter.togglable {
+    display: flex;
+    flex-direction: column;
+}
+.issue-filter.togglable .filter-toggle-input:checked ~ .filter-toggle {
+    display: none;
+}
+
+
+.issue-filter.overflow {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border-right: 1px solid #aaa;
+    margin: 0;
+}
+
+.issue-filter.overflow .filter-toggle {
+    margin: 5px;
+    padding: 5px 5px;
+    color: #2261a1;
+}
+
+.issue-filter.overflow .filter-form {
+    position: fixed;
+    width: 300px;
+    height: 100%;
+    background: #fff;
+    padding: 10px 30px;
+    box-shadow: 1px 1px 4px rgba(30, 30, 30, .6);
+}

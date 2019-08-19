@@ -89,7 +89,7 @@ export const TextArea = (x: TextInputProps) => (
 );
 
 export type SelectProps = FormControlProps & {
-    children: React.ReactNode,
+    children?: React.ReactNode,
     value?: string,
     disabled?: boolean,
 };
@@ -108,7 +108,7 @@ export const Select = (x: SelectProps) => (
         </select>
     </div>
 );
-export const SelectOption = (x: { value: any, children: React.ReactNode }) => (
+export const SelectOption = (x: { value?: any, children?: React.ReactNode }) => (
     <option value={x.value}>{x.children}</option>
 );
 

@@ -4,7 +4,7 @@ export const initState: IssuesState = {
     data: [],
     isLoading: true,
     page: 0,
-    pageSize: 10,
+    pageSize: 50,
     totalCount: 0,
     filter: {
         assigned: { label: 'Me', value: 'me' },
