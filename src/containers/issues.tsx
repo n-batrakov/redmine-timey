@@ -43,9 +43,7 @@ const mapEnumerationToSelect = (x: Enumeration): Array<{ value: string, label: s
 };
 
 const Component = (props: IssuesProps) => {
-    if (props.data === undefined || props.data.length === 0) {
-        React.useEffect(() => { props.loadData(); }, []);
-    }
+    React.useEffect(() => { props.loadData(); }, []);
 
     return (
         <div style={props.style}>
