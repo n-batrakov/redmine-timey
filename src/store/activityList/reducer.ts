@@ -11,22 +11,6 @@ export const reducer = (state: ActivityListState, action: ActivityListAction): A
     if (state === undefined) return initState;
 
     switch (action.type) {
-        case 'activityList_openCreateModal':
-            return {
-                ...state,
-                createModal: action.data,
-            };
-        case 'activityList_openEditModal':
-            return {
-                ...state,
-                editModal: action.data,
-            };
-        case 'activityList_closeModal':
-            return {
-                ...state,
-                createModal: undefined,
-                editModal: undefined,
-            };
         case 'activityList_setPreloader':
             return {
                 ...state,

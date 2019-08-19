@@ -163,10 +163,10 @@ export class RedmineClient {
     }
 
     private getQueryParams(obj: any) {
-        const pairs = Object
-            .entries(obj)
+        const pairs: [string, string][] = Object
+            .entries<string>(obj)
             .filter(x => x[1] !== undefined)
-            .map<[string, string]>(([a, b]) => [a, b.toString()]);
+            .map(([a, b]) => [a, b.toString()]);
 
         return new URLSearchParams(pairs);
     }

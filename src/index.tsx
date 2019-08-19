@@ -2,7 +2,6 @@ import './index.css';
 
 import * as React from 'react';
 import { render } from 'react-dom';
-import Modal from 'react-modal';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from './store/createStore';
@@ -22,7 +21,6 @@ const App = () => {
 };
 
 const appElement = document.getElementById('app') as HTMLElement;
-Modal.setAppElement(appElement);
 render(
     <App/>,
     appElement,

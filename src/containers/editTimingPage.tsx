@@ -87,10 +87,11 @@ const CreatePage = (props: EditTimingPageProps) => {
                             paddingRight: 10,
                         }}/>
                         <TimingForm
-                            activities={enums.activity}
-                            onClose={props.history.goBack}
                             data={form}
+                            activities={enums.activity}
                             style={{ width: 500 }}
+                            onClose={props.history.goBack}
+                            onSubmit={console.log}
                         />
                     </Container>
                 </div>
@@ -106,5 +107,6 @@ export const CreateTimingPage = connect(
     }),
     {
         applyFilter,
+        
     },
 )(CreatePage);

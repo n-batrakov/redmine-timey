@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { IssueList } from '../components/issueList';
 import { CoverLoader } from '../components/preloader';
-import { Pagination } from '../components/pagination';
 import { Issue, Enumeration } from '../shared/types';
 import { connect } from 'react-redux';
 import { loadData, gotoPage, applyFilter } from '../store/issues/actions';

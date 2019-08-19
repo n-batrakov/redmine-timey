@@ -38,7 +38,7 @@ const List = (props: ActivityListContainerProps) => {
 
     return (
         <>
-            <div className="activity-overview">
+            <div className="activity-overview" style={{ width: 800 }}>
                 <ActivityListHeader date={isDaySelected ? timeframe.start : undefined} />
                 <Loader active={props.isLoading} />
 

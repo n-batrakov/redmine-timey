@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
-import ReactTooltip from 'react-tooltip';
 
 import { addDays, toISODate, tryParseDate } from '../shared/date';
 
@@ -66,8 +65,6 @@ const Page = (props: TimingsPageContainerProps) => {
 
     return (
         <Container>
-            <ReactTooltip html />
-
             <MobileScreen>
                 <ActivityHeatmap {...heatmapProps} startDate={addDays(today, -120)} />
             </MobileScreen>
