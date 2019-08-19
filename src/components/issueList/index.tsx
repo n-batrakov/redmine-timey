@@ -37,22 +37,16 @@ export type IssueListProps = {
     onSelect?: (issue: Issue) => void,
 };
 export const IssueList = (props: IssueListProps) => {
-    const isSelected = (issue: Issue) => {
-        return props.selectedIssueId !== undefined && issue.id === props.selectedIssueId;
-    };
-
     return (
-        <div className="issue-list" style={props.style}>
-            <List>{
-                props.data.map((issue) => {
-                    const onClick = props.onSelect === undefined ? undefined : () => (props.onSelect as any)(issue);
-                    return (
-                        <ListItem key={issue.id} onClick={onClick} clickable>
-                            <IssueListItem issue={issue} />
-                        </ListItem>
-                    );
-                })
-            }</List>
-        </div>
+        <List style={props.style}>{
+            props.data.map((issue) => {
+                const onClick = props.onSelect === undefined ? undefined : () => (props.onSelect as any)(issue);
+                return (
+                    <ListItem key={issue.id} onClick={onClick} clickable>
+                        <IssueListItem issue={issue} />
+                    </ListItem>
+                );
+            })
+        }</List>
     );
 };

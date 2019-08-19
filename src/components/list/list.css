@@ -1,7 +1,9 @@
 .timey-list {
     list-style-type: none;
     padding: 0;
+    margin: 0;
 }
+
 .timey-list > li {
     margin: 8px 0;
     padding: 10px;
@@ -10,9 +12,19 @@
     box-shadow: 2px 2px 5px rgb(150, 150, 150, .3);
     border: 1px solid #eee;
 }
+
+.timey-list > li:first-child {
+    margin-top: 0;
+}
+
+.timey-list > li:last-child {
+    margin-bottom: 0;
+}
+
 .timey-list > li.clickable:hover {
     box-shadow: 3px 3px 10px rgb(150, 150, 150, .5);
 }
+
 .timey-list > li.clickable {
     cursor: pointer;
 }
