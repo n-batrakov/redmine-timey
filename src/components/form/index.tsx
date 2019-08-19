@@ -1,6 +1,7 @@
 import './form.css';
 import * as React from 'react';
 import { CoverLoader } from '../preloader';
+import { getFormData } from '../../shared/form';
 
 
 export const FormHeader = (x: {children: React.ReactNode}) => (
@@ -33,18 +34,7 @@ export class Form extends React.Component<FormProps> {
     private onSubmit(e: any) {
         e.preventDefault();
 
-        const formData = new FormData(e.target);
-        const form: any = {};
-        formData.forEach((x, key) => {
-            const value = form[key];
-            if (value === undefined) {
-                form[key] = x;
-            } else if (Array.isArray(value)) {
-                form[key] = [...value, x];
-            } else {
-                form[key] = [value, x];
-            }
-        });
+        const form = getFormData(e.target);
 
         this.props.onSubmit(form);
     }
