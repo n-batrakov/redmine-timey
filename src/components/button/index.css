@@ -5,6 +5,8 @@
     border: 1px solid #aaa;
     border-radius: 4px;
     cursor: pointer;
+    text-align: center;
+    font-size: 13px;
 }
 .btn-primary {
     background-color: #28a745;

@@ -1,3 +1,4 @@
+import './index.css';
 import * as React from 'react';
 import { Line } from 'rc-progress';
 
@@ -35,8 +36,8 @@ export class HoursGauge extends React.Component<HoursGaugeProps> {
             : <>{<b>{actualValue}</b>} hours out of {<b>{expectedValue}</b>} are done. {<b>{remaining}</b>} more to go</>;
 
         return (
-            <div style={{ maxWidth: 1024, margin: 'auto', display: 'grid' }}>
-                <Line percent={percent} strokeColor={getColor(percent)} strokeWidth={1} style={{ width: 'auto' }}/>
+            <div className="hours-gauge">
+                <Line percent={percent} strokeColor={getColor(percent)} strokeWidth={1} style={{ width: '100%', height: 8 }}/>
                 <span style={{ margin: 'auto', fontSize: '10pt', marginTop: 5 }}>{message}</span>
             </div>
         );
