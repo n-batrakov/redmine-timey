@@ -13,6 +13,9 @@ import { Issue, TimesheetEntry } from '../shared/types';
 import { ToggledIssueFilter, IssueFilterForm, OverflowIssueFilter } from '../components/issueFilter';
 import { applyFilter } from '../store/issues/actions';
 import { IssueFilterValue } from '../store/issues/types';
+import { addTimesheetEntry, updateTimesheetEntry } from '../store/timingsForm/actions';
+import { Danger, Success } from '../components/alert';
+
 
 export type EditTimingPageProps = RouteComponentProps<{id: string}> & {
     enumerations: EnumerationsState,
@@ -36,7 +39,17 @@ export const EditTimingPage = connect(
 )(EditTimingContainer);
 
 
-const CreatePage = (props: EditTimingPageProps) => {
+
+export type CreateTimingPageProps = RouteComponentProps & {
+    loading: boolean,
+    error: string,
+    success: boolean,
+    enumerations: EnumerationsState,
+    applyFilter: (filter?: IssueFilterValue) => void,
+    addTimesheetEntry: (e: TimesheetEntry) => void,
+};
+
+const CreatePage = (props: CreateTimingPageProps) => {
     const params = new URLSearchParams(props.location.search);
     const dateParam = params.get('date');
     const spentOn = dateParam === null ? undefined : tryParseDate(dateParam);
@@ -46,8 +59,9 @@ const CreatePage = (props: EditTimingPageProps) => {
     const [selectedIssue, selectIssue] = React.useState(undefined as Issue | undefined);
 
     const form: Partial<TimesheetEntry> = selectedIssue === undefined
-        ? { spentOn }
-        : {
+        ? {
+            spentOn,
+        } : {
             spentOn,
             project: selectedIssue.project,
             issue: { id: selectedIssue.id, name: selectedIssue.subject },
@@ -86,13 +100,17 @@ const CreatePage = (props: EditTimingPageProps) => {
                             overflowX: 'auto',
                             paddingRight: 10,
                         }}/>
-                        <TimingForm
-                            data={form}
-                            activities={enums.activity}
-                            style={{ width: 500 }}
-                            onClose={props.history.goBack}
-                            onSubmit={console.log}
-                        />
+                        <div style={{ width: 500, padding: '0 20px' }}>
+                            <Danger>{props.error}</Danger>
+                            <Success>{props.success ? 'Saved' : undefined}</Success>
+                            <TimingForm
+                                data={form}
+                                activities={enums.activity}
+                                onClose={props.history.goBack}
+                                onSubmit={props.addTimesheetEntry}
+                                loading={props.loading}
+                            />
+                        </div>
                     </Container>
                 </div>
             </MobileScreenHidden>
@@ -101,12 +119,15 @@ const CreatePage = (props: EditTimingPageProps) => {
 };
 
 export const CreateTimingPage = connect(
-    (state: AppState, props: Partial<EditTimingPageProps>): Partial<EditTimingPageProps> => ({
+    (state: AppState, props: Partial<CreateTimingPageProps>): Partial<CreateTimingPageProps> => ({
         ...props,
         enumerations: state.enumerations,
+        error: state.timingsForm.error,
+        loading: state.timingsForm.loading,
+        success: state.timingsForm.success,
     }),
     {
         applyFilter,
-        
+        addTimesheetEntry,
     },
 )(CreatePage);
