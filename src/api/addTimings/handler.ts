@@ -1,13 +1,13 @@
 import { metadata, AddTimingsResponse } from './contract';
 import { RegisterHandler } from '../../server/shared';
 import { authenticate, getCredentials } from '../../server/auth';
-import { TimesheetEntry } from '../../shared/types';
+import { IncomingTimesheetEntry } from '../../shared/types';
 import { timeEntryEntity, mapIncoming, mapOutgoing } from '../../server/redmineMappings';
 import { FastifyRequest } from 'fastify';
 import { IncomingMessage } from 'http';
 
 
-type Request = FastifyRequest<IncomingMessage, any, any, any, TimesheetEntry[]>;
+type Request = FastifyRequest<IncomingMessage, any, any, any, IncomingTimesheetEntry[]>;
 
 const addHandler: RegisterHandler = (server, { redmine }) => server.route({
     ...metadata,

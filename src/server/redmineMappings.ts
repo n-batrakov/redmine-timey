@@ -1,9 +1,9 @@
-import { TimesheetEntry, NamedId } from '../shared/types';
+import { IncomingTimesheetEntry, NamedId } from '../shared/types';
 import { toISODate } from '../shared/date';
 
 export const timeEntryEntity = 'time_entries';
 
-export const mapIncoming = (x: TimesheetEntry) => ({
+export const mapIncoming = (x: IncomingTimesheetEntry) => ({
     time_entry: {
         hours: x.hours,
         comments: x.comments,

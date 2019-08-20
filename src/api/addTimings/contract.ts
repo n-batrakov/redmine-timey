@@ -1,4 +1,4 @@
-import { TimesheetEntry, TimesheetEntrySchema } from '../../shared/types';
+import { TimesheetEntry, TimesheetEntrySchema, IncomingTimesheetEntry } from '../../shared/types';
 import { RequestMetadata } from '../../shared/http';
 
 export const metadata: RequestMetadata = {
@@ -20,7 +20,7 @@ export type AddTimingsResponse = Array<{
     entry: TimesheetEntry,
 } | {
     code: 'Error',
-    entry: TimesheetEntry,
+    entry: IncomingTimesheetEntry,
     message: string,
     errors: string[],
 }>;

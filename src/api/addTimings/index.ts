@@ -1,8 +1,8 @@
-import { TimesheetEntry } from '../../shared/types';
+import { TimesheetEntry, IncomingTimesheetEntry } from '../../shared/types';
 import * as http from '../../shared/http';
 import { metadata, AddTimingsResponse } from './contract';
 
-export const addTimings = async (entries: TimesheetEntry[]): Promise<AddTimingsResponse> => {
+export const addTimings = async (entries: IncomingTimesheetEntry[]): Promise<AddTimingsResponse> => {
     const response = await fetch(metadata.url, {
         method: metadata.method,
         body: JSON.stringify(entries),
@@ -18,7 +18,7 @@ export const addTimings = async (entries: TimesheetEntry[]): Promise<AddTimingsR
                 entry: {
                     ...result.entry,
                     spentOn: new Date(Date.parse(result.entry.spentOn)),
-                },
+                } as any,
             };
         } else {
             return result;
