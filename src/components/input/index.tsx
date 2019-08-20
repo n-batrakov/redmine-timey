@@ -3,16 +3,6 @@ import * as React from 'react';
 import { toISODate } from '../../shared/date';
 
 
-export const Label = (props: { label: string, children?: React.ReactNode}) => (
-    <>
-        {React.Children.map(props.children, (x: any) =>
-            x.props === undefined || x.props.name === undefined
-                ? x
-                : (<><label className="timey-label" htmlFor={x.props.name}>{props.label}</label>{x}</>),
-        )}
-    </>
-);
-
 type FormControlProps = {
     name?: string,
     required?: boolean,
@@ -25,27 +15,18 @@ export type TextInputProps = FormControlProps & {
     placeholder?: string,
     value?: string,
     disabled?: boolean,
-    icon?: React.ReactNode,
 };
 export const TextInput = (x: TextInputProps) => (
-    <div className="timey-input-container">
-        <input
-            className={`timey-input-text${x.icon === undefined ? '' : '-with-icon'}`}
-            type={x.type || 'text'}
-            defaultValue={x.value}
-            name={x.name}
-            placeholder={x.placeholder}
-            disabled={x.disabled}
-            onChange={x.onChange}
-            style={x.style}
-            required={x.required}
-        />
-        {
-            x.icon === undefined
-                ? undefined
-                : <span className="timey-input-icon">{x.icon}</span>
-        }
-    </div>
+    <input
+        type={x.type || 'text'}
+        defaultValue={x.value}
+        name={x.name}
+        placeholder={x.placeholder}
+        disabled={x.disabled}
+        onChange={x.onChange}
+        style={x.style}
+        required={x.required}
+    />
 );
 
 export type NumberInputProps = FormControlProps & {
@@ -56,36 +37,30 @@ export type NumberInputProps = FormControlProps & {
     max?: number,
 };
 export const NumberInput = (x: NumberInputProps) => (
-    <div className="timey-input-container">
-        <input
-            className="timey-input-number"
-            type="number"
-            step={x.step}
-            min={x.min}
-            max={x.max}
-            defaultValue={x.value === undefined ? undefined : x.value.toString()}
-            name={x.name}
-            disabled={x.disabled}
-            onChange={x.onChange}
-            style={x.style}
-            required={x.required}
-        />
-    </div>
+    <input
+        type="number"
+        step={x.step}
+        min={x.min}
+        max={x.max}
+        defaultValue={x.value === undefined ? undefined : x.value.toString()}
+        name={x.name}
+        disabled={x.disabled}
+        onChange={x.onChange}
+        style={x.style}
+        required={x.required}
+    />
 );
 
 export const TextArea = (x: TextInputProps) => (
-    <div className="timey-input-container">
-        <textarea
-            className="timey-input-textarea"
-            defaultValue={x.value}
-            name={x.name}
-            placeholder={x.placeholder}
-            disabled={x.disabled}
-            onChange={x.onChange}
-            style={x.style}
-            required={x.required}
-        />
-    </div>
+    <textarea
+        defaultValue={x.value}
+        name={x.name}
+        placeholder={x.placeholder}
+        disabled={x.disabled}
+        onChange={x.onChange}
+        style={x.style}
+        required={x.required}
+    />
 );
 
 export type SelectProps = FormControlProps & {
@@ -94,19 +69,16 @@ export type SelectProps = FormControlProps & {
     disabled?: boolean,
 };
 export const Select = (x: SelectProps) => (
-    <div className="timey-input-container">
-        <select
-            className="timey-input-select"
-            name={x.name}
-            defaultValue={x.value}
-            onChange={x.onChange}
-            style={x.style}
-            disabled={x.disabled}
-            required={x.required}
-        >
-            {x.children}
-        </select>
-    </div>
+    <select
+        name={x.name}
+        defaultValue={x.value}
+        onChange={x.onChange}
+        style={x.style}
+        disabled={x.disabled}
+        required={x.required}
+    >
+        {x.children}
+    </select>
 );
 export const SelectOption = (x: { value?: any, children?: React.ReactNode }) => (
     <option value={x.value}>{x.children}</option>
@@ -117,16 +89,13 @@ export type DateInputProps = FormControlProps & {
     disabled?: boolean,
 };
 export const DateInput = (x: DateInputProps) => (
-    <div className="timey-input-container">
-        <input
-            className="timey-input-date"
-            type="date"
-            disabled={x.disabled}
-            defaultValue={x.value === undefined ? undefined : toISODate(x.value)}
-            name={x.name}
-            onChange={x.onChange}
-            style={x.style}
-            required={x.required}
-        />
-    </div>
+    <input
+        type="date"
+        disabled={x.disabled}
+        defaultValue={x.value === undefined ? undefined : toISODate(x.value)}
+        name={x.name}
+        onChange={x.onChange}
+        style={x.style}
+        required={x.required}
+    />
 );

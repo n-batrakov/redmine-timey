@@ -1,9 +1,11 @@
-.timey-input-text, 
-.timey-input-text-with-icon, 
-.timey-input-number,
-.timey-input-date,
-.timey-input-select,
-.timey-input-textarea {
+input[type="text"],
+input[type="password"],
+input[type="search"],
+input[type="number"],
+input[type="date"],
+select,
+textarea {
+    box-sizing: border-box;
     width: 100%;
     padding: 12px;
     border: 1px solid #ccc;
@@ -11,26 +13,4 @@
     resize: none;
     background-color: #fff;
     height: 42px;
-}
-
-.timey-input-container {
-    display: flex;
-}
-
-.timey-input-text-with-icon {
-    border-right: none;
-    border-radius: 3px 0 0px 3px;
-}
-.timey-input-icon {
-    border: 1px solid #ccc;
-    border-left: none;
-    border-radius: 0 3px 3px 0;
-    padding: 12px;
-    margin: auto;
-}
-
-
-.timey-label {
-    padding-bottom: 8px;
-    display: inline-block;
 }
