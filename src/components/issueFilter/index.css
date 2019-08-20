@@ -1,14 +1,6 @@
-.filter-form {
+.issue-filter-content {
     display: none;
     flex-direction: column;
-}
-
-.issue-filter-row > * {
-    margin: 5px 2px;
-}
-
-.issue-filter-row.right {
-    margin-left: auto;
 }
 
 .filter-toggle {
@@ -27,7 +19,7 @@
     color: #2261a1;
     border-color: #2261a1;
 }
-.filter-toggle-input:checked ~ .filter-form {
+.filter-toggle-input:checked ~ .issue-filter-content {
     display: flex;
 }
 
@@ -56,7 +48,7 @@
     color: #2261a1;
 }
 
-.issue-filter.overflow .filter-form {
+.issue-filter.overflow .issue-filter-content {
     position: fixed;
     width: 300px;
     height: 100%;

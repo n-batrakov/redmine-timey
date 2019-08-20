@@ -6,6 +6,7 @@ import { Button } from '../button';
 import { Enumeration } from '../../shared/types';
 import { getFormData } from '../../shared/form';
 import { EnumerationsState } from '../../store/enumerations/types';
+import { Form, FormRow } from '../form';
 
 
 const toOptions = (enumeration?: Enumeration) => {
@@ -52,40 +53,40 @@ export type IssueFilterProps = {
 };
 export type IssueFilterContainerProps = {
     opened?: boolean,
-    children?: React.ReactNode
+    children?: React.ReactNode,
 };
 
 export const IssueFilterForm = (props: IssueFilterProps) => {
     const enums = props.enums || {} as EnumerationsState;
 
     return (
-        <form className="filter-form" onSubmit={onSubmit(props)}>
-            <div className="issue-filter-row">
+        <Form<IssueFilterForm> onSubmit={props.onSubmit}>
+            <FormRow>
                 <label htmlFor="query">Query</label>
                 <Select name="query">{toOptions(enums.queries)}</Select>
-            </div>
-            <div className="issue-filter-row">
+            </FormRow>
+            <FormRow>
                 <label htmlFor="project">Project</label>
                 <Select name="project">{toOptions(enums.projects)}</Select>
-            </div>
-            <div className="issue-filter-row">
+            </FormRow>
+            <FormRow>
                 <label htmlFor="status">Status</label>
                 <Select name="status">{toOptions(enums.status)}</Select>
-            </div>
-            <div className="issue-filter-row">
+            </FormRow>
+            <FormRow>
                 <label htmlFor="assigned">Assigned</label>
                 <Select name="assigned">{toOptions(enums.users)}</Select>
-            </div>
-            <div className="issue-filter-row">
+            </FormRow>
+            <FormRow>
                 <label htmlFor="author">Author</label>
                 <Select name="author">{toOptions(enums.users)}</Select>
-            </div>
+            </FormRow>
 
-            <div className="issue-filter-row right">
+            <FormRow floatRight inline>
                 <label htmlFor="filter-toggle-input" className="btn">Cancel</label>
                 <Button submit type="primary" value="Apply" />
-            </div>
-        </form>
+            </FormRow>
+        </Form>
     );
 };
 
@@ -102,7 +103,9 @@ export const ToggledIssueFilter = (props: IssueFilterContainerProps) => {
                 Filters <IconFilter />
             </label>
 
-            {props.children}
+            <div className="issue-filter-content">
+                {props.children}
+            </div>
         </div>
     );
 };
@@ -117,7 +120,9 @@ export const OverflowIssueFilter = (props: IssueFilterContainerProps) => {
                 defaultChecked={props.opened}
             />
 
-            {props.children}
+            <div className="issue-filter-content">
+                {props.children}
+            </div>
 
             <label className="filter-toggle btn" htmlFor="filter-toggle-input" >
                 <IconFilter />
