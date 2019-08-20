@@ -5,6 +5,17 @@ import { login, logout } from '../store/auth/actions';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 
+const loginErrors = (props: { errors: string[] }) => React.useMemo(
+    () => {
+        if (props.errors === undefined || props.errors.length === 0) {
+            return undefined;
+        } else {
+            return <ul>{props.errors.map((x, i) => <li key={i}>{x}</li>)}</ul>;
+        }
+    },
+    [props.errors],
+);
+
 export type LoginContainerProps = {
     isLoggedIn: boolean,
     loading?: boolean,
@@ -17,7 +28,7 @@ const LoginPageComponent = (props: LoginContainerProps) => {
     }
 
     return (
-        <LoginPage loading={props.loading} onSubmit={props.login} errors={props.errors} />
+        <LoginPage loading={props.loading} onSubmit={props.login} error={loginErrors(props)} />
     );
 };
 export const LoginPageContainer = connect(
