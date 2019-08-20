@@ -46,6 +46,7 @@ export type TimingFormProps = {
     data?: Partial<TimesheetEntry>,
     activities: Enumeration,
     showDelete?: boolean,
+    disabled?: boolean,
     onSubmit?: (form: Partial<TimesheetEntry>) => void,
     onDelete?: (id: string) => void,
     onClose?: () => void,
@@ -86,7 +87,7 @@ export const TimingForm = (props: TimingFormProps) => {
                         : null
                 }
                 <Button value="Cancel" onClick={props.onClose}/>
-                <Button value="Save" type="primary" submit />
+                <Button value="Save" type="primary" submit disabled={props.disabled} />
             </FormRow>
         </Form>
     );
