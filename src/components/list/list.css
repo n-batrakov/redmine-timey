@@ -7,10 +7,10 @@
 .timey-list > li {
     margin: 8px 0;
     padding: 10px;
-    border-radius: 4px;
+    border-radius: 2px;
     font-size: .85em;
-    box-shadow: 2px 2px 5px rgb(150, 150, 150, .3);
-    border: 1px solid #eee;
+    box-shadow: 1px 1px 3px rgb(150, 150, 150, .7);
+    border: 1px solid #ccc;
 }
 
 .timey-list > li:first-child {
@@ -22,9 +22,14 @@
 }
 
 .timey-list > li.clickable:hover {
-    box-shadow: 3px 3px 10px rgb(150, 150, 150, .5);
+    box-shadow: 3px 3px 3px rgb(150, 150, 150, .7);
 }
 
 .timey-list > li.clickable {
     cursor: pointer;
+}
+
+.timey-list > li.selected {
+    border-color: #2261a1;
+    box-shadow: 3px 3px 3px rgb(150, 150, 150, .7);
 }

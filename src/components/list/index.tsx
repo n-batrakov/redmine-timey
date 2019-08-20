@@ -2,7 +2,8 @@ import * as React from 'react';
 import './list.css';
 
 export type ListItemProps = {
-    children: React.ReactNode,
+    selected?: boolean,
+    children?: React.ReactNode,
     style?: React.CSSProperties,
     clickable?: boolean,
     onClick?: () => void,
@@ -11,7 +12,7 @@ export const ListItem = (props: ListItemProps) => (
     <li
         style={props.style}
         onClick={props.onClick}
-        className={props.clickable ? 'clickable' : ''}
+        className={`${props.clickable ? 'clickable' : ''} ${props.selected ? 'selected' : ''}`}
     >
         {props.children}
     </li>
