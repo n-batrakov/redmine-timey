@@ -7,11 +7,17 @@
     color: #fff;
 }
 
+.timey-login-page-content {
+    margin: auto;
+}
+
 .timey-login-page-logo {
     display: flex;
     flex-direction: column;
-    width: 220px;
-    margin: auto;
+}
+
+.timey-login-page-content > .timey-form {
+    margin-top: 22px;
 }
 
 .timey-login-page-logo > h1 {

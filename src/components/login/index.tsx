@@ -1,39 +1,21 @@
 import './index.css';
 import * as React from 'react';
-import { Form, FormFooter, FromErrors as FormErrors } from '../form';
+import { Form, FormRow } from '../form';
 import { TextInput } from '../input';
-import { Row, Col, Grid } from '../layout';
 import { Button } from '../button';
 import { AnimatedClock } from '../animatedClock';
-
-const FormRow = (props: { children: React.ReactNode }) => (
-    <Row style={{
-        margin: '8px 0',
-    }}>
-        <Col xs={12}>
-            {props.children}
-        </Col>
-    </Row>
-);
+import { Danger } from '../alert';
 
 type LoginFormProps = {
     onSubmit?: (data: { login: string, password: string}) => void,
-    errors: string[],
+    error?: React.ReactNode,
     loading?: boolean,
 };
 const LoginForm = (props: LoginFormProps) => {
     return (
-        <Form onSubmit={props.onSubmit as any} style={{
-            margin: '22px auto',
-        }}>
+        <Form onSubmit={props.onSubmit as any}>
             <FormRow>
-                <FormErrors
-                    errors={props.errors || []}
-                    style={{
-                        backgroundColor: '#f66',
-                        borderColor: '#f66',
-                        color: '#fff',
-                    }}/>
+                {props.error === undefined ? null : <Danger>{props.error}</Danger>}
             </FormRow>
             <FormRow>
                 Please enter your Redmine credentials:
@@ -53,15 +35,13 @@ const LoginForm = (props: LoginFormProps) => {
                     required
                 />
             </FormRow>
-            <FormRow>
-                <FormFooter>
-                    <Button
-                        submit
-                        value="Log in"
-                        className="timey-login-page-btn"
-                        disabled={props.loading}
-                    />
-                </FormFooter>
+            <FormRow floatRight>
+                <Button
+                    submit
+                    value="Log in"
+                    className="timey-login-page-btn"
+                    disabled={props.loading}
+                />
             </FormRow>
         </Form>
     );
@@ -86,10 +66,10 @@ export type LoginPageProps = LoginFormProps;
 export const LoginPage = (props: LoginPageProps) => {
     return (
         <div className="timey-login-page">
-            <Grid fluid style={{ margin: 'auto' }}>
+            <div className="timey-login-page-content">
                 <LoginLogo loading={props.loading} />
                 <LoginForm {...props} />
-            </Grid>
+            </div>
         </div>
     );
 };
@@ -101,11 +81,11 @@ export type LogoutPageProps = {
 export const LogoutPage = (props: LogoutPageProps) => {
     return (
         <div className="timey-login-page">
-            <Grid fluid style={{ margin: 'auto' }}>
+            <div className="timey-login-page-content">
                 <LoginLogo loading={props.loading} />
                 <p>You're logged out. Hope to see you back soon!</p>
                 <Button value="Log in" className="timey-login-page-btn" onClick={props.onLoginRedirect} />
-            </Grid>
+            </div>
         </div>
     );
 };
