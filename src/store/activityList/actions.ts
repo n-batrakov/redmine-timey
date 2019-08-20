@@ -12,7 +12,7 @@ export const setPreloader = (isLoadging: boolean): ActivityListAction => ({
     isLoading: isLoadging,
 });
 
-export const setData = (data: TimesheetEntry[]): ActivityListThunk => (dispatch: any) => {
+export const setData = (data: TimesheetEntry[]): ActivityListThunk => (dispatch) => {
     dispatch({ data, type: 'activityList_setReady' });
 
     dispatch(updateTimingsData());
@@ -23,3 +23,13 @@ export const loadData = (req: QueryTimingsRequest): ActivityListThunk =>
         const { data } = await queryTimings(req);
         dispatch({ data, type: 'activityList_setReady' });
     };
+
+export const addEntry = (entry: TimesheetEntry): ActivityListAction => ({
+    type: 'activityList_addEntry',
+    data: entry,
+});
+
+export const updateEntry = (entry: TimesheetEntry): ActivityListAction => ({
+    type: 'activityList_updateEntry',
+    data: entry,
+});

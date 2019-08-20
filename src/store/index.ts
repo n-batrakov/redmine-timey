@@ -3,11 +3,14 @@ import { ActivityListAction, ActivityListState } from './activityList/types';
 import { EnumerationsAction, EnumerationsState } from './enumerations/types';
 import { IssuesAction, IssuesState } from './issues/types';
 import { AuthAction, AuthState } from './auth/types';
+import { TimingsFormAction, TimingsFormState } from './timingsForm/types';
 
 export type AppState = {
         enumerations: EnumerationsState,
     } & {
         timingsPage: TimingsPageState,
+    } & {
+        timingsForm: TimingsFormState,
     } & {
         activityList: ActivityListState,
     } & {
@@ -19,6 +22,7 @@ export type AppState = {
 
 export type AppAction =
     TimingsPageAction |
+    TimingsFormAction |
     ActivityListAction |
     EnumerationsAction |
     IssuesAction |

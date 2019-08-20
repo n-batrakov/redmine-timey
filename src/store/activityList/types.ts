@@ -15,6 +15,12 @@ export type ActivityListAction = {
 } | {
     type: 'activityList_setReady',
     data: TimesheetEntry[],
+} | {
+    type: 'activityList_addEntry',
+    data: TimesheetEntry,
+} | {
+    type: 'activityList_updateEntry',
+    data: TimesheetEntry,
 };
 
 export type ActivityListThunk = ThunkAction<any, AppState, {}, ActivityListAction>;
