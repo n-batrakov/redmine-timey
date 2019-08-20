@@ -16,3 +16,16 @@ ol {
     margin: 0;
     list-style: none;
 }
+
+*::-webkit-scrollbar {
+    width: 8px;
+}
+*::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #d2cfcf;
+}
+
+*::-webkit-scrollbar-thumb:hover,
+*::-webkit-scrollbar-thumb:active {
+    background-color: #adadad;
+}
