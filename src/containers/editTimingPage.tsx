@@ -94,12 +94,16 @@ const CreatePage = (props: CreateTimingPageProps) => {
                         <IssueFilterForm enums={enums} onSubmit={props.applyFilter} />
                     </OverflowIssueFilter>
                     <Container inline>
-                        <Issues onSelect={selectIssue} style={{
-                            maxWidth: '60%',
-                            height: '95vh',
-                            overflowX: 'auto',
-                            paddingRight: 10,
-                        }}/>
+                        <Issues
+                            onSelect={selectIssue}
+                            selectedIssueId={selectedIssue === undefined ? undefined : selectedIssue.id}
+                            style={{
+                                maxWidth: '60%',
+                                height: 'calc(100vh - 2*24px - 38px)',
+                                overflowX: 'auto',
+                                paddingRight: 10,
+                            }}
+                        />
                         <div style={{ width: 500, padding: '0 20px' }}>
                             <Danger>{props.error}</Danger>
                             <Success>{props.success ? 'Saved' : undefined}</Success>
@@ -109,6 +113,7 @@ const CreatePage = (props: CreateTimingPageProps) => {
                                 onClose={props.history.goBack}
                                 onSubmit={props.addTimesheetEntry}
                                 loading={props.loading}
+                                disabled={selectedIssue === undefined}
                             />
                         </div>
                     </Container>
