@@ -1,7 +1,6 @@
 .alert {
-    margin: 0;
     border-radius: 3px;
-    padding: 18px;
+    padding: 12px;
 }
 
 .alert.danger {

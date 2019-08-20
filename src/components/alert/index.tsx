@@ -3,7 +3,7 @@ import React from 'react';
 
 export type AlertProps = { children?: React.ReactNode };
 
-const Alert = (props: AlertProps & { type: 'success' | 'info' | 'warning' | 'danger' }) => {
+export const Alert = (props: AlertProps & { type: 'success' | 'info' | 'warning' | 'danger' }) => {
     if (props.children === undefined) {
         return null;
     }
