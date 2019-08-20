@@ -42,7 +42,7 @@ export const IssueList = (props: IssueListProps) => {
             props.data.map((issue) => {
                 const onClick = props.onSelect === undefined ? undefined : () => (props.onSelect as any)(issue);
                 return (
-                    <ListItem key={issue.id} onClick={onClick} clickable>
+                    <ListItem key={issue.id} onClick={onClick} clickable selected={issue.id === props.selectedIssueId}>
                         <IssueListItem issue={issue} />
                     </ListItem>
                 );

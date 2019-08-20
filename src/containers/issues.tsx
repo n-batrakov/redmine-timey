@@ -20,16 +20,8 @@ const NoData = React.memo((props: { visible: boolean }) => {
 
 export type IssuesProps = {
     isLoading: boolean,
-    totalCount: number,
-    page: number,
-    pageSize: number,
     data: Issue[],
-    projects: IssueFilterField[],
-    statuses: IssueFilterField[],
-    queries: IssueFilterField[],
-    users: IssueFilterField[],
-    filter?: IssuesFilter,
-
+    selectedIssueId?: string,
     loadData: () => void,
     gotoPage: (page: number) => void,
     applyFilter: (filter?: IssueFilterValue) => void,
@@ -52,6 +44,7 @@ const Component = (props: IssuesProps) => {
             <IssueList
                 onSelect={props.onSelect}
                 data={props.data}
+                selectedIssueId={props.selectedIssueId}
             />
         </div>
     );
@@ -61,10 +54,6 @@ export const Issues = connect(
     (state: AppState, props: Partial<IssuesProps>): Partial<IssuesProps> => ({
         ...props,
         ...state.issues,
-        projects: mapEnumerationToSelect(state.enumerations.projects),
-        statuses: mapEnumerationToSelect(state.enumerations.status),
-        users: mapEnumerationToSelect(state.enumerations.users),
-        queries: mapEnumerationToSelect(state.enumerations.queries),
     }),
     {
         loadData,
