@@ -2,12 +2,17 @@ body {
     font-family: sans-serif;
     margin: 0;
     font-family: 'Roboto', sans-serif;
+    font-size: 14px;
 }
 
-h1 {
-    font-size: 18pt;
-}
+h1 { font-size: 18pt; }
+h2 { font-size: 16pt; }
+h3 { font-size: 14pt; }
+h4 { font-size: 12pt; }
 
-h3 {
-    font-size: 14pt;
+ul,
+ol {
+    padding: 0;
+    margin: 0;
+    list-style: none;
 }
