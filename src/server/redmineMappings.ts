@@ -17,7 +17,7 @@ export const mapOutgoing = ({ time_entry: x }: any, issue?: NamedId) => {
     return {
         id: x['id'],
         project: x['project'],
-        issue: issue === undefined ? undefined : { id: issue.id, name: issue.name },
+        issue: issue === undefined ? x['issue'] : { id: issue.id, name: issue.name },
         user: x['user'],
         activity: x['activity'],
         comments: x['comments'],

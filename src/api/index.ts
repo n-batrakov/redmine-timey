@@ -11,12 +11,14 @@ import getMonthNorm from './getMonthNorm/handler';
 import login from './login/handler';
 import logout from './logout/handler';
 import getSession from './getSession/handler';
+import fetchTiming from './fetchTiming/handler';
 
 export default <RegisterHandler[]> [
     addTimings,
     deleteTiming,
     updateTiming,
     queryTimings,
+    fetchTiming,
     queryIssues,
     getDailyHours,
     getEnumerations,

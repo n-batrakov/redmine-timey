@@ -17,6 +17,10 @@ export type RedmineSuccessResponse = {
     code: 'Success',
 };
 
+export type RedmineGetByIdResponse = RedmineSuccessResponse & {
+    data: any,
+};
+
 export type RedminQueryResponse = RedmineSuccessResponse & {
     data: any[],
     limit: number,
@@ -45,6 +49,24 @@ export class RedmineClient {
     constructor(config : {host: string,  apiKey?: string}) {
         this.host = config.host;
         this.apiKey = config.apiKey;
+    }
+
+    public async getById(entity: string, id: string, params?: RedmineRequestParams): Promise<RedmineGetByIdResponse | RedmineErrorResponse> {
+        const uri = new URL(`${entity}/${id}.json`, this.host);
+
+        const response = await fetch(uri.toString(), { headers: this.getHeaders(params) });
+
+        if (response.status === 200) {
+            const body = await response.json();
+
+            return { code: 'Success', data: body };
+        } else {
+            return {
+                code: response.status === 401 ? 'NotAuthenticated' : 'Error',
+                status: response.status,
+                errors: [],
+            };
+        }
     }
 
     public async query(entity: string, params?: RedminQueryParams): Promise<RedminQueryResponse | RedmineErrorResponse> {
