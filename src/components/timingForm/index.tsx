@@ -102,7 +102,7 @@ function entryOrDefault(entry: Partial<TimesheetEntry> | undefined) {
         id: x.id || '0',
         spentOn: x.spentOn || new Date(),
         comments: x.comments || '',
-        hours: x.hours || NaN,
+        hours: x.hours === undefined ? NaN : x.hours,
         activity: x.activity || nullNamedId,
         project: x.project || nullNamedId,
         user: x.user || nullNamedId,
