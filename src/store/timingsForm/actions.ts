@@ -1,13 +1,16 @@
 import { TimesheetEntry, IncomingTimesheetEntry } from '../../shared/types';
-import { TimingsFormThunk } from './types';
+import { TimingsFormThunk, TimingsFormAction } from './types';
 import { addTimings } from '../../api/addTimings';
 import { updateTiming } from '../../api/updateTiming';
-import { updateEntry, addEntry } from '../activityList/actions';
 import { AppAction, AppState } from '..';
 import { ThunkDispatch } from '../thunk';
 import { fetchTiming } from '../../api/fetchTiming';
 import { deleteTiming } from '../../api/deleteTiming';
 
+export const selectIssue = (selectedIssueId?: string): TimingsFormAction => ({
+    selectedIssueId,
+    type: 'timingForm_setIssue',
+});
 
 export const loadTimesheetEntry = (entryId: string): TimingsFormThunk => async (dispatch) => {
     dispatch({ type: 'timingForm_loading' });

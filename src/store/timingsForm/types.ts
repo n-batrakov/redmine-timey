@@ -8,6 +8,7 @@ export type TimingsFormState = {
     loading: boolean,
     error?: string,
     entry?: TimesheetEntry,
+    selectedIssueId?: string,
 };
 
 export type TimingsFormAction = {
@@ -22,6 +23,9 @@ export type TimingsFormAction = {
     entry: TimesheetEntry,
 } | {
     type: 'timingForm_removeEntry',
+} | {
+    type: 'timingForm_setIssue',
+    selectedIssueId?: string,
 };
 
 export type TimingsFormThunk = ThunkAction<any, AppState, {}, TimingsFormAction>;
