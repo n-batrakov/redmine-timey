@@ -9,7 +9,7 @@ export const metadata: RequestMetadata = {
             type: 'array',
             items: {
                 ...TimesheetEntrySchema,
-                required: ['project', 'activity', 'hours', 'comments'],
+                required: ['issue', 'activity', 'hours', 'comments'],
             },
         },
     },

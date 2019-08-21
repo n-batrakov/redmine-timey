@@ -39,7 +39,7 @@ const mapData = (data: TimesheetEntry[]) => {
                 acc.set(key, issuesMap);
             }
 
-            const issueKey = `${x.project.name} / ${x.issue === undefined ? '' : x.issue.name}`;
+            const issueKey = `${x.project === undefined ? '' : x.project.name} / ${x.issue === undefined ? '' : x.issue.name}`;
             const issueGroup = issuesMap.get(issueKey);
 
             if (issueGroup === undefined) {

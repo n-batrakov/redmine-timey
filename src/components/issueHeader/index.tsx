@@ -3,12 +3,8 @@ import * as React from 'react';
 import { NamedId } from '../../shared/types';
 
 type IssueHeaderData = {
-    project: NamedId,
-} | {
-    issue: NamedId,
-} | {
-    project: NamedId,
-    issue: NamedId,
+    project?: NamedId,
+    issue?: NamedId,
 };
 
 export type IssueHeaderProps = IssueHeaderData & {
@@ -49,6 +45,8 @@ const getHeaderContent = (x: IssueHeaderProps) => {
         return <>{issueElement}</>;
     } else if (showProject) {
         return <>{projectElement}</>;
+    } else {
+        return 'Unknown issue';
     }
 };
 

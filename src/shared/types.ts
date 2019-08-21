@@ -10,7 +10,7 @@ export type IncomingTimesheetEntry = {
     spentOn: Date,
     activity: NamedId,
     issue?: NamedId,
-    project: NamedId,
+    project?: NamedId,
 };
 
 export type TimesheetEntry = IncomingTimesheetEntry & {
