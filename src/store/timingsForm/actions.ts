@@ -1,10 +1,30 @@
-import { TimesheetEntry, IncomingTimesheetEntry, NamedId } from '../../shared/types';
+import { TimesheetEntry, IncomingTimesheetEntry } from '../../shared/types';
 import { TimingsFormThunk } from './types';
 import { addTimings } from '../../api/addTimings';
 import { updateTiming } from '../../api/updateTiming';
 import { updateEntry, addEntry } from '../activityList/actions';
 import { AppAction, AppState } from '..';
 import { ThunkDispatch } from '../thunk';
+import { fetchTiming } from '../../api/fetchTiming';
+import { deleteTiming } from '../../api/deleteTiming';
+
+
+export const loadTimesheetEntry = (entryId: string): TimingsFormThunk => async (dispatch) => {
+    dispatch({ type: 'timingForm_loading' });
+
+    const response = await fetchTiming(entryId);
+
+    switch (response.code) {
+        case 'Success':
+            dispatch({ entry: response.data, type: 'timingForm_setEntry' });
+            break;
+        case 'Error':
+            dispatch({ type: 'timingsForm_error', error: response.message });
+            break;
+        default:
+            throw new Error('[BUG] Unexpected case');
+    }
+};
 
 export const addTimesheetEntry = (entry: IncomingTimesheetEntry): TimingsFormThunk =>
     async (dispatch: ThunkDispatch<AppState, {}, AppAction>) => {
@@ -19,7 +39,6 @@ export const addTimesheetEntry = (entry: IncomingTimesheetEntry): TimingsFormThu
 
         switch (response.code) {
             case 'Success':
-                dispatch(addEntry(response.entry));
                 dispatch({ type: 'timingsForm_success' });
                 break;
             case 'Error':
@@ -35,14 +54,27 @@ export const updateTimesheetEntry = (entry: TimesheetEntry): TimingsFormThunk =>
 
         try {
             await updateTiming(entry);
-            dispatch(updateEntry(entry));
             dispatch({ type: 'timingsForm_success' });
-        } catch {
+        } catch (e) {
+            console.error(e);
             dispatch({ type: 'timingsForm_error', error: 'An error occured while saving your timing. Please, try again later' });
         }
     };
 
-const requiredProps = ['issue', 'project', 'activity', 'spentOn', 'hours', 'comments'];
+export const deleteTimesheetEntry = (entryId: string): TimingsFormThunk =>
+    async (dispatch: ThunkDispatch<AppState, {}, AppAction>) => {
+        dispatch({ type: 'timingForm_loading' });
+
+        try {
+            await deleteTiming(entryId);
+            dispatch({ type: 'timingForm_removeEntry' });
+        } catch (e) {
+            console.error(e);
+            dispatch({ type: 'timingsForm_error', error: 'An error occured while deleting your timing. Please, try again later' });
+        }
+    };
+
+const requiredProps = ['issue', 'activity', 'spentOn', 'hours', 'comments'];
 function isValidEntry(entry?: Partial<TimesheetEntry>): entry is TimesheetEntry {
         const validateProp = (x?: any) => {
             switch (typeof x) {
