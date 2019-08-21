@@ -4,7 +4,6 @@ import { TimingsPageContainer } from './timingsPage';
 import { connect } from 'react-redux';
 import { AppState } from '../store';
 import { getSession } from '../store/auth/actions';
-import { CoverLoader } from '../components/preloader';
 import { assertNever } from '../shared';
 import { LoginPageContainer, LogoutPageContainer } from './auth';
 import { Navbar } from '../components/navbar';
@@ -24,7 +23,7 @@ const AuthGuard = (props: AuthRouterProps) => {
 
     switch (props.isLoggedIn) {
         case undefined:
-            return <CoverLoader active />;
+            return null;
         case true:
             if (props.children === undefined) {
                 return null;
