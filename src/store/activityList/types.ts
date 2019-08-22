@@ -21,6 +21,9 @@ export type ActivityListAction = {
 } | {
     type: 'activityList_updateEntry',
     data: TimesheetEntry,
+} | {
+    type: 'activityList_removeEntry',
+    entryId: string,
 };
 
 export type ActivityListThunk = ThunkAction<any, AppState, {}, ActivityListAction>;

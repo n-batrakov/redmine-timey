@@ -33,3 +33,8 @@ export const updateEntry = (entry: TimesheetEntry): ActivityListAction => ({
     type: 'activityList_updateEntry',
     data: entry,
 });
+
+export const deleteEntry = (entryId: string): ActivityListAction => ({
+    entryId,
+    type: 'activityList_removeEntry',
+});

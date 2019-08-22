@@ -25,12 +25,17 @@ export const reducer = (state: ActivityListState, action: ActivityListAction): A
         case 'activityList_addEntry':
             return {
                 ...state,
-                data: [...state.data, action.data],
+                data: [action.data, ...state.data],
             };
         case 'activityList_updateEntry':
             return {
                 ...state,
                 data: replaceFirst(state.data, x => x.id === action.data.id, action.data),
+            };
+        case 'activityList_removeEntry':
+            return {
+                ...state,
+                data: state.data.filter(x => x.id !== action.entryId),
             };
         default:
             assertNever(action);
