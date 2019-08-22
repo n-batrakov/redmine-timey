@@ -6,6 +6,12 @@ import { AppAction, AppState } from '..';
 import { ThunkDispatch } from '../thunk';
 import { fetchTiming } from '../../api/fetchTiming';
 import { deleteTiming } from '../../api/deleteTiming';
+import { addEntry, updateEntry } from '../activityList/actions';
+
+export const selectEntry = (entry: TimesheetEntry): TimingsFormAction => ({
+    entry,
+    type: 'timingForm_setEntry',
+});
 
 export const selectIssue = (selectedIssueId?: string): TimingsFormAction => ({
     selectedIssueId,
@@ -42,6 +48,7 @@ export const addTimesheetEntry = (entry: IncomingTimesheetEntry): TimingsFormThu
 
         switch (response.code) {
             case 'Success':
+                dispatch(addEntry(entry));
                 dispatch({ type: 'timingsForm_success' });
                 break;
             case 'Error':
@@ -57,6 +64,7 @@ export const updateTimesheetEntry = (entry: TimesheetEntry): TimingsFormThunk =>
 
         try {
             await updateTiming(entry);
+            dispatch(updateEntry(entry));
             dispatch({ type: 'timingsForm_success' });
         } catch (e) {
             console.error(e);

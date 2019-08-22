@@ -22,7 +22,16 @@ export const reducer = (state: TimingsFormState, action: TimingsFormAction): Tim
         case 'timingsForm_success':
             return { ...state, loading: false, error: undefined, success: true };
         case 'timingForm_setEntry':
-            return { ...state, loading: false, error: undefined, success: false, entry: action.entry };
+            return {
+                ...state,
+                loading: false,
+                error: undefined,
+                success: false,
+                entry: action.entry,
+                selectedIssueId: action.entry.issue === undefined
+                    ? undefined
+                    : action.entry.issue.id,
+                };
         case 'timingForm_removeEntry':
             return { ...state, loading: false, error: undefined, success: true, entry: undefined };
         case 'timingForm_setIssue':
