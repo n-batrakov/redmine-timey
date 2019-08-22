@@ -27,7 +27,8 @@ const addHandler: RegisterHandler = (server, { redmine }) => server.route({
             const entry = entries[idx];
             switch (x.code) {
                 case 'Success':
-                    result.push({ code: 'Success', entry: mapOutgoing(x.data, entry.issue) });
+                    const [dataEntry] = Object.values(x.data);
+                    result.push({ code: 'Success', entry: mapOutgoing(dataEntry, entry.issue) });
                     break;
                 case 'NotAuthenticated':
                     resp.code(401);

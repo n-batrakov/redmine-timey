@@ -10,23 +10,24 @@ const handler: RegisterHandler = (server, { redmine }) => server.route({
         const auth = getCredentials(req);
         const id = req.params.id;
 
-        const entry = await redmine.getById('time_entries', id, auth);
+        const result = await redmine.getById('time_entries', id, auth);
 
-        switch (entry.code) {
+        switch (result.code) {
             case 'Success':
+                const [entry] = Object.values(result.data);
                 return {
                     code: 'Success',
-                    data: mapOutgoing(entry.data),
+                    data: mapOutgoing(entry, undefined, redmine.host),
                 };
             case 'NotAuthenticated':
                 resp.code(401);
                 return '';
             case 'Error':
-                resp.code(entry.status);
+                resp.code(result.status);
                 return {
                     code: 'Error',
-                    errors: entry.errors,
-                    message: `Unable to fetch entry. Response status code (${entry.status}) does not indicate success.`,
+                    errors: result.errors,
+                    message: `Unable to fetch entry. Response status code (${result.status}) does not indicate success.`,
                 };
         }
     },

@@ -2,6 +2,7 @@ import { RedmineClient, RedmineErrorResponse } from './redmine';
 import { toISODate } from '../shared/date';
 import { NamedId, TimesheetEntry } from '../shared/types';
 import { assertNever } from '../shared';
+import { mapOutgoing } from './redmineMappings';
 
 export type TimesheetRequest = {
     limit?: number,
@@ -109,24 +110,8 @@ function mapRedmineDataToTimesheetEntry(entry: any, issues: {[key: string]: {sub
         const id = entry.issue.id;
         const { subject: name } = issues[id] || { subject: undefined };
 
-        const href = `${host}/issues/${id}`;
-
-        return { id, name, href };
-    };
-    const getProject = () => {
-        const { id, name } = <NamedId>entry.project;
-        const href = `${host}/projects/${id}`;
-        return { id, name, href };
+        return { id, name };
     };
 
-    return {
-        id: entry['id'],
-        project: getProject(),
-        user: <NamedId>entry['user'],
-        issue: getIssue(),
-        activity: <NamedId>entry['activity'],
-        comments: entry['comments'],
-        hours: entry['hours'],
-        spentOn: new Date(entry['spent_on']),
-    };
+    return mapOutgoing(entry, getIssue(), host);
 }
