@@ -47,6 +47,7 @@ export type TimingFormProps = {
     activities: Enumeration,
     showDelete?: boolean,
     disabled?: boolean,
+    submitLabel?: string,
     onSubmit?: (form: Partial<TimesheetEntry>) => void,
     onDelete?: (id: string) => void,
     onClose?: () => void,
@@ -55,6 +56,8 @@ export type TimingFormProps = {
 
 export const TimingForm = (props: TimingFormProps) => {
     const { spentOn, comments, hours, activity } = entryOrDefault(props.data);
+
+    const onDeleteClick = onDelete(props);
 
     return (
         <Form onSubmit={onSubmit(props)} loading={props.loading} style={props.style}>
@@ -83,11 +86,11 @@ export const TimingForm = (props: TimingFormProps) => {
                             value="Delete"
                             type="danger"
                             style={{ marginRight: 'auto', marginLeft: 0 }}
-                            onClick={onDelete(props)} />
+                            onClick={onDeleteClick} />
                         : null
                 }
                 <Button value="Cancel" onClick={props.onClose}/>
-                <Button value="Save" type="primary" submit disabled={props.disabled} />
+                <Button value={props.submitLabel || 'Save'} type="primary" submit disabled={props.disabled} />
             </FormRow>
         </Form>
     );
