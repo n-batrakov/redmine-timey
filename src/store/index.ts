@@ -7,27 +7,23 @@ import { TimingsFormAction, TimingsFormState } from './timingsForm/types';
 import { useSelector } from 'react-redux';
 
 export type AppState = {
-        enumerations: EnumerationsState,
-    } & {
-        timingsPage: TimingsPageState,
-    } & {
-        timingsForm: TimingsFormState,
-    } & {
-        activityList: ActivityListState,
-    } & {
-        issues: IssuesState,
-    } & {
-        auth: AuthState,
-    };
+    enumerations: EnumerationsState,
+    timingsPage: TimingsPageState,
+    timingsForm: TimingsFormState,
+    activityList: ActivityListState,
+    issues: IssuesState,
+    auth: AuthState,
+};
 
 
 export type AppAction =
-    TimingsPageAction |
-    TimingsFormAction |
-    ActivityListAction |
-    EnumerationsAction |
-    IssuesAction |
-    AuthAction;
+    | TimingsPageAction
+    | TimingsFormAction
+    | ActivityListAction
+    | EnumerationsAction
+    | IssuesAction
+    | AuthAction
+    ;
 
 
 export function useAppState<T>(selector: (s: AppState) => T, equalityFn?: (a:T, b:T) => boolean): T {
