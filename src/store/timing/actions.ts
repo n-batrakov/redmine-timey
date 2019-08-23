@@ -16,7 +16,12 @@ export const selectEntry = (entry: TimesheetEntry): TimingsFormAction => ({
     type: 'timing_setEntry',
 });
 
-export const loadTimesheetEntry = (entryId: string): TimingsFormThunk => async (dispatch) => {
+export const loadTimesheetEntry = (entryId: string): TimingsFormThunk => async (dispatch, getState) => {
+    const entry = getState().timingsForm.entry;
+    if (entry !== undefined && entry.id === entryId) {
+        return;
+    }
+
     dispatch({ type: 'timing_loading' });
 
     const response = await fetchTiming(entryId);
