@@ -31,7 +31,7 @@ const getBtnClass = ({ kind: type, size, className }: ButtonProps) => {
         }
     };
 
-    return `btn ${getTypeClass()} ${getSizeClass()} ${className}`;
+    return `btn ${getTypeClass()} ${getSizeClass()} ${className || ''}`;
 };
 
 export type ButtonProps = {
