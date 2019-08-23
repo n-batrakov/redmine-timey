@@ -30,19 +30,21 @@ const IssueListItem = ({ issue }: IssueListItemProps) => {
 };
 
 export type IssueListProps = {
-    data: Issue[],
+    issues?: Issue[],
     style?: React.CSSProperties,
 
-    selectedIssueId?: string,
+    selectedIssue?: Issue,
     onSelect?: (issue: Issue) => void,
 };
 export const IssueList = (props: IssueListProps) => {
+    const list = props.issues || [];
+
     return (
         <List style={props.style}>{
-            props.data.map((issue) => {
+            list.map((issue) => {
                 const onClick = props.onSelect === undefined ? undefined : () => (props.onSelect as any)(issue);
                 return (
-                    <ListItem key={issue.id} onClick={onClick} clickable selected={issue.id === props.selectedIssueId}>
+                    <ListItem key={issue.id} onClick={onClick} clickable selected={issuesEqual(issue, props.selectedIssue)}>
                         <IssueListItem issue={issue} />
                     </ListItem>
                 );
@@ -50,3 +52,10 @@ export const IssueList = (props: IssueListProps) => {
         }</List>
     );
 };
+
+function issuesEqual(a: Issue | undefined, b: Issue | undefined) {
+    if (a === b) return true;
+    if (a === undefined || b === undefined) return false;
+
+    return a.id === b.id;
+}
