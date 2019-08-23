@@ -15,8 +15,8 @@ import { Issues } from './issues';
 import { AppState, useAppState } from '../store';
 import { Enumeration } from '../shared/types';
 import { applyFilter, selectIssue, loadIssues, mapFilterToForm } from '../store/issues/actions';
-import { addTimesheetEntry, updateTimesheetEntry, deleteTimesheetEntry, loadTimesheetEntry } from '../store/timingsForm/actions';
-import { useBind } from '../store/useBind';
+import { addTimesheetEntry, updateTimesheetEntry, deleteTimesheetEntry, loadTimesheetEntry } from '../store/timing/actions';
+import { useActions, useCombine } from '../hooks';
 
 
 type PageLayoutProps = {
@@ -27,8 +27,8 @@ type PageLayoutProps = {
 const PageLayout = React.memo(
     (props: PageLayoutProps) => {
         const noIssue = useAppState(x => x.issues.selectedIssue === undefined);
-        const unselectIssue = useBind(() => selectIssue.bind(undefined, undefined));
-        const refresh = useBind(bind(loadIssues));
+        const unselectIssue = useActions(() => selectIssue.bind(undefined, undefined));
+        const refresh = useActions(bind(loadIssues));
 
         return (
             <>
@@ -79,7 +79,7 @@ const PageLayout = React.memo(
 const Filter = () => {
     const filter = useAppState(x => x.issues.filter);
     const enums = useAppState(x => x.enumerations);
-    const onSubmit = useBind(applyFilter);
+    const onSubmit = useActions(applyFilter);
 
     if (!enums.isLoaded) {
         return null;
@@ -91,20 +91,33 @@ const Filter = () => {
 };
 
 
-
-type FormProps = { onCancel: () => void };
+type FormProps = {
+    onCancel?: () => void,
+    onSubmit?: () => void,
+    onDelete?: () => void,
+};
 
 const Form = (props: FormProps) => {
     const state = useAppState(x => x.timingsForm);
     const selectedIssueId = useAppState(selectedIssueIdSelector);
     const activities = useSelector<AppState, Enumeration>(x => x.enumerations.activity);
-    const actions = useBind({ addTimesheetEntry, updateTimesheetEntry, deleteTimesheetEntry });
+    const actions = useActions({ addTimesheetEntry, updateTimesheetEntry, deleteTimesheetEntry });
+    const isCreate = state.entry === undefined;
+
+    const onSubmit = useCombine([
+        isCreate ? actions.addTimesheetEntry : actions.updateTimesheetEntry,
+        props.onSubmit,
+    ]);
+
+    const onDelete = useCombine([
+        actions.deleteTimesheetEntry,
+        props.onDelete,
+    ]);
 
     if (state.loading) {
         return null;
     }
 
-    const isCreate = state.entry === undefined;
     const data = isCreate
         ? {
             spentOn: getDateQueryParam(),
@@ -122,11 +135,11 @@ const Form = (props: FormProps) => {
                 data={data}
                 activities={activities}
                 submitLabel={isCreate ? 'Add' : 'Update'}
-                onSubmit={isCreate ? actions.addTimesheetEntry : actions.updateTimesheetEntry}
+                onSubmit={onSubmit}
                 onClose={props.onCancel}
 
                 showDelete={!isCreate}
-                onDelete={actions.deleteTimesheetEntry}
+                onDelete={onDelete}
             />
         </>
     );
@@ -136,7 +149,7 @@ export const TimingPage = (props: RouteComponentProps<{ id: string }>) => {
     const id = props.match.params.id;
     const editMode = id !== 'new';
 
-    const loadEntry = useBind(loadTimesheetEntry);
+    const loadEntry = useActions(loadTimesheetEntry);
     React.useEffect(
         () => {
             if (editMode) loadEntry(id);
@@ -144,11 +157,13 @@ export const TimingPage = (props: RouteComponentProps<{ id: string }>) => {
         [id],
     );
 
+    const gotoTimings = React.useCallback(() => props.history.push('/time'), []);
+
     return (
         <PageLayout
             filter={<Filter />}
             issues={<Issues />}
-            form={<Form onCancel={() => props.history.push('/')}/>}
+            form={<Form onCancel={gotoTimings} onSubmit={gotoTimings} onDelete={gotoTimings} />}
         />
     );
 };
