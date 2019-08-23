@@ -66,6 +66,7 @@ export const IssueFilterForm = (props: IssueFilterProps) => {
             </FormRow>
 
             <FormRow floatRight inline>
+                <Button type="reset" kind="danger" label="Reset" style={{ marginLeft: 0 }} />
                 <label htmlFor="filter-toggle-input" className="btn">Cancel</label>
                 <Button type="submit" kind="primary" label="Apply" />
             </FormRow>
