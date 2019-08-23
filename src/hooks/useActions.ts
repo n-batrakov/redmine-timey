@@ -1,14 +1,13 @@
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 
-
 type Fn = (...args: any[]) => void;
 
-export function useBind<T extends Fn>(fn: T, deps?: any[]): T;
-export function useBind<T extends { [key: string]: Fn}>(obj: T, deps?: any[]): T;
-export function useBind<T extends Array<Fn>>(arr: T, deps?: any[]): T;
+export function useActions<T extends Fn>(fn: T, deps?: any[]): T;
+export function useActions<T extends { [key: string]: Fn}>(obj: T, deps?: any[]): T;
+export function useActions<T extends Array<Fn>>(arr: T, deps?: any[]): T;
 
-export function useBind(arg: any, deps: any[] = []) {
+export function useActions(arg: any, deps: any[] = []) {
     switch (typeof arg) {
         case 'function':
             return bindFunction(arg, deps);

@@ -3,7 +3,7 @@ import { IssueList } from '../components/issueList';
 import { CoverLoader } from '../components/preloader';
 import { loadIssues, selectIssue } from '../store/issues/actions';
 import { useAppState } from '../store';
-import { useBind } from '../hooks/useBind';
+import { useActions } from '../hooks/useActions';
 
 
 const NoData = React.memo((props: { visible: boolean }) => {
@@ -17,7 +17,7 @@ const NoData = React.memo((props: { visible: boolean }) => {
 
 export const Issues = () => {
     const state = useAppState(x => x.issues);
-    const actions = useBind({ loadIssues, selectIssue });
+    const actions = useActions({ loadIssues, selectIssue });
 
     React.useEffect(() => { actions.loadIssues(); }, []);
 
