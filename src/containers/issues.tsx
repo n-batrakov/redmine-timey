@@ -3,7 +3,7 @@ import { IssueList } from '../components/issueList';
 import { CoverLoader } from '../components/preloader';
 import { loadIssues, selectIssue } from '../store/issues/actions';
 import { useAppState } from '../store';
-import { useBind } from '../store/useBind';
+import { useBind } from '../hooks/useBind';
 
 
 const NoData = React.memo((props: { visible: boolean }) => {
