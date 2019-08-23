@@ -16,19 +16,21 @@ const NoData = React.memo((props: { visible: boolean }) => {
 });
 
 export const Issues = () => {
-    const state = useAppState(x => x.issues);
+    const loading = useAppState(x => x.issues.isLoading);
+    const data = useAppState(x => x.issues.data);
+    const selectedIssue = useAppState(x => x.issues.selectedIssue);
     const actions = useActions({ loadIssues, selectIssue });
 
     React.useEffect(() => { actions.loadIssues(); }, []);
 
     return (
         <>
-            <CoverLoader active={state.isLoading}/>
-            <NoData visible={!state.isLoading && state.data.length === 0} />
+            <CoverLoader active={loading}/>
+            <NoData visible={!loading && data.length === 0} />
             <IssueList
-                issues={state.data}
+                issues={data}
                 onSelect={actions.selectIssue}
-                selectedIssue={state.selectedIssue}
+                selectedIssue={selectedIssue}
             />
         </>
     );
