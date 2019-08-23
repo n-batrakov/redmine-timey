@@ -15,6 +15,7 @@ import { AppState, useAppState } from '../store';
 import { applyFilter, selectIssue, loadIssues, mapFilterToForm } from '../store/issues/actions';
 import { addTimesheetEntry, updateTimesheetEntry, deleteTimesheetEntry, loadTimesheetEntry, resetEntryForm } from '../store/timing/actions';
 import { useActions } from '../hooks';
+import { CoverLoader } from '../components/preloader';
 
 
 type PageLayoutProps = {
@@ -95,7 +96,7 @@ type FormProps = {
 };
 
 const Form = (props: FormProps) => {
-    const isCreate = props.entryId === 'new';
+    const editMode = props.entryId !== 'new';
     const state = useAppState(x => x.timingsForm);
     const selectedIssueId = useAppState(selectedIssueIdSelector);
     const activities = useAppState(x => x.enumerations.activity);
@@ -103,17 +104,23 @@ const Form = (props: FormProps) => {
 
     React.useEffect(
         () => {
-            if (!isCreate) actions.loadTimesheetEntry(props.entryId);
+            if (editMode) {
+                actions.loadTimesheetEntry(props.entryId);
+            }
         },
         [props.entryId],
     );
 
-    const data = isCreate
-        ? {
-            spentOn: getDateQueryParam(),
-            issue: selectedIssueId === undefined ? undefined : { id: selectedIssueId },
-        }
-        : state.entry;
+    const data = editMode
+    ? state.entry
+    : {
+        spentOn: getDateQueryParam(),
+        issue: selectedIssueId === undefined ? undefined : { id: selectedIssueId },
+    };
+
+    if (data === undefined) {
+        return <CoverLoader active />;
+    }
 
     return (
         <>
@@ -124,11 +131,11 @@ const Form = (props: FormProps) => {
                 loading={state.loading}
                 data={data}
                 activities={activities}
-                submitLabel={isCreate ? 'Add' : 'Update'}
-                onSubmit={isCreate ? actions.addTimesheetEntry : actions.updateTimesheetEntry}
+                submitLabel={editMode ? 'Update' : 'Add'}
+                onSubmit={editMode ? actions.updateTimesheetEntry : actions.addTimesheetEntry}
                 onClose={props.onCancel}
 
-                showDelete={!isCreate}
+                showDelete={editMode}
                 onDelete={actions.deleteTimesheetEntry}
             />
         </>
