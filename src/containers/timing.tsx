@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { RouteComponentProps, Redirect } from 'react-router';
-import { useSelector } from 'react-redux';
 import { tryParseDate } from '../shared/date';
 import { bind } from '../shared';
 
@@ -13,11 +12,9 @@ import { Danger, Success } from '../components/alert';
 import { Issues } from './issues';
 
 import { AppState, useAppState } from '../store';
-import { Enumeration } from '../shared/types';
 import { applyFilter, selectIssue, loadIssues, mapFilterToForm } from '../store/issues/actions';
 import { addTimesheetEntry, updateTimesheetEntry, deleteTimesheetEntry, loadTimesheetEntry, resetEntryForm } from '../store/timing/actions';
-import { useActions, useCombine } from '../hooks';
-import { Loader } from '../components/preloader';
+import { useActions } from '../hooks';
 
 
 type PageLayoutProps = {
@@ -93,15 +90,23 @@ const Filter = () => {
 
 
 type FormProps = {
+    entryId: string,
     onCancel?: () => void,
 };
 
 const Form = (props: FormProps) => {
+    const isCreate = props.entryId === 'new';
     const state = useAppState(x => x.timingsForm);
     const selectedIssueId = useAppState(selectedIssueIdSelector);
-    const activities = useSelector<AppState, Enumeration>(x => x.enumerations.activity);
-    const actions = useActions({ addTimesheetEntry, updateTimesheetEntry, deleteTimesheetEntry });
-    const isCreate = state.entry === undefined;
+    const activities = useAppState(x => x.enumerations.activity);
+    const actions = useActions({ addTimesheetEntry, updateTimesheetEntry, deleteTimesheetEntry, loadTimesheetEntry });
+
+    React.useEffect(
+        () => {
+            if (!isCreate) actions.loadTimesheetEntry(props.entryId);
+        },
+        [props.entryId],
+    );
 
     const data = isCreate
         ? {
@@ -138,18 +143,8 @@ const RedirectToTiming = () => {
 };
 
 export const TimingPage = (props: RouteComponentProps<{ id: string }>) => {
-    const id = props.match.params.id;
-    const editMode = id !== 'new';
-
-    const loadEntry = useActions(loadTimesheetEntry);
-    React.useEffect(
-        () => {
-            if (editMode) loadEntry(id);
-        },
-        [id],
-    );
-
     const success = useAppState(x => x.timingsForm.success);
+
     if (success) {
         return <RedirectToTiming />;
     }
@@ -158,7 +153,7 @@ export const TimingPage = (props: RouteComponentProps<{ id: string }>) => {
         <PageLayout
             filter={<Filter />}
             issues={<Issues />}
-            form={<Form />}
+            form={<Form entryId={props.match.params.id} onCancel={() => props.history.push('/time')} />}
         />
     );
 };
