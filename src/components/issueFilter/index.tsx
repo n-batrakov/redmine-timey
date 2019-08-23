@@ -4,7 +4,6 @@ import { IconFilter } from '../icon';
 import { Select, SelectOption } from '../input';
 import { Button } from '../button';
 import { Enumeration } from '../../shared/types';
-import { getFormData } from '../../shared/form';
 import { EnumerationsState } from '../../store/enumerations/types';
 import { Form, FormRow } from '../form';
 
@@ -23,63 +22,47 @@ const toOptions = (enumeration?: Enumeration) => {
     ];
 };
 
-const onSubmit = (props: IssueFilterProps) => React.useCallback(
-    (e: React.FormEvent) => {
-        e.preventDefault();
-
-        if (props.onSubmit === undefined) {
-            return;
-        }
-
-        const form = getFormData<IssueFilterForm>(e.target as HTMLFormElement);
-
-        props.onSubmit(form);
-    },
-    [props.onSubmit],
-);
-
-
 export type IssueFilterForm = {
     query?: string,
     project?: string,
     status?: string,
     assigned?: string,
+    author?: string,
 };
 export type IssueFilterProps = {
     opened?: boolean,
     inline?: boolean,
+    filter?: IssueFilterForm,
     enums?: EnumerationsState,
     onSubmit?: (form: IssueFilterForm) => void,
-};
-export type IssueFilterContainerProps = {
-    opened?: boolean,
-    children?: React.ReactNode,
 };
 
 export const IssueFilterForm = (props: IssueFilterProps) => {
     const enums = props.enums || {} as EnumerationsState;
 
+    const { query, assigned, project, status, author } = props.filter || {} as IssueFilterForm;
+
     return (
         <Form<IssueFilterForm> onSubmit={props.onSubmit}>
             <FormRow>
                 <label htmlFor="query">Query</label>
-                <Select name="query">{toOptions(enums.queries)}</Select>
+                <Select name="query" value={query}>{toOptions(enums.queries)}</Select>
             </FormRow>
             <FormRow>
                 <label htmlFor="project">Project</label>
-                <Select name="project">{toOptions(enums.projects)}</Select>
+                <Select name="project" value={project}>{toOptions(enums.projects)}</Select>
             </FormRow>
             <FormRow>
                 <label htmlFor="status">Status</label>
-                <Select name="status">{toOptions(enums.status)}</Select>
+                <Select name="status" value={status}>{toOptions(enums.status)}</Select>
             </FormRow>
             <FormRow>
                 <label htmlFor="assigned">Assigned</label>
-                <Select name="assigned">{toOptions(enums.users)}</Select>
+                <Select name="assigned" value={assigned}>{toOptions(enums.users)}</Select>
             </FormRow>
             <FormRow>
                 <label htmlFor="author">Author</label>
-                <Select name="author">{toOptions(enums.users)}</Select>
+                <Select name="author" value={author}>{toOptions(enums.users)}</Select>
             </FormRow>
 
             <FormRow floatRight inline>
@@ -88,6 +71,12 @@ export const IssueFilterForm = (props: IssueFilterProps) => {
             </FormRow>
         </Form>
     );
+};
+
+
+export type IssueFilterContainerProps = {
+    opened?: boolean,
+    children?: React.ReactNode,
 };
 
 export const ToggledIssueFilter = (props: IssueFilterContainerProps) => {

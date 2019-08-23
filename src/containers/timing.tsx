@@ -78,7 +78,12 @@ const PageLayout = React.memo(
 const Filter = () => {
     const enums = useAppState(x => x.enumerations);
     const onSubmit = useBind(applyFilter);
-    return <IssueFilterForm enums={enums} onSubmit={onSubmit} />;
+
+    if (!enums.isLoaded) {
+        return null;
+    }
+
+    return <IssueFilterForm enums={enums} onSubmit={onSubmit} filter={{ assigned: 'me' }}/>;
 };
 
 const Issues = () => {
