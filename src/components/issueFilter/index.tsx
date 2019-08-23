@@ -1,6 +1,6 @@
 import './index.css';
 import * as React from 'react';
-import { IconFilter } from '../icon';
+import { IconFilter, IconRefresh } from '../icon';
 import { Select, SelectOption } from '../input';
 import { Button } from '../button';
 import { Enumeration } from '../../shared/types';
@@ -77,6 +77,7 @@ export const IssueFilterForm = (props: IssueFilterProps) => {
 export type IssueFilterContainerProps = {
     opened?: boolean,
     children?: React.ReactNode,
+    onRefresh?: () => void,
 };
 
 export const ToggledIssueFilter = (props: IssueFilterContainerProps) => {
@@ -116,6 +117,9 @@ export const OverflowIssueFilter = (props: IssueFilterContainerProps) => {
             <label className="filter-toggle btn" htmlFor="filter-toggle-input" >
                 <IconFilter />
             </label>
+            <button type="button" className="filter-toggle btn" onClick={props.onRefresh}>
+                <IconRefresh />
+            </button>
         </div>
     );
 };
