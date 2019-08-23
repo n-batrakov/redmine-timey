@@ -11,17 +11,17 @@ export type TimingsFormState = {
 };
 
 export type TimingsFormAction = {
-    type: 'timingsForm_success',
+    type: 'timing_success',
 } | {
-    type: 'timingsForm_error',
+    type: 'timing_error',
     error: string,
 } | {
-    type: 'timingForm_loading',
+    type: 'timing_loading',
 } | {
-    type: 'timingForm_setEntry',
+    type: 'timing_setEntry',
     entry: TimesheetEntry,
 } | {
-    type: 'timingForm_removeEntry',
+    type: 'timing_removeEntry',
 };
 
 export type TimingsFormThunk = ThunkAction<any, AppState, {}, TimingsFormAction>;

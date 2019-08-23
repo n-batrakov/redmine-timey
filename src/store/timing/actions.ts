@@ -10,20 +10,20 @@ import { addEntry, updateEntry } from '../activityList/actions';
 
 export const selectEntry = (entry: TimesheetEntry): TimingsFormAction => ({
     entry,
-    type: 'timingForm_setEntry',
+    type: 'timing_setEntry',
 });
 
 export const loadTimesheetEntry = (entryId: string): TimingsFormThunk => async (dispatch) => {
-    dispatch({ type: 'timingForm_loading' });
+    dispatch({ type: 'timing_loading' });
 
     const response = await fetchTiming(entryId);
 
     switch (response.code) {
         case 'Success':
-            dispatch({ entry: response.data, type: 'timingForm_setEntry' });
+            dispatch({ entry: response.data, type: 'timing_setEntry' });
             break;
         case 'Error':
-            dispatch({ type: 'timingsForm_error', error: response.message });
+            dispatch({ type: 'timing_error', error: response.message });
             break;
         default:
             throw new Error('[BUG] Unexpected case');
@@ -32,10 +32,10 @@ export const loadTimesheetEntry = (entryId: string): TimingsFormThunk => async (
 
 export const addTimesheetEntry = (entry: IncomingTimesheetEntry): TimingsFormThunk =>
     async (dispatch: ThunkDispatch<AppState, {}, AppAction>) => {
-        dispatch({ type: 'timingForm_loading' });
+        dispatch({ type: 'timing_loading' });
 
         if (!isValidEntry(entry)) {
-            dispatch({ type: 'timingsForm_error', error: 'Oops! Looks like there\'s a bug in our system' });
+            dispatch({ type: 'timing_error', error: 'Oops! Looks like there\'s a bug in our system' });
             return;
         }
 
@@ -44,39 +44,39 @@ export const addTimesheetEntry = (entry: IncomingTimesheetEntry): TimingsFormThu
         switch (response.code) {
             case 'Success':
                 dispatch(addEntry(entry));
-                dispatch({ type: 'timingsForm_success' });
+                dispatch({ type: 'timing_success' });
                 break;
             case 'Error':
                 console.error(response);
-                dispatch({ type: 'timingsForm_error', error: 'An error occured while saving your timing. Please, try again later' });
+                dispatch({ type: 'timing_error', error: 'An error occured while saving your timing. Please, try again later' });
                 break;
         }
     };
 
 export const updateTimesheetEntry = (entry: TimesheetEntry): TimingsFormThunk =>
     async (dispatch: ThunkDispatch<AppState, {}, AppAction>) => {
-        dispatch({ type: 'timingForm_loading' });
+        dispatch({ type: 'timing_loading' });
 
         try {
             await updateTiming(entry);
             dispatch(updateEntry(entry));
-            dispatch({ type: 'timingsForm_success' });
+            dispatch({ type: 'timing_success' });
         } catch (e) {
             console.error(e);
-            dispatch({ type: 'timingsForm_error', error: 'An error occured while saving your timing. Please, try again later' });
+            dispatch({ type: 'timing_error', error: 'An error occured while saving your timing. Please, try again later' });
         }
     };
 
 export const deleteTimesheetEntry = (entryId: string): TimingsFormThunk =>
     async (dispatch: ThunkDispatch<AppState, {}, AppAction>) => {
-        dispatch({ type: 'timingForm_loading' });
+        dispatch({ type: 'timing_loading' });
 
         try {
             await deleteTiming(entryId);
-            dispatch({ type: 'timingForm_removeEntry' });
+            dispatch({ type: 'timing_removeEntry' });
         } catch (e) {
             console.error(e);
-            dispatch({ type: 'timingsForm_error', error: 'An error occured while deleting your timing. Please, try again later' });
+            dispatch({ type: 'timing_error', error: 'An error occured while deleting your timing. Please, try again later' });
         }
     };
 

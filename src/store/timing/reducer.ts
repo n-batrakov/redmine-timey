@@ -14,13 +14,13 @@ export const reducer = (state: TimingsFormState, action: TimingsFormAction): Tim
     }
 
     switch (action.type) {
-        case 'timingForm_loading':
+        case 'timing_loading':
             return { ...state, loading: true, error: undefined, success: false };
-        case 'timingsForm_error':
+        case 'timing_error':
             return { ...state, loading: false, error: action.error, success: false };
-        case 'timingsForm_success':
+        case 'timing_success':
             return { ...state, loading: false, error: undefined, success: true };
-        case 'timingForm_setEntry':
+        case 'timing_setEntry':
             return {
                 ...state,
                 loading: false,
@@ -28,7 +28,7 @@ export const reducer = (state: TimingsFormState, action: TimingsFormAction): Tim
                 success: false,
                 entry: action.entry,
             };
-        case 'timingForm_removeEntry':
+        case 'timing_removeEntry':
             return { ...state, loading: false, error: undefined, success: true, entry: undefined };
         default:
             assertNever(action);
