@@ -18,8 +18,6 @@ export const reducer = (state: TimingsFormState, action: TimingsFormAction): Tim
             return { ...state, loading: true, error: undefined, success: false };
         case 'timing_error':
             return { ...state, loading: false, error: action.error, success: false };
-        case 'timing_success':
-            return { ...state, loading: false, error: undefined, success: true };
         case 'timing_setEntry':
             return {
                 ...state,
@@ -28,6 +26,9 @@ export const reducer = (state: TimingsFormState, action: TimingsFormAction): Tim
                 success: false,
                 entry: action.entry,
             };
+        case 'timing_addEntry':
+        case 'timing_updateEntry':
+            return { ...state, loading: false, error: undefined, success: true, entry: action.entry };
         case 'timing_removeEntry':
             return { ...state, loading: false, error: undefined, success: true, entry: undefined };
         case 'timing_reset':

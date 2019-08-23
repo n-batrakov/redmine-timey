@@ -6,7 +6,6 @@ import { AppAction, AppState } from '..';
 import { ThunkDispatch } from '../thunk';
 import { fetchTiming } from '../../api/fetchTiming';
 import { deleteTiming } from '../../api/deleteTiming';
-import { addEntry, updateEntry } from '../activityList/actions';
 
 export const resetEntryForm = (): TimingsFormAction => ({
     type: 'timing_reset',
@@ -47,8 +46,7 @@ export const addTimesheetEntry = (entry: IncomingTimesheetEntry): TimingsFormThu
 
         switch (response.code) {
             case 'Success':
-                dispatch(addEntry(entry));
-                dispatch({ type: 'timing_success' });
+                dispatch({ type: 'timing_addEntry', entry: response.entry });
                 break;
             case 'Error':
                 console.error(response);
@@ -63,8 +61,7 @@ export const updateTimesheetEntry = (entry: TimesheetEntry): TimingsFormThunk =>
 
         try {
             await updateTiming(entry);
-            dispatch(updateEntry(entry));
-            dispatch({ type: 'timing_success' });
+            dispatch({ entry, type: 'timing_updateEntry' });
         } catch (e) {
             console.error(e);
             dispatch({ type: 'timing_error', error: 'An error occured while saving your timing. Please, try again later' });

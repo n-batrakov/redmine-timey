@@ -10,21 +10,15 @@ export type TimingsFormState = {
     entry?: TimesheetEntry,
 };
 
-export type TimingsFormAction = {
-    type: 'timing_success',
-} | {
-    type: 'timing_error',
-    error: string,
-} | {
-    type: 'timing_loading',
-} | {
-    type: 'timing_setEntry',
-    entry: TimesheetEntry,
-} | {
-    type: 'timing_removeEntry',
-} | {
-    type: 'timing_reset',
-};
+export type TimingsFormAction =
+    | { type: 'timing_loading' }
+    | { type: 'timing_error', error: string }
+    | { type: 'timing_setEntry', entry: TimesheetEntry }
+    | { type: 'timing_addEntry', entry: TimesheetEntry }
+    | { type: 'timing_updateEntry', entry: TimesheetEntry }
+    | { type: 'timing_removeEntry' }
+    | { type: 'timing_reset' }
+    ;
 
 export type TimingsFormThunk = ThunkAction<any, AppState, {}, TimingsFormAction>;
 
