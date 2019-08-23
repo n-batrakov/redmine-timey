@@ -1,7 +1,7 @@
 import { AppState, AppAction } from '..';
 import { initState as actitivityListInitState } from '../activityList/reducer';
-import { initialState as timingsPageInitState }  from '../timingsPage/reducer';
-import { initialState as timingsFormInitState }  from '../timingsForm/reducer';
+import { initialState as timingsPageInitState }  from '../timingList/reducer';
+import { initialState as timingsFormInitState }  from '../timing/reducer';
 import { initState as issuesInitState } from '../issues/reducer';
 
 export const reducer = (state: AppState, action: AppAction): AppState => {

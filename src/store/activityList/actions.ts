@@ -4,7 +4,7 @@ import { ActivityListAction, ActivityListThunk } from './types';
 import { queryTimings } from '../../api/queryTimings';
 import { QueryTimingsRequest } from '../../api/queryTimings/contract';
 
-import { loadData as updateTimingsData } from '../timingsPage/actions';
+import { loadData as updateTimingsData } from '../timingList/actions';
 
 
 export const setPreloader = (isLoadging: boolean): ActivityListAction => ({

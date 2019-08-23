@@ -10,7 +10,7 @@ import { ActivityListContainer } from './activityList';
 import { ActivityHeatmap } from '../components/activityHeatmap';
 import { HoursGauge, HoursGaugeProps } from '../components/hoursGauge';
 
-import { loadData } from '../store/timingsPage/actions';
+import { loadData } from '../store/timingList/actions';
 import { Container } from '../components/container';
 import { MobileScreen, MobileScreenHidden } from '../components/mediaQuery';
 import { TimesheetEntry } from '../shared/types';
