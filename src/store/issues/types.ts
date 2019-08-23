@@ -14,7 +14,7 @@ export type IssueFilterField = {
     label: string,
     value: string,
 };
-export type IssuesFilter = {
+export type IssueFilter = {
     status?: IssueFilterField,
     project?: IssueFilterField,
     author?: IssueFilterField,
@@ -28,7 +28,7 @@ export type IssuesState = {
     pageSize: number,
     totalCount: number,
     data: Issue[],
-    filter?: IssuesFilter,
+    filter?: IssueFilter,
     selectedIssue?: Issue,
 };
 
@@ -43,7 +43,7 @@ export type IssuesAction = {
     page: number,
 } | {
     type: 'issues_setFilter',
-    filter?: IssuesFilter,
+    filter?: IssueFilter,
 } | {
     type: 'issues_selectIssue',
     issue?: Issue,

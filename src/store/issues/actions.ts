@@ -1,6 +1,6 @@
 import { Issue, EnumerationsLookup, Enumeration } from '../../shared/types';
 import { queryIssues } from '../../api/queryIssues';
-import { IssuesAction, IssuesThunk, IssuesFilter, IssueFilterValue } from './types';
+import { IssuesAction, IssuesThunk, IssueFilter, IssueFilterValue } from './types';
 
 export const selectIssue = (issue?: Issue): IssuesAction => ({
     issue,
@@ -34,7 +34,7 @@ export const gotoPage = (page: number): IssuesThunk => (dispatch, getState) => {
 };
 
 
-const mapFilter = (enums: EnumerationsLookup, filter: IssueFilterValue): IssuesFilter => {
+const mapFilter = (enums: EnumerationsLookup, filter: IssueFilterValue): IssueFilter => {
     const find = (arr: Enumeration, value: string | undefined) => {
         if (value === undefined) {
             return undefined;
@@ -61,7 +61,7 @@ export const applyFilter = (filter?: IssueFilterValue): IssuesThunk => (dispatch
     dispatch(loadIssues());
 };
 
-const mapFilterToApi = (x: IssuesFilter) => {
+export const mapFilterToForm = (x: IssueFilter) => {
     return Object.entries(x).reduce<any>(
         (acc, [key, value]) => {
             if (value !== undefined) {
@@ -82,7 +82,7 @@ export const loadIssues = (): IssuesThunk =>
         const limit = pageSize;
         const offset = page * pageSize;
 
-        const queryFilter = filter === undefined ? undefined : mapFilterToApi(filter);
+        const queryFilter = filter === undefined ? undefined : mapFilterToForm(filter);
 
         const { data, totalCount } = await queryIssues({ limit, offset, ...queryFilter });
         dispatch(setData(data, totalCount));

@@ -14,7 +14,7 @@ import { Issues } from './issues';
 
 import { AppState, useAppState } from '../store';
 import { Enumeration } from '../shared/types';
-import { applyFilter, selectIssue, loadIssues } from '../store/issues/actions';
+import { applyFilter, selectIssue, loadIssues, mapFilterToForm } from '../store/issues/actions';
 import { addTimesheetEntry, updateTimesheetEntry, deleteTimesheetEntry, loadTimesheetEntry } from '../store/timingsForm/actions';
 import { useBind } from '../store/useBind';
 
@@ -77,6 +77,7 @@ const PageLayout = React.memo(
 
 
 const Filter = () => {
+    const filter = useAppState(x => x.issues.filter);
     const enums = useAppState(x => x.enumerations);
     const onSubmit = useBind(applyFilter);
 
@@ -84,7 +85,9 @@ const Filter = () => {
         return null;
     }
 
-    return <IssueFilterForm enums={enums} onSubmit={onSubmit} filter={{ assigned: 'me' }}/>;
+    const form = mapFilterToForm(filter || {});
+
+    return <IssueFilterForm enums={enums} onSubmit={onSubmit} filter={form}/>;
 };
 
 
