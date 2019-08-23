@@ -48,7 +48,7 @@ export type ButtonProps = {
 export const Button = (x: ButtonProps) => (
     <button
         className={getBtnClass(x)}
-        type={x.type}
+        type={x.type || 'button'}
         onClick={x.onClick}
         style={x.style}
         title={x.tooltip}
