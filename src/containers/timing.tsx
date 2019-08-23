@@ -26,7 +26,7 @@ type PageLayoutProps = {
 const PageLayout = React.memo(
     (props: PageLayoutProps) => {
         const noIssue = useAppState(x => x.issues.selectedIssue === undefined);
-        const unselectIssue = useActions(() => selectIssue.bind(undefined, undefined));
+        const unselectIssue = useActions(bind(selectIssue, undefined));
         const refresh = useActions(bind(loadIssues));
 
         return (
