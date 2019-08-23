@@ -30,6 +30,8 @@ export const reducer = (state: TimingsFormState, action: TimingsFormAction): Tim
             };
         case 'timing_removeEntry':
             return { ...state, loading: false, error: undefined, success: true, entry: undefined };
+        case 'timing_reset':
+            return initialState;
         default:
             assertNever(action);
             return state;

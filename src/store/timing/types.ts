@@ -22,6 +22,8 @@ export type TimingsFormAction = {
     entry: TimesheetEntry,
 } | {
     type: 'timing_removeEntry',
+} | {
+    type: 'timing_reset',
 };
 
 export type TimingsFormThunk = ThunkAction<any, AppState, {}, TimingsFormAction>;

@@ -8,6 +8,10 @@ import { fetchTiming } from '../../api/fetchTiming';
 import { deleteTiming } from '../../api/deleteTiming';
 import { addEntry, updateEntry } from '../activityList/actions';
 
+export const resetEntryForm = (): TimingsFormAction => ({
+    type: 'timing_reset',
+});
+
 export const selectEntry = (entry: TimesheetEntry): TimingsFormAction => ({
     entry,
     type: 'timing_setEntry',
