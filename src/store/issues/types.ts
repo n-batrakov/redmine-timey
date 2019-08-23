@@ -29,6 +29,7 @@ export type IssuesState = {
     totalCount: number,
     data: Issue[],
     filter?: IssuesFilter,
+    selectedIssue?: Issue,
 };
 
 export type IssuesAction = {
@@ -43,6 +44,9 @@ export type IssuesAction = {
 } | {
     type: 'issues_setFilter',
     filter?: IssuesFilter,
+} | {
+    type: 'issues_selectIssue',
+    issue?: Issue,
 };
 
 export type IssuesThunk = ThunkAction<void, AppState, {}, IssuesAction>;

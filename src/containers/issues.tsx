@@ -1,12 +1,9 @@
 import * as React from 'react';
 import { IssueList } from '../components/issueList';
 import { CoverLoader } from '../components/preloader';
-import { Issue, Enumeration } from '../shared/types';
-import { connect } from 'react-redux';
-import { loadData, gotoPage, applyFilter } from '../store/issues/actions';
-import { RouteComponentProps } from 'react-router';
-import { IssueFilterValue, IssuesFilter, IssueFilterField } from '../store/issues/types';
-import { AppState } from '../store';
+import { loadIssues, selectIssue } from '../store/issues/actions';
+import { useAppState } from '../store';
+import { useBind } from '../store/useBind';
 
 
 const NoData = React.memo((props: { visible: boolean }) => {
@@ -18,46 +15,21 @@ const NoData = React.memo((props: { visible: boolean }) => {
     );
 });
 
-export type IssuesProps = {
-    isLoading: boolean,
-    data: Issue[],
-    selectedIssueId?: string,
-    loadData: () => void,
-    gotoPage: (page: number) => void,
-    applyFilter: (filter?: IssueFilterValue) => void,
+export const Issues = () => {
+    const state = useAppState(x => x.issues);
+    const actions = useBind({ loadIssues, selectIssue });
 
-    onSelect?: (issue: Issue) => void,
-    style?: React.CSSProperties,
-} & RouteComponentProps;
-
-const mapEnumerationToSelect = (x: Enumeration): Array<{ value: string, label: string}> => {
-    return Object.entries(x.values).map(([value, label]) => ({ value, label }));
-};
-
-const Component = (props: IssuesProps) => {
-    React.useEffect(() => { props.loadData(); }, []);
+    React.useEffect(() => { actions.loadIssues(); }, []);
 
     return (
-        <div style={props.style}>
-            <CoverLoader active={props.isLoading}/>
-            <NoData visible={!props.isLoading && props.data.length === 0} />
+        <>
+            <CoverLoader active={state.isLoading}/>
+            <NoData visible={!state.isLoading && state.data.length === 0} />
             <IssueList
-                onSelect={props.onSelect}
-                data={props.data}
-                selectedIssueId={props.selectedIssueId}
+                issues={state.data}
+                onSelect={actions.selectIssue}
+                selectedIssue={state.selectedIssue}
             />
-        </div>
+        </>
     );
 };
-
-export const Issues = connect(
-    (state: AppState, props: Partial<IssuesProps>): Partial<IssuesProps> => ({
-        ...props,
-        ...state.issues,
-    }),
-    {
-        loadData,
-        gotoPage,
-        applyFilter,
-    },
-)(Component);

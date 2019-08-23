@@ -13,11 +13,6 @@ export const selectEntry = (entry: TimesheetEntry): TimingsFormAction => ({
     type: 'timingForm_setEntry',
 });
 
-export const selectIssue = (selectedIssueId?: string): TimingsFormAction => ({
-    selectedIssueId,
-    type: 'timingForm_setIssue',
-});
-
 export const loadTimesheetEntry = (entryId: string): TimingsFormThunk => async (dispatch) => {
     dispatch({ type: 'timingForm_loading' });
 

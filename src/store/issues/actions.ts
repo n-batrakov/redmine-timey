@@ -2,6 +2,10 @@ import { Issue, EnumerationsLookup, Enumeration } from '../../shared/types';
 import { queryIssues } from '../../api/queryIssues';
 import { IssuesAction, IssuesThunk, IssuesFilter, IssueFilterValue } from './types';
 
+export const selectIssue = (issue?: Issue): IssuesAction => ({
+    issue,
+    type: 'issues_selectIssue',
+});
 
 export const setPreloader = (): IssuesAction => {
     return {
@@ -26,7 +30,7 @@ export const gotoPage = (page: number): IssuesThunk => (dispatch, getState) => {
     }
 
     dispatch({ page, type: 'issues_setPage' });
-    dispatch(loadData());
+    dispatch(loadIssues());
 };
 
 
@@ -54,7 +58,7 @@ export const applyFilter = (filter?: IssueFilterValue): IssuesThunk => (dispatch
         type: 'issues_setFilter',
         filter: filter === undefined ? undefined : mapFilter(enumerations, filter),
     });
-    dispatch(loadData());
+    dispatch(loadIssues());
 };
 
 const mapFilterToApi = (x: IssuesFilter) => {
@@ -67,7 +71,7 @@ const mapFilterToApi = (x: IssuesFilter) => {
         },
         {});
 };
-export const loadData = (): IssuesThunk =>
+export const loadIssues = (): IssuesThunk =>
     async (dispatch, getState) => {
         const { page, pageSize, filter, isLoading } = getState().issues;
 

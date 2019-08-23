@@ -6,6 +6,7 @@ export const initState: IssuesState = {
     page: 0,
     pageSize: 50,
     totalCount: 0,
+    selectedIssue: undefined,
     filter: {
         assigned: { label: 'Me', value: 'me' },
     },
@@ -38,6 +39,11 @@ export const reducer = (state: IssuesState, action: IssuesAction): IssuesState =
             return {
                 ...state,
                 filter: action.filter,
+            };
+        case 'issues_selectIssue':
+            return {
+                ...state,
+                selectedIssue: action.issue,
             };
         default:
             return state;

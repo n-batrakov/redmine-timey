@@ -1,19 +1,23 @@
 import * as React from 'react';
-import { Container } from '../components/container';
 import { RouteComponentProps } from 'react-router';
-import { tryParseDate } from '../shared/date';
-import { TimingForm } from '../components/timingForm';
 import { useSelector } from 'react-redux';
-import { AppState, useAppState } from '../store';
+import { tryParseDate } from '../shared/date';
+import { bind } from '../shared';
+
+import { Container } from '../components/container';
+import { TimingForm } from '../components/timingForm';
 import { MobileScreen, MobileScreenHidden } from '../components/mediaQuery';
 import { Tabs, TabList, TabPanel, Tab } from '../components/tabs';
-import { Issues as IssuesList } from './issues';
-import { Issue, Enumeration } from '../shared/types';
 import { ToggledIssueFilter, IssueFilterForm, OverflowIssueFilter } from '../components/issueFilter';
-import { applyFilter } from '../store/issues/actions';
-import { addTimesheetEntry, updateTimesheetEntry, deleteTimesheetEntry, loadTimesheetEntry, selectIssue } from '../store/timingsForm/actions';
 import { Danger, Success } from '../components/alert';
+import { Issues } from './issues';
+
+import { AppState, useAppState } from '../store';
+import { Enumeration } from '../shared/types';
+import { applyFilter, selectIssue, loadIssues } from '../store/issues/actions';
+import { addTimesheetEntry, updateTimesheetEntry, deleteTimesheetEntry, loadTimesheetEntry } from '../store/timingsForm/actions';
 import { useBind } from '../store/useBind';
+
 
 type PageLayoutProps = {
     filter?: React.ReactNode,
@@ -22,22 +26,21 @@ type PageLayoutProps = {
 };
 const PageLayout = React.memo(
     (props: PageLayoutProps) => {
-        const selectedIssueId = useAppState(x => x.timingsForm.selectedIssueId);
+        const noIssue = useAppState(x => x.issues.selectedIssue === undefined);
         const unselectIssue = useBind(() => selectIssue.bind(undefined, undefined));
+        const refresh = useBind(bind(loadIssues));
 
         return (
             <>
                 <MobileScreen>
                     <Container>
-                        <Tabs selectedIndex={selectedIssueId === undefined ? 0 : 1} onSelect={unselectIssue}>
+                        <Tabs selectedIndex={noIssue ? 0 : 1} onSelect={unselectIssue}>
                             <TabList>
                                 <Tab>Issue</Tab>
-                                <Tab disabled={selectedIssueId === undefined}>Timing</Tab>
+                                <Tab disabled={noIssue}>Timing</Tab>
                             </TabList>
                             <TabPanel>
-                                <ToggledIssueFilter>
-                                    {props.filter}
-                                </ToggledIssueFilter>
+                                <ToggledIssueFilter>{props.filter}</ToggledIssueFilter>
                                 {props.issues}
                             </TabPanel>
                             <TabPanel>
@@ -48,9 +51,7 @@ const PageLayout = React.memo(
                 </MobileScreen>
                 <MobileScreenHidden>
                     <div style={{ display: 'flex' }}>
-                        <OverflowIssueFilter>
-                            {props.filter}
-                        </OverflowIssueFilter>
+                        <OverflowIssueFilter onRefresh={refresh}>{props.filter}</OverflowIssueFilter>
                         <Container inline>
                             <div style={{
                                     height: 'calc(100vh - 2*24px - 38px)',
@@ -86,23 +87,13 @@ const Filter = () => {
     return <IssueFilterForm enums={enums} onSubmit={onSubmit} filter={{ assigned: 'me' }}/>;
 };
 
-const Issues = () => {
-    const selectedIssueId = useAppState(x => x.timingsForm.selectedIssueId);
-    const onSelect = useBind((x: Issue) => selectIssue(x.id));
 
-    return <IssuesList onSelect={onSelect} selectedIssueId={selectedIssueId} />;
-};
-
-function getDateQueryParam() {
-    const params = new URLSearchParams(window.location.search);
-    const dateParam = params.get('date');
-    return dateParam === null ? undefined : tryParseDate(dateParam);
-}
 
 type FormProps = { onCancel: () => void };
 
 const Form = (props: FormProps) => {
     const state = useAppState(x => x.timingsForm);
+    const selectedIssueId = useAppState(selectedIssueIdSelector);
     const activities = useSelector<AppState, Enumeration>(x => x.enumerations.activity);
     const actions = useBind({ addTimesheetEntry, updateTimesheetEntry, deleteTimesheetEntry });
 
@@ -114,7 +105,7 @@ const Form = (props: FormProps) => {
     const data = isCreate
         ? {
             spentOn: getDateQueryParam(),
-            issue: state.selectedIssueId === undefined ? undefined : { id: state.selectedIssueId },
+            issue: selectedIssueId === undefined ? undefined : { id: selectedIssueId },
         }
         : state.entry;
 
@@ -123,7 +114,7 @@ const Form = (props: FormProps) => {
             <Danger>{state.error}</Danger>
             <Success>{state.success ? 'Success' : undefined}</Success>
             <TimingForm
-                disabled={state.selectedIssueId === undefined}
+                disabled={selectedIssueId === undefined}
                 loading={state.loading}
                 data={data}
                 activities={activities}
@@ -158,3 +149,16 @@ export const TimingPage = (props: RouteComponentProps<{ id: string }>) => {
         />
     );
 };
+
+
+function getDateQueryParam() {
+    const params = new URLSearchParams(window.location.search);
+    const dateParam = params.get('date');
+    return dateParam === null ? undefined : tryParseDate(dateParam);
+}
+
+function selectedIssueIdSelector(x: AppState) {
+    return x.issues.selectedIssue === undefined
+        ? undefined
+        : x.issues.selectedIssue.id;
+}

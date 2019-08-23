@@ -6,7 +6,6 @@ export const initialState: TimingsFormState = {
     loading: false,
     error: undefined,
     entry: undefined,
-    selectedIssueId: undefined,
 };
 
 export const reducer = (state: TimingsFormState, action: TimingsFormAction): TimingsFormState => {
@@ -28,14 +27,9 @@ export const reducer = (state: TimingsFormState, action: TimingsFormAction): Tim
                 error: undefined,
                 success: false,
                 entry: action.entry,
-                selectedIssueId: action.entry.issue === undefined
-                    ? undefined
-                    : action.entry.issue.id,
-                };
+            };
         case 'timingForm_removeEntry':
             return { ...state, loading: false, error: undefined, success: true, entry: undefined };
-        case 'timingForm_setIssue':
-            return { ...state, selectedIssueId: action.selectedIssueId };
         default:
             assertNever(action);
             return state;
