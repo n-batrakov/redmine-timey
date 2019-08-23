@@ -135,19 +135,12 @@ const Form = (props: FormProps) => {
     );
 };
 
-const RedirectToTiming = () => {
-    const reset = useActions(resetEntryForm);
-
-    reset();
-    return <Redirect to="/time" />;
-};
-
 export const TimingPage = (props: RouteComponentProps<{ id: string }>) => {
     const success = useAppState(x => x.timingsForm.success);
 
-    if (success) {
-        return <RedirectToTiming />;
-    }
+    const resetStore = useActions(resetEntryForm) as () => void;
+    React.useEffect(() => resetStore, []);
+    if (success) return <Redirect to="/time" />;
 
     return (
         <PageLayout
