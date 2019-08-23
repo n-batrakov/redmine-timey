@@ -67,7 +67,7 @@ export const IssueFilterForm = (props: IssueFilterProps) => {
 
             <FormRow floatRight inline>
                 <label htmlFor="filter-toggle-input" className="btn">Cancel</label>
-                <Button submit type="primary" value="Apply" />
+                <Button type="submit" kind="primary" label="Apply" />
             </FormRow>
         </Form>
     );

@@ -83,14 +83,14 @@ export const TimingForm = (props: TimingFormProps) => {
                 {
                     props.showDelete
                         ? <Button
-                            value="Delete"
-                            type="danger"
+                            label="Delete"
+                            kind="danger"
                             style={{ marginRight: 'auto', marginLeft: 0 }}
                             onClick={onDeleteClick} />
                         : null
                 }
-                <Button value="Cancel" onClick={props.onClose}/>
-                <Button value={props.submitLabel || 'Save'} type="primary" submit disabled={props.disabled} />
+                <Button label="Cancel" onClick={props.onClose}/>
+                <Button label={props.submitLabel || 'Save'} kind="primary" type="submit" disabled={props.disabled} />
             </FormRow>
         </Form>
     );

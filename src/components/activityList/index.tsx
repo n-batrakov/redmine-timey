@@ -60,7 +60,7 @@ const AddAcivityButton = (props: { onClick?: () => void }) => (
         <Button
             tooltip="Add timing"
             size="small"
-            value={<IconAdd/>}
+            label={<IconAdd/>}
             style={{ marginLeft: 'auto' }}
             onClick={props.onClick}
         />

@@ -37,8 +37,8 @@ const LoginForm = (props: LoginFormProps) => {
             </FormRow>
             <FormRow floatRight>
                 <Button
-                    submit
-                    value="Log in"
+                    type="submit"
+                    label="Log in"
                     className="timey-login-page-btn"
                     disabled={props.loading}
                 />
@@ -84,7 +84,7 @@ export const LogoutPage = (props: LogoutPageProps) => {
             <div className="timey-login-page-content">
                 <LoginLogo loading={props.loading} />
                 <p>You're logged out. Hope to see you back soon!</p>
-                <Button value="Log in" className="timey-login-page-btn" onClick={props.onLoginRedirect} />
+                <Button label="Log in" className="timey-login-page-btn" onClick={props.onLoginRedirect} />
             </div>
         </div>
     );
