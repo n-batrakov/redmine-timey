@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { RouteComponentProps } from 'react-router';
+import { RouteComponentProps, Redirect } from 'react-router';
 import { useSelector } from 'react-redux';
 import { tryParseDate } from '../shared/date';
 import { bind } from '../shared';
@@ -15,8 +15,9 @@ import { Issues } from './issues';
 import { AppState, useAppState } from '../store';
 import { Enumeration } from '../shared/types';
 import { applyFilter, selectIssue, loadIssues, mapFilterToForm } from '../store/issues/actions';
-import { addTimesheetEntry, updateTimesheetEntry, deleteTimesheetEntry, loadTimesheetEntry } from '../store/timing/actions';
+import { addTimesheetEntry, updateTimesheetEntry, deleteTimesheetEntry, loadTimesheetEntry, resetEntryForm } from '../store/timing/actions';
 import { useActions, useCombine } from '../hooks';
+import { Loader } from '../components/preloader';
 
 
 type PageLayoutProps = {
@@ -93,8 +94,6 @@ const Filter = () => {
 
 type FormProps = {
     onCancel?: () => void,
-    onSubmit?: () => void,
-    onDelete?: () => void,
 };
 
 const Form = (props: FormProps) => {
@@ -103,20 +102,6 @@ const Form = (props: FormProps) => {
     const activities = useSelector<AppState, Enumeration>(x => x.enumerations.activity);
     const actions = useActions({ addTimesheetEntry, updateTimesheetEntry, deleteTimesheetEntry });
     const isCreate = state.entry === undefined;
-
-    const onSubmit = useCombine([
-        isCreate ? actions.addTimesheetEntry : actions.updateTimesheetEntry,
-        props.onSubmit,
-    ]);
-
-    const onDelete = useCombine([
-        actions.deleteTimesheetEntry,
-        props.onDelete,
-    ]);
-
-    if (state.loading) {
-        return null;
-    }
 
     const data = isCreate
         ? {
@@ -135,14 +120,21 @@ const Form = (props: FormProps) => {
                 data={data}
                 activities={activities}
                 submitLabel={isCreate ? 'Add' : 'Update'}
-                onSubmit={onSubmit}
+                onSubmit={isCreate ? actions.addTimesheetEntry : actions.updateTimesheetEntry}
                 onClose={props.onCancel}
 
                 showDelete={!isCreate}
-                onDelete={onDelete}
+                onDelete={actions.deleteTimesheetEntry}
             />
         </>
     );
+};
+
+const RedirectToTiming = () => {
+    const reset = useActions(resetEntryForm);
+
+    reset();
+    return <Redirect to="/time" />;
 };
 
 export const TimingPage = (props: RouteComponentProps<{ id: string }>) => {
@@ -157,13 +149,16 @@ export const TimingPage = (props: RouteComponentProps<{ id: string }>) => {
         [id],
     );
 
-    const gotoTimings = React.useCallback(() => props.history.push('/time'), []);
+    const success = useAppState(x => x.timingsForm.success);
+    if (success) {
+        return <RedirectToTiming />;
+    }
 
     return (
         <PageLayout
             filter={<Filter />}
             issues={<Issues />}
-            form={<Form onCancel={gotoTimings} onSubmit={gotoTimings} onDelete={gotoTimings} />}
+            form={<Form />}
         />
     );
 };
