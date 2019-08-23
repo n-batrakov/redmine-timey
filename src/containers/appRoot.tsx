@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Route, Switch, Redirect, NavLink } from 'react-router-dom';
-import { TimingsPageContainer } from './timingsPage';
+import { TimingsPageContainer } from './timingList';
 import { connect } from 'react-redux';
 import { AppState } from '../store';
 import { getSession } from '../store/auth/actions';
@@ -10,7 +10,7 @@ import { Navbar } from '../components/navbar';
 import { Logo } from '../components/logo';
 import { UserSession } from '../shared/types';
 import { NotFoundPage } from '../components/404';
-import { TimingPage } from './editTimingPage';
+import { TimingPage } from './timing';
 import { loadEnumerations } from '../store/enumerations/actions';
 
 type AuthRouterProps = {
