@@ -16,21 +16,16 @@
 }
 
 .filter-toggle-input:checked ~ .filter-toggle {
-    color: #2261a1;
-    border-color: #2261a1;
+    display: none;
 }
 .filter-toggle-input:checked ~ .issue-filter-content {
     display: flex;
 }
 
 
-
 .issue-filter.togglable {
     display: flex;
     flex-direction: column;
-}
-.issue-filter.togglable .filter-toggle-input:checked ~ .filter-toggle {
-    display: none;
 }
 
 
@@ -49,10 +44,8 @@
 }
 
 .issue-filter.overflow .issue-filter-content {
-    position: fixed;
     width: 300px;
     height: 100%;
     background: #fff;
     padding: 10px 30px;
-    box-shadow: 1px 1px 4px rgba(30, 30, 30, .6);
 }
