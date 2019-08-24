@@ -1,55 +1,65 @@
-const path = require('path');
+const merge = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
-module.exports = {
-    mode: 'development',
-    target: 'web',
-    entry: './src/index.tsx',
-    output: {
-        filename: "[name].js",
-        path: path.resolve(__dirname, 'dist'),
-        publicPath: '/'
-    },
-    plugins: [
-        new HtmlWebpackPlugin({
-            template: 'src/index.html'
-        }),
-        new CopyWebpackPlugin([{
-            from: 'src/static',
-            to: ''
-        }]),
-    ],
-    resolve: {
-        extensions: ['.js', '.json', '.ts', '.tsx'],
-    },
-    module: {
-        rules: [
-            {
-                test: /\.(ts|tsx)$/,
-                use: 'awesome-typescript-loader'
-            },{
-                test: /\.css$/,
-                use: [
-                    { loader: "style-loader" },
-                    { loader: "css-loader" }
-                ]
-            },{
-                test: /\.(png|jpg|gif)$/,
-                use: [
-                    {
-                        loader: 'file-loader',
-                        options: {},
-                    },
-                ],
-            }
-        ]
-    },
-    devtool: 'source-map',
-    optimization: {
-        splitChunks: {
-            chunks: 'all'
+const { src, dist } = require('./build/directories')(__dirname);
+const typescript = require('./build/typescript.config');
+const styles = require('./build/styles.config');
+
+const mode = process.env.NODE_ENV || 'development';
+const dev = mode === 'development';
+console.log(`BUILD STARTED IN '${mode}' MODE\n`);
+
+const client = merge(
+    typescript({ mode, modules: [src()] }),
+    styles({ mode, out: 'index.css' }),
+    {
+        mode,
+        target: 'web',
+        entry: src('index.tsx'),
+        output: dev
+            ? {
+                filename: "[name].js",
+                path: dist(),
+                publicPath: '/'
+            } : {
+                filename: "[name].[hash].js",
+                path: dist('public'),
+                publicPath: '/'
+            },
+        plugins: [
+            new HtmlWebpackPlugin({ template: src('index.html') }),
+            new CopyWebpackPlugin([{ from: src('static'), to: '' }]),
+        ],
+        devtool: 'source-map',
+        optimization: {
+            splitChunks: {
+                chunks: 'all'
+            },
         },
-        minimizer: []
-    }
-};
+    },
+);
+
+const server = merge(
+    typescript({ mode, modules: [ src() ]}),
+    {
+        mode,
+        target: 'node',
+        entry: src('server', 'index.ts'),
+        output: {
+            filename: "index.js",
+            path: dist(),
+        },
+        node: {
+            __dirname: false,
+        },
+        plugins: [
+            new CopyWebpackPlugin([{ from: 'calendar.csv', to: 'calendar.csv' }]),
+        ],
+        optimization: {
+            minimize: false
+        }
+    },
+);
+
+module.exports = dev ? [client] : [client, server];
