@@ -1,17 +1,18 @@
 import * as React from 'react';
-import { Route, Switch, Redirect, NavLink } from 'react-router-dom';
-import { TimingsPageContainer } from '../features/activityOverview/containers/timingList';
 import { connect } from 'react-redux';
-import { AppState } from '../store';
-import { getSession } from '../features/auth/state/actions';
-import { assertNever } from '../shared/utils';
-import { LoginPageContainer, LogoutPageContainer } from '../features/auth/containers/auth';
-import { Navbar } from '../components/navbar';
-import { Logo } from '../components/logo';
-import { UserSession } from '../shared/types';
-import { NotFoundPage } from '../components/404';
-import { TimingPage } from '../features/timeEntry/containers/timing';
-import { loadEnumerations } from '../features/enumerations/state/actions';
+import { Route, Switch, Redirect, NavLink } from 'react-router-dom';
+import { AppState } from 'store';
+import { assertNever } from 'shared/utils';
+import { UserSession } from 'shared/types';
+import { Navbar } from 'components/navbar';
+import { Logo } from 'components/logo';
+import { NotFoundPage } from 'components/404';
+
+import { LoginPageContainer, LogoutPageContainer } from 'features/auth/containers/auth';
+import { TimingsPageContainer } from 'features/activityOverview/containers/timingList';
+import { TimingPage } from 'features/timeEntry/containers/timing';
+import { getSession } from 'features/auth/state/actions';
+import { loadEnumerations } from 'features/enumerations/state/actions';
 
 type AuthRouterProps = {
     isLoggedIn?: boolean,
