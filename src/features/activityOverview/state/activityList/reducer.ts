@@ -1,4 +1,4 @@
-import { assertNever } from '../../shared';
+import { assertNever } from 'shared';
 import { ActivityListAction, ActivityListState } from './types';
 
 

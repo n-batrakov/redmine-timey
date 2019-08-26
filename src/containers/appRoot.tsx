@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Route, Switch, Redirect, NavLink } from 'react-router-dom';
-import { TimingsPageContainer } from './timingList';
+import { TimingsPageContainer } from '../features/activityOverview/containers/timingList';
 import { connect } from 'react-redux';
 import { AppState } from '../store';
 import { getSession } from '../features/auth/state/actions';

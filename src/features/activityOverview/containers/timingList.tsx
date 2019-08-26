@@ -2,18 +2,16 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 
-import { addDays, toISODate, tryParseDate } from '../shared/date';
-
-import { AppState } from '../store';
+import { Container } from 'components/container';
+import { MobileScreen, MobileScreenHidden } from 'components/mediaQuery';
+import { addDays, toISODate, tryParseDate } from 'shared/date';
+import { TimesheetEntry } from 'shared/types';
+import { AppState } from 'store';
 
 import { ActivityListContainer } from './activityList';
 import { ActivityHeatmap } from '../components/activityHeatmap';
 import { HoursGauge, HoursGaugeProps } from '../components/hoursGauge';
-
-import { loadData } from '../store/timingList/actions';
-import { Container } from '../components/container';
-import { MobileScreen, MobileScreenHidden } from '../components/mediaQuery';
-import { TimesheetEntry } from '../shared/types';
+import { loadData } from '../state/timingList/actions';
 
 
 const parseSelectedDate = (str: string): Date => {

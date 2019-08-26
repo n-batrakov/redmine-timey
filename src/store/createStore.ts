@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux';
-import { reducer as activityListReducer } from './activityList/reducer';
-import { reducer as timingsPageReducer }  from './timingList/reducer';
+import { reducer as activityListReducer } from '../features/activityOverview/state/activityList/reducer';
+import { reducer as timingsPageReducer }  from '../features/activityOverview/state/timingList/reducer';
 import { reducer as timingsFormReducer }  from '../features/timeEntry/state/timing/reducer';
 import { reducer as issuesReducer } from 'features/timeEntry/state/issues/reducer';
 import { reducer as enumerationsReducer } from './enumerations/reducer';

@@ -1,6 +1,6 @@
 import { AppState, AppAction } from '..';
-import { initState as actitivityListInitState } from '../activityList/reducer';
-import { initialState as timingsPageInitState }  from '../timingList/reducer';
+import { initState as actitivityListInitState } from 'features/activityOverview/state/activityList/reducer';
+import { initialState as timingsPageInitState }  from 'features/activityOverview/state/timingList/reducer';
 import { initialState as timingsFormInitState }  from 'features/timeEntry/state/timing/reducer';
 import { initState as issuesInitState } from 'features/timeEntry/state/issues/reducer';
 

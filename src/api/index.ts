@@ -10,10 +10,11 @@ import login from 'features/auth/api/login/handler';
 import logout from 'features/auth/api/logout/handler';
 import getSession from 'features/auth/api/getSession/handler';
 
-import queryTimings from './queryTimings/handler';
-import getDailyHours from './getDailyHours/handler';
+import queryTimings from 'features/activityOverview/api/queryTimings/handler';
+import getDailyHours from 'features/activityOverview/api/getDailyHours/handler';
+import getMonthNorm from 'features/activityOverview/api/getMonthNorm/handler';
+
 import getEnumerations from './getEnumerations/handler';
-import getMonthNorm from './getMonthNorm/handler';
 
 export default <RegisterHandler[]> [
     addTimings,

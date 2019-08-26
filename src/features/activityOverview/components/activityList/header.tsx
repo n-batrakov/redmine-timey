@@ -1,6 +1,6 @@
 import './header.scss';
 import * as React from 'react';
-import { Breadcrumbs, Crumb } from '../breadcrumbs';
+import { Breadcrumbs, Crumb } from 'components/breadcrumbs';
 import { NavLink } from 'react-router-dom';
 
 const showIf = (condition: boolean): React.CSSProperties | undefined => condition ? undefined : { display: 'none' };

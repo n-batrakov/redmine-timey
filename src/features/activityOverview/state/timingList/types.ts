@@ -1,8 +1,8 @@
+import { Dispatch, Action } from 'redux';
+import { AppState } from 'store';
+import { ThunkAction } from 'store/thunk';
 import { ActivityHeatmapProps } from '../../components/activityHeatmap';
 import { HoursGaugeProps } from '../../components/hoursGauge';
-import { Dispatch, Action } from 'redux';
-import { AppState } from '..';
-import { ThunkAction } from '../thunk';
 
 export type TimingsPageState = {
     isLoading: boolean,

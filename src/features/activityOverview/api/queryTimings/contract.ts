@@ -1,7 +1,7 @@
-import { RequestMetadata } from '../../shared/http';
-import { TimesheetEntry } from '../../shared/types';
-import schema from '../../shared/schema';
-import { EntityList } from '../../shared/dataSource';
+import { RequestMetadata } from 'shared/http';
+import { TimesheetEntry } from 'shared/types';
+import schema from 'shared/schema';
+import { EntityList } from 'shared/dataSource';
 
 export const metadata: RequestMetadata = {
     method: 'GET',

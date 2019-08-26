@@ -1,7 +1,7 @@
 import './index.scss';
 import * as React from 'react';
 import CalendarHeatmap from 'react-calendar-heatmap';
-import { getRange, toISODate } from '../../shared/date';
+import { getRange, toISODate } from 'shared/date';
 
 const colorThresholds = [
     [0, 1, '0'],

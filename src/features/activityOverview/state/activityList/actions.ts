@@ -1,4 +1,4 @@
-import { TimesheetEntry } from '../../shared/types';
+import { TimesheetEntry } from 'shared/types';
 import { ActivityListAction, ActivityListThunk } from './types';
 
 import { queryTimings } from '../../api/queryTimings';

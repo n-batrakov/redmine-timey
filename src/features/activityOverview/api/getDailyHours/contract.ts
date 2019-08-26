@@ -1,5 +1,5 @@
-import { RequestMetadata } from '../../shared/http';
-import schema from '../../shared/schema';
+import { RequestMetadata } from 'shared/http';
+import schema from 'shared/schema';
 
 export const metadata: RequestMetadata = {
     method: 'GET',

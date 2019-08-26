@@ -1,7 +1,7 @@
-import { RegisterHandler } from '../../server/shared';
-import { authenticate, getCredentials } from '../../server/auth';
-import { getTimesheetData } from '../../server/getTimesheetData';
-import { TimesheetEntry } from '../../shared/types';
+import { RegisterHandler } from 'server/shared';
+import { authenticate, getCredentials } from 'server/auth';
+import { getTimesheetData } from 'server/getTimesheetData';
+import { TimesheetEntry } from 'shared/types';
 import { metadata } from './contract';
 
 const handler: RegisterHandler = (server, { redmine }) => server.route({

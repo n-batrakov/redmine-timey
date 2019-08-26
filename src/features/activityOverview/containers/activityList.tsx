@@ -1,14 +1,14 @@
 import * as React from 'react';
-import * as Store from '../store/activityList/actions';
 import { connect } from 'react-redux';
 
-import { TimesheetEntry } from '../shared/types';
-import { AppState } from '../store';
+import { Loader } from 'components/preloader';
+import { addDays, toISODate } from 'shared/date';
+import { TimesheetEntry } from 'shared/types';
+import { AppState } from 'store';
 
-import { ActivityList } from '../components/activityList';
-import { Loader } from '../components/preloader';
-import { addDays, toISODate } from '../shared/date';
+import * as Store from '../state/activityList/actions';
 import { ActivityListHeader } from '../components/activityList/header';
+import { ActivityList } from '../components/activityList';
 
 type ActivityListContainerProps = {
     date?: Date,

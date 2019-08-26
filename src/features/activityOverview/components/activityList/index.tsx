@@ -1,15 +1,16 @@
 import './index.scss';
 import * as React from 'react';
 
-import { IssueHeader } from '../issueHeader';
+import { IssueHeader } from 'components/issueHeader';
 
-import { getRange, toISODate } from '../../shared/date';
-import { TimesheetEntry, isTimesheetEntryEqual } from '../../shared/types';
-import { List, ListItem } from '../list';
-import { bind } from '../../shared';
+import { getRange, toISODate } from 'shared/date';
+import { TimesheetEntry, isTimesheetEntryEqual } from 'shared/types';
+import { List, ListItem } from 'components/list';
+import { bind } from 'shared';
 
-import { IconAdd } from '../icon';
-import { Button } from '../button';
+import { IconAdd } from 'components/icon';
+import { Button } from 'components/button';
+
 
 const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wedsday', 'Thursday', 'Friday', 'Saturday'];
 const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];

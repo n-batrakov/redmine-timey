@@ -1,6 +1,6 @@
 import { TimingsPageAction, TimingsPageThunk } from './types';
 
-import { addDays, getMonthBoundaries } from '../../shared/date';
+import { addDays, getMonthBoundaries } from 'shared/date';
 
 import { getDailyHours } from '../../api/getDailyHours';
 import { getMonthNorm } from '../../api/getMonthNorm';
