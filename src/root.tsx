@@ -1,9 +1,7 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
 import { Route, Switch, Redirect, NavLink } from 'react-router-dom';
-import { AppState } from 'state';
+import { useAppState, useActions } from 'state';
 import { assertNever } from 'shared/utils';
-import { UserSession } from 'shared/types';
 import { Navbar } from 'components/navbar';
 import { Logo } from 'components/logo';
 import { NotFoundPage } from 'components/404';
@@ -16,12 +14,9 @@ import { loadEnumerations } from 'features/enumerations/state/actions';
 
 type AuthRouterProps = {
     isLoggedIn?: boolean,
-    getSession: () => void,
     children?: React.ReactNode,
 };
 const AuthGuard = (props: AuthRouterProps) => {
-    React.useEffect(() => { props.getSession(); }, []);
-
     switch (props.isLoggedIn) {
         case undefined:
             return null;
@@ -39,23 +34,25 @@ const AuthGuard = (props: AuthRouterProps) => {
     }
 };
 
-type RootProps = {
-    session?: UserSession,
-    isLoggedIn?: boolean,
-    getSession: () => void,
-    loadEnumerations: () => void,
-};
-const Root = (props: RootProps) => {
-    React.useEffect(() => { props.loadEnumerations(); }, []);
+export const AppRoot = () => {
+    const isLoggedIn = useAppState(x => x.auth.isLoggedIn);
+    const session = useAppState(x => x.auth.session);
+    const actions = useActions({ getSession, loadEnumerations });
+    const redmineHref = session === undefined ? '#' : session.redmineHost;
 
-    const redmineHref = props.session === undefined ? '#' : props.session.redmineHost;
+    React.useEffect(
+        () => {
+            actions.loadEnumerations();
+            actions.getSession();
+        },
+        []);
 
     return (
         <Switch>
             <Route path="/login" component={LoginPageContainer} />
             <Route path="/logout" component={LogoutPageContainer} />
             <Route>
-                <AuthGuard {...props}>
+                <AuthGuard isLoggedIn={isLoggedIn}>
                     <Navbar
                         logo={<Logo/>}
                         items={[
@@ -77,13 +74,3 @@ const Root = (props: RootProps) => {
         </Switch>
     );
 };
-export const AppRoot = connect(
-    (state: AppState): Partial<RootProps> => ({
-        isLoggedIn: state.auth.isLoggedIn,
-        session: state.auth.session,
-    }),
-    {
-        getSession,
-        loadEnumerations,
-    },
-)(Root);

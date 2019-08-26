@@ -31,3 +31,5 @@ export type AppAction =
 export function useAppState<T>(selector: (s: AppState) => T, equalityFn?: (a: T, b: T) => boolean): T {
     return useSelector<AppState, T>(selector, equalityFn);
 }
+
+export { useActions } from 'hooks';
