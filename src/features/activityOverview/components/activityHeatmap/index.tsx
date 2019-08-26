@@ -32,8 +32,31 @@ const getHeatmapItemClass = (value: { count: number }, isLoading?: boolean) => {
     return `activity-heatmap-item ${getColorClass()}`;
 };
 
-const mapData = (start: Date, end: Date, data: Array<{ date: Date, count: number }>) => {
+export type ActivityHeatmapProps = {
+    startDate: Date,
+    endDate: Date,
+    data: Array<{ date: Date, count: number }>,
+    onClick?: (value: {date: Date, count: number}) => void,
+    loading?: boolean,
+};
 
+export const ActivityHeatmap = (props: ActivityHeatmapProps) => {
+    const values = mapData(props.startDate, props.endDate, props.data);
+        return (
+            <CalendarHeatmap
+                startDate={props.startDate}
+                endDate={props.endDate}
+                values={values}
+                classForValue={x => getHeatmapItemClass(x, props.loading)}
+                showWeekdayLabels={true}
+                gutterSize={1.5}
+                weekdayLabels={['Sun', 'M', 'Tue', 'W', 'Thu', 'F', 'Sat']}
+                onClick={props.onClick}
+            />
+        );
+};
+
+function mapData(start: Date, end: Date, data: Array<{ date: Date, count: number }>) {
     const range = Array.from(getRange(start, end));
 
     const lookup = data.reduce<any>(
@@ -50,36 +73,4 @@ const mapData = (start: Date, end: Date, data: Array<{ date: Date, count: number
 
         return lookup[key] || { date, count: 0 };
     });
-};
-
-export type ActivityHeatmapProps = {
-    startDate: Date,
-    endDate: Date,
-    data: Array<{ date: Date, count: number }>,
-    onClick?: (value: {date: Date, count: number}) => void,
-    loading?: boolean,
-};
-export class ActivityHeatmap extends React.Component<ActivityHeatmapProps> {
-    public render() {
-        const values = mapData(this.props.startDate, this.props.endDate, this.props.data);
-        return (
-            <CalendarHeatmap
-                startDate={this.props.startDate}
-                endDate={this.props.endDate}
-                values={values}
-                classForValue={x => getHeatmapItemClass(x, this.props.loading)}
-                showWeekdayLabels={true}
-                gutterSize={1.5}
-                weekdayLabels={['Sun', 'M', 'Tue', 'W', 'Thu', 'F', 'Sat']}
-                onClick={this.props.onClick}
-                tooltipDataAttrs={(value: any) => {
-                    return {
-                        'data-tip': value.count === null
-                        ? ''
-                        : `${value.date.toLocaleDateString()}<br/>${value.count} часов`,
-                    };
-                    }}
-            />
-        );
-    }
 }

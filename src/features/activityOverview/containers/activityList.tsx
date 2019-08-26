@@ -1,22 +1,17 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
 
 import { Loader } from 'components/preloader';
 import { addDays, toISODate } from 'shared/date';
 import { TimesheetEntry } from 'shared/types';
-import { AppState } from 'state';
+import { useAppState } from 'state';
 
-import * as Store from '../state/activityList/actions';
+import { loadTimingList } from '../state/activityList/actions';
 import { ActivityListHeader } from '../components/activityList/header';
 import { ActivityList } from '../components/activityList';
+import { useActions } from 'hooks';
 
 type ActivityListContainerProps = {
     date?: Date,
-    data: TimesheetEntry[],
-    isLoading: boolean,
-
-    loadData: (req: {start: Date, end: Date}) => void,
-
     onActivityClick?: (x: TimesheetEntry) => void,
     onActivityAddClick?: (date: Date) => void,
 };
@@ -26,36 +21,32 @@ const getOverviewTimeframe = (end: Date) => {
     return { start, end };
 };
 
-const hideIf = (condition: boolean): React.CSSProperties | undefined => condition ? { display: 'none' } : undefined;
-
-const List = (props: ActivityListContainerProps) => {
+export const ActivityListContainer = (props: ActivityListContainerProps) => {
     const isDaySelected = props.date !== undefined;
     const timeframe = isDaySelected
         ? { start: props.date!, end: props.date! }
         : getOverviewTimeframe(new Date());
 
-    React.useEffect(() => { props.loadData(timeframe); }, [toISODate(timeframe.start), toISODate(timeframe.end)]);
+    React.useEffect(() => { loadData(timeframe); }, [toISODate(timeframe.start), toISODate(timeframe.end)]);
+    const state = useAppState(x => x.activityList);
+    const loadData = useActions(loadTimingList);
 
     return (
         <>
             <div className="activity-overview" style={{ width: 800 }}>
                 <ActivityListHeader date={isDaySelected ? timeframe.start : undefined} />
-                <Loader active={props.isLoading} />
+                <Loader active={state.isLoading} />
 
-                <div style={hideIf(props.isLoading)}>
-                    <ActivityList {...props} {...timeframe} />
+                <div style={state.isLoading ? { display: 'none' } : undefined}>
+                    <ActivityList
+                        start={timeframe.start}
+                        end={timeframe.end}
+                        data={state.data}
+                        onActivityClick={props.onActivityClick}
+                        onActivityAddClick={props.onActivityAddClick}
+                    />
                 </div>
             </div>
         </>
     );
 };
-
-export const ActivityListContainer = connect(
-    (state: AppState, props: Partial<ActivityListContainerProps>): Partial<ActivityListContainerProps> => ({
-        ...props,
-        ...state.activityList,
-    }),
-    {
-        loadData: Store.loadData,
-    },
-)(List);

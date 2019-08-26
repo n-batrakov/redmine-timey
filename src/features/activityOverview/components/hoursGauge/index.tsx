@@ -25,9 +25,9 @@ const getColor = (percent: number) => {
     return defaultColor;
 };
 
-export class HoursGauge extends React.Component<HoursGaugeProps> {
-    public render() {
-        const { actualValue, expectedValue } = this.props;
+export const HoursGauge = React.memo(
+    (props: HoursGaugeProps) => {
+        const { actualValue, expectedValue } = props;
         const remaining = expectedValue - actualValue;
         const percent = (actualValue / expectedValue) * 100;
 
@@ -41,5 +41,6 @@ export class HoursGauge extends React.Component<HoursGaugeProps> {
                 <span style={{ margin: 'auto', fontSize: '10pt', marginTop: 5 }}>{message}</span>
             </div>
         );
-    }
-}
+    },
+    (a, b) => a.actualValue === b.actualValue && a.expectedValue === b.expectedValue,
+);

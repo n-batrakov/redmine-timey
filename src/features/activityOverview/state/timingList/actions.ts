@@ -18,7 +18,7 @@ export const setData = (data: {heatmap: ActivityHeatmapProps, gauge: HoursGaugeP
     type: 'timings_setData',
 });
 
-export const loadData = (): TimingsPageThunk =>
+export const loadTimingPageData = (): TimingsPageThunk =>
     async (dispatch) => {
         const now = new Date();
 
