@@ -1,7 +1,7 @@
+import { toISODate } from 'shared/date';
+import { TimesheetEntry } from 'shared/types';
+import { assertNever } from 'shared';
 import { RedmineClient, RedmineErrorResponse } from './redmine';
-import { toISODate } from '../shared/date';
-import { NamedId, TimesheetEntry } from '../shared/types';
-import { assertNever } from '../shared';
 import { mapOutgoing } from './redmineMappings';
 
 export type TimesheetRequest = {
