@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { Redirect, RouteComponentProps } from 'react-router';
-import { useAppState } from 'state';
+import { useAppState, useActions } from 'state';
 import { LoginPage, LogoutPage } from '../components/login';
 import { login, logout } from '../state/actions';
-import { useActions } from 'hooks';
+
 
 const loginErrors = (errors: string[]) => React.useMemo(
     () => {

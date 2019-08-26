@@ -5,13 +5,12 @@ import { Container } from 'components/container';
 import { MobileScreen, MobileScreenHidden } from 'components/mediaQuery';
 import { addDays, toISODate, tryParseDate } from 'shared/date';
 import { TimesheetEntry } from 'shared/types';
-import { useAppState } from 'state';
+import { useAppState, useActions } from 'state';
 
 import { ActivityListContainer } from './activityList';
 import { ActivityHeatmap } from '../components/activityHeatmap';
 import { HoursGauge } from '../components/hoursGauge';
 import { loadTimingPageData } from '../state/timingList/actions';
-import { useActions } from 'hooks';
 
 
 const gotoDayOverviewPage = (props: RouteComponentProps) => React.useCallback(

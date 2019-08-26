@@ -3,12 +3,12 @@ import * as React from 'react';
 import { Loader } from 'components/preloader';
 import { addDays, toISODate } from 'shared/date';
 import { TimesheetEntry } from 'shared/types';
-import { useAppState } from 'state';
+import { useAppState, useActions } from 'state';
 
 import { loadTimingList } from '../state/activityList/actions';
 import { ActivityListHeader } from '../components/activityList/header';
 import { ActivityList } from '../components/activityList';
-import { useActions } from 'hooks';
+
 
 type ActivityListContainerProps = {
     date?: Date,
