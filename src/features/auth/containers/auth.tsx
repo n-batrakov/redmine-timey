@@ -1,68 +1,43 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { Redirect } from 'react-router';
-import { AppState } from 'state';
+import { Redirect, RouteComponentProps } from 'react-router';
+import { useAppState } from 'state';
 import { LoginPage, LogoutPage } from '../components/login';
 import { login, logout } from '../state/actions';
+import { useActions } from 'hooks';
 
-const loginErrors = (props: { errors: string[] }) => React.useMemo(
+const loginErrors = (errors: string[]) => React.useMemo(
     () => {
-        if (props.errors === undefined || props.errors.length === 0) {
+        if (errors === undefined || errors.length === 0) {
             return undefined;
         } else {
-            return <ul>{props.errors.map((x, i) => <li key={i}>{x}</li>)}</ul>;
+            return <ul>{errors.map((x, i) => <li key={i}>{x}</li>)}</ul>;
         }
     },
-    [props.errors],
+    [errors],
 );
 
-export type LoginContainerProps = {
-    isLoggedIn: boolean,
-    loading?: boolean,
-    login: (credentials: {login: string, password: string}) => void,
-    errors: string[],
-};
-const LoginPageComponent = (props: LoginContainerProps) => {
-    if (props.isLoggedIn) {
+export const LoginPageContainer = () => {
+    const state = useAppState(x => x.auth);
+    const onSubmit = useActions(login);
+
+    if (state.isLoggedIn) {
         return <Redirect to="/" />;
     }
 
     return (
-        <LoginPage loading={props.loading} onSubmit={props.login} error={loginErrors(props)} />
+        <LoginPage loading={state.loading} onSubmit={onSubmit} error={loginErrors(state.loginErrors)} />
     );
 };
-export const LoginPageContainer = connect(
-    (state: AppState, props: LoginContainerProps): Partial<LoginContainerProps> => ({
-        ...props,
-        isLoggedIn: state.auth.isLoggedIn,
-        errors: state.auth.loginErrors,
-        loading: state.auth.loading,
-    }),
-    {
-        login,
-    },
-)(LoginPageComponent);
 
 
-type LogoutPageProps = {
-    isLoggedIn: boolean,
-    logout: () => void,
-    history: { push: (path: string) => void },
-};
-const LogoutPageComponent = (props: LogoutPageProps) => {
-    if (props.isLoggedIn === undefined || props.isLoggedIn) {
-        props.logout();
+export const LogoutPageContainer = (props: RouteComponentProps) => {
+    const isLoggedIn = useAppState(x => x.auth.isLoggedIn);
+    const onLogout = useActions(logout);
+    const onRedirect = React.useCallback(() => props.history.push('/login'), []);
+
+    if (isLoggedIn === undefined || isLoggedIn) {
+        onLogout();
     }
 
-    const onRedirect = React.useCallback(() => props.history.push('/login'), []);
     return <LogoutPage onLoginRedirect={onRedirect} />;
 };
-export const LogoutPageContainer = connect(
-    (state: AppState, props: LogoutPageProps): Partial<LogoutPageProps> => ({
-        isLoggedIn: state.auth.isLoggedIn,
-        ...props,
-    }),
-    {
-        logout,
-    },
-)(LogoutPageComponent);
