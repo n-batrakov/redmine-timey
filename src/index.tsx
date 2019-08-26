@@ -6,7 +6,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from './state/createStore';
 
-import { AppRoot } from './containers/appRoot';
+import { AppRoot } from './root';
 
 console.log('Do you have a problem, question or suggestion? Please, visit: https://github.com/n-batrakov/redmine-timey/issues/new');
 
