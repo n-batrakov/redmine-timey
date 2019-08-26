@@ -4,7 +4,7 @@ import { TimingsPageContainer } from '../features/activityOverview/containers/ti
 import { connect } from 'react-redux';
 import { AppState } from '../store';
 import { getSession } from '../features/auth/state/actions';
-import { assertNever } from '../shared';
+import { assertNever } from '../shared/utils';
 import { LoginPageContainer, LogoutPageContainer } from '../features/auth/containers/auth';
 import { Navbar } from '../components/navbar';
 import { Logo } from '../components/logo';

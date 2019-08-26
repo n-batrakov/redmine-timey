@@ -1,6 +1,6 @@
 import { toISODate } from 'shared/date';
 import { TimesheetEntry } from 'shared/types';
-import { assertNever } from 'shared';
+import { assertNever } from 'shared/utils';
 import { RedmineClient, RedmineErrorResponse } from './redmine';
 import { mapOutgoing } from './redmineMappings';
 

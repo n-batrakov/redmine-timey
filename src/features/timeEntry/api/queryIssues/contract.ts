@@ -1,5 +1,4 @@
 import { RequestMetadata } from 'shared/http';
-import { EntityList } from 'shared/dataSource';
 import { Issue } from 'shared/types';
 import Schema from 'shared/schema';
 
@@ -29,4 +28,10 @@ export type QueryIssueRequest = {
     query?: string,
 };
 
-export type QueryIssuesResponse = EntityList<Issue>;
+export type QueryIssuesResponse = {
+    code: 'Success',
+    limit: number,
+    offset: number,
+    totalCount: number,
+    data: Issue[],
+};

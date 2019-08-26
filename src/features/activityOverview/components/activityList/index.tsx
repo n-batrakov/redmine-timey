@@ -6,7 +6,7 @@ import { IssueHeader } from 'components/issueHeader';
 import { getRange, toISODate } from 'shared/date';
 import { TimesheetEntry, isTimesheetEntryEqual } from 'shared/types';
 import { List, ListItem } from 'components/list';
-import { bind } from 'shared';
+import { bind } from 'shared/utils';
 
 import { IconAdd } from 'components/icon';
 import { Button } from 'components/button';

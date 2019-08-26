@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { RouteComponentProps, Redirect } from 'react-router';
 import { tryParseDate } from 'shared/date';
-import { bind } from 'shared';
+import { bind } from 'shared/utils';
 import { Container } from 'components/container';
 import { MobileScreen, MobileScreenHidden } from 'components/mediaQuery';
 import { Tabs, TabList, TabPanel, Tab } from 'components/tabs';

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Enumeration, TimesheetEntry } from '../../../../shared/types';
 import { Form, FormRow } from '../../../../components/form';
-import { toArray } from '../../../../shared';
+import { toArray } from '../../../../shared/utils';
 import { Button } from '../../../../components/button';
 import { toISODate } from '../../../../shared/date';
 

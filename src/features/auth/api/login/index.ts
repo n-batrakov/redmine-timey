@@ -1,6 +1,6 @@
 import { metadata } from './contract';
 import { jsonContentType } from 'shared/http';
-import { wait } from 'shared';
+import { wait } from 'shared/utils';
 import { UserSession } from 'shared/types';
 
 export type AuthenticationResponse = {

@@ -1,6 +1,6 @@
 import './index.scss';
 import * as React from 'react';
-import { assertNever } from '../../shared';
+import { assertNever } from '../../shared/utils';
 
 const getBtnClass = ({ kind: type, size, className }: ButtonProps) => {
     const getTypeClass = () => {

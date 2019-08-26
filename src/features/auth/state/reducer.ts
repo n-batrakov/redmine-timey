@@ -1,4 +1,4 @@
-import { assertNever } from 'shared';
+import { assertNever } from 'shared/utils';
 import { AuthState, AuthAction } from './types';
 
 export const initState: AuthState = {

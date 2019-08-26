@@ -2,7 +2,7 @@ import { metadata } from './contract';
 import { RegisterHandler } from 'server/shared';
 import { DayType } from 'server/workHoursNorm';
 import { addDays, getRange, getMonthBoundaries } from 'shared/date';
-import { assertNever } from 'shared';
+import { assertNever } from 'shared/utils';
 
 const handler: RegisterHandler = (server, { calendar }) => server.route({
     ...metadata,

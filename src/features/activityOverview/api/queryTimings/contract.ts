@@ -1,7 +1,6 @@
 import { RequestMetadata } from 'shared/http';
 import { TimesheetEntry } from 'shared/types';
 import schema from 'shared/schema';
-import { EntityList } from 'shared/dataSource';
 
 export const metadata: RequestMetadata = {
     method: 'GET',
@@ -22,4 +21,10 @@ export type QueryTimingsRequest = {
     end: Date,
 };
 
-export type QueryTimingResponse = EntityList<TimesheetEntry>;
+export type QueryTimingResponse = {
+    code: 'Success',
+    limit: number,
+    offset: number,
+    totalCount: number,
+    data: TimesheetEntry[],
+};

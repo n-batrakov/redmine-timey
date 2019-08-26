@@ -1,4 +1,4 @@
-import { notNullOrUndefined } from 'shared';
+import { notNullOrUndefined } from 'shared/utils';
 import { useCallback } from 'react';
 
 export function useCombine<T extends (...args: any[]) => void>(functions: Array<T | undefined>, deps: any[] = []): T {
