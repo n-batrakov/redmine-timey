@@ -1,5 +1,4 @@
-import { AppState } from 'state';
-import { ThunkAction } from 'state/thunk';
+import { AppState, ThunkAction } from 'state';
 import { EnumerationsLookup } from 'shared/types';
 
 export type EnumerationsState = EnumerationsLookup & {

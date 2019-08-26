@@ -1,8 +1,7 @@
 import { Dispatch, Action } from 'redux';
 
 import { TimesheetEntry } from 'shared/types';
-import { AppState } from 'state';
-import { ThunkAction } from 'state/thunk';
+import { AppState, ThunkAction } from 'state';
 
 export type ActivityListState = {
     data: TimesheetEntry[],
