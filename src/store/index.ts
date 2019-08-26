@@ -2,7 +2,7 @@ import { TimingsPageAction, TimingsPageState } from './timingList/types';
 import { ActivityListAction, ActivityListState } from './activityList/types';
 import { EnumerationsAction, EnumerationsState } from './enumerations/types';
 import { IssuesAction, IssuesState } from './issues/types';
-import { AuthAction, AuthState } from './auth/types';
+import { AuthAction, AuthState } from '../features/auth/state/types';
 import { TimingsFormAction, TimingsFormState } from './timing/types';
 import { useSelector } from 'react-redux';
 

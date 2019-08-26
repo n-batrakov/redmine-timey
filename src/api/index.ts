@@ -8,9 +8,9 @@ import queryIssues from './queryIssues/handler';
 import getDailyHours from './getDailyHours/handler';
 import getEnumerations from './getEnumerations/handler';
 import getMonthNorm from './getMonthNorm/handler';
-import login from './login/handler';
-import logout from './logout/handler';
-import getSession from './getSession/handler';
+import login from '../features/auth/api/login/handler';
+import logout from '../features/auth/api/logout/handler';
+import getSession from '../features/auth/api/getSession/handler';
 import fetchTiming from './fetchTiming/handler';
 
 export default <RegisterHandler[]> [

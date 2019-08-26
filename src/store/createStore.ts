@@ -4,7 +4,7 @@ import { reducer as timingsPageReducer }  from './timingList/reducer';
 import { reducer as timingsFormReducer }  from './timing/reducer';
 import { reducer as issuesReducer } from './issues/reducer';
 import { reducer as enumerationsReducer } from './enumerations/reducer';
-import { reducer as authReducer } from './auth/reducer';
+import { reducer as authReducer } from '../features/auth/state/reducer';
 import { reducer as globalReducer } from './@global/reducer';
 import { createThunkMiddleware } from './thunk';
 import { sumReducers } from './composition';

@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { LoginPage, LogoutPage } from '../components/login';
-import { AppState } from '../store';
-import { login, logout } from '../store/auth/actions';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
+import { AppState } from 'store';
+import { LoginPage, LogoutPage } from '../components/login';
+import { login, logout } from '../state/actions';
 
 const loginErrors = (props: { errors: string[] }) => React.useMemo(
     () => {

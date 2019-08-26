@@ -1,6 +1,6 @@
-import { AppState } from '..';
-import { ThunkAction } from '../thunk';
-import { UserSession } from '../../shared/types';
+import { AppState } from 'store';
+import { ThunkAction } from 'store/thunk';
+import { UserSession } from 'shared/types';
 
 export type AuthState = {
     isLoggedIn?: boolean,

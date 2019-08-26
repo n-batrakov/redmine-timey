@@ -1,9 +1,9 @@
-import { metadata, LoginRequest, LoginResponse } from './contract';
-import { RegisterHandler } from '../../server/shared';
 import jwt from 'jsonwebtoken';
-import { secret, tokenSignOptions, cookieName, cookieOptions } from '../../server/authSettings';
-import { encodeBasicCredentials } from '../../server/auth';
 import fetch from 'node-fetch';
+import { encodeBasicCredentials } from 'server/auth';
+import { secret, tokenSignOptions, cookieName, cookieOptions } from 'server/authSettings';
+import { RegisterHandler } from 'server/shared';
+import { metadata, LoginRequest, LoginResponse } from './contract';
 
 const verifyRedmineCredentials = async (redmineHost: string, login: string, password: string) => {
     const response = await fetch(`${redmineHost}/trackers.json`, {

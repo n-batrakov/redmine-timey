@@ -1,7 +1,7 @@
 import { AuthThunk } from './types';
-import { login as loginApi } from '../../api/login';
-import { logout as logoutApi } from '../../api/logout';
-import { getSession as getSessionApi } from '../../api/getSession';
+import { login as loginApi } from '../api/login';
+import { logout as logoutApi } from '../api/logout';
+import { getSession as getSessionApi } from '../api/getSession';
 
 type Credentials = {login: string, password: string};
 export const login = (credentials: Credentials): AuthThunk =>

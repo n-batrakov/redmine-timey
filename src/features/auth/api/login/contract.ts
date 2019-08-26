@@ -1,6 +1,6 @@
-import { RequestMetadata } from '../../shared/http';
-import schema from '../../shared/schema';
-import { UserSession } from '../../shared/types';
+import { RequestMetadata } from 'shared/http';
+import schema from 'shared/schema';
+import { UserSession } from 'shared/types';
 
 export const metadata: RequestMetadata = {
     method: 'POST',

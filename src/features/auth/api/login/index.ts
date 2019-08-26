@@ -1,7 +1,7 @@
 import { metadata } from './contract';
-import { jsonContentType } from '../../shared/http';
-import { wait } from '../../shared';
-import { UserSession } from '../../shared/types';
+import { jsonContentType } from 'shared/http';
+import { wait } from 'shared';
+import { UserSession } from 'shared/types';
 
 export type AuthenticationResponse = {
     status: 'success',

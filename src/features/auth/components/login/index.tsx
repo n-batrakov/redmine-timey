@@ -1,9 +1,9 @@
 import './index.scss';
 import * as React from 'react';
-import { Form, FormRow } from '../form';
-import { Button } from '../button';
-import { AnimatedClock } from '../animatedClock';
-import { Danger } from '../alert';
+import { Form, FormRow } from 'components/form';
+import { Button } from 'components/button';
+import { AnimatedClock } from 'components/animatedClock';
+import { Danger } from 'components/alert';
 
 type LoginFormProps = {
     onSubmit?: (data: { login: string, password: string}) => void,

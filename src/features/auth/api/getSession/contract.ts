@@ -1,5 +1,5 @@
-import { RequestMetadata } from '../../shared/http';
-import { UserSession } from '../../shared/types';
+import { RequestMetadata } from 'shared/http';
+import { UserSession } from 'shared/types';
 
 export const metadata: RequestMetadata = {
     method: 'GET',

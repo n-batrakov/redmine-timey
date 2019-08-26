@@ -1,5 +1,5 @@
+import { assertNever } from 'shared';
 import { AuthState, AuthAction } from './types';
-import { assertNever } from '../../shared';
 
 export const initState: AuthState = {
     isLoggedIn: undefined,

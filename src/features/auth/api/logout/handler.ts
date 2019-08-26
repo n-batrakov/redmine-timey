@@ -1,6 +1,6 @@
-import { RegisterHandler } from '../../server/shared';
+import { RegisterHandler } from 'server/shared';
+import { cookieName, cookieOptions } from 'server/authSettings';
 import { metadata } from './contract';
-import { cookieName, cookieOptions } from '../../server/authSettings';
 
 
 const signOutHandler: RegisterHandler = server => server.route({
