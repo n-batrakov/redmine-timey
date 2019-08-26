@@ -1,8 +1,7 @@
 body {
-    font-family: sans-serif;
-    margin: 0;
-    font-family: 'Roboto', sans-serif;
-    font-size: 14px;
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
 }
 
 h1 { font-size: 18pt; }
@@ -12,20 +11,21 @@ h4 { font-size: 12pt; }
 
 ul,
 ol {
-    padding: 0;
-    margin: 0;
-    list-style: none;
+  padding: 0;
+  margin: 0;
+  list-style: none;
 }
 
 *::-webkit-scrollbar {
-    width: 8px;
+  width: 8px;
 }
+
 *::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    background-color: #d2cfcf;
+  border-radius: 10px;
+  background-color: #d2cfcf;
 }
 
 *::-webkit-scrollbar-thumb:hover,
 *::-webkit-scrollbar-thumb:active {
-    background-color: #adadad;
+  background-color: #adadad;
 }

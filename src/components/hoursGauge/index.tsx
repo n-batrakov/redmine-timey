@@ -1,4 +1,4 @@
-import './index.css';
+import './index.scss';
 import * as React from 'react';
 import { Line } from 'rc-progress';
 

@@ -1,3 +1,4 @@
+import './index.scss';
 import * as React from 'react';
 
 import { Issue } from '../../shared/types';
@@ -5,7 +6,6 @@ import { IssueHeader } from '../issueHeader';
 import { List, ListItem } from '../list';
 import { TagList, Tag } from '../tags';
 
-import './issueList.css';
 
 type IssueListItemProps = {
     issue: Issue,

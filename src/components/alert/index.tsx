@@ -1,4 +1,4 @@
-import './index.css';
+import './index.scss';
 import React from 'react';
 
 export type AlertProps = { children?: React.ReactNode };

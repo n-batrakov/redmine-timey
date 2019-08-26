@@ -61,11 +61,11 @@ const handler: RegisterHandler = (server, { redmine }) => server.route({
             case 'Error':
                 if (response.status === 404) {
                     return {
-                        code: 'Success',
                         limit, offset,
+                        code: 'Success',
                         totalCount: 0,
-                        data: []
-                    }
+                        data: [],
+                    };
                 }
                 resp.code(response.status);
                 return '';

@@ -1,5 +1,5 @@
+import './index.scss';
 import * as React from 'react';
-import './list.css';
 
 export type ListItemProps = {
     selected?: boolean,

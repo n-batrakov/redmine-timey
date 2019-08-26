@@ -1,0 +1,47 @@
+.filter-toggle {
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+  margin: 5px 0;
+  user-select: none;
+
+  &-input {
+    display: none;
+
+    &:checked ~ .filter-toggle { display: none; }
+    &:checked ~ .content { display: flex; }
+  }
+}
+
+.issue-filter {
+  .content {
+    display: none;
+    flex-direction: column;
+  }
+
+  &.togglable {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &.overflow {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border-right: 1px solid #aaa;
+    margin: 0;
+
+    .filter-toggle {
+      margin: 5px;
+      padding: 5px 5px;
+      color: #2261a1;
+    }
+
+    .content {
+      width: 300px;
+      height: 100%;
+      background: #fff;
+      padding: 10px 30px;
+    }
+  }
+}

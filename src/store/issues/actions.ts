@@ -19,7 +19,7 @@ export const setData = (data: Issue[], totalCount: number): IssuesAction => {
         totalCount,
         type: 'issues_setData',
     };
-}
+};
 
 
 export const gotoPage = (page: number): IssuesThunk => (dispatch, getState) => {

@@ -1,5 +1,5 @@
+import './index.scss';
 import * as React from 'react';
-import './activityList.css';
 
 import { IssueHeader } from '../issueHeader';
 

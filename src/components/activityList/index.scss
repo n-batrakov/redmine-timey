@@ -1,0 +1,48 @@
+.activity-overview {
+  max-width: 1040px;
+  margin: auto;
+}
+
+.list-day {
+  margin-bottom: 32px;
+}
+
+.list-day h2 {
+  width: 100%;
+  text-align: center;
+  border-bottom: 1px solid #d1d1d1;
+  line-height: 0.1em;
+  margin: 10px 0;
+  color: #aaa;
+  font-size: 10pt;
+  text-transform: uppercase;
+  font-weight: 100;
+}
+
+.list-day h2 span {
+  background: #fff;
+  padding: 0 10px;
+}
+
+.list-issue a {
+  color: black;
+  text-decoration: none;
+
+  &:hover { text-decoration: underline; }
+}
+
+.list-issue-hours {
+  margin-left: auto;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.list-day-add-btn {
+  height: 32px;
+  background-color: #fff;
+  border: 1px solid #eee;
+  border-radius: 3px;
+  cursor: pointer;
+
+  &:hover { background-color: #eee; }
+}

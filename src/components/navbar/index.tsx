@@ -1,5 +1,5 @@
+import './index.scss';
 import * as React from 'react';
-import './navbar.css';
 
 export type NavbarProps = {
     logo?: React.ReactNode,

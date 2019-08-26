@@ -1,4 +1,4 @@
-import './index.css';
+import './index.scss';
 import * as React from 'react';
 import { Form, FormRow } from '../form';
 import { TextInput } from '../input';
@@ -51,7 +51,7 @@ type LoginLogoProps = {
     loading?: boolean,
 };
 const LoginLogo = (props: LoginLogoProps) => (
-    <div className="timey-login-page-logo">
+    <div className="logo">
         <AnimatedClock loading={props.loading} date={new Date()} style={{
             height: 128,
             width: 128,
@@ -66,7 +66,7 @@ export type LoginPageProps = LoginFormProps;
 export const LoginPage = (props: LoginPageProps) => {
     return (
         <div className="timey-login-page">
-            <div className="timey-login-page-content">
+            <div className="content">
                 <LoginLogo loading={props.loading} />
                 <LoginForm {...props} />
             </div>
@@ -81,7 +81,7 @@ export type LogoutPageProps = {
 export const LogoutPage = (props: LogoutPageProps) => {
     return (
         <div className="timey-login-page">
-            <div className="timey-login-page-content">
+            <div className="content">
                 <LoginLogo loading={props.loading} />
                 <p>You're logged out. Hope to see you back soon!</p>
                 <Button label="Log in" className="timey-login-page-btn" onClick={props.onLoginRedirect} />

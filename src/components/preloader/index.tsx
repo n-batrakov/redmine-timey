@@ -1,5 +1,5 @@
+import './index.scss';
 import * as React from 'react';
-import './preloader.css';
 
 const getColor = (x: LoaderProps) => {
     return x.color || 'rgba(0, 0, 0, 0.2)';

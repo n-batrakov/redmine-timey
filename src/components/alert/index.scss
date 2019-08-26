@@ -1,29 +1,28 @@
 .alert {
-    border-radius: 3px;
-    padding: 12px;
-}
+  border-radius: 3px;
+  padding: 12px;
 
-.alert.danger {
+  &.danger {
     color: #721c24;
     background-color: #f8d7da;
     border-color: #f5c6cb;
-}
+  }
 
-.alert.success {
+  &.success {
     color: #155724;
     background-color: #d4edda;
     border-color: #c3e6cb;
-}
+  }
 
-.alert.info {
+  &.info {
     color: #0c5460;
     background-color: #d1ecf1;
     border-color: #bee5eb;
-}
+  }
 
-.alert.warning {
+  &.warning {
     color: #856404;
     background-color: #fff3cd;
     border-color: #ffeeba;
+  }
 }
-  

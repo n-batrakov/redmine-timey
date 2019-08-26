@@ -1,4 +1,3 @@
-import './index.css';
 import * as React from 'react';
 import { Enumeration, TimesheetEntry, NamedId } from '../../shared/types';
 import { Form, FormRow } from '../form';

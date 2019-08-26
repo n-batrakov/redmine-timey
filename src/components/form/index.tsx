@@ -1,4 +1,4 @@
-import './form.css';
+import './index.scss';
 import * as React from 'react';
 import { CoverLoader } from '../preloader';
 import { getFormData } from '../../shared/form';
@@ -35,7 +35,7 @@ export function Form<T = any>(props: FormProps<T>) {
             </form>
          </>
     );
-};
+}
 
 function onSubmit<T>(props: FormProps<T>) {
     return React.useCallback(

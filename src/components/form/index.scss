@@ -1,0 +1,10 @@
+.timey-form-row {
+  display: flex;
+  flex-direction: column;
+
+  > * { margin: 5px 0; }
+  &.right > * { margin-left: auto; }
+
+  &.inline { flex-direction: row; }
+  &.inline.right > *:last-child { margin-left: 2px; }
+}

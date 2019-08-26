@@ -1,0 +1,56 @@
+.activity-heatmap-item {
+  cursor: pointer;
+}
+
+.react-calendar-heatmap {
+  width: 100%;
+  max-height: 200px;
+
+  .loading {
+    fill: red;
+    -webkit-animation: 2s ease-in-out infinite;
+    -moz-animation: 2s ease-in-out infinite;
+    animation: load 2s ease-in-out infinite;
+  }
+
+  text {
+    font-size: 8px;
+    fill: #aaa;
+  }
+
+  .react-calendar-heatmap-small-text {
+    font-size: 5px;
+  }
+
+  rect:hover {
+    stroke: #555;
+    stroke-width: 1px;
+  }
+
+  .color-empty { fill: #eee; }
+  .color-filled { fill: #7fa8d1; }
+  .color-0 { fill: #c9d6e4; }
+  .color-1 { fill: #b0c2d7; }
+  .color-2 { fill: #9ac1ea; }
+  .color-3 { fill: #6191c2; }
+  .color-4 { fill: #19619c; }
+  .color-warn { fill: #ff7e00; }
+}
+
+@-webkit-keyframes load {
+  0% { fill: #eee; }
+  50% { fill: #6191c2; }
+  100% { fill: #eee; }
+}
+
+@-moz-keyframes load {
+  0% { fill: #eee; }
+  50% { fill: #6191c2; }
+  100% { fill: #eee; }
+}
+
+@keyframes load {
+  0% { fill: #6191c2; }
+  50% { fill: #9ac1ea; }
+  100% { fill: #6191c2; }
+}

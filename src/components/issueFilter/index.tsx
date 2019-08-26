@@ -1,4 +1,4 @@
-import './index.css';
+import './index.scss';
 import * as React from 'react';
 import { IconFilter, IconRefresh } from '../icon';
 import { Select, SelectOption } from '../input';
@@ -94,7 +94,7 @@ export const ToggledIssueFilter = (props: IssueFilterContainerProps) => {
                 Filters <IconFilter />
             </label>
 
-            <div className="issue-filter-content">
+            <div className="content">
                 {props.children}
             </div>
         </div>
@@ -111,7 +111,7 @@ export const OverflowIssueFilter = (props: IssueFilterContainerProps) => {
                 defaultChecked={props.opened}
             />
 
-            <div className="issue-filter-content">
+            <div className="content">
                 {props.children}
             </div>
 

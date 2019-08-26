@@ -1,0 +1,37 @@
+.btn {
+  background-color: #fff;
+  color: #000;
+  padding: 12px 20px;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: center;
+  font-size: 13px;
+
+  &:focus {
+    outline: 1px solid #2684ff;
+    outline-width: 1px;
+    outline-offset: -2px;
+  }
+
+  &:disabled {
+    background-color: #aaa;
+    color: #eee;
+    cursor: not-allowed;
+  }
+}
+
+.btn-primary {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.btn-small {
+  height: 32px;
+  padding: 0 8px;
+}

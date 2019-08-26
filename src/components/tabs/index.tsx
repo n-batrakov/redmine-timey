@@ -1,4 +1,4 @@
-import './index.css';
+import './index.scss';
 import * as ReactTabs from 'react-tabs';
 
 export const Tabs = ReactTabs.Tabs;
