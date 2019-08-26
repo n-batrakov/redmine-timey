@@ -10,7 +10,7 @@ import { Navbar } from '../components/navbar';
 import { Logo } from '../components/logo';
 import { UserSession } from '../shared/types';
 import { NotFoundPage } from '../components/404';
-import { TimingPage } from './timing';
+import { TimingPage } from '../features/timeEntry/containers/timing';
 import { loadEnumerations } from '../store/enumerations/actions';
 
 type AuthRouterProps = {

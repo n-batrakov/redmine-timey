@@ -1,8 +1,8 @@
 import { AppState, AppAction } from '..';
 import { initState as actitivityListInitState } from '../activityList/reducer';
 import { initialState as timingsPageInitState }  from '../timingList/reducer';
-import { initialState as timingsFormInitState }  from '../timing/reducer';
-import { initState as issuesInitState } from '../issues/reducer';
+import { initialState as timingsFormInitState }  from 'features/timeEntry/state/timing/reducer';
+import { initState as issuesInitState } from 'features/timeEntry/state/issues/reducer';
 
 export const reducer = (state: AppState, action: AppAction): AppState => {
     switch (action.type) {

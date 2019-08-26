@@ -1,9 +1,9 @@
 import { TimingsPageAction, TimingsPageState } from './timingList/types';
 import { ActivityListAction, ActivityListState } from './activityList/types';
 import { EnumerationsAction, EnumerationsState } from './enumerations/types';
-import { IssuesAction, IssuesState } from './issues/types';
-import { AuthAction, AuthState } from '../features/auth/state/types';
-import { TimingsFormAction, TimingsFormState } from './timing/types';
+import { IssuesAction, IssuesState } from 'features/timeEntry/state/issues/types';
+import { AuthAction, AuthState } from 'features/auth/state/types';
+import { TimingsFormAction, TimingsFormState } from '../features/timeEntry/state/timing/types';
 import { useSelector } from 'react-redux';
 
 export type AppState = {
