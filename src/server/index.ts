@@ -1,19 +1,18 @@
-import { RedmineClient } from './redmine';
+import pathUtils from 'path';
+import fs from 'fs';
+import app from 'commander';
 import fastify from 'fastify';
 import staticFiles from 'fastify-static';
 import fastifyCookie from 'fastify-cookie';
 import http2https from 'fastify-http2https';
+import { SecureServerOptions } from 'http2';
 
+import api from './api';
+import { RedmineClient } from './redmine';
 import { fallback } from './middleware/fallback';
-import pathUtils from 'path';
-import fs from 'fs';
-
-import api from '../api';
 import { AppContainer } from './shared';
 import { getCalendar } from './workHoursNorm';
 
-import app from 'commander';
-import { SecureServerOptions } from 'http2';
 
 const logFile = (path: string): string => {
     if (fs.existsSync(path)) {
