@@ -11,7 +11,7 @@ import { Logo } from '../components/logo';
 import { UserSession } from '../shared/types';
 import { NotFoundPage } from '../components/404';
 import { TimingPage } from '../features/timeEntry/containers/timing';
-import { loadEnumerations } from '../store/enumerations/actions';
+import { loadEnumerations } from '../features/enumerations/state/actions';
 
 type AuthRouterProps = {
     isLoggedIn?: boolean,

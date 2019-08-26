@@ -14,7 +14,7 @@ import queryTimings from 'features/activityOverview/api/queryTimings/handler';
 import getDailyHours from 'features/activityOverview/api/getDailyHours/handler';
 import getMonthNorm from 'features/activityOverview/api/getMonthNorm/handler';
 
-import getEnumerations from './getEnumerations/handler';
+import getEnumerations from 'features/enumerations/api/getEnumerations/handler';
 
 export default <RegisterHandler[]> [
     addTimings,

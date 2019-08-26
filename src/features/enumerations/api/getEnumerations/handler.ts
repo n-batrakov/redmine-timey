@@ -1,7 +1,7 @@
-import { RegisterHandler } from '../../server/shared';
-import { authenticate, getCredentials } from '../../server/auth';
-import { Enumeration, EnumerationsLookup } from '../../shared/types';
-import { RedmineEnumerationResponse, RedmineClient, RedminQueryParams } from '../../server/redmine';
+import { RegisterHandler } from 'server/shared';
+import { authenticate, getCredentials } from 'server/auth';
+import { Enumeration, EnumerationsLookup } from 'shared/types';
+import { RedmineEnumerationResponse, RedmineClient, RedminQueryParams } from 'server/redmine';
 import { metadata } from './contract';
 
 let enumerationsCache: Partial<EnumerationsLookup> | undefined = undefined;

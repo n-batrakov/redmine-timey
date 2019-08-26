@@ -1,6 +1,6 @@
 import { TimingsPageAction, TimingsPageState } from '../features/activityOverview/state/timingList/types';
 import { ActivityListAction, ActivityListState } from '../features/activityOverview/state/activityList/types';
-import { EnumerationsAction, EnumerationsState } from './enumerations/types';
+import { EnumerationsAction, EnumerationsState } from '../features/enumerations/state/types';
 import { IssuesAction, IssuesState } from 'features/timeEntry/state/issues/types';
 import { AuthAction, AuthState } from 'features/auth/state/types';
 import { TimingsFormAction, TimingsFormState } from '../features/timeEntry/state/timing/types';

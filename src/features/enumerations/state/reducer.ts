@@ -1,5 +1,5 @@
 import { EnumerationsAction, EnumerationsState } from './types';
-import { Enumeration } from '../../shared/types';
+import { Enumeration } from 'shared/types';
 
 const nullEnumeration: Enumeration = {
     values: {},

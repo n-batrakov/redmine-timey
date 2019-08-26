@@ -1,6 +1,6 @@
-import { EnumerationsLookup } from '../../shared/types';
-import { AppState } from '..';
-import { ThunkAction } from '../thunk';
+import { AppState } from 'store';
+import { ThunkAction } from 'store/thunk';
+import { EnumerationsLookup } from 'shared/types';
 
 export type EnumerationsState = EnumerationsLookup & {
     isLoaded: boolean,

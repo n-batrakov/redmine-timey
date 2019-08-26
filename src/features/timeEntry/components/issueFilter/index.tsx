@@ -4,7 +4,7 @@ import { IconFilter, IconRefresh } from 'components/icon';
 import { Button } from 'components/button';
 import { Enumeration } from 'shared/types';
 import { Form, FormRow } from 'components/form';
-import { EnumerationsState } from 'store/enumerations/types';
+import { EnumerationsState } from 'features/enumerations/state/types';
 
 
 const toOptions = (enumeration?: Enumeration) => {
