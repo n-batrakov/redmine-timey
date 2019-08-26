@@ -62,4 +62,4 @@ const server = merge(
     },
 );
 
-module.exports = dev ? [client] : [client, server];
+module.exports = dev ? client : [client, server];
