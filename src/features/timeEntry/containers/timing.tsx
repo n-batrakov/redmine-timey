@@ -7,7 +7,7 @@ import { MobileScreen, MobileScreenHidden } from 'components/mediaQuery';
 import { Tabs, TabList, TabPanel, Tab } from 'components/tabs';
 import { Danger, Success } from 'components/alert';
 import { CoverLoader } from 'components/preloader';
-import { AppState, useAppState } from 'store';
+import { AppState, useAppState } from 'state';
 import { useActions } from 'hooks';
 
 import { TimingForm } from '../components/timingForm';

@@ -6,7 +6,7 @@ import { Container } from 'components/container';
 import { MobileScreen, MobileScreenHidden } from 'components/mediaQuery';
 import { addDays, toISODate, tryParseDate } from 'shared/date';
 import { TimesheetEntry } from 'shared/types';
-import { AppState } from 'store';
+import { AppState } from 'state';
 
 import { ActivityListContainer } from './activityList';
 import { ActivityHeatmap } from '../components/activityHeatmap';

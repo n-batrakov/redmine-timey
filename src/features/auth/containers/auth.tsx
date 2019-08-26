@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
-import { AppState } from 'store';
+import { AppState } from 'state';
 import { LoginPage, LogoutPage } from '../components/login';
 import { login, logout } from '../state/actions';
 

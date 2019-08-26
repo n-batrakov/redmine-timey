@@ -1,5 +1,5 @@
-import { AppState } from 'store';
-import { ThunkAction } from 'store/thunk';
+import { AppState } from 'state';
+import { ThunkAction } from 'state/thunk';
 import { UserSession } from 'shared/types';
 
 export type AuthState = {

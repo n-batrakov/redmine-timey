@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Loader } from 'components/preloader';
 import { addDays, toISODate } from 'shared/date';
 import { TimesheetEntry } from 'shared/types';
-import { AppState } from 'store';
+import { AppState } from 'state';
 
 import * as Store from '../state/activityList/actions';
 import { ActivityListHeader } from '../components/activityList/header';

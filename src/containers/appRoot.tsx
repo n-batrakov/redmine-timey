@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Route, Switch, Redirect, NavLink } from 'react-router-dom';
-import { AppState } from 'store';
+import { AppState } from 'state';
 import { assertNever } from 'shared/utils';
 import { UserSession } from 'shared/types';
 import { Navbar } from 'components/navbar';

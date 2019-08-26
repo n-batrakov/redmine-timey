@@ -1,5 +1,5 @@
-import { AppAction, AppState } from 'store';
-import { ThunkDispatch } from 'store/thunk';
+import { AppAction, AppState } from 'state';
+import { ThunkDispatch } from 'state/thunk';
 import { TimesheetEntry, IncomingTimesheetEntry } from 'shared/types';
 import { TimingsFormThunk, TimingsFormAction } from './types';
 import { fetchTiming } from '../../api/fetchTiming';

@@ -1,6 +1,6 @@
 import { Dispatch, Action } from 'redux';
-import { AppState } from 'store';
-import { ThunkAction } from 'store/thunk';
+import { AppState } from 'state';
+import { ThunkAction } from 'state/thunk';
 import { ActivityHeatmapProps } from '../../components/activityHeatmap';
 import { HoursGaugeProps } from '../../components/hoursGauge';
 

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { CoverLoader } from 'components/preloader';
-import { useAppState } from 'store';
+import { useAppState } from 'state';
 import { useActions } from 'hooks/useActions';
 import { IssueList } from '../components/issueList';
 import { loadIssues, selectIssue } from '../state/issues/actions';
