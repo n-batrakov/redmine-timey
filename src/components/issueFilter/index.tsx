@@ -1,7 +1,6 @@
 import './index.scss';
 import * as React from 'react';
 import { IconFilter, IconRefresh } from '../icon';
-import { Select, SelectOption } from '../input';
 import { Button } from '../button';
 import { Enumeration } from '../../shared/types';
 import { EnumerationsState } from '../../store/enumerations/types';
@@ -14,9 +13,9 @@ const toOptions = (enumeration?: Enumeration) => {
     }
 
     return [
-        <SelectOption key="nil"/>,
+        <option key="nil"></option>,
         ...Object.keys(enumeration.values).map(key => (
-                <SelectOption key={key} value={key}>{enumeration.values[key]}</SelectOption>
+                <option key={key} value={key}>{enumeration.values[key]}</option>
             ),
         ),
     ];
@@ -46,23 +45,23 @@ export const IssueFilterForm = (props: IssueFilterProps) => {
         <Form<IssueFilterForm> onSubmit={props.onSubmit}>
             <FormRow>
                 <label htmlFor="query">Query</label>
-                <Select name="query" value={query}>{toOptions(enums.queries)}</Select>
+                <select name="query" defaultValue={query}>{toOptions(enums.queries)}</select>
             </FormRow>
             <FormRow>
                 <label htmlFor="project">Project</label>
-                <Select name="project" value={project}>{toOptions(enums.projects)}</Select>
+                <select name="project" defaultValue={project}>{toOptions(enums.projects)}</select>
             </FormRow>
             <FormRow>
                 <label htmlFor="status">Status</label>
-                <Select name="status" value={status}>{toOptions(enums.status)}</Select>
+                <select name="status" defaultValue={status}>{toOptions(enums.status)}</select>
             </FormRow>
             <FormRow>
                 <label htmlFor="assigned">Assigned</label>
-                <Select name="assigned" value={assigned}>{toOptions(enums.users)}</Select>
+                <select name="assigned" defaultValue={assigned}>{toOptions(enums.users)}</select>
             </FormRow>
             <FormRow>
                 <label htmlFor="author">Author</label>
-                <Select name="author" value={author}>{toOptions(enums.users)}</Select>
+                <select name="author" defaultValue={author}>{toOptions(enums.users)}</select>
             </FormRow>
 
             <FormRow floatRight inline>

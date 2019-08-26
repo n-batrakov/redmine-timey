@@ -1,4 +1,4 @@
-import './index.css';
+import 'styles/global.scss';
 
 import * as React from 'react';
 import { render } from 'react-dom';

@@ -1,7 +1,6 @@
 import './index.scss';
 import * as React from 'react';
 import { Form, FormRow } from '../form';
-import { TextInput } from '../input';
 import { Button } from '../button';
 import { AnimatedClock } from '../animatedClock';
 import { Danger } from '../alert';
@@ -21,16 +20,17 @@ const LoginForm = (props: LoginFormProps) => {
                 Please enter your Redmine credentials:
             </FormRow>
             <FormRow>
-                <TextInput
+                <input
+                    type="text"
                     name="login"
                     placeholder="Login"
                     required
                 />
             </FormRow>
             <FormRow>
-                <TextInput
-                    name="password"
+                <input
                     type="password"
+                    name="password"
                     placeholder="Password"
                     required
                 />

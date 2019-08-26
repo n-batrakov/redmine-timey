@@ -16,6 +16,23 @@ ol {
   list-style: none;
 }
 
+input[type="text"],
+input[type="password"],
+input[type="search"],
+input[type="number"],
+input[type="date"],
+select,
+textarea {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  resize: none;
+  background-color: #fff;
+  height: 42px;
+}
+
 *::-webkit-scrollbar {
   width: 8px;
 }

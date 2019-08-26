@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { Enumeration, TimesheetEntry, NamedId } from '../../shared/types';
+import { Enumeration, TimesheetEntry } from '../../shared/types';
 import { Form, FormRow } from '../form';
-import { DateInput, Select, SelectOption, NumberInput, TextArea } from '../input';
 import { toArray } from '../../shared';
 import { Button } from '../button';
+import { toISODate } from '../../shared/date';
 
 const onSubmit = (props: TimingFormProps) => React.useCallback(
     (e: { spentOn: Date | string, hours: string, comments: string, activity: string }) => {
@@ -62,21 +62,21 @@ export const TimingForm = (props: TimingFormProps) => {
         <Form onSubmit={onSubmit(props)} loading={props.loading} style={props.style}>
             <FormRow>
                 <label htmlFor="spentOn">Date</label>
-                <DateInput required name="spentOn" value={spentOn}  />
+                <input type="date" required name="spentOn" defaultValue={toISODate(spentOn)}  />
             </FormRow>
             <FormRow>
                 <label htmlFor="hours">Hours</label>
-                <NumberInput required name="hours" value={hours} step={0.25} min={0} max={24} />
+                <input type="number" required name="hours" defaultValue={hours.toString(10)} step={0.25} min={0} max={24} />
             </FormRow>
             <FormRow>
                 <label htmlFor="comments">Comments</label>
-                <TextArea required name="comments" value={comments} placeholder="" style={{ height: 100 }}/>
+                <textarea required name="comments" defaultValue={comments} placeholder="" style={{ height: 100 }}/>
             </FormRow>
             <FormRow>
                 <label htmlFor="activity">Activity</label>
-                <Select required name="activity" value={activity.id}>
-                    {toArray(props.activities).map(x => (<SelectOption key={x.id} value={x.id}>{x.name}</SelectOption>))}
-                </Select>
+                <select required name="activity" defaultValue={activity.id}>
+                    {toArray(props.activities).map(x => (<option key={x.id} value={x.id}>{x.name}</option>))}
+                </select>
             </FormRow>
             <FormRow floatRight inline>
                 {
