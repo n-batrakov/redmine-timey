@@ -15,7 +15,7 @@ export const ActivityListHeader = React.memo(
             <h1 className="activity-list-header">
                 <Breadcrumbs>
                     <Crumb>
-                        <NavLink to="/time" className="activity-list-header-link">Activity Overview</NavLink>
+                        <NavLink to="/time" className="activity-list-header-link">Recent Activity</NavLink>
                     </Crumb>
                     <Crumb style={showIf(isDaySelected)}>
                         {props.date === undefined ? '' : props.date.toLocaleDateString()}

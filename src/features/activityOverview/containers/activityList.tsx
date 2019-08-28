@@ -33,19 +33,17 @@ export const ActivityListContainer = (props: ActivityListContainerProps) => {
 
     return (
         <>
-            <div className="activity-overview" style={{ width: 800 }}>
-                <ActivityListHeader date={isDaySelected ? timeframe.start : undefined} />
-                <Loader active={state.isLoading} />
+            <ActivityListHeader date={isDaySelected ? timeframe.start : undefined} />
+            <Loader active={state.isLoading} />
 
-                <div style={state.isLoading ? { display: 'none' } : undefined}>
-                    <ActivityList
-                        start={timeframe.start}
-                        end={timeframe.end}
-                        data={state.data}
-                        onActivityClick={props.onActivityClick}
-                        onActivityAddClick={props.onActivityAddClick}
-                    />
-                </div>
+            <div style={state.isLoading ? { display: 'none' } : undefined}>
+                <ActivityList
+                    start={timeframe.start}
+                    end={timeframe.end}
+                    data={state.data}
+                    onActivityClick={props.onActivityClick}
+                    onActivityAddClick={props.onActivityAddClick}
+                />
             </div>
         </>
     );

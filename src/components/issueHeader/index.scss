@@ -1,0 +1,10 @@
+.issue-header {
+  display: flex;
+
+  &.column { flex-direction: column; }
+  &.inline > *:not(:first-child) { margin-left: 5px; }
+
+  .project-title {
+    color: #888;
+  }
+}

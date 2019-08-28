@@ -4,16 +4,37 @@ body {
   font-size: 14px;
 }
 
-h1 { font-size: 18pt; }
-h2 { font-size: 16pt; }
-h3 { font-size: 14pt; }
-h4 { font-size: 12pt; }
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  font-weight: 100;
+  text-transform: uppercase;
+}
+
+h1 { font-size: 24px; }
+h2 { font-size: 21px; }
+h3 { font-size: 18px; }
+h4 { font-size: 15px; }
+h5 { font-size: 14px; }
+h6 { font-size: 12px; }
 
 ul,
 ol {
   padding: 0;
   margin: 0;
   list-style: none;
+}
+
+a {
+  cursor: pointer;
+  text-decoration: none;
+  color: #2261a1;
+
+  &:hover { text-decoration: underline; }
 }
 
 input[type="text"],

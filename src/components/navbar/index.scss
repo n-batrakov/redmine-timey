@@ -1,6 +1,8 @@
+@import 'variables.scss';
+
 .navbar {
   width: 100%;
-  background-color: #2261a1;
+  background-color: $primary-color;
   display: flex;
   padding: 4px 0;
 
@@ -42,6 +44,6 @@
 
   &.active {
     background-color: #fff;
-    color: #2261a1;
+    color: $primary-color;
   }
 }
