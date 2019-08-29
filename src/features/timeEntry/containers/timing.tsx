@@ -85,14 +85,14 @@ export const TimingPage = (props: RouteComponentProps<{ id: string }>) => {
     React.useEffect(() => resetStore, []);
     if (success) return <Redirect to="/time" />;
 
-    const editMode = props.match.params.id !== 'new';
+    const entryId = props.match.params.id;
 
     return (
         <PageLayout
-            title={editMode ? 'Update Activity' : 'Add Activity'}
+            title={entryId === 'new' ? 'Add Activity' : 'Update Activity'}
             filter={<Filter />}
             issues={<Issues />}
-            form={<Form entryId={props.match.params.id} onCancel={() => props.history.push('/time')} />}
+            form={<Form entryId={entryId} onCancel={() => props.history.push('/time')} />}
             issueSelected={isIssueSelected}
             onRefresh={refresh}
             unselectIssue={unselectIssue}
