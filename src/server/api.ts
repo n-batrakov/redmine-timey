@@ -4,7 +4,9 @@ import addTimings from 'features/timeEntry/api/addTimings/handler';
 import fetchTiming from 'features/timeEntry/api/fetchTiming/handler';
 import deleteTiming from 'features/timeEntry/api/deleteTiming/handler';
 import updateTiming from 'features/timeEntry/api/updateTiming/handler';
+
 import queryIssues from 'features/timeEntry/api/queryIssues/handler';
+import fetchIssue from 'features/timeEntry/api/fetchIssue/handler';
 
 import login from 'features/auth/api/login/handler';
 import logout from 'features/auth/api/logout/handler';
@@ -23,6 +25,7 @@ export default <RegisterHandler[]> [
     queryTimings,
     fetchTiming,
     queryIssues,
+    fetchIssue,
     getDailyHours,
     getEnumerations,
     getMonthNorm,
