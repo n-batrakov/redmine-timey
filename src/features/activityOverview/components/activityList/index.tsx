@@ -9,52 +9,17 @@ import { NavLink } from 'react-router-dom';
 import { IconEdit } from 'components/icon';
 import { ListItem, List } from 'components/list';
 
-const NoData = () => (
-    <ListItem className="activity placeholder" inline><h4>No activity</h4></ListItem>
-);
-
-type ActivityIssueProps = {
-    items: TimesheetEntry[],
-    onActivityClick?: (x: TimesheetEntry) => void,
-};
-const ActivityIssue = (props : ActivityIssueProps) => {
-    const project = props.items[0].project;
-    const issue = props.items[0].issue;
-
-    return (
-        <>
-        {
-            props.items.map(x => (
-                <ListItem key={x.id} className="activity" style={{ minHeight: 78 }} inline>
-                    <div className="prepend">
-                        {x.hours} h.
-                    </div>
-                    <div className="issue-container">
-                        <h5 className="header"><IssueHeader project={project} issue={issue} showNumber column/></h5>
-                        <div className="content">{x.comments}</div>
-                    </div>
-                    <NavLink className="action btn-edit" to={`/time/${x.id}`} title="Edit entry">
-                        <IconEdit />
-                    </NavLink>
-                </ListItem>
-            ))
-        }
-        </>
-    );
-};
-
-
 
 type ActivityDayProps = {
     date: Date,
     hours?: number,
-    issues?: Array<[string, TimesheetEntry[]]>,
+    entries?: TimesheetEntry[],
     onActivityAdd?: (date: Date) => void,
     onActivityClick?: (x: TimesheetEntry) => void,
 };
 
 const ActivityDay = (props : ActivityDayProps) => {
-    const issues = props.issues || [];
+    const list = props.entries || [];
 
     return (
         <div className="day">
@@ -64,15 +29,22 @@ const ActivityDay = (props : ActivityDayProps) => {
             </div>
             <List>
             {
-                issues.length === 0
-                ? <NoData />
-                : issues.map(([issueId, items]) =>
-                    <ActivityIssue
-                        key={issueId}
-                        items={items}
-                        onActivityClick={props.onActivityClick}
-                    />,
-                )
+                list.length === 0
+                ? <ListItem className="activity placeholder" inline><h4>No activity</h4></ListItem>
+                : list.map(entry => (
+                    <ListItem key={entry.id} className="activity" style={{ minHeight: 78 }} inline>
+                        <div className="prepend">
+                            {entry.hours} h.
+                        </div>
+                        <div className="issue-container">
+                            <h5 className="header"><IssueHeader project={entry.project} issue={entry.issue} showNumber column/></h5>
+                            <div className="content">{entry.comments}</div>
+                        </div>
+                        <NavLink className="action btn-edit" to={`/time/${entry.id}`} title="Edit entry">
+                            <IconEdit />
+                        </NavLink>
+                    </ListItem>
+                ))
             }
             </List>
         </div>
@@ -93,20 +65,17 @@ export const ActivityList = React.memo(
 
         const items = Array.from(getRange(props.end, props.start, -1)).map((date) => {
             const key = toISODate(date);
+            const entries = data.get(key);
 
-            if (!data.has(key)) {
+            if (entries === undefined) {
                 return <ActivityDay key={key} date={date} onActivityAdd={props.onActivityAddClick} />;
             }
-
-            const issuesMap = data.get(key) as Map<string, TimesheetEntry[]>;
-            const issues = Array.from(issuesMap.entries());
-            const dayTotal = countTotalHours(issues);
 
             return <ActivityDay
                 key={key}
                 date={date}
-                hours={dayTotal}
-                issues={issues}
+                entries={entries}
+                hours={countTotalHours(entries)}
                 onActivityAdd={props.onActivityAddClick}
                 onActivityClick={props.onActivityClick}
             />;
@@ -154,34 +123,23 @@ function formatDate(date: Date): string {
     return `${dayName}, ${dayNumber} ${monthName}`;
 }
 
-function countTotalHours(issues: Array<[string, TimesheetEntry[]]>) {
-    const countIssueHours = (x: TimesheetEntry[]) => x.reduce((a, b) => a + b.hours, 0);
-
-    return issues.reduce((acc, [_, x]) => acc + countIssueHours(x), 0);
+function countTotalHours(entries: TimesheetEntry[]) {
+    return entries.reduce((sum, x) => sum + x.hours, 0);
 }
 
 function mapData(data: TimesheetEntry[]) {
     return data.reduce(
         (acc, x) => {
             const key = toISODate(x.spentOn);
-            let issuesMap = acc.get(key);
 
-            if (issuesMap === undefined) {
-                issuesMap = new Map();
-                acc.set(key, issuesMap);
-            }
-
-            const issueKey = `${x.project === undefined ? '' : x.project.name} / ${x.issue === undefined ? '' : x.issue.name}`;
-            const issueGroup = issuesMap.get(issueKey);
-
-            if (issueGroup === undefined) {
-                issuesMap.set(issueKey, [x]);
+            if (acc.has(key)) {
+                acc.get(key)!.push(x);
             } else {
-                issueGroup.push(x);
+                acc.set(key, [x]);
             }
 
             return acc;
         },
-        new Map<string, Map<string, TimesheetEntry[]>>(),
+        new Map<string, TimesheetEntry[]>(),
     );
 }
