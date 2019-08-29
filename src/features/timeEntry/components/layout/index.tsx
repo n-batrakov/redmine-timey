@@ -42,9 +42,11 @@ const DesktopLayout = (props: PageLayoutProps) => (
         </OverflowIssueFilter>
         <div className="col">
             <h1>{props.title}</h1>
-            <h3>Select an Issue</h3>
             <div className="row">
-                <div className="issues-container">{props.issues}</div>
+                <div className="issues-container">
+                    <h3>Select an Issue</h3>
+                    {props.issues}
+                </div>
                 <div className="entry-container">{props.form}</div>
             </div>
         </div>

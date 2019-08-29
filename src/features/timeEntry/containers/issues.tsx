@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { CoverLoader } from 'components/preloader';
 import { useAppState, useActions } from 'state';
 import { IssueList } from '../components/issueList';
 import { loadIssues, selectIssue } from '../state/issues/actions';
@@ -24,9 +23,9 @@ export const Issues = () => {
 
     return (
         <>
-            <CoverLoader active={loading}/>
             <NoData visible={!loading && data.length === 0} />
             <IssueList
+                loading={loading}
                 issues={data}
                 onSelect={actions.selectIssue}
                 selectedIssue={selectedIssue}

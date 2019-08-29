@@ -42,3 +42,19 @@ export const List = (props: ListProps) => (
         {props.children}
     </ul>
 );
+
+export type ListSkeletonProps = {
+    size?: number,
+    className?: string,
+    itemClassName?: string,
+    style?: React.CSSProperties,
+}
+export const ListSkeleton = (props: ListSkeletonProps) => (
+    <List className={props.className} style={props.style}>
+    {
+        new Array(props.size || 5).fill(undefined).map((_, i) => (
+            <ListItem key={i} className={classNames('skeleton', props.itemClassName)} />
+        ))
+    }
+    </List>
+);

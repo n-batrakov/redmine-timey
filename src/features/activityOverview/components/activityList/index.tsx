@@ -4,10 +4,10 @@ import * as React from 'react';
 import { IssueHeader } from 'components/issueHeader';
 
 import { getRange, toISODate } from 'shared/date';
-import { TimesheetEntry, isTimesheetEntryEqual } from 'shared/types';
+import { TimesheetEntry } from 'shared/types';
 import { NavLink } from 'react-router-dom';
 import { IconEdit } from 'components/icon';
-import { ListItem, List } from 'components/list';
+import { ListItem, List, ListSkeleton } from 'components/list';
 
 
 type ActivityDayProps = {
@@ -55,59 +55,42 @@ const ActivityDay = (props : ActivityDayProps) => {
 export type ActivityListProps = {
     start: Date,
     end: Date,
+    loading?: boolean,
     data?: Array<TimesheetEntry>,
     onActivityClick?: (x: TimesheetEntry) => void,
     onActivityAddClick?: (date: Date) => void,
 };
-export const ActivityList = React.memo(
-    (props: ActivityListProps) => {
-        const data = mapData(props.data || []);
+export const ActivityList = (props: ActivityListProps) => {
+    if (props.loading) {
+        return <ListSkeleton size={10} itemClassName="activity" />;
+    }
 
-        const items = Array.from(getRange(props.end, props.start, -1)).map((date) => {
-            const key = toISODate(date);
-            const entries = data.get(key);
+    const data = mapData(props.data || []);
 
-            if (entries === undefined) {
-                return <ActivityDay key={key} date={date} onActivityAdd={props.onActivityAddClick} />;
-            }
+    const items = Array.from(getRange(props.end, props.start, -1)).map((date) => {
+        const key = toISODate(date);
+        const entries = data.get(key);
 
-            return <ActivityDay
-                key={key}
-                date={date}
-                entries={entries}
-                hours={countTotalHours(entries)}
-                onActivityAdd={props.onActivityAddClick}
-                onActivityClick={props.onActivityClick}
-            />;
-        });
-
-        return (
-            <div className="activity-list">
-                {items}
-            </div>
-        );
-    },
-    (prev, next) => {
-        if (prev.data === next.data) {
-            return true;
-        }
-        if (prev.data === undefined || next.data === undefined) {
-            return false;
+        if (entries === undefined) {
+            return <ActivityDay key={key} date={date} onActivityAdd={props.onActivityAddClick} />;
         }
 
-        if (prev.data.length === 0 && next.data.length === 0) {
-            return true;
-        }
-        if (prev.data.length !== next.data.length) {
-            return false;
-        }
+        return <ActivityDay
+            key={key}
+            date={date}
+            entries={entries}
+            hours={countTotalHours(entries)}
+            onActivityAdd={props.onActivityAddClick}
+            onActivityClick={props.onActivityClick}
+        />;
+    });
 
-        return prev.data.reduce(
-            (acc, currentItem, i) => acc && isTimesheetEntryEqual(currentItem, next.data![i]),
-            true,
-        );
-    },
-);
+    return (
+        <div className="activity-list">
+            {items}
+        </div>
+    );
+};
 
 
 

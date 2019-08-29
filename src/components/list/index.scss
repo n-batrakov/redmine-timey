@@ -34,3 +34,17 @@
     flex-direction: row;
   }
 }
+
+.timey-list-item.skeleton {
+  height: 48px;
+  border-color: $border-color;
+  animation: skeleton 2s infinite ease-in-out;
+  background-color: $gray-1;
+}
+
+@keyframes skeleton {
+  50% {
+    border-color: $primary-color;
+    box-shadow: $tile-box-shadow-hover;
+  }
+}

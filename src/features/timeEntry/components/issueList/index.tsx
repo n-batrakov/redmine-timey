@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { Issue } from 'shared/types';
 import { IssueHeader } from 'components/issueHeader';
-import { List, ListItem } from 'components/list';
+import { List, ListItem, ListSkeleton } from 'components/list';
 import { TagList, Tag } from 'components/tags';
 
 
@@ -29,6 +29,7 @@ const IssueListItem = ({ issue }: IssueListItemProps) => {
 };
 
 export type IssueListProps = {
+    loading?: boolean,
     issues?: Issue[],
     style?: React.CSSProperties,
 
@@ -37,6 +38,10 @@ export type IssueListProps = {
 };
 export const IssueList = (props: IssueListProps) => {
     const list = props.issues || [];
+
+    if (props.loading) {
+        return <ListSkeleton size={20} />;
+    }
 
     return (
         <List style={props.style}>{

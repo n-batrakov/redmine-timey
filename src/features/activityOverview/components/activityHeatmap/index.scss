@@ -9,7 +9,8 @@
   max-height: 200px;
 
   .loading {
-    animation: load 2s ease-in-out infinite;
+    fill: #6191c2;
+    animation: heatmap-load 2s ease-in-out infinite;
   }
 
   text {
@@ -39,20 +40,6 @@
   .color-warn { fill: $danger-color; }
 }
 
-@-webkit-keyframes load {
-  0% { fill: #eee; }
-  50% { fill: #6191c2; }
-  100% { fill: #eee; }
-}
-
-@-moz-keyframes load {
-  0% { fill: #eee; }
-  50% { fill: #6191c2; }
-  100% { fill: #eee; }
-}
-
-@keyframes load {
-  0% { fill: #6191c2; }
+@keyframes heatmap-load {
   50% { fill: #9ac1ea; }
-  100% { fill: #6191c2; }
 }
