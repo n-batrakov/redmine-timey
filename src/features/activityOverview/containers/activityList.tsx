@@ -32,8 +32,8 @@ export const ActivityListContainer = (props: ActivityListContainerProps) => {
     const loadData = useActions(loadTimingList);
 
     return (
-        <>
-            <ActivityListHeader date={isDaySelected ? timeframe.start : undefined} />
+        <div style={{ margin: '40px auto', maxWidth: 800, width: '100%' }}>
+            <ActivityListHeader date={isDaySelected ? timeframe.start : undefined} style={{ marginBottom: 40 }} />
             <Loader active={state.isLoading} />
 
             <div style={state.isLoading ? { display: 'none' } : undefined}>
@@ -45,6 +45,6 @@ export const ActivityListContainer = (props: ActivityListContainerProps) => {
                     onActivityAddClick={props.onActivityAddClick}
                 />
             </div>
-        </>
+        </div>
     );
 };
