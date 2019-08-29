@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { Enumeration, TimesheetEntry } from '../../../../shared/types';
-import { Form, FormRow } from '../../../../components/form';
-import { toArray } from '../../../../shared/utils';
-import { Button } from '../../../../components/button';
-import { toISODate } from '../../../../shared/date';
+import { Enumeration, TimesheetEntry } from 'shared/types';
+import { Form, FormRow } from 'components/form';
+import { toArray } from 'shared/utils';
+import { Button } from 'components/button';
+import { toISODate } from 'shared/date';
 
 const onSubmit = (props: TimingFormProps) => React.useCallback(
     (e: { spentOn: Date | string, hours: string, comments: string, activity: string }) => {
