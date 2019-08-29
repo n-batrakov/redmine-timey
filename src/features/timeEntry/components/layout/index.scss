@@ -1,0 +1,50 @@
+@import 'variables.scss';
+
+.timing-page {
+  display: flex;
+  height: calc(100vh - #{$header-height});
+
+  h1 { margin-bottom: 20px; }
+  h3 { margin-bottom: 10px; }
+
+  &.mobile {
+    h1 {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    h3 {
+      margin-top: 10px;
+    }
+  }
+
+  &.desktop {
+    .issues-container {
+      height: 100%;
+      overflow-x: auto;
+      padding: 5px 10px 5px 0;
+      margin-right: 20px;
+      flex: 1 1 auto;
+    }
+
+    .entry-container {
+      width: 300px;
+    }
+
+    .col {
+      $padding: 24px;
+
+      display: flex;
+      flex-direction: column;
+      margin: auto;
+      padding: $padding;
+      height: calc(100% - #{2 * $padding});
+    }
+
+    .row {
+      display: flex;
+      margin: auto;
+      height: 100%;
+    }
+  }
+}

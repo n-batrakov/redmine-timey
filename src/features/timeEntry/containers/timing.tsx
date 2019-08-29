@@ -1,77 +1,17 @@
 import * as React from 'react';
 import { RouteComponentProps, Redirect } from 'react-router';
 import { tryParseDate } from 'shared/date';
-import { bind } from 'shared/utils';
-import { Container } from 'components/container';
-import { MobileScreen, MobileScreenHidden } from 'components/mediaQuery';
-import { Tabs, TabList, TabPanel, Tab } from 'components/tabs';
 import { Danger, Success } from 'components/alert';
 import { CoverLoader } from 'components/preloader';
 import { AppState, useAppState, useActions } from 'state';
 
 import { TimingForm } from '../components/timingForm';
-import { ToggledIssueFilter, IssueFilterForm, OverflowIssueFilter } from '../components/issueFilter';
+import { IssueFilterForm } from '../components/issueFilter';
 import { Issues } from './issues';
-import { applyFilter, selectIssue, loadIssues, mapFilterToForm } from '../state/issues/actions';
+import { applyFilter, mapFilterToForm, selectIssue, loadIssues } from '../state/issues/actions';
 import { addTimesheetEntry, updateTimesheetEntry, deleteTimesheetEntry, loadTimesheetEntry, resetEntryForm } from '../state/timing/actions';
-
-
-type PageLayoutProps = {
-    filter?: React.ReactNode,
-    issues?: React.ReactNode,
-    form?: React.ReactNode,
-};
-const PageLayout = React.memo(
-    (props: PageLayoutProps) => {
-        const noIssue = useAppState(x => x.issues.selectedIssue === undefined);
-        const unselectIssue = useActions(bind(selectIssue, undefined));
-        const refresh = useActions(bind(loadIssues));
-
-        return (
-            <>
-                <MobileScreen>
-                    <Container>
-                        <Tabs selectedIndex={noIssue ? 0 : 1} onSelect={unselectIssue}>
-                            <TabList>
-                                <Tab>Issue</Tab>
-                                <Tab disabled={noIssue}>Timing</Tab>
-                            </TabList>
-                            <TabPanel>
-                                <ToggledIssueFilter>{props.filter}</ToggledIssueFilter>
-                                {props.issues}
-                            </TabPanel>
-                            <TabPanel>
-                                {props.form}
-                            </TabPanel>
-                        </Tabs>
-                    </Container>
-                </MobileScreen>
-                <MobileScreenHidden>
-                    <div style={{ display: 'flex' }}>
-                        <OverflowIssueFilter onRefresh={refresh}>{props.filter}</OverflowIssueFilter>
-                        <Container inline>
-                            <div style={{
-                                    height: 'calc(100vh - 2*24px - 40px)',
-                                    overflowX: 'auto',
-                                    paddingRight: 10,
-                                    marginRight: 20,
-                                    flex: '1 1 auto',
-                                }}
-                            >
-                                {props.issues}
-                            </div>
-                            <div style={{ width: 300 }}>
-                                {props.form}
-                            </div>
-                        </Container>
-                    </div>
-                </MobileScreenHidden>
-            </>
-        );
-    },
-    () => false,
-);
-
+import { PageLayout } from '../components/layout';
+import { bind } from 'shared/utils';
 
 const Filter = () => {
     const filter = useAppState(x => x.issues.filter);
@@ -87,13 +27,7 @@ const Filter = () => {
     return <IssueFilterForm enums={enums} onSubmit={onSubmit} filter={form}/>;
 };
 
-
-type FormProps = {
-    entryId: string,
-    onCancel?: () => void,
-};
-
-const Form = (props: FormProps) => {
+const Form = (props: { entryId: string, onCancel?: () => void }) => {
     const editMode = props.entryId !== 'new';
     const state = useAppState(x => x.timingsForm);
     const selectedIssueId = useAppState(selectedIssueIdSelector);
@@ -142,16 +76,26 @@ const Form = (props: FormProps) => {
 
 export const TimingPage = (props: RouteComponentProps<{ id: string }>) => {
     const success = useAppState(x => x.timingsForm.success);
-
     const resetStore = useActions(resetEntryForm) as () => void;
+
+    const isIssueSelected = useAppState(x => x.issues.selectedIssue !== undefined);
+    const unselectIssue = useActions(bind(selectIssue, undefined));
+    const refresh = useActions(bind(loadIssues));
+
     React.useEffect(() => resetStore, []);
     if (success) return <Redirect to="/time" />;
 
+    const editMode = props.match.params.id !== 'new';
+
     return (
         <PageLayout
+            title={editMode ? 'Update Activity' : 'Add Activity'}
             filter={<Filter />}
             issues={<Issues />}
             form={<Form entryId={props.match.params.id} onCancel={() => props.history.push('/time')} />}
+            issueSelected={isIssueSelected}
+            onRefresh={refresh}
+            unselectIssue={unselectIssue}
         />
     );
 };
