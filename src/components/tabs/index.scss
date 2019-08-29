@@ -1,48 +1,48 @@
 @import 'palette.scss';
 @import 'variables.scss';
 
+.ReactModal__Body--open {
+  overflow: hidden;
+}
+
 .react-tabs {
   -webkit-tap-highlight-color: transparent;
   padding: 20px;
-}
 
-.react-tabs__tab-list {
-  display: table;
-  margin: 0 auto;
-  padding: 0 2px;
-}
+  &__tab-list {
+    display: table;
+    margin: 0 auto;
+    padding: 0 2px;
+  }
 
-.react-tabs__tab {
-  display: inline-block;
-  bottom: -1px;
-  position: relative;
-  list-style: none;
-  padding: 6px 12px;
-  cursor: pointer;
-}
+  &__tab-panel {
+    display: none;
+    padding-top: 14px;
 
-.react-tabs__tab--selected {
-  border-bottom: 3px solid $accent-color;
-}
+    &--selected { display: block; }
+  }
 
-.react-tabs__tab--disabled {
-  color: $disabled-color;
-  cursor: not-allowed;
-}
+  &__tab {
+    display: inline-block;
+    bottom: -1px;
+    position: relative;
+    list-style: none;
+    padding: 6px 12px;
+    cursor: pointer;
 
-.react-tabs__tab:focus {
-  outline: 1px solid $accent-color;
-}
+    &--selected { border-bottom: 3px solid $primary-color; }
 
-.react-tabs__tab-panel {
-  display: none;
-  padding-top: 14px;
-}
+    &--disabled {
+      color: $disabled-color;
+      cursor: not-allowed;
+    }
 
-.react-tabs__tab-panel--selected {
-  display: block;
-}
+    &:hover {
+      border-bottom: 3px solid $border-color;
+    }
 
-.ReactModal__Body--open {
-  overflow: hidden;
+    &:focus {
+      outline: 1px solid $primary-color;
+    }
+  }
 }
