@@ -1,4 +1,5 @@
 import { IssuesState, IssuesAction } from './types';
+import { assertNever } from 'shared/utils';
 
 export const initState: IssuesState = {
     data: [],
@@ -45,7 +46,10 @@ export const reducer = (state: IssuesState, action: IssuesAction): IssuesState =
                 ...state,
                 selectedIssue: action.issue,
             };
+        case 'issues_reset':
+            return initState;
         default:
+            assertNever(action);
             return state;
     }
 };

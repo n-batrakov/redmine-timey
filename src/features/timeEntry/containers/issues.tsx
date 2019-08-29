@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useAppState, useActions } from 'state';
 import { IssueList } from '../components/issueList';
-import { loadIssues, selectIssue } from '../state/issues/actions';
+import { loadIssues, selectIssue, resetIssues } from '../state/issues/actions';
 
 
 const NoData = React.memo((props: { visible: boolean }) => {
@@ -17,9 +17,15 @@ export const Issues = () => {
     const loading = useAppState(x => x.issues.isLoading);
     const data = useAppState(x => x.issues.data);
     const selectedIssue = useAppState(x => x.issues.selectedIssue);
-    const actions = useActions({ loadIssues, selectIssue });
+    const actions = useActions({ loadIssues, selectIssue, resetIssues });
 
-    React.useEffect(() => { actions.loadIssues(); }, []);
+    React.useEffect(
+        () => {
+            actions.loadIssues();
+            return () => { actions.resetIssues(); };
+        },
+        [],
+    );
 
     return (
         <>

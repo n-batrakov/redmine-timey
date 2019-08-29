@@ -46,6 +46,8 @@ export type IssuesAction = {
 } | {
     type: 'issues_selectIssue',
     issue?: Issue,
+} | {
+    type: 'issues_reset',
 };
 
 export type IssuesThunk = ThunkAction<void, AppState, {}, IssuesAction>;

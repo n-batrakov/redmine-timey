@@ -87,3 +87,7 @@ export const loadIssues = (): IssuesThunk =>
         const { data, totalCount } = await queryIssues({ limit, offset, ...queryFilter });
         dispatch(setData(data, totalCount));
 };
+
+export const resetIssues = (): IssuesAction => ({
+    type: 'issues_reset',
+});
