@@ -7,11 +7,10 @@ import { getRange, toISODate } from 'shared/date';
 import { TimesheetEntry, isTimesheetEntryEqual } from 'shared/types';
 import { NavLink } from 'react-router-dom';
 import { IconEdit } from 'components/icon';
+import { ListItem, List } from 'components/list';
 
 const NoData = () => (
-    <div className="issue placeholder">
-        <h4>No activity</h4>
-    </div>
+    <ListItem className="activity placeholder" inline><h4>No activity</h4></ListItem>
 );
 
 type ActivityIssueProps = {
@@ -26,7 +25,7 @@ const ActivityIssue = (props : ActivityIssueProps) => {
         <>
         {
             props.items.map(x => (
-                <div className="issue" key={x.id}>
+                <ListItem key={x.id} className="activity" style={{ minHeight: 78 }} inline>
                     <div className="prepend">
                         {x.hours} h.
                     </div>
@@ -34,8 +33,10 @@ const ActivityIssue = (props : ActivityIssueProps) => {
                         <h5 className="header"><IssueHeader project={project} issue={issue} showNumber column/></h5>
                         <div className="content">{x.comments}</div>
                     </div>
-                    <NavLink className="action btn-edit" to={`/time/${x.id}`}><IconEdit /></NavLink>
-                </div>
+                    <NavLink className="action btn-edit" to={`/time/${x.id}`} title="Edit entry">
+                        <IconEdit />
+                    </NavLink>
+                </ListItem>
             ))
         }
         </>
@@ -61,13 +62,19 @@ const ActivityDay = (props : ActivityDayProps) => {
                 <h5>{formatDate(props.date)} - {props.hours || 0} hours</h5>
                 <NavLink className="btn-add" to={`/time/new?date=${toISODate(props.date)}`}>Add Activity</NavLink>
             </div>
+            <List>
             {
                 issues.length === 0
                 ? <NoData />
                 : issues.map(([issueId, items]) =>
-                    <ActivityIssue key={issueId} items={items} onActivityClick={props.onActivityClick} />,
+                    <ActivityIssue
+                        key={issueId}
+                        items={items}
+                        onActivityClick={props.onActivityClick}
+                    />,
                 )
             }
+            </List>
         </div>
     );
 };
@@ -137,7 +144,7 @@ export const ActivityList = React.memo(
 
 
 const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wedsday', 'Thursday', 'Friday', 'Saturday'];
-const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 function formatDate(date: Date): string {
     const dayNumber = date.getDate();

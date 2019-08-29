@@ -1,4 +1,3 @@
-import './index.scss';
 import * as React from 'react';
 
 import { Issue } from 'shared/types';
@@ -16,7 +15,7 @@ const IssueListItem = ({ issue }: IssueListItemProps) => {
             <IssueHeader
                 issue={{ id: issue.id, name: issue.subject, href: issue.href }}
                 project={issue.project}
-                showNumber ignoreHref
+                showNumber ignoreHref column
             />
             <div style={{ display: 'flex', marginTop: 8 }}>
                 <TagList>
@@ -44,7 +43,12 @@ export const IssueList = (props: IssueListProps) => {
             list.map((issue) => {
                 const onClick = props.onSelect === undefined ? undefined : () => (props.onSelect as any)(issue);
                 return (
-                    <ListItem key={issue.id} onClick={onClick} clickable selected={issuesEqual(issue, props.selectedIssue)}>
+                    <ListItem
+                        key={issue.id}
+                        onClick={onClick}
+                        clickable
+                        selected={issuesEqual(issue, props.selectedIssue)}
+                    >
                         <IssueListItem issue={issue} />
                     </ListItem>
                 );

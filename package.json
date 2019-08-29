@@ -15,9 +15,7 @@
     "lint": "npm run lint:code ; npm run lint:styles"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^1.2.21",
-    "@fortawesome/free-solid-svg-icons": "^5.10.1",
-    "@fortawesome/react-fontawesome": "^0.1.4",
+    "classnames": "^2.2.6",
     "commander": "^3.0.0",
     "csv-parser": "^2.3.0",
     "fastify": "^2.7.1",
@@ -39,6 +37,7 @@
   },
   "devDependencies": {
     "@csstools/postcss-sass": "^4.0.0",
+    "@types/classnames": "^2.2.9",
     "@types/jest": "^24.0.17",
     "@types/jsonwebtoken": "^8.3.3",
     "@types/node": "^12.7.2",

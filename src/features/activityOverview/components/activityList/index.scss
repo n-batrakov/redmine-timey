@@ -4,14 +4,12 @@
 $tile-min-height: 78px;
 
 .activity-list {
-  max-width: 800px;
-  margin: auto;
-
   .day {
     margin-bottom: module(8);
 
     .day-header {
       display: flex;
+      margin-bottom: module(2);
 
       .btn-add {
         margin: auto 0 auto auto;
@@ -19,58 +17,51 @@ $tile-min-height: 78px;
         &:hover { text-decoration: underline; }
       }
     }
+  }
+}
 
-    .issue {
-      display: flex;
-      min-height: $tile-min-height;
-      margin: module(2) 0;
-      box-shadow: $tile-box-shadow;
-      border-radius: $tile-border-radius;
-      border-left: 5px solid $primary-color;
+.activity {
+  min-height: $tile-min-height;
 
-      &.placeholder {
-        padding: 0 module(2);
-        border-left-color: $border-color;
-        align-items: center;
-      }
+  &.placeholder {
+    border-left-color: $border-color;
+    align-items: center;
+  }
 
-      .prepend {
-        display: flex;
-        align-items: center;
-        padding-left: module(2);
-        white-space: nowrap;
-      }
+  .prepend {
+    display: flex;
+    align-items: center;
+    padding-right: module(3);
+    white-space: nowrap;
+  }
 
-      .issue-container {
-        padding: module(2);
-        display: flex;
-        flex-direction: column;
-      }
+  .issue-container {
+    display: flex;
+    flex-direction: column;
+  }
 
-      .header {
-        margin-bottom: module(2);
-        text-transform: none;
-        font-weight: normal;
-      }
+  .header {
+    margin-bottom: module(2);
+    text-transform: none;
+    font-weight: normal;
+  }
 
-      .content {
-        margin-top: auto;
-      }
+  .content {
+    margin-top: auto;
+  }
 
-      .action {
-        margin: auto module(2) auto auto;
-      }
+  .action {
+    margin: auto 0 auto auto;
+  }
 
-      .btn-edit {
-        font-size: 18px;
-        padding: module(3);
-        color: inherit;
-        text-decoration: none;
+  .btn-edit {
+    font-size: 18px;
+    padding: 15px;
+    color: inherit;
+    text-decoration: none;
 
-        &:hover {
-          color: $primary-color;
-        }
-      }
+    &:hover {
+      color: $link-color;
     }
   }
 }
