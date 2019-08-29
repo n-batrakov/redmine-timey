@@ -2,7 +2,7 @@ import * as React from 'react';
 import { RouteComponentProps, Redirect } from 'react-router';
 import { tryParseDate } from 'shared/date';
 import { Danger, Success } from 'components/alert';
-import { CoverLoader } from 'components/preloader';
+import { Loader } from 'components/preloader';
 import { AppState, useAppState, useActions } from 'state';
 
 import { TimingForm } from '../components/timingForm';
@@ -51,7 +51,7 @@ const Form = (props: { entryId: string, onCancel?: () => void }) => {
     };
 
     if (data === undefined) {
-        return <CoverLoader active />;
+        return <Loader active />;
     }
 
     return (

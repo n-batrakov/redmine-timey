@@ -1,3 +1,5 @@
+@import 'palette.scss';
+
 .timey-form-row {
   display: flex;
   flex-direction: column;
@@ -7,4 +9,18 @@
 
   &.inline { flex-direction: row; }
   &.inline.right > *:last-child { margin-left: 2px; }
+}
+
+.timey-form.loading {
+  input,
+  textarea,
+  select {
+    animation: input-loading 2s infinite ease-in-out;
+  }
+}
+
+@keyframes input-loading {
+  50% {
+    background-color: $disabled-color;
+  }
 }

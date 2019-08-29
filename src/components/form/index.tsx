@@ -1,7 +1,7 @@
 import './index.scss';
 import * as React from 'react';
-import { CoverLoader } from '../preloader';
 import { getFormData } from '../../shared/form';
+import classNames from 'classnames';
 
 type DefaultProps = {
     style?: React.CSSProperties,
@@ -29,8 +29,11 @@ export type FormProps<T> = DefaultProps & {
 export function Form<T = any>(props: FormProps<T>) {
     return (
         <>
-            <CoverLoader active={props.loading || false } style={{ marginTop: 0, top: '40%' }}/>
-            <form onSubmit={onSubmit(props)} className="timey-form" style={props.style}>
+            <form
+                onSubmit={onSubmit(props)}
+                className={classNames('timey-form', { loading: props.loading })}
+                style={props.style}
+            >
                 {props.children}
             </form>
          </>
