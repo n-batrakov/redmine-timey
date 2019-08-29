@@ -8,9 +8,10 @@
   h3 { margin-bottom: 10px; }
 
   &.mobile {
+    flex-direction: column;
+
     h1 {
-      margin-left: auto;
-      margin-right: auto;
+      margin: 15px auto 0 auto;
     }
 
     h3 {
