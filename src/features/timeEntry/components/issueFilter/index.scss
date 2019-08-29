@@ -1,8 +1,11 @@
+@import 'variables.scss';
+@import 'palette.scss';
+
 .filter-toggle {
   display: flex;
   justify-content: center;
   cursor: pointer;
-  margin: 5px 0;
+  margin: module() 0;
   user-select: none;
 
   &-input {
@@ -27,21 +30,23 @@
   &.overflow {
     display: flex;
     flex-direction: column;
-    background: #fff;
-    border-right: 1px solid #aaa;
     margin: 0;
 
     .filter-toggle {
-      margin: 5px;
-      padding: 5px 5px;
-      color: #2261a1;
+      padding: 10px 15px;
+      border-radius: 0;
+      border-top-right-radius: 20px;
+      border-bottom-right-radius: 20px;
+      box-shadow: 1px 1px 3px $gray-3;
+      font-size: 21px;
+      outline: none;
     }
 
     .content {
       width: 300px;
       height: 100%;
-      background: #fff;
-      padding: 10px 30px;
+      padding: module(2) module(5);
+      border-right: 1px solid $border-color;
     }
   }
 }

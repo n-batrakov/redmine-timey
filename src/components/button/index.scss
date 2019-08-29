@@ -1,34 +1,36 @@
+@import 'variables.scss';
+@import 'palette.scss';
+
 .btn {
-  background-color: #fff;
-  color: #000;
+  background-color: $background-color;
+  color: $font-color;
+  border: 1px solid $border-color;
+  border-radius: $border-radius;
   padding: 12px 20px;
-  border: 1px solid #aaa;
-  border-radius: 4px;
   cursor: pointer;
   text-align: center;
   font-size: 13px;
 
   &:focus {
-    outline: 1px solid #2684ff;
-    outline-width: 1px;
-    outline-offset: -2px;
+    outline: 1px solid $outline-color;
   }
 
   &:disabled {
-    background-color: #aaa;
-    color: #eee;
+    background-color: $disabled-color;
     cursor: not-allowed;
   }
 }
 
 .btn-primary {
-  background-color: #28a745;
+  border: none;
   color: #fff;
+  background-color: $success-color;
 }
 
 .btn-danger {
-  background-color: #dc3545;
+  border: none;
   color: #fff;
+  background-color: $danger-color;
 }
 
 .btn-small {

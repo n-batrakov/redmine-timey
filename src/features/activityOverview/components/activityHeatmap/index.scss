@@ -1,3 +1,5 @@
+@import 'palette.scss';
+
 .activity-heatmap-item {
   cursor: pointer;
 }
@@ -7,15 +9,12 @@
   max-height: 200px;
 
   .loading {
-    fill: red;
-    -webkit-animation: 2s ease-in-out infinite;
-    -moz-animation: 2s ease-in-out infinite;
     animation: load 2s ease-in-out infinite;
   }
 
   text {
     font-size: 8px;
-    fill: #aaa;
+    fill: $font-color;
   }
 
   .react-calendar-heatmap-small-text {
@@ -23,18 +22,21 @@
   }
 
   rect:hover {
-    stroke: #555;
+    stroke: $accent-color;
     stroke-width: 1px;
   }
 
-  .color-empty { fill: #eee; }
-  .color-filled { fill: #7fa8d1; }
-  .color-0 { fill: #c9d6e4; }
-  .color-1 { fill: #b0c2d7; }
-  .color-2 { fill: #9ac1ea; }
-  .color-3 { fill: #6191c2; }
-  .color-4 { fill: #19619c; }
-  .color-warn { fill: #ff7e00; }
+  $step: 15%;
+  $base-color: darken($primary-color, 3 * $step);
+
+  @for $n from 1 through 5 {
+    .color-#{$n} {
+      fill: lighten($base-color, 100 - $n * $step);
+    }
+  }
+
+  .color-0 { fill: $gray-1; }
+  .color-warn { fill: $danger-color; }
 }
 
 @-webkit-keyframes load {

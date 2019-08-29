@@ -1,7 +1,12 @@
+@import 'variables.scss';
+@import 'palette.scss';
+
 body {
   margin: 0;
   font-family: 'Roboto', sans-serif;
   font-size: 14px;
+  background-color: $background-color;
+  color: $font-color;
 }
 
 h1,
@@ -32,7 +37,7 @@ ol {
 a {
   cursor: pointer;
   text-decoration: none;
-  color: #2261a1;
+  color: $link-color;
 
   &:hover { text-decoration: underline; }
 }
@@ -46,12 +51,17 @@ select,
 textarea {
   box-sizing: border-box;
   width: 100%;
-  padding: 12px;
-  border: 1px solid #ccc;
+  padding: module(2);
+  border: 1px solid $border-color;
   border-radius: 3px;
   resize: none;
-  background-color: #fff;
+  color: $font-color;
+  background-color: $background-color;
   height: 42px;
+
+  &:focus {
+    outline: 1px solid $outline-color;
+  }
 }
 
 *::-webkit-scrollbar {

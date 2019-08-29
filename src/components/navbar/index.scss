@@ -1,10 +1,11 @@
+@import 'palette.scss';
 @import 'variables.scss';
 
 .navbar {
   width: 100%;
-  background-color: $primary-color;
+  background-color: $header-color;
   display: flex;
-  padding: 4px 0;
+  padding: module() 0;
 
   .navbar-logo {
     margin: auto 0;
@@ -13,13 +14,13 @@
   .navbar-items {
     list-style: none;
     display: flex;
-    margin: 0 0 0 6px;
+    margin: 0 0 0 module();
   }
 
   .navbar-items-right {
     display: flex;
     list-style: none;
-    margin-right: 12px;
+    margin-right: module(2);
     margin-left: auto;
   }
 }
@@ -28,8 +29,8 @@
   display: block;
   text-align: center;
   padding: 8px;
-  margin: 0 4px;
-  color: white;
+  margin: 0 module();
+  color: $header-font-color;
   text-decoration: none;
   border-radius: 4px;
   border: none;
@@ -38,12 +39,12 @@
   outline: 0;
 
   &:hover {
-    background: rgba(201, 220, 242, 0.2);
+    background: scale-color($header-font-color, $alpha: -60%);
     cursor: pointer;
   }
 
   &.active {
-    background-color: #fff;
-    color: $primary-color;
+    background-color: $header-font-color;
+    color: $header-color;
   }
 }

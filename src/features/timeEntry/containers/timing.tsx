@@ -51,7 +51,7 @@ const PageLayout = React.memo(
                         <OverflowIssueFilter onRefresh={refresh}>{props.filter}</OverflowIssueFilter>
                         <Container inline>
                             <div style={{
-                                    height: 'calc(100vh - 2*24px - 38px)',
+                                    height: 'calc(100vh - 2*24px - 40px)',
                                     overflowX: 'auto',
                                     paddingRight: 10,
                                     marginRight: 20,

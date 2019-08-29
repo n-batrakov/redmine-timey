@@ -16,12 +16,10 @@ const getHeatmapItemClass = (value: { count: number }, isLoading?: boolean) => {
             return 'loading';
         }
 
-        if (!value || value.count === 0) {
-            return 'color-empty';
-        }
+        const count = value === undefined ? 0 : value.count;
 
         for (const [min, max, color] of colorThresholds) {
-            if (value.count >= min && value.count < max) {
+            if (count >= min && count < max) {
                 return `color-${color}`;
             }
         }

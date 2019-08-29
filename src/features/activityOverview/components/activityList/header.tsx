@@ -1,4 +1,3 @@
-import './header.scss';
 import * as React from 'react';
 import { Breadcrumbs, Crumb } from 'components/breadcrumbs';
 import { NavLink } from 'react-router-dom';
@@ -7,12 +6,13 @@ const showIf = (condition: boolean): React.CSSProperties | undefined => conditio
 
 export type ActivityListHeaderProps = {
     date?: Date,
+    style?: React.CSSProperties,
 };
 export const ActivityListHeader = React.memo(
     (props: ActivityListHeaderProps) => {
         const isDaySelected = props.date !== undefined;
         return (
-            <h1 className="activity-list-header">
+            <h1 className="activity-list-header" style={props.style}>
                 <Breadcrumbs>
                     <Crumb>
                         <NavLink to="/time" className="activity-list-header-link">Recent Activity</NavLink>

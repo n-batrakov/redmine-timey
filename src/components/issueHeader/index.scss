@@ -1,10 +1,13 @@
+@import 'palette.scss';
+@import 'variables.scss';
+
 .issue-header {
   display: flex;
 
   &.column { flex-direction: column; }
-  &.inline > *:not(:first-child) { margin-left: 5px; }
+  &.inline > *:not(:first-child) { margin-left: module(); }
 
   .project-title {
-    color: #888;
+    color: $font-color-sub;
   }
 }

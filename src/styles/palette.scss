@@ -1,15 +1,28 @@
 $gray-0: #fff;
-$gray-1: #c6c6c6;
-$gray-2: #919191;
-$gray-3: #5e5e5e;
-$gray-4: #303030;
+$gray-1: #eee;
+$gray-2: #c6c6c6;
+$gray-3: #919191;
+$gray-4: #424656;
 
-$primary-color: #2261a1;
+$primary-color: #2565b7;
+$accent-color: #b03c58;
+
+$success-color: #12b893;
+$danger-color: complement($success-color);
+$disabled-color: $gray-3;
 
 $background-color: $gray-0;
 $font-color: $gray-4;
+$font-color-sub: $gray-3;
 
 $header-color: $primary-color;
 $header-font-color: $gray-0;
 
 $border-color: $gray-2;
+
+$link-color: #344f88;
+
+$timeentry-color: #25aeb7;
+$issue-color: #69b725;
+
+$outline-color: $primary-color;

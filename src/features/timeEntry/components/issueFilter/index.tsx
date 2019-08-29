@@ -89,7 +89,7 @@ export const ToggledIssueFilter = (props: IssueFilterContainerProps) => {
                 className="filter-toggle-input"
                 defaultChecked={props.opened}
             />
-            <label className="filter-toggle btn" htmlFor="filter-toggle-input" >
+            <label className="filter-toggle btn" htmlFor="filter-toggle-input">
                 Filters <IconFilter />
             </label>
 
@@ -114,10 +114,15 @@ export const OverflowIssueFilter = (props: IssueFilterContainerProps) => {
                 {props.children}
             </div>
 
-            <label className="filter-toggle btn" htmlFor="filter-toggle-input" >
+            <label className="filter-toggle btn" htmlFor="filter-toggle-input" title="Filters">
                 <IconFilter />
             </label>
-            <button type="button" className="filter-toggle btn" onClick={props.onRefresh}>
+            <button
+                type="button"
+                className="filter-toggle btn"
+                onClick={props.onRefresh}
+                title="Refresh data"
+            >
                 <IconRefresh />
             </button>
         </div>
