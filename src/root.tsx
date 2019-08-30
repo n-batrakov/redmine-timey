@@ -56,7 +56,7 @@ export const AppRoot = () => {
                     <Navbar
                         logo={<Logo/>}
                         items={[
-                            <NavLink to="/time" className="navbar-btn" activeClassName="active">Time</NavLink>,
+                            <NavLink to="/time" className="navbar-btn" activeClassName="active">Activity</NavLink>,
                         ]}
                         rightItems={[
                             <a className="navbar-btn" href={redmineHref} target="_blank" rel="noopener noreferrer">Redmine</a>,
