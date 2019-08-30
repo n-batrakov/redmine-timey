@@ -52,7 +52,6 @@ const Form = (props: { entryId: string, onCancel?: () => void }) => {
     return (
         <>
             <Danger>{state.error}</Danger>
-            <Success>{state.success ? 'Success' : undefined}</Success>
             <TimingForm
                 key={data === undefined ? 'empty' : undefined}
                 disabled={selectedIssueId === undefined}
