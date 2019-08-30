@@ -6,18 +6,61 @@
     <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+
     <link rel="manifest" href="/manifest.json">
 
-    <meta name="theme-color" content="#2261a1">
-    <meta name="msapplication-TileColor" content="#2261a1">
-    <meta name="msapplication-navbutton-color" content="#2261a1">
+    <style>
+      .loading > .first-paint { display: flex; }
+
+      .first-paint {
+        display: none;
+        height: 100vh;
+      }
+
+      .first-paint .header {
+        margin: auto;
+        font-size: 21vw;
+        font-weight: bolder;
+        text-transform: uppercase;
+        font-style: oblique;
+      }
+
+      .first-paint .header .layer-1 {
+        color: rgba(255, 0, 0, 0.2);
+      }
+
+      .first-paint .header .layer-2 {
+        color: rgba(0, 255, 0, 0.2);
+        margin-top: -1.15em;
+        margin-left: 3px;
+      }
+
+      .first-paint .header .layer-3 {
+        color: rgba(0, 0, 200, 0.3);
+        margin-top: -1.15em;
+        margin-left: 6px;
+      }
+    </style>
+
+    <meta name="theme-color" content="#2565b7">
+    <meta name="msapplication-TileColor" content="#2565b7">
+    <meta name="msapplication-navbutton-color" content="#2565b7">
 
     <meta name="apple-mobile-web-app-title" content="Timey">
     <meta name=”apple-mobile-web-app-capable” content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="#2261a1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#2565b7">
     <link rel="apple-touch-icon" href="/logo-128.png">
+
   </head>
-  <body>
+  <body class="loading">
+      <div class="first-paint">
+        <div class="header">
+            <div class="layer-1">Timey</div>
+            <div class="layer-2">Timey</div>
+            <div class="layer-3">Timey</div>
+        </div>
+
+      </div>
       <div id="app">
           <noscript>
               <div style="margin: 20px">
