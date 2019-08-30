@@ -1,6 +1,7 @@
 import './index.scss';
 import * as React from 'react';
 import { Line } from 'rc-progress';
+import { Warning, Danger, Info } from 'components/alert';
 
 export type HoursGaugeProps = {
     actualValue: number;
@@ -9,11 +10,11 @@ export type HoursGaugeProps = {
 
 const defaultColor = '#000';
 const colors: [number, number, string][] = [
-    [0, 10, '#dc3545'],
-    [10, 50, '#ffc107'],
-    [50, 100, '#17a2b8'],
-    [100, 101, '#28a745'],
-    [101, 200, '#343a40'],
+    [0, 10, '#b81237'], // red
+    [10, 50, '#ff9900'], // yellow
+    [50, 100, '#2565b7'], // blue
+    [100, 101, '#12b893'], // green
+    [101, Infinity, 'midnightblue'],
 ];
 
 const getColor = (percent: number) => {
