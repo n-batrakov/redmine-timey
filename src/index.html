@@ -10,35 +10,29 @@
     <link rel="manifest" href="/manifest.json">
 
     <style>
-      .loading > .first-paint { display: flex; }
-
       .first-paint {
         display: none;
-        height: 100vh;
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        background-color: aliceblue;
+        z-index: 9;
       }
 
-      .first-paint .header {
+      .first-paint-logo .color-bkg { fill: aliceblue; }
+
+      .first-paint-logo .color-line {
+        stroke: #d1dae2;
+        fill: #d1dae2;
+      }
+
+      .first-paint svg {
+        height: 30vh;
         margin: auto;
-        font-size: 21vw;
-        font-weight: bolder;
-        text-transform: uppercase;
-        font-style: oblique;
       }
 
-      .first-paint .header .layer-1 {
-        color: rgba(255, 0, 0, 0.2);
-      }
-
-      .first-paint .header .layer-2 {
-        color: rgba(0, 255, 0, 0.2);
-        margin-top: -1.15em;
-        margin-left: 3px;
-      }
-
-      .first-paint .header .layer-3 {
-        color: rgba(0, 0, 200, 0.3);
-        margin-top: -1.15em;
-        margin-left: 6px;
+      #app:empty ~ .first-paint {
+        display: flex;
       }
     </style>
 
@@ -52,22 +46,17 @@
     <link rel="apple-touch-icon" href="/logo-128.png">
 
   </head>
-  <body class="loading">
+  <body>
+      <div id="app"></div>
       <div class="first-paint">
-        <div class="header">
-            <div class="layer-1">Timey</div>
-            <div class="layer-2">Timey</div>
-            <div class="layer-3">Timey</div>
-        </div>
-
-      </div>
-      <div id="app">
-          <noscript>
-              <div style="margin: 20px">
-                <h1>We're very sorry...</h1>
-                <p>but this site requires JavaScript enabled in your browser.<p>
-              </div>
-            </noscript>
+        <svg class="first-paint-logo" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 384 384">
+          <circle class="color-line" cx="192" cy="192" r="175"/>
+          <circle class="color-bkg" cx="192" cy="192" r="172"/>
+          <line class="color-line" stroke-width="3" stroke-miterlimit="10" x1="192" y1="192" x2="300" y2="192"/>
+          <line class="color-line" stroke-width="3" stroke-miterlimit="10" x1="192" y1="192" x2="192" y2="40"/>
+          <circle class="color-line" cx="192" cy="192" r="17" />
+          <circle class="color-bkg" cx="192" cy="192" r="14" />
+        </svg>
       </div>
   </body>
 </html>

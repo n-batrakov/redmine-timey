@@ -50,6 +50,4 @@ export const getSession = (): AuthThunk => async (dispatch, getState) => {
 
     const session = await getSessionApi();
     dispatch({ session, type: 'auth_login' });
-
-    document.body.classList.remove('loading');
 };
