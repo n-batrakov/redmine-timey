@@ -59,7 +59,7 @@ export const AppRoot = () => {
                             <NavLink to="/time" className="navbar-btn" activeClassName="active">Time</NavLink>,
                         ]}
                         rightItems={[
-                            <a className="navbar-btn" href={redmineHref}>Redmine</a>,
+                            <a className="navbar-btn" href={redmineHref} target="_blank" rel="noopener noreferrer">Redmine</a>,
                             <NavLink to="/logout" className="navbar-btn">Logout</NavLink>,
                         ]}
                     />

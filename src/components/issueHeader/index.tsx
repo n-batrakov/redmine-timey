@@ -19,7 +19,7 @@ const getProjectTitle = ({ name }: NamedId) => {
 
 const getIssueTitle = ({ id, name, href }: NamedId, showId: boolean, ignoreHref: boolean) => {
     const title = showId ? `#${id} ${name}` : name;
-    return <a className="issue-title" href={ignoreHref ? undefined : href}>{title}</a>;
+    return <a className="issue-title" target="_blank" rel="noopener noreferrer" href={ignoreHref ? undefined : href}>{title}</a>;
 };
 
 export const IssueHeader = (x: IssueHeaderProps) => {
