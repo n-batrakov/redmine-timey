@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { RouteComponentProps, Redirect } from 'react-router';
 import { tryParseDate } from 'shared/date';
-import { Danger, Success } from 'components/alert';
+import { Danger } from 'components/alert';
 import { AppState, useAppState, useActions } from 'state';
 
 import { TimingForm } from '../components/timingForm';
