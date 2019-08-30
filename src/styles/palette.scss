@@ -7,7 +7,9 @@ $gray-4: #424656;
 $primary-color: #2565b7;
 $accent-color: #b03c58;
 
+$info-color: $primary-color;
 $success-color: #12b893;
+$warn-color: complement($info-color);
 $danger-color: complement($success-color);
 $disabled-color: $gray-3;
 
