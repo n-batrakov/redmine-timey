@@ -19,13 +19,7 @@ export const Issues = () => {
     const selectedIssue = useAppState(x => x.issues.selectedIssue);
     const actions = useActions({ loadIssues, selectIssue, resetIssues });
 
-    React.useEffect(
-        () => {
-            actions.loadIssues();
-            return () => { actions.resetIssues(); };
-        },
-        [],
-    );
+    React.useEffect(() => { actions.loadIssues(); }, []);
 
     return (
         <>

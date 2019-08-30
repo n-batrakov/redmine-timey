@@ -8,7 +8,7 @@ import { AppState, useAppState, useActions } from 'state';
 import { TimingForm } from '../components/timingForm';
 import { IssueFilterForm } from '../components/issueFilter';
 import { Issues } from './issues';
-import { applyFilter, mapFilterToForm, selectIssue, loadIssues } from '../state/issues/actions';
+import { applyFilter, mapFilterToForm, selectIssue, loadIssues, resetIssues } from '../state/issues/actions';
 import { addTimesheetEntry, updateTimesheetEntry, deleteTimesheetEntry, loadTimesheetEntry, resetEntryForm } from '../state/timing/actions';
 import { PageLayout } from '../components/layout';
 import { bind } from 'shared/utils';
@@ -76,13 +76,18 @@ const Form = (props: { entryId: string, onCancel?: () => void }) => {
 
 export const TimingPage = (props: RouteComponentProps<{ id: string }>) => {
     const success = useAppState(x => x.timingsForm.success);
-    const resetStore = useActions(resetEntryForm) as () => void;
+    const actions = useActions({ resetEntryForm, resetIssues, unselectIssue: bind(selectIssue, undefined) });
 
     const isIssueSelected = useAppState(x => x.issues.selectedIssue !== undefined);
-    const unselectIssue = useActions(bind(selectIssue, undefined));
     const refresh = useActions(bind(loadIssues));
 
-    React.useEffect(() => resetStore, []);
+    React.useEffect(
+        () => {
+            actions.resetIssues();
+            actions.resetEntryForm();
+        },
+        [],
+    );
     if (success) return <Redirect to="/time" />;
 
     const entryId = props.match.params.id;
@@ -95,7 +100,7 @@ export const TimingPage = (props: RouteComponentProps<{ id: string }>) => {
             form={<Form entryId={entryId} onCancel={() => props.history.push('/time')} />}
             issueSelected={isIssueSelected}
             onRefresh={refresh}
-            unselectIssue={unselectIssue}
+            unselectIssue={actions.unselectIssue}
         />
     );
 };
