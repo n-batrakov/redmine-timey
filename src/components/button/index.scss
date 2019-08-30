@@ -10,26 +10,28 @@
   cursor: pointer;
   text-align: center;
   font-size: 13px;
+  outline: none;
 
   &:focus {
-    outline: 1px solid $outline-color;
+    border-color: $outline-color;
   }
 
   &:disabled {
+    border-color: $disabled-color;
     background-color: $disabled-color;
     cursor: not-allowed;
   }
 }
 
 .btn-primary {
-  border: none;
+  border-color: $success-color;
   color: #fff;
   background-color: $success-color;
 }
 
 .btn-danger {
-  border: none;
   color: #fff;
+  border-color: $danger-color;
   background-color: $danger-color;
 }
 

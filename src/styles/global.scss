@@ -58,9 +58,10 @@ textarea {
   color: $font-color;
   background-color: $background-color;
   height: 42px;
+  outline: none;
 
   &:focus {
-    outline: 1px solid $outline-color;
+    border-color: $outline-color;
   }
 }
 
