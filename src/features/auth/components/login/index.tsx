@@ -14,7 +14,7 @@ const LoginForm = (props: LoginFormProps) => {
     return (
         <Form onSubmit={props.onSubmit as any}>
             <FormRow>
-                {props.error === undefined ? null : <Danger>{props.error}</Danger>}
+                <Danger>{props.error}</Danger>
             </FormRow>
             <FormRow>
                 Please enter your Redmine credentials:

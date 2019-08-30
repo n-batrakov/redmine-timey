@@ -19,13 +19,14 @@ const loginErrors = (errors: string[]) => React.useMemo(
 export const LoginPageContainer = () => {
     const state = useAppState(x => x.auth);
     const onSubmit = useActions(login);
+    const errors = loginErrors(state.loginErrors);
 
     if (state.isLoggedIn) {
         return <Redirect to="/" />;
     }
 
     return (
-        <LoginPage loading={state.loading} onSubmit={onSubmit} error={loginErrors(state.loginErrors)} />
+        <LoginPage loading={state.loading} onSubmit={onSubmit} error={errors} />
     );
 };
 
