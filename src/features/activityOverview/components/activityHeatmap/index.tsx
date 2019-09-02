@@ -1,7 +1,7 @@
 import './index.scss';
 import * as React from 'react';
 import CalendarHeatmap from 'react-calendar-heatmap';
-import { getRange, toISODate } from 'shared/date';
+import { dateRange, toISODate } from 'shared/date';
 
 const colorThresholds = [
     [0, 1, '0'],
@@ -55,7 +55,7 @@ export const ActivityHeatmap = (props: ActivityHeatmapProps) => {
 };
 
 function mapData(start: Date, end: Date, data: Array<{ date: Date, count: number }>) {
-    const range = Array.from(getRange(start, end));
+    const range = Array.from(dateRange(start, end));
 
     const lookup = data.reduce<any>(
         (acc, x) => {

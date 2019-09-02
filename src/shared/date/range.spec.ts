@@ -1,23 +1,4 @@
-import { addDays, getRange, getMonthBoundaries } from './date';
-
-describe('addDays', () => {
-    const addDaysTestData: Array<[number, number, number]> = [
-        [+1, Date.UTC(2018, 11, 31), Date.UTC(2019, 0,  1)],
-        [+2, Date.UTC(2019, 0, 1), Date.UTC(2019, 0, 3)],
-        [-1, Date.UTC(2019, 0, 1), Date.UTC(2018, 11, 31)],
-        [+10, Date.UTC(2019, 0, 1), Date.UTC(2019, 0, 11)],
-        [+10, Date.UTC(2019, 0, 22), Date.UTC(2019, 1, 1)],
-        [+365, Date.UTC(2019, 0, 1), Date.UTC(2020, 0, 1)],
-    ];
-
-    addDaysTestData.forEach(([days, init, expected]) => {
-        it(`can add ${days} to ${new Date(init).toDateString()}`, () => {
-            const actual = addDays(new Date(init), days);
-
-            expect(actual).toEqual(new Date(expected));
-        });
-    });
-});
+import { getRange } from './range';
 
 describe('getRange', () => {
     it('can generate sequence', () => {
@@ -68,21 +49,5 @@ describe('getRange', () => {
         const actual = Array.from(getRange(end, start));
 
         expect(actual).toEqual(expected);
-    });
-});
-
-describe('getMonthRange', () => {
-    const testDate: Array<[number, [number, number]]> = [
-        [Date.UTC(2018, 11, 15), [Date.UTC(2018, 11, 1), Date.UTC(2019, 0,  1)]],
-        [Date.UTC(2019, 2, 15), [Date.UTC(2019, 2, 1), Date.UTC(2019, 3, 1)]],
-    ];
-
-    testDate.forEach(([date, [expectedStart, expectedEnd]]) => {
-        it(`can get range for ${new Date(date)}`, () => {
-            const expected = [new Date(expectedStart), new Date(expectedEnd)];
-            const actual = getMonthBoundaries(new Date(date));
-
-            expect(actual).toEqual(expected);
-        });
     });
 });

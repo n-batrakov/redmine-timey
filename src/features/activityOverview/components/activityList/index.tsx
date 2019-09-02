@@ -3,7 +3,7 @@ import * as React from 'react';
 
 import { IssueHeader } from 'components/issueHeader';
 
-import { getRange, toISODate } from 'shared/date';
+import { dateRange, toISODate } from 'shared/date';
 import { TimesheetEntry } from 'shared/types';
 import { NavLink } from 'react-router-dom';
 import { IconEdit } from 'components/icon';
@@ -67,7 +67,7 @@ export const ActivityList = (props: ActivityListProps) => {
 
     const data = mapData(props.data || []);
 
-    const items = Array.from(getRange(props.end, props.start, -1)).map((date) => {
+    const items = Array.from(dateRange(props.end, props.start, -1)).map((date) => {
         const key = toISODate(date);
         const entries = data.get(key);
 

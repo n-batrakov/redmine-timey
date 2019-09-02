@@ -1,7 +1,7 @@
 import { metadata } from './contract';
 import { RegisterHandler } from 'server/shared';
 import { DayType } from 'server/workHoursNorm';
-import { addDays, getRange, getMonthBoundaries } from 'shared/date';
+import { addDays, dateRange, getMonthBoundaries } from 'shared/date';
 import { assertNever } from 'shared/utils';
 
 const handler: RegisterHandler = (server, { calendar }) => server.route({
@@ -22,7 +22,7 @@ const handler: RegisterHandler = (server, { calendar }) => server.route({
 
         const [start, end] = getMonthBoundaries(now);
 
-        const norm = Array.from(getRange(start, addDays(end, -1))).reduce(
+        const norm = Array.from(dateRange(start, addDays(end, -1))).reduce(
             (count, date) => {
                 const month = date.getMonth();
                 const day = date.getDate();
