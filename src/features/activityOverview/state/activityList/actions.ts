@@ -4,19 +4,16 @@ import { ActivityListAction, ActivityListThunk } from './types';
 import { queryTimings } from '../../api/queryTimings';
 import { QueryTimingsRequest } from '../../api/queryTimings/contract';
 
-import { loadTimingPageData as updateTimingsData } from '../timingList/actions';
-
 
 export const setPreloader = (isLoadging: boolean): ActivityListAction => ({
     type: 'activityList_setPreloader',
     isLoading: isLoadging,
 });
 
-export const setData = (data: TimesheetEntry[]): ActivityListThunk => (dispatch) => {
-    dispatch({ data, type: 'activityList_setReady' });
-
-    dispatch(updateTimingsData());
-};
+export const setData = (data: TimesheetEntry[]): ActivityListAction => ({
+    data,
+    type: 'activityList_setReady',
+});
 
 export const loadTimingList = (req: QueryTimingsRequest): ActivityListThunk =>
     async (dispatch) => {
