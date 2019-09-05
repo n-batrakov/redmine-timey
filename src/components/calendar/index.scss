@@ -1,0 +1,64 @@
+@import 'palette.scss';
+
+$day-size: 30px;
+
+.timey-calendar {
+  display: grid;
+  grid-template-columns: repeat(7, $day-size);
+  grid-template-rows: auto auto repeat(6, $day-size);
+  grid-gap: 10px;
+  font-size: 12px;
+}
+
+.calendar-label {
+  text-align: center;
+}
+
+.calendar-month-picker {
+  grid-column-start: 1;
+  grid-column-end: 8;
+  display: flex;
+  justify-content: space-between;
+
+  button {
+    border: none;
+    background-color: inherit;
+    cursor: pointer;
+    outline: none;
+  }
+}
+
+.calendar-day {
+  cursor: pointer;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 3px solid transparent;
+  transition: background-color 0.5s ease-in-out;
+
+  &.weekend {
+    color: red;
+  }
+
+  &:hover {
+    border-color: $accent-color;
+  }
+
+  &.today {
+    border-color: $primary-color;
+  }
+
+  &.selected {
+    border-color: $accent-color;
+  }
+
+  &.today.selected {
+    border-color: mix($primary-color, $accent-color);
+  }
+
+  &.disabled {
+    color: $gray-3;
+    background-color: $gray-1;
+  }
+}

@@ -9,3 +9,8 @@ export function adjustWeekdayIndex(dayIndx: number, firstDayIndex: number) {
 
     return (daysInWeek + (dayIndx - firstDayIndex)) % daysInWeek;
 }
+
+export function isWeekend(date: Date) {
+    const day = date.getDay();
+    return day === 0 || day === 6;
+}
