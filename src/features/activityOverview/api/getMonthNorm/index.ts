@@ -1,8 +1,14 @@
-import { metadata, GetMonthNormResponse } from './contract';
-import { ensureSuccessStatusCode, readJson } from 'shared/http';
+import { metadata, GetMonthNormResponse, GetMonthNormRequest } from './contract';
+import { ensureSuccessStatusCode, readJson, formatUrl } from 'shared/http';
 
-export const getMonthNorm = async (): Promise<GetMonthNormResponse> => {
-    const response = await fetch(metadata.url, { method: metadata.method });
+export const getMonthNorm = async (params: GetMonthNormRequest): Promise<GetMonthNormResponse> => {
+    const { year, month } = params;
+    const url = formatUrl(metadata.url, {
+        year,
+        month: month + 1,
+    });
+
+    const response = await fetch(url, { method: metadata.method });
 
     ensureSuccessStatusCode(response);
 
