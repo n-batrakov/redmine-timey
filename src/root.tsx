@@ -7,7 +7,7 @@ import { Logo } from 'components/logo';
 import { NotFoundPage } from 'components/404';
 
 import { LoginPageContainer, LogoutPageContainer } from 'features/auth/containers/auth';
-import { TimingsPageContainer } from 'features/activityOverview/containers/timingList';
+import { ActivityOverviewPageContainer } from 'features/activityOverview/containers/activityOverview';
 import { TimingPage } from 'features/timeEntry/containers/timing';
 import { getSession } from 'features/auth/state/actions';
 import { loadEnumerations } from 'features/enumerations/state/actions';
@@ -66,7 +66,7 @@ export const AppRoot = () => {
                     <Switch>
                         <Redirect exact from="/" to="/time" />
                         <Route path="/time/:id" component={TimingPage} />
-                        <Route path="/time" component={TimingsPageContainer} />
+                        <Route path="/time" component={ActivityOverviewPageContainer} />
                         <Route component={NotFoundPage} />
                     </Switch>
                 </AuthGuard>
