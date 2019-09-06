@@ -79,7 +79,7 @@ export const TimingPage = (props: RouteComponentProps<{ id: string }>) => {
         unselectIssue: bind(selectIssue, undefined),
     });
 
-    const selectedIssue = useAppState(x => x.timingsForm.selectedIssueId);
+    const issueId = useAppState(x => x.timingsForm.selectedIssueId);
     const refresh = useActions(bind(loadIssues));
 
     React.useEffect(
@@ -97,9 +97,9 @@ export const TimingPage = (props: RouteComponentProps<{ id: string }>) => {
         <PageLayout
             title={entryId === 'new' ? 'Add Activity' : 'Update Activity'}
             filter={<Filter />}
-            issues={<Issues onSelectIssue={actions.selectIssue} selectedIssueId={selectedIssue} />}
+            issues={<Issues onSelectIssue={actions.selectIssue} selectedIssueId={issueId} />}
             form={<Form entryId={entryId} onCancel={() => props.history.push('/time')} />}
-            issueSelected={selectIssue !== undefined}
+            issueSelected={issueId !== undefined}
             onRefresh={refresh}
             unselectIssue={actions.unselectIssue}
         />
