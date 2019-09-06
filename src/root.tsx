@@ -34,18 +34,20 @@ const AuthGuard = (props: AuthRouterProps) => {
     }
 };
 
+const EnumerationsLoader = () => {
+    const loadData = useActions(loadEnumerations);
+    React.useEffect(() => { loadData(); }, []);
+
+    return <></>;
+};
+
 export const AppRoot = () => {
     const isLoggedIn = useAppState(x => x.auth.isLoggedIn);
     const session = useAppState(x => x.auth.session);
-    const actions = useActions({ getSession, loadEnumerations });
+    const actions = useActions({ getSession });
     const redmineHref = session === undefined ? '#' : session.redmineHost;
 
-    React.useEffect(
-        () => {
-            actions.loadEnumerations();
-            actions.getSession();
-        },
-        []);
+    React.useEffect(() => { actions.getSession(); }, []);
 
     return (
         <Switch>
@@ -53,6 +55,7 @@ export const AppRoot = () => {
             <Route path="/logout" component={LogoutPageContainer} />
             <Route>
                 <AuthGuard isLoggedIn={isLoggedIn}>
+                    <EnumerationsLoader />
                     <Navbar
                         logo={<Logo/>}
                         items={[
