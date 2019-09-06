@@ -1,4 +1,4 @@
-import { getRange } from './range';
+import { dateRange } from './range';
 
 describe('getRange', () => {
     it('can generate sequence', () => {
@@ -6,7 +6,7 @@ describe('getRange', () => {
         const end = new Date(Date.UTC(2019, 0, 10));
         const expected = new Array(10).fill(undefined).map((_, i) => new Date(Date.UTC(2019, 0, i + 1)));
 
-        const actual = Array.from(getRange(start, end));
+        const actual = Array.from(dateRange(start, end));
 
         expect(actual).toEqual(expected);
     });
@@ -16,7 +16,7 @@ describe('getRange', () => {
         const end = new Date(Date.UTC(2019, 0, 2));
         const expected = [Date.UTC(2018, 11, 31), Date.UTC(2019, 0, 1), Date.UTC(2019, 0, 2)].map(x => new Date(x));
 
-        const actual = Array.from(getRange(start, end));
+        const actual = Array.from(dateRange(start, end));
 
         expect(actual).toEqual(expected);
     });
@@ -26,7 +26,7 @@ describe('getRange', () => {
         const end = new Date(Date.UTC(2019, 0, 4));
         const expected = [Date.UTC(2018, 11, 31), Date.UTC(2019, 0, 2), Date.UTC(2019, 0, 4)].map(x => new Date(x));
 
-        const actual = Array.from(getRange(start, end, 2));
+        const actual = Array.from(dateRange(start, end, 2));
 
         expect(actual).toEqual(expected);
     });
@@ -36,7 +36,7 @@ describe('getRange', () => {
         const end = new Date(Date.UTC(2019, 0, 2));
         const expected = [Date.UTC(2019, 0, 2), Date.UTC(2019, 0, 1), Date.UTC(2018, 11, 31)].map(x => new Date(x));
 
-        const actual = Array.from(getRange(end, start, -1));
+        const actual = Array.from(dateRange(end, start, -1));
 
         expect(actual).toEqual(expected);
     });
@@ -46,7 +46,7 @@ describe('getRange', () => {
         const end = new Date(Date.UTC(2019, 2, 25));
         const expected = [new Date(Date.UTC(2019, 2, 25))];
 
-        const actual = Array.from(getRange(end, start));
+        const actual = Array.from(dateRange(end, start));
 
         expect(actual).toEqual(expected);
     });
