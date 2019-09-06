@@ -27,21 +27,12 @@ const Filter = () => {
     return <IssueFilterForm enums={enums} onSubmit={onSubmit} filter={form}/>;
 };
 
-const Form = (props: { entryId: string, onCancel?: () => void }) => {
-    const editMode = props.entryId !== 'new';
+const Form = (props: { entryId: string, editMode: boolean, onCancel?: () => void }) => {
+    const editMode = props.editMode;
     const state = useAppState(x => x.timingsForm);
     const activities = useAppState(x => x.enumerations.activity);
 
-    const actions = useActions({ addTimesheetEntry, updateTimesheetEntry, deleteTimesheetEntry, loadTimesheetEntry });
-
-    React.useEffect(
-        () => {
-            if (editMode) {
-                actions.loadTimesheetEntry(props.entryId);
-            }
-        },
-        [props.entryId],
-    );
+    const actions = useActions({ addTimesheetEntry, updateTimesheetEntry, deleteTimesheetEntry });
 
     const data = editMode
     ? state.entry
@@ -71,17 +62,21 @@ const Form = (props: { entryId: string, onCancel?: () => void }) => {
 };
 
 export const TimingPage = (props: RouteComponentProps<{ id: string }>) => {
+    const entryId = props.match.params.id;
+    const editMode = entryId !== 'new';
+
     const success = useAppState(x => x.timingsForm.success);
+    const issueId = useAppState(x => x.timingsForm.selectedIssueId);
     const actions = useActions({
         resetEntryForm,
         resetIssues,
         selectIssue: (issue: Issue) => selectIssue(issue.id),
         unselectIssue: bind(selectIssue, undefined),
+        refresh: bind(loadIssues),
+        loadEntry: loadTimesheetEntry,
     });
 
-    const issueId = useAppState(x => x.timingsForm.selectedIssueId);
-    const refresh = useActions(bind(loadIssues));
-
+    React.useEffect(() => { editMode && actions.loadEntry(entryId); }, [entryId]);
     React.useEffect(
         () => () => {
             actions.resetIssues();
@@ -89,18 +84,18 @@ export const TimingPage = (props: RouteComponentProps<{ id: string }>) => {
         },
         [],
     );
-    if (success) return <Redirect to="/time" />;
 
-    const entryId = props.match.params.id;
-
+    if (success) {
+        return <Redirect to="/time" />;
+    }
     return (
         <PageLayout
-            title={entryId === 'new' ? 'Add Activity' : 'Update Activity'}
+            title={editMode ? 'Update Activity' : 'Add Activity'}
             filter={<Filter />}
             issues={<Issues onSelectIssue={actions.selectIssue} selectedIssueId={issueId} />}
-            form={<Form entryId={entryId} onCancel={() => props.history.push('/time')} />}
+            form={<Form entryId={entryId} editMode={editMode} onCancel={() => props.history.push('/time')} />}
             issueSelected={issueId !== undefined}
-            onRefresh={refresh}
+            onRefresh={actions.refresh}
             unselectIssue={actions.unselectIssue}
         />
     );
