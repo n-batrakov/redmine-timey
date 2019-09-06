@@ -35,11 +35,11 @@ const LoginForm = (props: LoginFormProps) => {
                     required
                 />
             </FormRow>
-            <FormRow floatRight>
+            <FormRow style={{ marginTop: 10 }}>
                 <Button
+                    kind="primary"
                     type="submit"
                     label="Log in"
-                    className="timey-login-page-btn"
                     disabled={props.loading}
                 />
             </FormRow>
@@ -51,14 +51,9 @@ type LoginLogoProps = {
     loading?: boolean,
 };
 const LoginLogo = (props: LoginLogoProps) => (
-    <div className="logo">
-        <AnimatedClock loading={props.loading} date={new Date()} style={{
-            height: 128,
-            width: 128,
-            margin: 'auto',
-        }}/>
+    <div className="logo" >
+        <AnimatedClock loading={props.loading} date={new Date()} style={{ height: 160 }}/>
         <h1>Timey</h1>
-        <p>Redmine Timesheets Assistant</p>
     </div>
 );
 
@@ -83,8 +78,13 @@ export const LogoutPage = (props: LogoutPageProps) => {
         <div className="timey-login-page">
             <div className="content">
                 <LoginLogo loading={props.loading} />
-                <p>You're logged out. Hope to see you back soon!</p>
-                <Button label="Log in" className="timey-login-page-btn" onClick={props.onLoginRedirect} />
+                <p style={{ margin: '10px auto' }}>You're logged out. Hope to see you back soon!</p>
+                <Button
+                    label="Log in"
+                    kind="primary"
+                    onClick={props.onLoginRedirect}
+                    style={{ marginTop: 10 }}
+                />
             </div>
         </div>
     );

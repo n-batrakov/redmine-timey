@@ -1,3 +1,4 @@
+import './index.scss';
 import * as React from 'react';
 
 export type AnimatedClockProps = {
@@ -32,36 +33,33 @@ export const AnimatedClock = (props: AnimatedClockProps) => {
             enableBackground="new 0 0 384 384"
             style={props.style}
         >
-            <circle cx="192" cy="192" r="192" fill="#464c54"/>
-            <circle cx="192" cy="192" r="172" fill="#fff"/>
+            <circle className="color-line" cx="192" cy="192" r="175" />
+            <circle className="color-bkg" cx="192" cy="192" r="172" />
 
             <line
                 id="timey-clock-hour-hand"
-                fill="none"
-                stroke="#2261a1"
-                strokeWidth="20"
+                className="color-line"
+                strokeWidth="3"
                 strokeMiterlimit="10"
                 transform={`rotate(${hoursAngle}, 192, 192)`}
                 x1="192" y1="192" x2="192" y2="100" />
             <line
                 id="timey-clock-minute-hand"
-                fill="none"
-                stroke="#2261a1"
-                strokeWidth="20"
+                className="color-line"
+                strokeWidth="3"
                 strokeMiterlimit="10"
                 transform={`rotate(${minutesAngle}, 192, 192)`}
                 x1="192" y1="192" x2="192" y2="60"/>
             <line
                 id="timey-clock-second-hand"
-                fill="none"
                 stroke="#D53A1F"
-                strokeWidth="4"
+                strokeWidth="3"
                 strokeMiterlimit="10"
                 transform={`rotate(${secondsAngle}, 192, 192)`}
                 x1="192" y1="192" x2="192" y2="28.5" />
 
-            <circle cx="192" cy="192" r="34" fill="#2261a1"/>
-            <circle cx="192" cy="192" r="14" fill="#fff"/>
+            <circle className="color-line" cx="192" cy="192" r="17" fill="#2261a1"/>
+            <circle className="color-bkg" cx="192" cy="192" r="14" fill="#fff"/>
 
             <defs>
                 <animateTransform

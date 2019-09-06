@@ -3,11 +3,13 @@
   height: 100vh;
   display: flex;
   flex-direction: column;
-  background-image: linear-gradient(to left top, #bbffe4, #78dad7, #37b3cc, #008bbc, #2261a1);
-  color: #fff;
+  background-color: aliceblue;
+  color: #62829e;
 
   .content {
     margin: auto;
+    display: flex;
+    flex-direction: column;
 
     > .timey-form {
       margin-top: 22px;
@@ -19,7 +21,7 @@
     flex-direction: column;
 
     > h1 {
-      margin: auto;
+      margin: 5px auto;
       padding: 0;
       font-weight: lighter;
       text-transform: lowercase;
@@ -36,18 +38,5 @@
       margin: auto;
       width: 128px;
     }
-  }
-}
-
-.timey-login-page-btn {
-  display: flex;
-  margin: auto;
-  color: #fff;
-  background-color: #2261a1;
-  border-color: #4d869b;
-
-  &:disabled {
-    background-color: #507dab;
-    cursor: wait;
   }
 }

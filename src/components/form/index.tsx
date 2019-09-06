@@ -15,7 +15,10 @@ export type FormRowProps = DefaultProps & {
 };
 
 export const FormRow = (props: FormRowProps) => (
-    <div className={`timey-form-row ${props.floatRight ? 'right' : ''} ${props.inline ? 'inline' : ''}`}>
+    <div
+        className={classNames('timey-form-row', { right: props.floatRight, inline: props.inline })}
+        style={props.style}
+    >
         {props.children}
     </div>
 );
