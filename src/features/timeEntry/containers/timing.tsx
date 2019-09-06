@@ -83,7 +83,7 @@ export const TimingPage = (props: RouteComponentProps<{ id: string }>) => {
     const refresh = useActions(bind(loadIssues));
 
     React.useEffect(
-        () => {
+        () => () => {
             actions.resetIssues();
             actions.resetEntryForm();
         },
