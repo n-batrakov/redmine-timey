@@ -3,6 +3,7 @@ import { useAppState, useActions } from 'state';
 import { IssueList } from '../components/issueList';
 import { loadIssues, resetIssues } from '../state/issues/actions';
 import { Issue } from 'shared/types';
+import { useScrollIntoSelectedElement } from 'components/list';
 
 
 const NoData = React.memo((props: { visible: boolean }) => {
@@ -25,6 +26,8 @@ export const Issues = (props: IssuesProps) => {
     const actions = useActions({ loadIssues, resetIssues });
 
     React.useEffect(() => { actions.loadIssues(); }, []);
+
+    useScrollIntoSelectedElement([data]);
 
     return (
         <>

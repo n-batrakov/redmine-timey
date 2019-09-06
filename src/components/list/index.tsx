@@ -48,7 +48,7 @@ export type ListSkeletonProps = {
     className?: string,
     itemClassName?: string,
     style?: React.CSSProperties,
-}
+};
 export const ListSkeleton = (props: ListSkeletonProps) => (
     <List className={props.className} style={props.style}>
     {
@@ -58,3 +58,15 @@ export const ListSkeleton = (props: ListSkeletonProps) => (
     }
     </List>
 );
+
+export const useScrollIntoSelectedElement = (deps: any[]) => {
+    React.useEffect(
+        () => {
+            const selectedNode = document.querySelector('.timey-list-item.selected');
+            if (selectedNode !== null) {
+                selectedNode.scrollIntoView();
+            }
+        },
+        deps,
+    );
+};
