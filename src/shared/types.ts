@@ -3,15 +3,19 @@ import { toISODate } from './date';
 
 export type NamedId = {id: string, name?: string, href?: string};
 
-export type TimesheetEntry = {
-    id: string,
-    project: NamedId,
-    issue?: NamedId,
-    user: NamedId,
-    activity: NamedId,
+
+export type IncomingTimesheetEntry = {
     hours: number,
     comments: string,
     spentOn: Date,
+    activity: NamedId,
+    issue?: NamedId,
+    project?: NamedId,
+};
+
+export type TimesheetEntry = IncomingTimesheetEntry & {
+    id: string,
+    user: NamedId,
 };
 
 export const isNamedIdEqual = (a?: NamedId, b?: NamedId) => {

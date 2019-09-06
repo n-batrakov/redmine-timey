@@ -1,0 +1,48 @@
+@import 'palette.scss';
+@import 'variables.scss';
+
+.ReactModal__Body--open {
+  overflow: hidden;
+}
+
+.react-tabs {
+  -webkit-tap-highlight-color: transparent;
+  padding: 20px;
+
+  &__tab-list {
+    display: table;
+    margin: 0 auto;
+    padding: 0 2px;
+  }
+
+  &__tab-panel {
+    display: none;
+    padding-top: 14px;
+
+    &--selected { display: block; }
+  }
+
+  &__tab {
+    display: inline-block;
+    bottom: -1px;
+    position: relative;
+    list-style: none;
+    padding: 6px 12px;
+    cursor: pointer;
+
+    &--selected { border-bottom: 3px solid $primary-color; }
+
+    &--disabled {
+      color: $disabled-color;
+      cursor: not-allowed;
+    }
+
+    &:hover {
+      border-bottom: 3px solid $border-color;
+    }
+
+    &:focus {
+      outline: 1px solid $primary-color;
+    }
+  }
+}

@@ -1,8 +1,8 @@
-import './index.css';
+import './index.scss';
 import * as React from 'react';
-import { assertNever } from '../../shared';
+import { assertNever } from '../../shared/utils';
 
-const getBtnClass = ({ type, size, className }: ButtonProps) => {
+const getBtnClass = ({ kind: type, size, className }: ButtonProps) => {
     const getTypeClass = () => {
         switch (type) {
             case undefined:
@@ -31,14 +31,14 @@ const getBtnClass = ({ type, size, className }: ButtonProps) => {
         }
     };
 
-    return `btn ${getTypeClass()} ${getSizeClass()} ${className}`;
+    return `btn ${getTypeClass()} ${getSizeClass()} ${className || ''}`;
 };
 
 export type ButtonProps = {
-    value: React.ReactNode,
+    label?: React.ReactNode,
     onClick?: () => void,
-    submit?: boolean,
-    type?: 'default' | 'primary' | 'danger',
+    type?: 'submit' | 'reset' | 'button',
+    kind?: 'default' | 'primary' | 'danger',
     size?: 'small' | 'default',
     style?: React.CSSProperties,
     tooltip?: string,
@@ -48,12 +48,12 @@ export type ButtonProps = {
 export const Button = (x: ButtonProps) => (
     <button
         className={getBtnClass(x)}
-        type={x.submit === true ? 'submit' : 'button'}
+        type={x.type || 'button'}
         onClick={x.onClick}
         style={x.style}
         title={x.tooltip}
         disabled={x.disabled}
     >
-        {x.value}
+        {x.label}
     </button>
 );

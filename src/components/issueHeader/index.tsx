@@ -1,65 +1,36 @@
+import './index.scss';
 import * as React from 'react';
-
 import { NamedId } from '../../shared/types';
 
 type IssueHeaderData = {
-    project: NamedId,
-} | {
-    issue: NamedId,
-} | {
-    project: NamedId,
-    issue: NamedId,
+    project?: NamedId,
+    issue?: NamedId,
 };
 
 export type IssueHeaderProps = IssueHeaderData & {
-    style?: React.CSSProperties,
-    onClick?: () => void,
+    column?: boolean,
     showNumber?: boolean,
     ignoreHref?: boolean,
 };
 
-const linkStyles: React.CSSProperties = {
-    color: '#000',
-    textDecoration: 'none',
-};
-
-const getProjectTitle = ({ name, href }: NamedId, ignoreHref: boolean) => {
-    return href === undefined || ignoreHref ? name : <a href={href} style={linkStyles}>{name}</a>;
+const getProjectTitle = ({ name }: NamedId) => {
+    return <span className="project-title">{name}</span>;
 };
 
 const getIssueTitle = ({ id, name, href }: NamedId, showId: boolean, ignoreHref: boolean) => {
     const title = showId ? `#${id} ${name}` : name;
-    return href === undefined || ignoreHref ? title : <a href={href} style={linkStyles}>{title}</a>;
-};
-
-const getHeaderContent = (x: IssueHeaderProps) => {
-    const ignoreHref = x.ignoreHref || false;
-
-    const project = (x as any).project;
-    const showProject = project !== undefined;
-    const projectElement = showProject ? getProjectTitle(project, ignoreHref) : undefined;
-
-    const issue = (x as any).issue;
-    const hasIssue = issue !== undefined;
-    const issueElement = hasIssue ? getIssueTitle(issue, x.showNumber || false, ignoreHref) : undefined;
-
-    if (showProject && hasIssue) {
-        return <>{projectElement} / {issueElement}</>;
-    } else if (hasIssue) {
-        return <>{issueElement}</>;
-    } else if (showProject) {
-        return <>{projectElement}</>;
-    }
+    return <a className="issue-title" target="_blank" rel="noopener noreferrer" href={ignoreHref ? undefined : href}>{title}</a>;
 };
 
 export const IssueHeader = (x: IssueHeaderProps) => {
+    const ignoreHref = x.ignoreHref || false;
+
+    const project = x.project === undefined ? null : getProjectTitle(x.project);
+    const issue = x.issue === undefined ? null : getIssueTitle(x.issue, x.showNumber || false, ignoreHref);
+
     return (
-        <h3 onClick={x.onClick} style={{
-            fontSize: '1em',
-            fontWeight: 'normal',
-            ...x.style,
-        }}>
-            {getHeaderContent(x)}
-        </h3>
+        <div className={`issue-header ${x.column ? 'column' : 'inline'}`}>
+            {project}{issue}
+        </div>
     );
 };

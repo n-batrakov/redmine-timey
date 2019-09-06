@@ -1,0 +1,13 @@
+@import 'palette.scss';
+
+@function module($size: 1) { @return $size * $module-size; }
+
+$module-size: 5px;
+
+$tile-box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+$tile-box-shadow-hover: 0 1px 4px 1px rgba(0, 0, 0, 0.5);
+$tile-border-radius: 2px;
+
+$border-radius: 5px;
+
+$header-height: 38px;

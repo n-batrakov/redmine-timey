@@ -1,7 +1,5 @@
+import './index.scss';
 import * as React from 'react';
-import './index.css';
-
-
 
 export type CrumbProps = {
     className?: string,

@@ -1,62 +1,60 @@
-import './form.css';
+import './index.scss';
 import * as React from 'react';
-import { CoverLoader } from '../preloader';
+import { getFormData } from '../../shared/form';
+import classNames from 'classnames';
 
-
-export const FormHeader = (x: {children: React.ReactNode}) => (
-    <h2 className="timey-form-header">{x.children}</h2>
-);
-
-export const FormFooter = (x: {children: React.ReactNode}) => (
-    <div className="timey-form-footer">{x.children}</div>
-);
-
-export const FromErrors = ({ errors, style }: {errors: string[], style?: React.CSSProperties }) => (
-    <ul className="timey-form-errors" style={{ display: errors.length > 0 ? 'block' : 'none', ...style }}>
-        {errors.map((x, i) => <li key={i}>{x}</li>)}
-    </ul>
-);
-
-export type FormProps = {
-    loading?: boolean,
-    onSubmit: (x: any) => void,
+type DefaultProps = {
     style?: React.CSSProperties,
+    children?: React.ReactNode,
 };
 
-export class Form extends React.Component<FormProps> {
-    constructor(props: FormProps) {
-        super(props);
 
-        this.onSubmit = this.onSubmit.bind(this);
-    }
+export type FormRowProps = DefaultProps & {
+    floatRight?: boolean,
+    inline?: boolean,
+};
 
-    private onSubmit(e: any) {
-        e.preventDefault();
+export const FormRow = (props: FormRowProps) => (
+    <div
+        className={classNames('timey-form-row', { right: props.floatRight, inline: props.inline })}
+        style={props.style}
+    >
+        {props.children}
+    </div>
+);
 
-        const formData = new FormData(e.target);
-        const form: any = {};
-        formData.forEach((x, key) => {
-            const value = form[key];
-            if (value === undefined) {
-                form[key] = x;
-            } else if (Array.isArray(value)) {
-                form[key] = [...value, x];
-            } else {
-                form[key] = [value, x];
+export type FormProps<T> = DefaultProps & {
+    loading?: boolean,
+    onSubmit?: (x: T) => void,
+};
+
+// tslint:disable-next-line: function-name
+export function Form<T = any>(props: FormProps<T>) {
+    return (
+        <>
+            <form
+                onSubmit={onSubmit(props)}
+                className={classNames('timey-form', { loading: props.loading })}
+                style={props.style}
+            >
+                {props.children}
+            </form>
+         </>
+    );
+}
+
+function onSubmit<T>(props: FormProps<T>) {
+    return React.useCallback(
+        (e: React.FormEvent) => {
+            e.preventDefault();
+
+            if (props.onSubmit === undefined) {
+                return;
             }
-        });
 
-        this.props.onSubmit(form);
-    }
-
-    public render() {
-        return (
-            <>
-                <CoverLoader active={this.props.loading || false } style={{ marginTop: 0, top: '40%' }}/>
-                <form onSubmit={this.onSubmit} className="timey-form" style={this.props.style}>
-                    {this.props.children}
-                </form>
-             </>
-        );
-    }
+            const form = getFormData<T>(e.target as HTMLFormElement);
+            props.onSubmit(form);
+        },
+        [props.onSubmit],
+    );
 }

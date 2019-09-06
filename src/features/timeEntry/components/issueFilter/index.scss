@@ -1,0 +1,52 @@
+@import 'variables.scss';
+@import 'palette.scss';
+
+.filter-toggle {
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+  margin: module() 0;
+  user-select: none;
+
+  &-input {
+    display: none;
+
+    &:checked ~ .filter-toggle { display: none; }
+    &:checked ~ .content { display: flex; }
+  }
+}
+
+.issue-filter {
+  .content {
+    display: none;
+    flex-direction: column;
+  }
+
+  &.togglable {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &.overflow {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+
+    .filter-toggle {
+      padding: 10px 15px;
+      border-radius: 0;
+      border-top-right-radius: 20px;
+      border-bottom-right-radius: 20px;
+      box-shadow: 1px 1px 3px $gray-3;
+      font-size: 21px;
+      outline: none;
+    }
+
+    .content {
+      width: 300px;
+      height: 100%;
+      padding: module(2) module(5);
+      border-right: 1px solid $border-color;
+    }
+  }
+}

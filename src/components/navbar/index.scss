@@ -1,0 +1,51 @@
+@import 'palette.scss';
+@import 'variables.scss';
+
+.navbar {
+  width: 100%;
+  background-color: $header-color;
+  display: flex;
+  align-items: center;
+  height: $header-height;
+
+  .navbar-logo {
+    margin: auto 0;
+  }
+
+  .navbar-items {
+    list-style: none;
+    display: flex;
+    margin: 0 0 0 module();
+  }
+
+  .navbar-items-right {
+    display: flex;
+    list-style: none;
+    margin-right: module(2);
+    margin-left: auto;
+  }
+}
+
+.navbar-btn {
+  display: block;
+  text-align: center;
+  padding: 8px;
+  margin: 0 module();
+  color: $header-font-color;
+  text-decoration: none;
+  border-radius: 4px;
+  border: none;
+  background: none;
+  font-size: 12px;
+  outline: 0;
+
+  &:hover {
+    background: scale-color($header-font-color, $alpha: -60%);
+    cursor: pointer;
+  }
+
+  &.active {
+    background-color: $header-font-color;
+    color: $header-color;
+  }
+}

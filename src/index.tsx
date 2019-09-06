@@ -1,13 +1,12 @@
-import './index.css';
+import 'styles/global.scss';
 
 import * as React from 'react';
 import { render } from 'react-dom';
-import Modal from 'react-modal';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { store } from './store/createStore';
+import { store } from './state/createStore';
 
-import { AppRoot } from './containers/appRoot';
+import { AppRoot } from './root';
 
 console.log('Do you have a problem, question or suggestion? Please, visit: https://github.com/n-batrakov/redmine-timey/issues/new');
 
@@ -22,7 +21,6 @@ const App = () => {
 };
 
 const appElement = document.getElementById('app') as HTMLElement;
-Modal.setAppElement(appElement);
 render(
     <App/>,
     appElement,

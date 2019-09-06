@@ -1,0 +1,67 @@
+@import 'variables.scss';
+@import 'palette.scss';
+
+$tile-min-height: 78px;
+
+.activity-list {
+  .day {
+    margin-bottom: module(8);
+
+    .day-header {
+      display: flex;
+      margin-bottom: module(2);
+
+      .btn-add {
+        margin: auto 0 auto auto;
+
+        &:hover { text-decoration: underline; }
+      }
+    }
+  }
+}
+
+.activity {
+  min-height: $tile-min-height;
+
+  &.placeholder {
+    border-left-color: $border-color;
+    align-items: center;
+  }
+
+  .prepend {
+    display: flex;
+    align-items: center;
+    padding-right: module(3);
+    white-space: nowrap;
+  }
+
+  .issue-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .header {
+    margin-bottom: module(2);
+    text-transform: none;
+    font-weight: normal;
+  }
+
+  .content {
+    margin-top: auto;
+  }
+
+  .action {
+    margin: auto 0 auto auto;
+  }
+
+  .btn-edit {
+    font-size: 18px;
+    padding: 15px;
+    color: inherit;
+    text-decoration: none;
+
+    &:hover {
+      color: $link-color;
+    }
+  }
+}

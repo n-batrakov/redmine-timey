@@ -1,5 +1,5 @@
+import './index.scss';
 import * as React from 'react';
-import './logo.css';
 
 export const Logo = () => (
     <div className="navbar-btn" style={{ padding: 0 }}>

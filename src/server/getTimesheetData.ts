@@ -1,7 +1,8 @@
+import { toISODate } from 'shared/date';
+import { TimesheetEntry } from 'shared/types';
+import { assertNever } from 'shared/utils';
 import { RedmineClient, RedmineErrorResponse } from './redmine';
-import { toISODate } from '../shared/date';
-import { NamedId, TimesheetEntry } from '../shared/types';
-import { assertNever } from '../shared';
+import { mapOutgoing } from './redmineMappings';
 
 export type TimesheetRequest = {
     limit?: number,
@@ -25,77 +26,6 @@ export type TimesheetResponse = {
 };
 
 const defaultRequest: TimesheetRequest = {};
-
-function batch<T>(source: T[], batchSize: number): T[][] {
-    const batchesCount = Math.ceil(source.length / batchSize);
-
-    return new Array(batchesCount).fill(undefined).map((_, i) => {
-        const start = batchSize * i;
-        const end = start + batchSize - 1;
-        return source.slice(start, end);
-    });
-}
-
-function mapRedmineDataToTimesheetEntry(entry: any, issues: {[key: string]: {subject: string}}, host: string): TimesheetEntry {
-    const getIssue = () => {
-        if (entry.issue === undefined) {
-            return undefined;
-        }
-
-        const id = entry.issue.id;
-        const { subject: name } = issues[id] || { subject: undefined };
-
-        const href = `${host}/issues/${id}`;
-
-        return { id, name, href };
-    };
-    const getProject = () => {
-        const { id, name } = <NamedId>entry.project;
-        const href = `${host}/projects/${id}`;
-        return { id, name, href };
-    };
-
-    return {
-        id: entry['id'],
-        project: getProject(),
-        user: <NamedId>entry['user'],
-        issue: getIssue(),
-        activity: <NamedId>entry['activity'],
-        comments: entry['comments'],
-        hours: entry['hours'],
-        spentOn: new Date(entry['spent_on']),
-    };
-}
-
-async function fetchIssues(redmine: RedmineClient, ids: string[], login?: string, password?: string) {
-    const limit = 100;
-    const batches = batch(ids, limit);
-
-    const promises = batches.map(async (idsBatch) => {
-        const response = await redmine.query('issues', {
-            login,
-            password,
-            limit,
-            issue_id: idsBatch.join(','),
-            status_id: '*',
-        });
-
-        if (response.code === 'Success') {
-            return response.data;
-        } else {
-            return [];
-        }
-    });
-
-    const issues = new Array<{id: string, subject: string}>().concat(...(await Promise.all(promises)));
-
-    return issues.reduce<any>(
-        (acc, x) => {
-            acc[x.id] = x;
-            return acc;
-        },
-        {});
-}
 
 export async function getTimesheetData(redmine: RedmineClient, request?: TimesheetRequest): Promise<TimesheetResponse | RedmineErrorResponse> {
     const { userId, projectId, from, to, limit, offset, auth } = request || defaultRequest;
@@ -128,4 +58,60 @@ export async function getTimesheetData(redmine: RedmineClient, request?: Timeshe
             assertNever(response);
             throw new Error('Unexpected case.');
     }
+}
+
+
+async function fetchIssues(redmine: RedmineClient, ids: string[], login?: string, password?: string) {
+    const limit = 100;
+    const batches = batch(ids, limit);
+
+    const promises = batches.map(async (idsBatch) => {
+        const response = await redmine.query('issues', {
+            login,
+            password,
+            limit,
+            issue_id: idsBatch.join(','),
+            status_id: '*',
+        });
+
+        if (response.code === 'Success') {
+            return response.data;
+        } else {
+            return [];
+        }
+    });
+
+    const issues = new Array<{id: string, subject: string}>().concat(...(await Promise.all(promises)));
+
+    return issues.reduce<any>(
+        (acc, x) => {
+            acc[x.id] = x;
+            return acc;
+        },
+        {});
+}
+
+function batch<T>(source: T[], batchSize: number): T[][] {
+    const batchesCount = Math.ceil(source.length / batchSize);
+
+    return new Array(batchesCount).fill(undefined).map((_, i) => {
+        const start = batchSize * i;
+        const end = start + batchSize - 1;
+        return source.slice(start, end);
+    });
+}
+
+function mapRedmineDataToTimesheetEntry(entry: any, issues: {[key: string]: {subject: string}}, host: string): TimesheetEntry {
+    const getIssue = () => {
+        if (entry.issue === undefined) {
+            return undefined;
+        }
+
+        const id = entry.issue.id;
+        const { subject: name } = issues[id] || { subject: undefined };
+
+        return { id, name };
+    };
+
+    return mapOutgoing(entry, getIssue(), host);
 }

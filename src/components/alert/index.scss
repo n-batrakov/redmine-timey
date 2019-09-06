@@ -1,0 +1,16 @@
+@import 'palette.scss';
+
+@mixin alert($color) {
+  color: $color;
+  background-color: lighten($color, 50%);
+}
+
+.alert {
+  border-radius: 3px;
+  padding: 12px;
+
+  &.info { @include alert($info-color); }
+  &.success { @include alert($success-color); }
+  &.warning { @include alert($warn-color); }
+  &.danger { @include alert($danger-color); }
+}

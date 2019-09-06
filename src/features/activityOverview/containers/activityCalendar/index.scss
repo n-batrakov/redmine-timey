@@ -1,0 +1,16 @@
+@import 'palette.scss';
+
+.activity-calendar-day {
+  &.color-0 { background-color: $gray-1; }
+  &.color-warn { background-color: $danger-color; }
+
+  $step: 15%;
+  $base-color: darken($primary-color, 3 * $step);
+
+  @for $n from 1 through 5 {
+    &.color-#{$n} {
+      color: white;
+      background-color: lighten($base-color, 100 - $n * $step);
+    }
+  }
+}
