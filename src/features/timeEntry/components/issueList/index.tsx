@@ -33,7 +33,7 @@ export type IssueListProps = {
     issues?: Issue[],
     style?: React.CSSProperties,
 
-    selectedIssue?: Issue,
+    selectedIssueId?: string,
     onSelect?: (issue: Issue) => void,
 };
 export const IssueList = (props: IssueListProps) => {
@@ -52,7 +52,7 @@ export const IssueList = (props: IssueListProps) => {
                         key={issue.id}
                         onClick={onClick}
                         clickable
-                        selected={issuesEqual(issue, props.selectedIssue)}
+                        selected={issuesEqual(issue, props.selectedIssueId)}
                     >
                         <IssueListItem issue={issue} />
                     </ListItem>
@@ -62,9 +62,8 @@ export const IssueList = (props: IssueListProps) => {
     );
 };
 
-function issuesEqual(a: Issue | undefined, b: Issue | undefined) {
-    if (a === b) return true;
+function issuesEqual(a: Issue | undefined, b: string | undefined) {
     if (a === undefined || b === undefined) return false;
 
-    return a.id === b.id;
+    return a.id === b;
 }

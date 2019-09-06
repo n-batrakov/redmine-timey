@@ -7,6 +7,11 @@ import { addTimings } from '../../api/addTimings';
 import { updateTiming } from '../../api/updateTiming';
 import { deleteTiming } from '../../api/deleteTiming';
 
+export const selectIssue = (issueId?: string): TimingsFormAction => ({
+    issueId,
+    type: 'timing_selectIssue',
+});
+
 export const resetEntryForm = (): TimingsFormAction => ({
     type: 'timing_reset',
 });

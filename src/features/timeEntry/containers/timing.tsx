@@ -2,15 +2,16 @@ import * as React from 'react';
 import { RouteComponentProps, Redirect } from 'react-router';
 import { tryParseDate } from 'shared/date';
 import { Danger } from 'components/alert';
-import { AppState, useAppState, useActions } from 'state';
+import { useAppState, useActions } from 'state';
 
 import { TimingForm } from '../components/timingForm';
 import { IssueFilterForm } from '../components/issueFilter';
 import { Issues } from './issues';
-import { applyFilter, mapFilterToForm, selectIssue, loadIssues, resetIssues } from '../state/issues/actions';
-import { addTimesheetEntry, updateTimesheetEntry, deleteTimesheetEntry, loadTimesheetEntry, resetEntryForm } from '../state/timing/actions';
+import { applyFilter, mapFilterToForm, loadIssues, resetIssues } from '../state/issues/actions';
+import { addTimesheetEntry, updateTimesheetEntry, deleteTimesheetEntry, loadTimesheetEntry, resetEntryForm, selectIssue } from '../state/timing/actions';
 import { PageLayout } from '../components/layout';
 import { bind } from 'shared/utils';
+import { Issue } from 'shared/types';
 
 const Filter = () => {
     const filter = useAppState(x => x.issues.filter);
@@ -29,8 +30,8 @@ const Filter = () => {
 const Form = (props: { entryId: string, onCancel?: () => void }) => {
     const editMode = props.entryId !== 'new';
     const state = useAppState(x => x.timingsForm);
-    const selectedIssueId = useAppState(selectedIssueIdSelector);
     const activities = useAppState(x => x.enumerations.activity);
+
     const actions = useActions({ addTimesheetEntry, updateTimesheetEntry, deleteTimesheetEntry, loadTimesheetEntry });
 
     React.useEffect(
@@ -46,7 +47,7 @@ const Form = (props: { entryId: string, onCancel?: () => void }) => {
     ? state.entry
     : {
         spentOn: getDateQueryParam(),
-        issue: selectedIssueId === undefined ? undefined : { id: selectedIssueId },
+        issue: state.selectedIssueId === undefined ? undefined : { id: state.selectedIssueId },
     };
 
     return (
@@ -54,7 +55,7 @@ const Form = (props: { entryId: string, onCancel?: () => void }) => {
             <Danger>{state.error}</Danger>
             <TimingForm
                 key={data === undefined ? 'empty' : undefined}
-                disabled={selectedIssueId === undefined}
+                disabled={state.selectedIssueId === undefined}
                 loading={state.loading}
                 data={data}
                 activities={activities}
@@ -71,9 +72,14 @@ const Form = (props: { entryId: string, onCancel?: () => void }) => {
 
 export const TimingPage = (props: RouteComponentProps<{ id: string }>) => {
     const success = useAppState(x => x.timingsForm.success);
-    const actions = useActions({ resetEntryForm, resetIssues, unselectIssue: bind(selectIssue, undefined) });
+    const actions = useActions({
+        resetEntryForm,
+        resetIssues,
+        selectIssue: (issue: Issue) => selectIssue(issue.id),
+        unselectIssue: bind(selectIssue, undefined),
+    });
 
-    const isIssueSelected = useAppState(x => x.issues.selectedIssue !== undefined);
+    const selectedIssue = useAppState(x => x.timingsForm.selectedIssueId);
     const refresh = useActions(bind(loadIssues));
 
     React.useEffect(
@@ -91,9 +97,9 @@ export const TimingPage = (props: RouteComponentProps<{ id: string }>) => {
         <PageLayout
             title={entryId === 'new' ? 'Add Activity' : 'Update Activity'}
             filter={<Filter />}
-            issues={<Issues />}
+            issues={<Issues onSelectIssue={actions.selectIssue} selectedIssueId={selectedIssue} />}
             form={<Form entryId={entryId} onCancel={() => props.history.push('/time')} />}
-            issueSelected={isIssueSelected}
+            issueSelected={selectIssue !== undefined}
             onRefresh={refresh}
             unselectIssue={actions.unselectIssue}
         />
@@ -105,10 +111,4 @@ function getDateQueryParam() {
     const params = new URLSearchParams(window.location.search);
     const dateParam = params.get('date');
     return dateParam === null ? undefined : tryParseDate(dateParam);
-}
-
-function selectedIssueIdSelector(x: AppState) {
-    return x.issues.selectedIssue === undefined
-        ? undefined
-        : x.issues.selectedIssue.id;
 }

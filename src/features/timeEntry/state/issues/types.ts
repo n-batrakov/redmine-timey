@@ -28,7 +28,6 @@ export type IssuesState = {
     totalCount: number,
     data: Issue[],
     filter?: IssueFilter,
-    selectedIssue?: Issue,
 };
 
 export type IssuesAction = {
@@ -43,9 +42,6 @@ export type IssuesAction = {
 } | {
     type: 'issues_setFilter',
     filter?: IssueFilter,
-} | {
-    type: 'issues_selectIssue',
-    issue?: Issue,
 } | {
     type: 'issues_reset',
 };

@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { useAppState, useActions } from 'state';
 import { IssueList } from '../components/issueList';
-import { loadIssues, selectIssue, resetIssues } from '../state/issues/actions';
+import { loadIssues, resetIssues } from '../state/issues/actions';
+import { Issue } from 'shared/types';
 
 
 const NoData = React.memo((props: { visible: boolean }) => {
@@ -13,11 +14,15 @@ const NoData = React.memo((props: { visible: boolean }) => {
     );
 });
 
-export const Issues = () => {
+export type IssuesProps = {
+    selectedIssueId?: string,
+    onSelectIssue?: (issue: Issue) => void,
+}
+
+export const Issues = (props: IssuesProps) => {
     const loading = useAppState(x => x.issues.isLoading);
     const data = useAppState(x => x.issues.data);
-    const selectedIssue = useAppState(x => x.issues.selectedIssue);
-    const actions = useActions({ loadIssues, selectIssue, resetIssues });
+    const actions = useActions({ loadIssues, resetIssues });
 
     React.useEffect(() => { actions.loadIssues(); }, []);
 
@@ -27,8 +32,8 @@ export const Issues = () => {
             <IssueList
                 loading={loading}
                 issues={data}
-                onSelect={actions.selectIssue}
-                selectedIssue={selectedIssue}
+                onSelect={props.onSelectIssue}
+                selectedIssueId={props.selectedIssueId}
             />
         </>
     );

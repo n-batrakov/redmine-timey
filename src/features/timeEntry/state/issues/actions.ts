@@ -4,10 +4,6 @@ import { IssuesAction, IssuesThunk, IssueFilter, IssueFilterValue } from './type
 import { fetchIssue } from 'features/timeEntry/api/fetchIssue';
 import { assertNever } from 'shared/utils';
 
-export const selectIssue = (issue?: Issue): IssuesAction => ({
-    issue,
-    type: 'issues_selectIssue',
-});
 
 export const setPreloader = (): IssuesAction => {
     return {
@@ -89,31 +85,6 @@ export const loadIssues = (): IssuesThunk =>
         const { data, totalCount } = await queryIssues({ limit, offset, ...queryFilter });
         dispatch(setData(data, totalCount));
 };
-
-export const loadIssue = (issueId: string): IssuesThunk =>
-    async (dispatch, getState) => {
-        const loading = getState().issues.isLoading;
-
-        if (!loading) {
-            dispatch(setPreloader());
-        }
-
-        const reponse = await fetchIssue(issueId);
-
-        switch (reponse.code) {
-            case 'Success':
-                dispatch(setData([reponse.data], 1));
-                dispatch(selectIssue(reponse.data));
-                break;
-            case 'Error':
-                console.error(reponse);
-                break;
-            default:
-                assertNever(reponse);
-                console.error('Unexpected case');
-                break;
-        }
-    };
 
 export const resetIssues = (): IssuesAction => ({
     type: 'issues_reset',
