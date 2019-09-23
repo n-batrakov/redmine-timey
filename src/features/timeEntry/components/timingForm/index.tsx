@@ -66,19 +66,39 @@ export const TimingForm = (props: TimingFormProps) => {
             </FormRow>
             <FormRow>
                 <label htmlFor="spentOn">Date</label>
-                <input type="date" required name="spentOn" defaultValue={toISODate(spentOn)}  />
+                <input
+                    type="date"
+                    name="spentOn"
+                    required
+                    defaultValue={toISODate(spentOn)}
+                    disabled={props.loading}
+                />
             </FormRow>
             <FormRow>
                 <label htmlFor="hours">Hours</label>
-                <input type="number" required name="hours" defaultValue={hours.toString(10)} step={0.25} min={0} max={24} />
+                <input
+                    type="number"
+                    name="hours"
+                    required
+                    defaultValue={hours.toString(10)}
+                    step={0.25} min={0} max={24}
+                    disabled={props.loading}
+                />
             </FormRow>
             <FormRow>
                 <label htmlFor="comments">Comments</label>
-                <textarea required name="comments" defaultValue={comments} placeholder="" style={{ height: 100 }}/>
+                <textarea
+                    name="comments"
+                    placeholder=""
+                    required
+                    defaultValue={comments}
+                    disabled={props.loading}
+                    style={{ height: 100 }}
+                />
             </FormRow>
             <FormRow>
                 <label htmlFor="activity">Activity</label>
-                <select required name="activity" defaultValue={activity.id}>
+                <select required name="activity" defaultValue={activity.id} disabled={props.loading}>
                     {toArray(props.activities).map(x => (<option key={x.id} value={x.id}>{x.name}</option>))}
                 </select>
             </FormRow>
@@ -89,11 +109,21 @@ export const TimingForm = (props: TimingFormProps) => {
                             label="Delete"
                             kind="danger"
                             style={{ marginRight: 'auto', marginLeft: 0 }}
-                            onClick={onDeleteClick} />
+                            onClick={onDeleteClick}
+                            disabled={props.loading} />
                         : null
                 }
-                <Button label="Cancel" onClick={props.onClose}/>
-                <Button label={props.submitLabel || 'Save'} kind="primary" type="submit" disabled={props.disabled} />
+                <Button
+                    label="Cancel"
+                    onClick={props.onClose}
+                    disabled={props.loading}
+                />
+                <Button
+                    type="submit"
+                    label={props.submitLabel || 'Save'}
+                    kind="primary"
+                    disabled={props.disabled || props.loading}
+                />
             </FormRow>
         </Form>
     );
