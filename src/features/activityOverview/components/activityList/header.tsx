@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { Breadcrumbs, Crumb } from 'components/breadcrumbs';
 import { NavLink } from 'react-router-dom';
 
 const showIf = (condition: boolean): React.CSSProperties | undefined => condition ? undefined : { display: 'none' };
@@ -13,14 +12,10 @@ export const ActivityListHeader = React.memo(
         const isDaySelected = props.date !== undefined;
         return (
             <h1 className="activity-list-header" style={props.style}>
-                <Breadcrumbs>
-                    <Crumb>
-                        <NavLink to="/time" className="activity-list-header-link">Recent Activity</NavLink>
-                    </Crumb>
-                    <Crumb style={showIf(isDaySelected)}>
-                        {props.date === undefined ? '' : props.date.toLocaleDateString()}
-                    </Crumb>
-                </Breadcrumbs>
+                <NavLink to="/time" className="header-item">Recent Activity</NavLink>
+                <span className="header-item" style={showIf(isDaySelected)}>
+                    {props.date === undefined ? '' : props.date.toLocaleDateString()}
+                </span>
             </h1>
         );
     },
