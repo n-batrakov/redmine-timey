@@ -4,6 +4,62 @@ import { assertNever } from 'shared/utils';
 import { RedmineClient, RedmineErrorResponse } from './redmine';
 import { mapOutgoing } from './redmineMappings';
 
+
+
+
+
+
+export type TimeEntryResponse = {
+    code: 'Success',
+    data: TimesheetEntry,
+};
+export type TimeEntryRequest = {
+    entryId: string,
+    auth?: {
+        login: string,
+        password?: string,
+    },
+    includeIssueName?: boolean,
+};
+export async function getTimeEntry(redmine: RedmineClient, request: TimeEntryRequest): Promise<TimeEntryResponse | RedmineErrorResponse> {
+    const { entryId, auth } = request || defaultRequest;
+    const { login, password } = auth || { login: undefined, password: undefined };
+
+    const response = await redmine.getById('time_entries', entryId, { login, password });
+
+    switch (response.code) {
+        case 'Success':
+            const entry: any = Object.values(response.data)[0];
+            if (entry.issue === undefined || request.includeIssueName !== true) {
+                return {
+                    code: 'Success',
+                    data: mapRedmineDataToTimesheetEntry(entry, {}, redmine.host),
+                };
+            } else {
+                const issueId = entry.issue.id;
+                const issues = await fetchIssues(redmine, [issueId], login, password);
+                return {
+                    code: 'Success',
+                    data: mapRedmineDataToTimesheetEntry(entry, issues, redmine.host),
+                };
+            }
+        case 'Error':
+        case 'NotAuthenticated':
+            return response;
+        default:
+            assertNever(response);
+            throw new Error('Unexpected case.');
+    }
+}
+
+
+export type TimesheetResponse = {
+    code: 'Success',
+    data: TimesheetEntry[],
+    totalCount: number,
+    offset: number,
+    limit: number,
+};
 export type TimesheetRequest = {
     limit?: number,
     offset?: number,
@@ -16,20 +72,10 @@ export type TimesheetRequest = {
         password?: string,
     },
 };
-
-export type TimesheetResponse = {
-    code: 'Success',
-    data: TimesheetEntry[],
-    totalCount: number,
-    offset: number,
-    limit: number,
-};
-
 const defaultRequest: TimesheetRequest = {};
 
 export async function getTimesheetData(redmine: RedmineClient, request?: TimesheetRequest): Promise<TimesheetResponse | RedmineErrorResponse> {
     const { userId, projectId, from, to, limit, offset, auth } = request || defaultRequest;
-
     const { login, password } = auth || { login: undefined, password: undefined };
 
     const response = await redmine.query('time_entries', {

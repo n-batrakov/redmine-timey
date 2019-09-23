@@ -1,14 +1,14 @@
 import { AppAction, AppState } from 'state';
 import { ThunkDispatch } from 'state/thunk';
-import { TimesheetEntry, IncomingTimesheetEntry } from 'shared/types';
+import { TimesheetEntry, IncomingTimesheetEntry, NamedId } from 'shared/types';
 import { TimingsFormThunk, TimingsFormAction } from './types';
 import { fetchTiming } from '../../api/fetchTiming';
 import { addTimings } from '../../api/addTimings';
 import { updateTiming } from '../../api/updateTiming';
 import { deleteTiming } from '../../api/deleteTiming';
 
-export const selectIssue = (issueId?: string): TimingsFormAction => ({
-    issueId,
+export const selectIssue = (issue?: NamedId): TimingsFormAction => ({
+    issue,
     type: 'timing_selectIssue',
 });
 

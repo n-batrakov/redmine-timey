@@ -54,12 +54,16 @@ export type TimingFormProps = {
 };
 
 export const TimingForm = (props: TimingFormProps) => {
-    const { spentOn, comments, hours, activity } = entryOrDefault(props.data);
+    const { spentOn, comments, hours, activity, issue } = entryOrDefault(props.data);
 
     const onDeleteClick = onDelete(props);
 
     return (
         <Form onSubmit={onSubmit(props)} loading={props.loading} style={props.style}>
+            <FormRow>
+                <label htmlFor="spentOn">Issue</label>
+                <input type="text" disabled defaultValue={issue.name}  />
+            </FormRow>
             <FormRow>
                 <label htmlFor="spentOn">Date</label>
                 <input type="date" required name="spentOn" defaultValue={toISODate(spentOn)}  />
@@ -106,6 +110,7 @@ function entryOrDefault(entry: Partial<TimesheetEntry> | undefined) {
         comments: x.comments || '',
         hours: x.hours === undefined ? NaN : x.hours,
         activity: x.activity || nullNamedId,
+        issue: x.issue || x.project || nullNamedId,
         project: x.project || nullNamedId,
         user: x.user || nullNamedId,
     };
