@@ -1,7 +1,7 @@
 import { RegisterHandler } from 'server/shared';
 import { authenticate, getCredentials } from 'server/auth';
 import { Enumeration, EnumerationsLookup } from 'shared/types';
-import { RedmineEnumerationResponse, RedmineClient, RedminQueryParams } from 'server/redmine';
+import { RedmineEnumerationResponse, RedmineClient, RedminQueryParams, RedminQueryResponse } from 'server/redmine';
 import { metadata } from './contract';
 
 let enumerationsCache: Partial<EnumerationsLookup> | undefined = undefined;
@@ -27,6 +27,25 @@ const mapEnum = (data: Array<{id: number, name: string, is_default?: boolean}>):
     return { defaultValue, values };
 };
 
+const mapUsers = (data: Array<{ id: number, firstname: string, lastname: string }>): Enumeration => {
+    const defaultValue = '';
+
+    if (data.length === 0) {
+        return { defaultValue, values: {} };
+    }
+
+    const values = data.reduce<any>(
+        (acc, x) => {
+            acc[x.id] = `${x.firstname} ${x.lastname}`;
+
+            return acc;
+        },
+        {},
+    );
+
+    return { defaultValue, values };
+};
+
 const fetchCachedEnumerations = async (redmine: RedmineClient, auth: { login: string, password?: string }): Promise<Partial<EnumerationsLookup>> => {
     const params = {
         ...auth,
@@ -37,6 +56,7 @@ const fetchCachedEnumerations = async (redmine: RedmineClient, auth: { login: st
         redmine.getEnumeration('issue_priorities', params),
         redmine.query('issue_statuses', params),
         redmine.getEnumeration('time_entry_activities', params),
+        queryOrIgnore(redmine, 'users', { limit: 100 }),
     ]);
 
     for (const response of responses) {
@@ -47,26 +67,14 @@ const fetchCachedEnumerations = async (redmine: RedmineClient, auth: { login: st
         }
     }
 
-    const [priorities, statuses, activities] = responses as RedmineEnumerationResponse[];
+    const [priorities, statuses, activities, users] = responses as RedmineEnumerationResponse[];
 
     return {
         priority: mapEnum(priorities.data),
         status: mapEnum(statuses.data),
         activity: mapEnum(activities.data),
-        users: { defaultValue: '', values: { me: 'Me' } } as Enumeration,
+        users: mapUsers(users.data as any),
     };
-};
-
-const queryOrThrow = async (redmine: RedmineClient, entity: string, params?: RedminQueryParams) => {
-    const response = await redmine.query(entity, params);
-    switch (response.code) {
-        case 'Error':
-            throw new Error(`Unable to load ${entity} - server responded with ${response.status}:\n${response.errors.join('\n')}`);
-        case 'NotAuthenticated':
-            throw new Error(`Unable to load ${entity} - user is not authorized.`);
-        case 'Success':
-            return response;
-    }
 };
 
 const handler: RegisterHandler = (server, { redmine }) => server.route({
@@ -96,3 +104,34 @@ const handler: RegisterHandler = (server, { redmine }) => server.route({
 });
 
 export default handler;
+
+
+
+async function queryOrThrow(redmine: RedmineClient, entity: string, params?: RedminQueryParams) {
+    const response = await redmine.query(entity, params);
+    switch (response.code) {
+        case 'Error':
+            throw new Error(`Unable to load ${entity} - server responded with ${response.status}:\n${response.errors.join('\n')}`);
+        case 'NotAuthenticated':
+            throw new Error(`Unable to load ${entity} - user is not authorized.`);
+        case 'Success':
+            return response;
+    }
+}
+
+async function queryOrIgnore(redmine: RedmineClient, entity: string, params?: RedminQueryParams): Promise<RedminQueryResponse> {
+    const response = await redmine.query(entity, params);
+    switch (response.code) {
+        case 'Success':
+            return response;
+        case 'Error':
+        case 'NotAuthenticated':
+            return {
+                code: 'Success',
+                totalCount: 0,
+                limit: 0,
+                offset: 0,
+                data: [],
+            };
+    }
+}

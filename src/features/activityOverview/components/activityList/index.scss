@@ -3,6 +3,15 @@
 
 $tile-min-height: 78px;
 
+.activity-list-header {
+  display: flex;
+  flex-wrap: wrap;
+
+  .header-item {
+    margin: 0 5px;
+  }
+}
+
 .activity-list {
   .day {
     margin-bottom: module(8);

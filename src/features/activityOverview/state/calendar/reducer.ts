@@ -15,7 +15,10 @@ export const reducer = (state: CalendarState, action: CalendarAction): CalendarS
 
     switch (action.type) {
         case 'calendar_setData':
-            return { ...state, data: action.data };
+            return {
+                ...state,
+                data: { ...state.data, ...action.data },
+            };
         case 'calendar_setMonth':
             if (state.year === action.year && state.month === action.month) {
                 return state;

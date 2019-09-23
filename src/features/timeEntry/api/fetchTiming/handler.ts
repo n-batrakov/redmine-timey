@@ -1,24 +1,21 @@
 import { RegisterHandler } from 'server/shared';
 import { authenticate, getCredentials } from 'server/auth';
-import { mapOutgoing } from 'server/redmineMappings';
 import { metadata, FetchTimingResponse } from './contract';
+import { getTimeEntry } from 'server/getTimesheetData';
+import { assertNever } from 'shared/utils';
 
 const handler: RegisterHandler = (server, { redmine }) => server.route({
     ...metadata,
     preHandler: authenticate,
     handler: async (req, resp): Promise<FetchTimingResponse | ''> => {
         const auth = getCredentials(req);
-        const id = req.params.id;
+        const entryId = req.params.id;
 
-        const result = await redmine.getById('time_entries', id, auth);
+        const result = await getTimeEntry(redmine, { auth, entryId, includeIssueName: true });
 
         switch (result.code) {
             case 'Success':
-                const [entry] = Object.values(result.data);
-                return {
-                    code: 'Success',
-                    data: mapOutgoing(entry, undefined, redmine.host),
-                };
+                return result;
             case 'NotAuthenticated':
                 resp.code(401);
                 return '';
@@ -29,6 +26,10 @@ const handler: RegisterHandler = (server, { redmine }) => server.route({
                     errors: result.errors,
                     message: `Unable to fetch entry. Response status code (${result.status}) does not indicate success.`,
                 };
+            default:
+                assertNever(result);
+                resp.code(500);
+                return '';
         }
     },
 });

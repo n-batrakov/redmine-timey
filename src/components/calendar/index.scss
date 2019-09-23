@@ -36,6 +36,7 @@ $day-size: 30px;
   align-items: center;
   border: 3px solid transparent;
   transition: background-color 0.5s ease-in-out;
+  -webkit-tap-highlight-color: transparent;
 
   &.weekend {
     color: red;

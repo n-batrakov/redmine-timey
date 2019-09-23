@@ -59,12 +59,13 @@ export const ListSkeleton = (props: ListSkeletonProps) => (
     </List>
 );
 
+const scrollOptions: ScrollIntoViewOptions = { block: 'center' };
 export const useScrollIntoSelectedElement = (deps: any[]) => {
     React.useEffect(
         () => {
             const selectedNode = document.querySelector('.timey-list-item.selected');
             if (selectedNode !== null) {
-                selectedNode.scrollIntoView();
+                selectedNode.scrollIntoView(scrollOptions);
             }
         },
         deps,

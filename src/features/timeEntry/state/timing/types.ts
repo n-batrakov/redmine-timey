@@ -1,13 +1,15 @@
 import { Dispatch, Action } from 'redux';
 import { AppState, ThunkAction } from 'state';
-import { TimesheetEntry } from 'shared/types';
+import { TimesheetEntry, NamedId } from 'shared/types';
+import { LayoutView } from 'features/timeEntry/components/layout';
 
 export type TimingsFormState = {
     success: boolean,
     loading: boolean,
     error?: string,
     entry?: TimesheetEntry,
-    selectedIssueId?: string,
+    selectedIssue?: NamedId,
+    view: LayoutView,
 };
 
 export type TimingsFormAction =
@@ -18,7 +20,8 @@ export type TimingsFormAction =
     | { type: 'timing_updateEntry', entry: TimesheetEntry }
     | { type: 'timing_removeEntry' }
     | { type: 'timing_reset' }
-    | { type: 'timing_selectIssue', issueId?: string }
+    | { type: 'timing_selectIssue', issue?: NamedId }
+    | { type: 'timing_setView', view: LayoutView }
     ;
 
 export type TimingsFormThunk = ThunkAction<any, AppState, {}, TimingsFormAction>;
