@@ -8,7 +8,7 @@ import { TimingForm } from '../components/timingForm';
 import { IssueFilterForm } from '../components/issueFilter';
 import { Issues } from './issues';
 import { applyFilter, mapFilterToForm, loadIssues, resetIssues } from '../state/issues/actions';
-import { addTimesheetEntry, updateTimesheetEntry, deleteTimesheetEntry, loadTimesheetEntry, resetEntryForm, selectIssue } from '../state/timing/actions';
+import { addTimesheetEntry, updateTimesheetEntry, deleteTimesheetEntry, loadTimesheetEntry, resetEntryForm, selectIssue, setLayoutView } from '../state/timing/actions';
 import { PageLayout } from '../components/layout';
 import { bind } from 'shared/utils';
 import { Issue } from 'shared/types';
@@ -67,9 +67,12 @@ export const TimingPage = (props: RouteComponentProps<{ id: string }>) => {
 
     const success = useAppState(x => x.timingsForm.success);
     const issueId = useAppState(issueIdSelector);
+    const view = useAppState(x => x.timingsForm.view);
+
     const actions = useActions({
         resetEntryForm,
         resetIssues,
+        setLayoutView,
         selectIssue: (issue: Issue) => selectIssue({ id: issue.id, name: issue.subject }),
         unselectIssue: bind(selectIssue, undefined),
         refresh: bind(loadIssues),
@@ -94,9 +97,12 @@ export const TimingPage = (props: RouteComponentProps<{ id: string }>) => {
             filter={<Filter />}
             issues={<Issues onSelectIssue={actions.selectIssue} selectedIssueId={issueId} />}
             form={<Form entryId={entryId} editMode={editMode} onCancel={() => props.history.push('/time')} />}
-            issueSelected={issueId !== undefined}
+
+            view={view}
+            onViewChange={actions.setLayoutView}
+            formDisabled={issueId === undefined}
+
             onRefresh={actions.refresh}
-            unselectIssue={actions.unselectIssue}
         />
     );
 };

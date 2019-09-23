@@ -4,25 +4,35 @@ import { MobileScreen, MobileScreenHidden } from 'components/mediaQuery';
 import { Tabs, TabList, TabPanel, Tab } from 'components/tabs';
 import { ToggledIssueFilter, OverflowIssueFilter } from '../issueFilter';
 
+export type LayoutView = 'form' | 'issues';
+
 type PageLayoutProps = {
     title?: React.ReactNode,
     filter?: React.ReactNode,
     issues?: React.ReactNode,
     form?: React.ReactNode,
 
-    issueSelected?: boolean,
-    unselectIssue: () => void,
+    view?: 'form' | 'issues',
+    onViewChange: (view: LayoutView) => void,
+    formDisabled?: boolean,
+
     onRefresh?: () => void,
 };
 
 const MobileLayout = (props: PageLayoutProps) => {
+    const idx = props.view === 'form' ? 1 : 0;
+    const onSelect = React.useCallback(
+        (x: number) => props.onViewChange(x === 0 ? 'issues' : 'form'),
+        [props.onViewChange],
+    );
+
     return (
         <main className="timing-page mobile">
             <h1>{props.title}</h1>
-            <Tabs selectedIndex={props.issueSelected ? 1 : 0} onSelect={props.unselectIssue}>
+            <Tabs selectedIndex={idx} onSelect={x => onSelect(x)}>
                 <TabList>
                     <Tab>Issue</Tab>
-                    <Tab disabled={props.issueSelected !== true}>Details</Tab>
+                    <Tab disabled={props.formDisabled}>Details</Tab>
                 </TabList>
                 <TabPanel>
                     <h3>Select an Issue</h3>

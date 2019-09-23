@@ -6,6 +6,12 @@ import { fetchTiming } from '../../api/fetchTiming';
 import { addTimings } from '../../api/addTimings';
 import { updateTiming } from '../../api/updateTiming';
 import { deleteTiming } from '../../api/deleteTiming';
+import { LayoutView } from 'features/timeEntry/components/layout';
+
+export const setLayoutView = (view: LayoutView): TimingsFormAction => ({
+    view,
+    type: 'timing_setView',
+});
 
 export const selectIssue = (issue?: NamedId): TimingsFormAction => ({
     issue,
