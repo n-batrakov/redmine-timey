@@ -69,6 +69,14 @@ textarea {
   &:focus {
     border-color: $outline-color;
   }
+
+  &:disabled {
+    background-color: $gray-1;
+  }
+}
+
+select {
+  cursor: pointer;
 }
 
 *::-webkit-scrollbar {
