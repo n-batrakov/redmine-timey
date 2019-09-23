@@ -54,6 +54,7 @@ input[type="number"],
 input[type="date"],
 select,
 textarea {
+  appearance: none;
   box-sizing: border-box;
   width: 100%;
   padding: module(2);
