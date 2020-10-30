@@ -18,7 +18,7 @@
     "classnames": "^2.2.6",
     "commander": "^3.0.0",
     "csv-parser": "^2.3.0",
-    "fastify": "^2.7.1",
+    "fastify": "^2.15.1",
     "fastify-cookie": "^3.1.0",
     "fastify-http2https": "0.0.3",
     "fastify-static": "^2.5.0",
